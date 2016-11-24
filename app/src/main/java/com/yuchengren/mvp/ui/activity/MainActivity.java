@@ -8,6 +8,8 @@ import com.yuchengren.mvp.R;
 import com.yuchengren.mvp.ui.activity.Base.BaseActivity;
 
 public class MainActivity extends BaseActivity {
+	
+	private int test = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
