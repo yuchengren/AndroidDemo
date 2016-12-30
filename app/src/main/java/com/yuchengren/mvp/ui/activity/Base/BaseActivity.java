@@ -2,7 +2,6 @@ package com.yuchengren.mvp.ui.activity.Base;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.view.MenuItem;
 
 import com.yuchengren.mvp.cache.UiStack;
@@ -18,8 +17,8 @@ public abstract class BaseActivity<P extends Presenter> extends Activity {
     protected P mPresenter;
 
     @Override
-    public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
-        super.onCreate(savedInstanceState, persistentState);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setContentView(getLayoutResID());
         init();
         initView();

@@ -31,8 +31,8 @@ public abstract class Presenter<V,M>  implements IPresenter {
         this.mView = view;
     }
 
-    public void setModle(M modle){
-        this.mModel = modle;
+    public void setModel(M model){
+        this.mModel = model;
     }
 
     protected  abstract void recycle();
