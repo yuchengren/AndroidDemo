@@ -1,9 +1,12 @@
 package com.yuchengren.mvp.ui.activity;
 
+import android.os.Bundle;
+
 import com.yuchengren.mvp.factory.ModelFactory;
 import com.yuchengren.mvp.factory.PresenterFactory;
 import com.yuchengren.mvp.model.LoginModel;
 import com.yuchengren.mvp.presenter.LoginPresenter;
+
 import com.yuchengren.mvp.ui.activity.Base.BaseActivity;
 import com.yuchengren.mvp.view.ILoginView;
 
@@ -17,23 +20,29 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements ILogi
     }
 
     @Override
-    protected void initView() {
+    protected void initViews() {
 
     }
 
     @Override
-    protected void initData() {
-        setPresenter(PresenterFactory.getInstance().getPresenter(LoginPresenter.class));
-        mPresenter.setView(this);
-        mPresenter.setModle(ModelFactory.getInstance().getModel(LoginModel.class));
+    protected void initListeners() {
+
     }
 
     @Override
-    protected void initListener() {
+    protected void initDatas() {
 
     }
 
-    public void login(String username,String password){
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        initPresenter(this,
+                PresenterFactory.getInstance().getPresenter(LoginPresenter.class),
+                ModelFactory.getInstance().getModel(LoginModel.class));
+    }
+
+    public void login(String username, String password){
         mPresenter.login(username,password);
     }
 

@@ -25,9 +25,4 @@ public class LoginPresenter extends AbsLoginPresenter {
             }
         });
     }
-
-    @Override
-    protected void recycle() {
-
-    }
 }

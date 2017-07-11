@@ -14,22 +14,5 @@ public  class LoginModel extends AbsLoginModel {
     @Override
     public void login(String username, String password, final OnLoginListener loginListener) {
 
-        OkHttpUtil.request(Url.LOGIN_URL, null, new RequestCallBack() {
-            @Override
-            public void onSuccess() {
-                if(loginListener != null){
-                    loginListener.onSuccess();
-                }
-            }
-
-            @Override
-            public void onFail() {
-                if(loginListener != null){
-                    loginListener.onFail();
-                }
-
-            }
-        });
-
     }
 }
