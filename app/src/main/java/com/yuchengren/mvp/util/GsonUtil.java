@@ -1,4 +1,4 @@
-package com.yuchengren.mvp.Util;
+package com.yuchengren.mvp.util;
 
 import android.text.TextUtils;
 import android.util.Log;

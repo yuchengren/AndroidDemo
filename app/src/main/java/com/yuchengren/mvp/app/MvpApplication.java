@@ -2,7 +2,7 @@ package com.yuchengren.mvp.app;
 
 import android.app.Application;
 
-import com.yuchengren.mvp.Util.OkHttpUtil;
+import com.yuchengren.mvp.util.OkHttpUtil;
 
 import okhttp3.OkHttpClient;
 

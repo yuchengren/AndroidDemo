@@ -1,4 +1,4 @@
-package com.yuchengren.mvp.Util;
+package com.yuchengren.mvp.util;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;

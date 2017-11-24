@@ -30,7 +30,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements ILogi
     }
 
     @Override
-    protected void initDatas() {
+    protected void initData() {
 
     }
 

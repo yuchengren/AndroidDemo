@@ -1,7 +1,7 @@
 package com.yuchengren.mvp.factory;
 
 
-import com.yuchengren.mvp.Util.ClassUtil;
+import com.yuchengren.mvp.util.ClassUtil;
 import com.yuchengren.mvp.model.abs.Model;
 
 /**

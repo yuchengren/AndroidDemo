@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 
-import com.yuchengren.mvp.Util.OkHttpUtil;
+import com.yuchengren.mvp.util.OkHttpUtil;
 import com.yuchengren.mvp.cache.UiStack;
 import com.yuchengren.mvp.model.abs.Model;
 import com.yuchengren.mvp.presenter.abs.Presenter;
@@ -32,10 +32,10 @@ public abstract class BaseActivity<P extends Presenter> extends Activity {
         super.onCreate(savedInstanceState);
         showStatusBar();
         setContentView(getLayoutResID());
-        inits();
+        init();
         initViews();
         initListeners();
-        initDatas();
+        initData();
         Log.i("hdd",getClass().getName());
     }
 
@@ -48,9 +48,9 @@ public abstract class BaseActivity<P extends Presenter> extends Activity {
 
     protected abstract void initListeners() ;
 
-    protected abstract void initDatas() ;
+    protected abstract void initData() ;
 
-    protected  void inits(){
+    protected  void init(){
         UiStack.getInstance().addActivity(this);
     }
 

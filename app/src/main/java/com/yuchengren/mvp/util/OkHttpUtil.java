@@ -1,4 +1,4 @@
-package com.yuchengren.mvp.Util;
+package com.yuchengren.mvp.util;
 
 import com.yuchengren.mvp.app.MvpApplication;
 
