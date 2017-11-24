@@ -26,7 +26,6 @@ public abstract class BaseActivity<P extends Presenter> extends Activity {
     protected P mPresenter;
     protected boolean isShowStatusBar=false;
 
-    @SuppressLint("InlinedApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,7 +35,7 @@ public abstract class BaseActivity<P extends Presenter> extends Activity {
         initViews();
         initListeners();
         initData();
-        Log.i("hdd",getClass().getName());
+        Log.i("className=",getClass().getName());
     }
 
     protected  void showStatusBar(){
