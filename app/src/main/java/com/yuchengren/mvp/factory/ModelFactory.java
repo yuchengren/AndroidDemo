@@ -2,7 +2,7 @@ package com.yuchengren.mvp.factory;
 
 
 import com.yuchengren.mvp.util.ClassUtil;
-import com.yuchengren.mvp.model.abs.Model;
+import com.yuchengren.mvp.app.model.abs.Model;
 
 /**
  * Created by yuchengren on 2016/9/18.

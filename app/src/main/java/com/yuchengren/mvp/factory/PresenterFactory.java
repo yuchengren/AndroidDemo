@@ -1,7 +1,7 @@
 package com.yuchengren.mvp.factory;
 
 import com.yuchengren.mvp.util.ClassUtil;
-import com.yuchengren.mvp.presenter.abs.Presenter;
+import com.yuchengren.mvp.app.presenter.abs.Presenter;
 
 /**
  * Created by yuchengren on 2016/9/18.
