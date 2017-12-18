@@ -2,6 +2,7 @@ package com.yuchengren.mvp.component;
 
 import android.app.Application;
 
+import com.yuchengren.mvp.util.CrashHandler;
 import com.yuchengren.mvp.util.OkHttpUtil;
 
 import okhttp3.OkHttpClient;
@@ -29,6 +30,7 @@ public class MvpApplication extends Application {
     public void onCreate() {
         super.onCreate();
         mMvpApplication = this;
+        CrashHandler.getInstance().init(this);
     }
 
     /**

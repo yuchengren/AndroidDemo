@@ -14,11 +14,11 @@ import android.widget.EditText;
 
 import com.yuchengren.mvp.R;
 import com.yuchengren.mvp.app.presenter.MainPresenter;
-import com.yuchengren.mvp.app.ui.activity.Base.BaseActivity;
+import com.yuchengren.mvp.app.ui.activity.Base.SuperActivity;
 import com.yuchengren.mvp.util.AndroidUtil;
 import com.yuchengren.mvp.app.view.IMainView;
 
-public class MainActivity extends BaseActivity<MainPresenter> implements IMainView, View.OnClickListener {
+public class MainActivity extends SuperActivity<MainPresenter> implements IMainView, View.OnClickListener {
 
     private EditText et_mobile_phone;
     private Button btn_call;

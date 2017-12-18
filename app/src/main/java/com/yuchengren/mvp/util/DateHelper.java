@@ -133,6 +133,10 @@ public class DateHelper {
 		return formatDateToString(new Date(),format);
 	}
 
+	public static String getCurrentSecondTime(){
+		return formatDateToString(new Date(),FORMAT_ACCURACY_SECOND);
+	}
+
 	public static String getCurrentMillisTime(){
 		return formatDateToString(new Date(),FORMAT_ACCURACY_MILLIS);
 	}
