@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.yuchengren.mvp.util.CrashHandler;
 import com.yuchengren.mvp.util.OkHttpUtil;
+import com.yuchengren.mvp.util.SharePrefsUtil;
 
 import okhttp3.OkHttpClient;
 
@@ -29,7 +30,7 @@ public class MvpApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        mMvpApplication = this;
+        SharePrefsUtil.getInstance().init(this);
         CrashHandler.getInstance().init(this);
         initOkHttp();
     }

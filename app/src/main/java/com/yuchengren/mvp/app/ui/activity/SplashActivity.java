@@ -14,7 +14,9 @@ import android.support.annotation.NonNull;
 import com.yuchengren.mvp.R;
 import com.yuchengren.mvp.app.ui.activity.Base.SuperActivity;
 import com.yuchengren.mvp.constant.Constants;
+import com.yuchengren.mvp.constant.SharePrefsKey;
 import com.yuchengren.mvp.util.PermissionUtil;
+import com.yuchengren.mvp.util.SharePrefsUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +54,10 @@ public class SplashActivity extends SuperActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		if(SharePrefsUtil.getInstance().getBoolean(SharePrefsKey.IS_FIRST_LOGIN,true)){
+
+		}
+		SharePrefsUtil.getInstance().putBoolean(SharePrefsKey.IS_FIRST_LOGIN,false);
 		checkPermissions();
 
 	}

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,6 +18,7 @@ import com.yuchengren.mvp.app.presenter.MainPresenter;
 import com.yuchengren.mvp.app.ui.activity.Base.SuperActivity;
 import com.yuchengren.mvp.util.AndroidUtil;
 import com.yuchengren.mvp.app.view.IMainView;
+import com.yuchengren.mvp.util.SharePrefsUtil;
 
 public class MainActivity extends SuperActivity<MainPresenter> implements IMainView, View.OnClickListener {
 
