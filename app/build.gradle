@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'org.greenrobot.greendao' // apply plugin
 
 android {
     compileSdkVersion 24
@@ -17,6 +18,19 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    greendao {
+        schemaVersion 1
+        daoPackage 'com.yuchengren.mvp.greendao.gen'
+        targetGenDir 'src/main/java'
+    }
+
+    sourceSets {
+        main{
+            jni.srcDirs = [] //disable automatic ndk-build call 禁用gradle默认的ndk-build，防止AS自己生成android.mk编译jni工程
+            jniLibs.srcDirs = ['src/main/libs','src/main/jniLibs'] //设置目标的so存放路径，也就是组装到apk中的so路径
+            //jniLibs.srcDir "src/main/libs"
+        }
+    }
 }
 
 dependencies {
@@ -25,4 +39,5 @@ dependencies {
     compile 'com.android.support:appcompat-v7:24.1.1'
     compile 'com.squareup.okhttp3:okhttp:3.4.1'
     compile 'com.google.code.gson:gson:1.7.1'
+    compile 'org.greenrobot:greendao:3.2.2'
 }

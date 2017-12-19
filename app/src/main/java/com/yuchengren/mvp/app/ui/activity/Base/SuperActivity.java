@@ -151,6 +151,4 @@ public abstract class SuperActivity<P extends Presenter> extends Activity {
             }
         }
     }
-
-
 }

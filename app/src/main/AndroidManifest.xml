@@ -16,7 +16,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:name=".component.MvpApplication">
+        android:name=".app.MvpApplication">
         <activity android:name=".app.ui.activity.MainActivity"
             android:launchMode="singleInstance">
             <intent-filter>

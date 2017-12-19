@@ -1,4 +1,4 @@
-package com.yuchengren.mvp.component;
+package com.yuchengren.mvp.app;
 
 import android.app.Application;
 
@@ -31,6 +31,7 @@ public class MvpApplication extends Application {
         super.onCreate();
         mMvpApplication = this;
         CrashHandler.getInstance().init(this);
+        initOkHttp();
     }
 
     /**

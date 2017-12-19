@@ -1,6 +1,6 @@
 package com.yuchengren.mvp.util;
 
-import com.yuchengren.mvp.component.MvpApplication;
+import com.yuchengren.mvp.app.MvpApplication;
 
 import java.io.IOException;
 import java.util.ArrayList;
