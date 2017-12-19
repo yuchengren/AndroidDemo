@@ -12,6 +12,7 @@ import android.provider.Settings;
 import android.support.annotation.NonNull;
 
 import com.yuchengren.mvp.R;
+import com.yuchengren.mvp.app.MvpApplication;
 import com.yuchengren.mvp.app.ui.activity.Base.SuperActivity;
 import com.yuchengren.mvp.constant.Constants;
 import com.yuchengren.mvp.constant.SharePrefsKey;
@@ -55,10 +56,15 @@ public class SplashActivity extends SuperActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		if(SharePrefsUtil.getInstance().getBoolean(SharePrefsKey.IS_FIRST_LOGIN,true)){
-
+			insertMenu();
 		}
 		SharePrefsUtil.getInstance().putBoolean(SharePrefsKey.IS_FIRST_LOGIN,false);
 		checkPermissions();
+
+	}
+
+	private void insertMenu() {
+
 
 	}
 
