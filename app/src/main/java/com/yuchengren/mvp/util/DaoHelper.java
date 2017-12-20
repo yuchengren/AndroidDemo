@@ -9,7 +9,7 @@ import com.yuchengren.mvp.greendao.gen.MenuEntityDao;
 
 public class DaoHelper {
 
-	public static MenuEntityDao getUploadLogDao(){
+	public static MenuEntityDao getMenuEntityDao(){
 		return MvpApplication.getInstance().getDaoSession().getMenuEntityDao();
 	}
 

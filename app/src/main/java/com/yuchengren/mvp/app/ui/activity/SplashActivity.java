@@ -12,10 +12,14 @@ import android.provider.Settings;
 import android.support.annotation.NonNull;
 
 import com.yuchengren.mvp.R;
-import com.yuchengren.mvp.app.MvpApplication;
+import com.yuchengren.mvp.app.ui.activity.Base.BaseActivity;
 import com.yuchengren.mvp.app.ui.activity.Base.SuperActivity;
 import com.yuchengren.mvp.constant.Constants;
+import com.yuchengren.mvp.constant.MenuCode;
 import com.yuchengren.mvp.constant.SharePrefsKey;
+import com.yuchengren.mvp.entity.db.MenuEntity;
+import com.yuchengren.mvp.greendao.gen.MenuEntityDao;
+import com.yuchengren.mvp.util.DaoHelper;
 import com.yuchengren.mvp.util.PermissionUtil;
 import com.yuchengren.mvp.util.SharePrefsUtil;
 
@@ -26,7 +30,7 @@ import java.util.List;
  * Created by yuchengren on 2017/11/10.
  */
 
-public class SplashActivity extends SuperActivity {
+public class SplashActivity extends BaseActivity {
 
 	private List<String> mRequestPermissionList = new ArrayList<>();
 
@@ -55,18 +59,14 @@ public class SplashActivity extends SuperActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		checkPermissions();
 		if(SharePrefsUtil.getInstance().getBoolean(SharePrefsKey.IS_FIRST_LOGIN,true)){
 			insertMenu();
 		}
 		SharePrefsUtil.getInstance().putBoolean(SharePrefsKey.IS_FIRST_LOGIN,false);
-		checkPermissions();
-
 	}
 
-	private void insertMenu() {
 
-
-	}
 
 	private void checkPermissions() {
 		//如果系统版本大于或等于6.0
@@ -131,5 +131,34 @@ public class SplashActivity extends SuperActivity {
 		Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
 		intent.setData(Uri.parse(Constants.PACKAGE_URL_SCHEME + getPackageName()));
 		startActivity(intent);
+	}
+
+	private void insertMenu() {
+		MenuEntityDao menuEntityDao = DaoHelper.getMenuEntityDao();
+
+		MenuEntity homeMenuEntity = new MenuEntity();
+		homeMenuEntity.setName(getString(R.string.home_page));
+		homeMenuEntity.setCode(MenuCode.First.HOME);
+		homeMenuEntity.setParentCode(MenuCode.TOP);
+		menuEntityDao.insert(homeMenuEntity);
+
+		MenuEntity otherMenuEntity = new MenuEntity();
+		otherMenuEntity.setName(getString(R.string.other));
+		otherMenuEntity.setCode(MenuCode.First.OTHER);
+		otherMenuEntity.setParentCode(MenuCode.TOP);
+		menuEntityDao.insert(otherMenuEntity);
+
+		MenuEntity callPhoneBackMenuEntity = new MenuEntity();
+		callPhoneBackMenuEntity.setName(getString(R.string.call_phone_back));
+		callPhoneBackMenuEntity.setCode(MenuCode.Second.CALL_PHONE_BACK);
+		callPhoneBackMenuEntity.setParentCode(MenuCode.First.HOME);
+		menuEntityDao.insert(callPhoneBackMenuEntity);
+
+		MenuEntity rxAndroidBackMenuEntity = new MenuEntity();
+		rxAndroidBackMenuEntity.setName(getString(R.string.rx_android));
+		rxAndroidBackMenuEntity.setCode(MenuCode.Second.RX_ANDROID);
+		rxAndroidBackMenuEntity.setParentCode(MenuCode.First.HOME);
+		menuEntityDao.insert(rxAndroidBackMenuEntity);
+
 	}
 }

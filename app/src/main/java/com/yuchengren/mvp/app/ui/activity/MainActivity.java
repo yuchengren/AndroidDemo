@@ -1,31 +1,35 @@
 package com.yuchengren.mvp.app.ui.activity;
 
-import android.Manifest;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.net.Uri;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
-import android.telephony.PhoneStateListener;
-import android.telephony.TelephonyManager;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.yuchengren.mvp.R;
 import com.yuchengren.mvp.app.presenter.MainPresenter;
+import com.yuchengren.mvp.app.ui.activity.Base.BaseActivity;
 import com.yuchengren.mvp.app.ui.activity.Base.SuperActivity;
-import com.yuchengren.mvp.util.AndroidUtil;
 import com.yuchengren.mvp.app.view.IMainView;
+import com.yuchengren.mvp.constant.MenuCode;
+import com.yuchengren.mvp.constant.SharePrefsKey;
+import com.yuchengren.mvp.entity.db.MenuEntity;
+import com.yuchengren.mvp.factory.FragmentFactory;
+import com.yuchengren.mvp.greendao.gen.MenuEntityDao;
+import com.yuchengren.mvp.util.DaoHelper;
 import com.yuchengren.mvp.util.SharePrefsUtil;
 
-public class MainActivity extends SuperActivity<MainPresenter> implements IMainView, View.OnClickListener {
 
-    private EditText et_mobile_phone;
-    private Button btn_call;
-    private TelephonyManager mTelephonyManager;
-    private BackAfterCallPhoneListener mPhoneListener;
+import java.util.List;
+
+public class MainActivity extends BaseActivity<MainPresenter> implements IMainView, View.OnClickListener {
+
+    private FrameLayout fl_container;
+    private LinearLayout ll_bottom_tab;
 
     @Override
     protected int getLayoutResID() {
@@ -34,18 +38,42 @@ public class MainActivity extends SuperActivity<MainPresenter> implements IMainV
 
     @Override
     protected void initViews() {
-        et_mobile_phone = (EditText) findViewById(R.id.et_mobile_phone);
-        btn_call = (Button) findViewById(R.id.btn_call);
+        fl_container = (FrameLayout) findViewById(R.id.fl_container);
+        ll_bottom_tab = (LinearLayout) findViewById(R.id.ll_bottom_tab);
     }
 
     @Override
     protected void initListeners() {
-        btn_call.setOnClickListener(this);
+
     }
+
+
 
     @Override
     protected void initData() {
-
+        ll_bottom_tab.removeAllViews();
+        MenuEntityDao menuEntityDao = DaoHelper.getMenuEntityDao();
+        List<MenuEntity> menuEntityList = menuEntityDao.queryBuilder().where(
+                MenuEntityDao.Properties.ParentCode.eq(MenuCode.TOP)).orderAsc(MenuEntityDao.Properties.Order).build().list();
+        if(menuEntityList != null && menuEntityList.size() != 0){
+            for (final MenuEntity menuEntity : menuEntityList) {
+                View view = View.inflate(this, R.layout.ll_main_bottom_tab, null);
+                ImageView iv_bottom_tab_icon = (ImageView) view.findViewById(R.id.iv_bottom_tab_icon);
+                TextView tv_bottom_tab_name = (TextView) view.findViewById(R.id.tv_bottom_tab_name);
+                tv_bottom_tab_name.setText(menuEntity.getName());
+                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT, 1);
+                view.setLayoutParams(layoutParams);
+                view.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        attachFragment(menuEntity.getCode());
+                    }
+                });
+                view.setTag(menuEntity.getCode());
+                ll_bottom_tab.addView(view);
+            }
+        }
+        attachFragment(MenuCode.First.HOME);
     }
 
     @Override
@@ -56,107 +84,18 @@ public class MainActivity extends SuperActivity<MainPresenter> implements IMainV
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btn_call:
-                if(AndroidUtil.isHasSIMCard(this)){
-                    callPhoneNumber(et_mobile_phone.getText().toString().toString().trim());
-                    addPhoneStateListener();
-                }
-                break;
         }
     }
 
-    /**
-     * 打电话
-     * @param phoneNumber
-     */
-    private void callPhoneNumber(String phoneNumber) {
-        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + phoneNumber));
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-            return;
-        }
-        startActivity(intent);
-    }
-
-    /**
-     * 添加电话状态监听器
-     */
-    private void addPhoneStateListener() {
-        mTelephonyManager = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
-        mPhoneListener = new BackAfterCallPhoneListener();
-        mTelephonyManager.listen(mPhoneListener,PhoneStateListener.LISTEN_CALL_STATE);
-    }
-
-    /**
-     * 电话状态监听器
-     */
-    private class BackAfterCallPhoneListener extends PhoneStateListener{
-        @Override
-        public void onCallStateChanged(int state, String incomingNumber) {
-            switch (state){
-                case TelephonyManager.CALL_STATE_IDLE://空闲状态
-                    //监测挂断，由通话状态转为空闲状态时，返回开启当前Activity
-                    //Activity的launchMode必须为singleTask或singleInstance,不然返回启动，会重新重建一个新的该Activity对象
-                    Intent intent = new Intent(MainActivity.this,MainActivity.class);
-                    startActivity(intent);
-                    break;
-                case TelephonyManager.CALL_STATE_RINGING://响铃状态
-                    break;
-                case TelephonyManager.CALL_STATE_OFFHOOK://通话状态
-                    break;
-                default:
-                    break;
-            }
-            super.onCallStateChanged(state, incomingNumber);
-        }
+    private void attachFragment(String tag){
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fl_container, FragmentFactory.getInstance().getFragment(tag));
+        fragmentTransaction.commit();
     }
 
 
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-    }
-
-    @Override
-    protected void onDestroy() {
-        removePhoneStateListener();
-        super.onDestroy();
-    }
 
 
-    @Override
-    protected void onNewIntent(Intent intent) {
-//        removePhoneStateListener();
-        super.onNewIntent(intent);
-    }
-
-    /**
-     * 移除电话状态监听器，防止内存泄露
-     */
-    private void removePhoneStateListener(){
-        if(mTelephonyManager != null || mPhoneListener != null){
-            mTelephonyManager.listen(mPhoneListener,PhoneStateListener.LISTEN_NONE);
-            mTelephonyManager = null;
-            mPhoneListener = null;
-        }
-    }
 }

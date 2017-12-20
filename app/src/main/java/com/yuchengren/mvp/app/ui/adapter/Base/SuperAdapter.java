@@ -34,7 +34,7 @@ public abstract class SuperAdapter<T> extends BaseAdapter{
     }
 
     @Override
-    public Object getItem(int position) {
+    public T getItem(int position) {
         if(position > mDataList.size() - 1){
             return null;
         }

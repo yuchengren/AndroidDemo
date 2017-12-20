@@ -37,8 +37,9 @@ public class MvpApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        SharePrefsUtil.getInstance().init(this);
-        CrashHandler.getInstance().init(this);
+        mMvpApplication = this;
+        SharePrefsUtil.getInstance().init(getApplicationContext());
+        CrashHandler.getInstance().init(getApplicationContext());
         initGreenDao();
         initOkHttp();
     }

@@ -7,5 +7,21 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+    
+    <style name="ll_activity_top">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:paddingLeft">@dimen/activity_edge_margin</item>
+        <item name="android:paddingRight">@dimen/activity_edge_margin</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <!-- 竖版查询条件分隔线的样式-->
+    <style name="divider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">@color/divider</item>
+    </style>
+
 
 </resources>

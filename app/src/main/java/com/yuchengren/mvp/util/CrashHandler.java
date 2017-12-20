@@ -74,10 +74,10 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
 				e1.printStackTrace();
 			}
 			// 1秒钟后重启应用
-			Intent intent = new Intent(mContext, SplashActivity.class);
-			@SuppressLint("WrongConstant") PendingIntent restartIntent = PendingIntent.getActivity(mContext, 0, intent, Intent.FLAG_ACTIVITY_NEW_TASK);
-			AlarmManager am = (AlarmManager)mContext.getSystemService(Context.ALARM_SERVICE);
-			am.set(AlarmManager.RTC, System.currentTimeMillis() + 1000,restartIntent);
+//			Intent intent = new Intent(mContext, SplashActivity.class);
+//			@SuppressLint("WrongConstant") PendingIntent restartIntent = PendingIntent.getActivity(mContext, 0, intent, Intent.FLAG_ACTIVITY_NEW_TASK);
+//			AlarmManager am = (AlarmManager)mContext.getSystemService(Context.ALARM_SERVICE);
+//			am.set(AlarmManager.RTC, System.currentTimeMillis() + 1000,restartIntent);
 
 			Log.e(TAG,e.toString());
 			Process.killProcess(Process.myPid());
@@ -90,6 +90,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
 		if(e == null){
 			return true;
 		}
+		LogHelper.e(TAG,e.toString());
 		final String message = e.getMessage();
 		new Thread(new Runnable() {
 			@Override
@@ -110,6 +111,9 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
 		}
 		File crashFile = new File(crashPath, "crash-" + DateHelper.getCurrentSecondTime() + ".txt");
 		try {
+			if(!crashFile.exists()){
+				crashFile.createNewFile();
+			}
 			PrintWriter printWriter = new PrintWriter(new BufferedWriter(new FileWriter(crashFile, true)));
 			Throwable cause = e.getCause();
 			while (cause != null){

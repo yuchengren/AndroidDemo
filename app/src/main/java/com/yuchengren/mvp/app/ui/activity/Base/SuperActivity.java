@@ -1,5 +1,6 @@
 package com.yuchengren.mvp.app.ui.activity.Base;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,7 +24,6 @@ public abstract class SuperActivity<P extends Presenter> extends Activity {
 
     protected String TAG = this.getClass().getSimpleName();
     protected P mPresenter;
-    protected boolean isShowStatusBar=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
