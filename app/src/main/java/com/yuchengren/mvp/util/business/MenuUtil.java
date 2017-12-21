@@ -1,4 +1,4 @@
-package com.yuchengren.mvp.util;
+package com.yuchengren.mvp.util.business;
 
 import android.content.Context;
 import android.content.Intent;

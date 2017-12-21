@@ -109,7 +109,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
 		if(!crashPath.exists()){
 			crashPath.mkdirs();
 		}
-		File crashFile = new File(crashPath, "crash-" + DateHelper.getCurrentSecondTime() + ".txt");
+		File crashFile = new File(crashPath, "crash-" + DateHelper.getCurrentTime("yyyy-MM-dd_HH:mm:ss") + ".txt");
 		try {
 			if(!crashFile.exists()){
 				crashFile.createNewFile();

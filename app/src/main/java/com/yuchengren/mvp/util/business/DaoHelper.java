@@ -1,4 +1,4 @@
-package com.yuchengren.mvp.util;
+package com.yuchengren.mvp.util.business;
 
 import com.yuchengren.mvp.app.MvpApplication;
 import com.yuchengren.mvp.greendao.gen.MenuEntityDao;

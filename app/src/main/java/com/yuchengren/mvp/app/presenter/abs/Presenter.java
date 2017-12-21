@@ -12,7 +12,7 @@ import com.yuchengren.mvp.app.view.IView;
  */
 public abstract class Presenter<V extends IView,M extends Model>  implements IPresenter {
 
-    protected String TAG = this.getClass().getSimpleName();
+    protected String TAG = this.getClass().getName();
     protected Context mContext;
     protected V mView;
     protected M mModel;

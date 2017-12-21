@@ -57,4 +57,15 @@ public class FragmentFactory {
 		}
 		return fragment;
 	}
+
+	public void removeMainFragments(){
+		fragmentHashMap.remove(MenuCode.First.HOME);
+		fragmentHashMap.remove(MenuCode.First.OTHER);
+	}
+
+	public void removeFragment(String tag){
+		fragmentHashMap.remove(tag);
+	}
+
+
 }

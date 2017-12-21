@@ -13,15 +13,12 @@ import android.widget.TextView;
 import com.yuchengren.mvp.R;
 import com.yuchengren.mvp.app.presenter.MainPresenter;
 import com.yuchengren.mvp.app.ui.activity.Base.BaseActivity;
-import com.yuchengren.mvp.app.ui.activity.Base.SuperActivity;
 import com.yuchengren.mvp.app.view.IMainView;
 import com.yuchengren.mvp.constant.MenuCode;
-import com.yuchengren.mvp.constant.SharePrefsKey;
 import com.yuchengren.mvp.entity.db.MenuEntity;
 import com.yuchengren.mvp.factory.FragmentFactory;
 import com.yuchengren.mvp.greendao.gen.MenuEntityDao;
-import com.yuchengren.mvp.util.DaoHelper;
-import com.yuchengren.mvp.util.SharePrefsUtil;
+import com.yuchengren.mvp.util.business.DaoHelper;
 
 
 import java.util.List;
@@ -95,7 +92,9 @@ public class MainActivity extends BaseActivity<MainPresenter> implements IMainVi
         fragmentTransaction.commit();
     }
 
-
-
-
+    @Override
+    protected void onDestroy() {
+        FragmentFactory.getInstance().removeMainFragments();
+        super.onDestroy();
+    }
 }

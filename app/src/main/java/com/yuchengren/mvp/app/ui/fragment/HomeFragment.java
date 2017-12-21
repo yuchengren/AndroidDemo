@@ -14,8 +14,8 @@ import com.yuchengren.mvp.app.ui.fragment.base.BaseFragment;
 import com.yuchengren.mvp.constant.MenuCode;
 import com.yuchengren.mvp.entity.db.MenuEntity;
 import com.yuchengren.mvp.greendao.gen.MenuEntityDao;
-import com.yuchengren.mvp.util.DaoHelper;
-import com.yuchengren.mvp.util.MenuUtil;
+import com.yuchengren.mvp.util.business.DaoHelper;
+import com.yuchengren.mvp.util.business.MenuUtil;
 
 import java.util.List;
 

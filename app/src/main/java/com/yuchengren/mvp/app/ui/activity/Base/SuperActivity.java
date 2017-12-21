@@ -1,6 +1,5 @@
 package com.yuchengren.mvp.app.ui.activity.Base;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,7 +21,7 @@ import okhttp3.Call;
 
 public abstract class SuperActivity<P extends Presenter> extends Activity {
 
-    protected String TAG = this.getClass().getSimpleName();
+    protected String TAG = this.getClass().getName();
     protected P mPresenter;
 
     @Override

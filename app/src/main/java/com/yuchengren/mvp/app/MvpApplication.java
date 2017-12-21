@@ -1,12 +1,14 @@
 package com.yuchengren.mvp.app;
 
 import android.app.Application;
+import android.util.Log;
 
 import com.yuchengren.mvp.constant.Constants;
 import com.yuchengren.mvp.greendao.gen.DaoMaster;
 import com.yuchengren.mvp.greendao.gen.DaoSession;
 import com.yuchengren.mvp.util.CrashHandler;
 import com.yuchengren.mvp.util.DataBaseHelper;
+import com.yuchengren.mvp.util.LogHelper;
 import com.yuchengren.mvp.util.OkHttpUtil;
 import com.yuchengren.mvp.util.SharePrefsUtil;
 
@@ -38,6 +40,8 @@ public class MvpApplication extends Application {
     public void onCreate() {
         super.onCreate();
         mMvpApplication = this;
+        LogHelper.isDebug = true;
+        LogHelper.mLogInFileLevel  = Log.DEBUG;
         SharePrefsUtil.getInstance().init(getApplicationContext());
         CrashHandler.getInstance().init(getApplicationContext());
         initGreenDao();

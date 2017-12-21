@@ -15,38 +15,49 @@ import java.io.PrintWriter;
  * Created by yuchengren on 2017/12/5.
  */
 public class LogHelper {
-
-	/** 写入文件的日志级别 */
-	private static int mLogInFileLevel = Log.DEBUG;
+	//是否需要打印日志
+	public static boolean isDebug = true;
+	/*写入文件的日志级别 */
+	public static int mLogInFileLevel = Log.INFO;
 
 	public static void v(String tag, String msg){
-		Log.v(tag,msg);
-		if(Log.VERBOSE >= mLogInFileLevel){
-			writeInFile(Log.VERBOSE,tag,msg);
+		if(isDebug){
+			Log.v(tag,msg);
+			if(Log.VERBOSE >= mLogInFileLevel){
+				writeInFile(Log.VERBOSE,tag,msg);
+			}
 		}
 	}
 	public static void d(String tag, String msg){
-		Log.d(tag,msg);
-		if(Log.DEBUG  >= mLogInFileLevel){
-			writeInFile(Log.DEBUG,tag,msg);
+		if(isDebug){
+			Log.d(tag,msg);
+			if(Log.DEBUG  >= mLogInFileLevel){
+				writeInFile(Log.DEBUG,tag,msg);
+			}
 		}
 	}
 	public static void i(String tag, String msg){
-		Log.i(tag,msg);
-		if(Log.INFO  >= mLogInFileLevel){
-			writeInFile(Log.INFO,tag,msg);
+		if(isDebug){
+			Log.i(tag,msg);
+			if(Log.INFO  >= mLogInFileLevel){
+				writeInFile(Log.INFO,tag,msg);
+			}
 		}
 	}
 	public static void w(String tag, String msg){
-		Log.w(tag,msg);
-		if(Log.WARN  >= mLogInFileLevel){
-			writeInFile(Log.WARN,tag,msg);
+		if(isDebug){
+			Log.w(tag,msg);
+			if(Log.WARN  >= mLogInFileLevel){
+				writeInFile(Log.WARN,tag,msg);
+			}
 		}
 	}
 	public static void e(String tag, String msg){
-		Log.e(tag,msg);
-		if(Log.ERROR  >= mLogInFileLevel){
-			writeInFile(Log.ERROR,tag,msg);
+		if(isDebug){
+			Log.e(tag,msg);
+			if(Log.ERROR  >= mLogInFileLevel){
+				writeInFile(Log.ERROR,tag,msg);
+			}
 		}
 	}
 

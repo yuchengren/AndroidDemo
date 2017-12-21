@@ -13,13 +13,12 @@ import android.support.annotation.NonNull;
 
 import com.yuchengren.mvp.R;
 import com.yuchengren.mvp.app.ui.activity.Base.BaseActivity;
-import com.yuchengren.mvp.app.ui.activity.Base.SuperActivity;
 import com.yuchengren.mvp.constant.Constants;
 import com.yuchengren.mvp.constant.MenuCode;
 import com.yuchengren.mvp.constant.SharePrefsKey;
 import com.yuchengren.mvp.entity.db.MenuEntity;
 import com.yuchengren.mvp.greendao.gen.MenuEntityDao;
-import com.yuchengren.mvp.util.DaoHelper;
+import com.yuchengren.mvp.util.business.DaoHelper;
 import com.yuchengren.mvp.util.PermissionUtil;
 import com.yuchengren.mvp.util.SharePrefsUtil;
 

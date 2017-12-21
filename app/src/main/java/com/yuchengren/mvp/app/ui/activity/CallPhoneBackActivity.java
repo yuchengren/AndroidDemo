@@ -15,6 +15,8 @@ import com.yuchengren.mvp.R;
 import com.yuchengren.mvp.app.ui.activity.Base.BaseActivity;
 import com.yuchengren.mvp.util.AndroidUtil;
 
+import java.util.LinkedList;
+
 /**
  * Created by yuchengren on 2017/12/19.
  */

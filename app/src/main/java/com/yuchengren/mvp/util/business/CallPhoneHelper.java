@@ -1,4 +1,4 @@
-package com.yuchengren.mvp.util;
+package com.yuchengren.mvp.util.business;
 
 import android.Manifest;
 import android.app.Activity;
@@ -9,6 +9,8 @@ import android.support.v4.app.ActivityCompat;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.widget.Toast;
+
+import com.yuchengren.mvp.util.AndroidUtil;
 
 import static android.content.Context.TELEPHONY_SERVICE;
 
