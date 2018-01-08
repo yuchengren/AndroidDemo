@@ -159,5 +159,11 @@ public class SplashActivity extends BaseActivity {
 		rxAndroidBackMenuEntity.setParentCode(MenuCode.First.HOME);
 		menuEntityDao.insert(rxAndroidBackMenuEntity);
 
+		MenuEntity testMenuEntity = new MenuEntity();
+		testMenuEntity.setName(getString(R.string.test));
+		testMenuEntity.setCode(MenuCode.Second.TEST);
+		testMenuEntity.setParentCode(MenuCode.First.HOME);
+		menuEntityDao.insert(testMenuEntity);
+
 	}
 }

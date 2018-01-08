@@ -6,9 +6,13 @@ import android.widget.Button;
 
 import com.yuchengren.mvp.R;
 import com.yuchengren.mvp.app.ui.activity.Base.BaseActivity;
-import com.yuchengren.mvp.util.DateHelper;
+import com.yuchengren.mvp.entity.People;
+import com.yuchengren.mvp.util.GsonUtil;
 import com.yuchengren.mvp.util.LogHelper;
 import com.yuchengren.mvp.util.ToastHelper;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
@@ -17,6 +21,7 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -58,7 +63,8 @@ public class RxAndroidActivity extends BaseActivity {
 		switch (v.getId()){
 			case R.id.btn_test:
 //				test();
-				test1();
+//				testSetThread();
+				test2();
 				break;
 			default:
 				break;
@@ -121,7 +127,7 @@ public class RxAndroidActivity extends BaseActivity {
 
 	}
 
-	private void test1() {
+	private void testSetThread() {
 		/* Schedulers.io() 代表io操作的线程, 通常用于网络,读写文件等io密集型的操作
 		Schedulers.computation() 代表CPU计算密集型的操作, 例如需要大量计算的操作
 		Schedulers.newThread() 代表一个常规的新线程
@@ -148,6 +154,44 @@ public class RxAndroidActivity extends BaseActivity {
 						//Consumer 只接收onNext事件
 						LogHelper.d(TAG,"Observer:accept " + integer);
 						ToastHelper.show(String.valueOf(integer));
+					}
+				});
+	}
+
+	private void test2() {
+		Observable.create(new ObservableOnSubscribe<String>() {
+			@Override
+			public void subscribe(ObservableEmitter<String> e) throws Exception {
+				//IO线程中做网络访问等耗时操作
+//				String responseJsonString = OkHttpUtil.get("http://192.168.0.1:8080/TradeType=getPeoples");
+//				String responseJsonString = "[{\"gendar\":29,\"name\":\"ren\",\"sex\":0},{\"gendar\":30,\"name\":\"ling\",\"sex\":1}]";
+				List<People> peopleList = new ArrayList<>();
+				peopleList.add(new People("ren", 0, 29));
+				peopleList.add(new People("ling",1,30));
+				LogHelper.e(TAG,GsonUtil.formatObjectToJson(peopleList));
+
+				e.onNext(GsonUtil.formatObjectToJson(peopleList));
+			}
+		}).map(new Function<String, List<People>>() {
+			@Override
+			public List<People> apply(String s) throws Exception {
+				LogHelper.d(TAG,"map,CurrentThreadName="+Thread.currentThread().getName());
+				List<People> peopleList = GsonUtil.parseJsonToList(s,People.class);
+				//json解析成实体类
+				return peopleList;
+			}
+		}).doOnNext(new Consumer<List<People>>() {
+			@Override
+			public void accept(List<People> people) throws Exception {
+				LogHelper.d(TAG,"doOnNext,CurrentThreadName="+Thread.currentThread().getName());
+				//存入数据库
+			}
+		}).subscribeOn(Schedulers.io())
+				.observeOn(AndroidSchedulers.mainThread())
+				.subscribe(new Consumer<List<People>>() {
+					@Override
+					public void accept(List<People> people) throws Exception {
+						//主线程中刷新页面
 					}
 				});
 	}

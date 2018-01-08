@@ -14,6 +14,7 @@ public interface MenuCode {
 	interface Second{
 		String RX_ANDROID = "RxAndroid";
 		String CALL_PHONE_BACK = "call_phone_back";
+		String TEST = "test";
 	}
 
 }

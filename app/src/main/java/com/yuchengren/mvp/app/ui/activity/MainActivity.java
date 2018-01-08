@@ -21,6 +21,8 @@ import com.yuchengren.mvp.greendao.gen.MenuEntityDao;
 import com.yuchengren.mvp.util.business.DaoHelper;
 
 
+import java.lang.ref.SoftReference;
+import java.lang.ref.WeakReference;
 import java.util.List;
 
 public class MainActivity extends BaseActivity<MainPresenter> implements IMainView, View.OnClickListener {

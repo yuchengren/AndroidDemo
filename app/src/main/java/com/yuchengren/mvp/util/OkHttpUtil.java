@@ -22,7 +22,7 @@ import okhttp3.ResponseBody;
  */
 public class OkHttpUtil {
 
-	private static final String TAG = OkHttpUtil.class.getSimpleName();
+	private static final String TAG = OkHttpUtil.class.getName();
 	public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 	public static final MediaType TEXT_PLAIN = MediaType.parse("text/plain");
 	public static final int DEFAULT_READ_TIMEOUT = 10000;

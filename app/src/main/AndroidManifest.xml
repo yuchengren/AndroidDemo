@@ -33,6 +33,7 @@
                   android:configChanges="keyboardHidden|orientation"
                   android:windowSoftInputMode="stateHidden|adjustResize"/>
         <activity android:name=".app.ui.activity.RxAndroidActivity"/>
+        <activity android:name=".app.ui.activity.Test.TestActivity"/>
 
     </application>
 
