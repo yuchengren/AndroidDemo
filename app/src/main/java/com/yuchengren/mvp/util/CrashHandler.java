@@ -14,6 +14,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.yuchengren.mvp.app.ui.activity.SplashActivity;
+import com.yuchengren.mvp.cache.UiStack;
 import com.yuchengren.mvp.constant.Constants;
 
 import java.io.BufferedWriter;
@@ -73,17 +74,21 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
 			} catch (InterruptedException e1) {
 				e1.printStackTrace();
 			}
-			// 1秒钟后重启应用
-//			Intent intent = new Intent(mContext, SplashActivity.class);
-//			@SuppressLint("WrongConstant") PendingIntent restartIntent = PendingIntent.getActivity(mContext, 0, intent, Intent.FLAG_ACTIVITY_NEW_TASK);
-//			AlarmManager am = (AlarmManager)mContext.getSystemService(Context.ALARM_SERVICE);
-//			am.set(AlarmManager.RTC, System.currentTimeMillis() + 1000,restartIntent);
-
-			Log.e(TAG,e.toString());
-			Process.killProcess(Process.myPid());
-			System.exit(10);
+			exitApp();
 		}
 
+	}
+
+	public void exitApp(){
+//		 1秒钟后重启应用
+		Intent intent = new Intent(mContext, SplashActivity.class);
+		@SuppressLint("WrongConstant") PendingIntent restartIntent = PendingIntent.getActivity(mContext, 0, intent, Intent.FLAG_ACTIVITY_NEW_TASK);
+		AlarmManager am = (AlarmManager)mContext.getSystemService(Context.ALARM_SERVICE);
+		am.set(AlarmManager.RTC, System.currentTimeMillis() + 1000,restartIntent);
+
+		UiStack.getInstance().clearActivitiesStack();
+		Process.killProcess(Process.myPid());
+//		System.exit(10);
 	}
 
 	public boolean handleException(Throwable e){

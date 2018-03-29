@@ -15,6 +15,7 @@ public interface MenuCode {
 		String RX_ANDROID = "RxAndroid";
 		String CALL_PHONE_BACK = "call_phone_back";
 		String TEST = "test";
+		String theme_SWITCH = "skin_switch";
 	}
 
 }

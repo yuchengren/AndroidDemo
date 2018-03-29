@@ -7,14 +7,18 @@ import android.net.Uri;
 import android.support.v4.app.ActivityCompat;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
 import com.yuchengren.mvp.R;
 import com.yuchengren.mvp.app.ui.activity.Base.BaseActivity;
+import com.yuchengren.mvp.entity.People;
 import com.yuchengren.mvp.util.AndroidUtil;
+import com.yuchengren.mvp.util.GsonUtil;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 
 /**
@@ -51,10 +55,14 @@ public class CallPhoneBackActivity extends BaseActivity{
 	public void onClick(View v) {
 		switch (v.getId()) {
 			case R.id.btn_call:
-				if(AndroidUtil.isHasSIMCard(this)){
-					callPhoneNumber(et_mobile_phone.getText().toString().toString().trim());
-					addPhoneStateListener();
-				}
+//				if(AndroidUtil.isHasSIMCard(this)){
+//					callPhoneNumber(et_mobile_phone.getText().toString().toString().trim());
+//					addPhoneStateListener();
+//				}
+				HashMap<Object, Object> map = new HashMap<>();
+				map.put("sex", null);
+				map.put("gendar","");
+				Log.e(TAG, GsonUtil.parseJsonToBean(GsonUtil.formatObjectToJson(map),People.class).toString());
 				break;
 		}
 	}

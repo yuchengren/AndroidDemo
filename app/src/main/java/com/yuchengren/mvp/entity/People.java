@@ -47,4 +47,13 @@ public class People {
 	public void setGendar(int gendar) {
 		this.gendar = gendar;
 	}
+
+	@Override
+	public String toString() {
+		return "People{" +
+				"name='" + name + '\'' +
+				", sex=" + sex +
+				", gendar=" + gendar +
+				'}';
+	}
 }

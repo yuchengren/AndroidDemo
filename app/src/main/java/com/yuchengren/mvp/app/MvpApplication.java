@@ -15,6 +15,9 @@ import com.yuchengren.mvp.util.SharePrefsUtil;
 import org.greenrobot.greendao.database.Database;
 
 import okhttp3.OkHttpClient;
+import skin.support.SkinCompatManager;
+import skin.support.app.SkinCardViewInflater;
+import skin.support.design.app.SkinMaterialViewInflater;
 
 /**
  * Created by yuchengren on 2016/9/2.
@@ -46,6 +49,14 @@ public class MvpApplication extends Application {
         CrashHandler.getInstance().init(getApplicationContext());
         initGreenDao();
         initOkHttp();
+        initSupportSkin();
+    }
+
+    private void initSupportSkin() {
+        SkinCompatManager.init(this)                          // 基础控件换肤初始化
+                .addInflater(new SkinMaterialViewInflater())  // material design 控件换肤初始化[可选]
+                .addInflater(new SkinCardViewInflater())      // CardView 控件换肤初始化[可选]
+                .loadSkin();                                  // 加载当前皮肤库(保存在SharedPreferences中)
     }
 
     private void initGreenDao() {

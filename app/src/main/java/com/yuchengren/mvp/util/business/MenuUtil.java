@@ -6,6 +6,7 @@ import android.content.Intent;
 import com.yuchengren.mvp.app.ui.activity.CallPhoneBackActivity;
 import com.yuchengren.mvp.app.ui.activity.RxAndroidActivity;
 import com.yuchengren.mvp.app.ui.activity.Test.TestActivity;
+import com.yuchengren.mvp.app.ui.activity.ThemeSwitchActivity;
 import com.yuchengren.mvp.constant.MapKey;
 import com.yuchengren.mvp.constant.MenuCode;
 import com.yuchengren.mvp.entity.db.MenuEntity;
@@ -30,6 +31,9 @@ public class MenuUtil {
 				break;
 			case MenuCode.Second.TEST:
 				intent = new Intent(context, TestActivity.class);
+				break;
+			case MenuCode.Second.theme_SWITCH:
+				intent = new Intent(context, ThemeSwitchActivity.class);
 				break;
 			default:
 				intent = new Intent();

@@ -7,7 +7,21 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
-    
+    <!--红色主题-->
+    <style name="RedTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="switch_text_color">#FF0000</item>
+        <item name="switch_text_size">@dimen/test_size</item>
+        <item name="switch_text">@string/red_color</item>
+        <item name="switch_drawable">@drawable/red</item>
+    </style>
+    <!--蓝色主题-->
+    <style name="BlueTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="switch_text_color">#0000FF</item>
+        <item name="switch_text_size">@dimen/text_size_small</item>
+        <item name="switch_text">@string/blue_color</item>
+        <item name="switch_drawable">@drawable/blue</item>
+    </style>
+
     <style name="ll_activity_top">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>

@@ -7,5 +7,4 @@ package com.yuchengren.mvp.constant;
 public interface MapKey {
 	String CODE = "code";
 	String NAME = "name";
-
 }

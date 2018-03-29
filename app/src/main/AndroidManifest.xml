@@ -34,6 +34,7 @@
                   android:windowSoftInputMode="stateHidden|adjustResize"/>
         <activity android:name=".app.ui.activity.RxAndroidActivity"/>
         <activity android:name=".app.ui.activity.Test.TestActivity"/>
+        <activity android:name=".app.ui.activity.ThemeSwitchActivity"/>
 
     </application>
 

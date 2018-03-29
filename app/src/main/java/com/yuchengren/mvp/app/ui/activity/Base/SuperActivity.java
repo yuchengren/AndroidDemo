@@ -6,20 +6,25 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 
+import com.yuchengren.mvp.R;
+import com.yuchengren.mvp.constant.SharePrefsKey;
+import com.yuchengren.mvp.constant.SharePrefsValue;
 import com.yuchengren.mvp.util.OkHttpUtil;
 import com.yuchengren.mvp.cache.UiStack;
 import com.yuchengren.mvp.app.model.abs.Model;
 import com.yuchengren.mvp.app.presenter.abs.Presenter;
 import com.yuchengren.mvp.app.view.IView;
+import com.yuchengren.mvp.util.SharePrefsUtil;
 
 import okhttp3.Call;
+import skin.support.app.SkinCompatActivity;
 
 
 /**
  * Created by yuchengren on 2017/2/14.
  */
 
-public abstract class SuperActivity<P extends Presenter> extends Activity {
+public abstract class SuperActivity<P extends Presenter> extends SkinCompatActivity {
 
     protected String TAG = this.getClass().getName();
     protected P mPresenter;
@@ -28,12 +33,22 @@ public abstract class SuperActivity<P extends Presenter> extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         showStatusBar();
+        initTheme();
         setContentView(getLayoutResID());
         init();
         initViews();
         initListeners();
         initData();
         Log.i("className=",getClass().getName());
+    }
+
+    protected  void initTheme(){
+        String theme_style = SharePrefsUtil.getInstance().getString(SharePrefsKey.THEME_STYLE,SharePrefsValue.Theme.RED);
+        if(SharePrefsValue.Theme.BLUE.equals(theme_style)){
+            setTheme(R.style.BlueTheme);
+        }else{
+            setTheme(R.style.RedTheme);
+        }
     }
 
     protected  void showStatusBar(){

@@ -7,4 +7,5 @@ package com.yuchengren.mvp.constant;
 public interface SharePrefsKey {
 
 	String IS_FIRST_LOGIN = "IS_FIRST_LOGIN";
+	String THEME_STYLE = "THEME_STYLE";
 }

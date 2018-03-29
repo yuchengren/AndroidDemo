@@ -165,5 +165,11 @@ public class SplashActivity extends BaseActivity {
 		testMenuEntity.setParentCode(MenuCode.First.HOME);
 		menuEntityDao.insert(testMenuEntity);
 
+		MenuEntity skinMenuEntity = new MenuEntity();
+		skinMenuEntity.setName(getString(R.string.theme_switch));
+		skinMenuEntity.setCode(MenuCode.Second.theme_SWITCH);
+		skinMenuEntity.setParentCode(MenuCode.First.HOME);
+		menuEntityDao.insert(skinMenuEntity);
+
 	}
 }
