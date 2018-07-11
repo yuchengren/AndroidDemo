@@ -3,6 +3,7 @@ package com.yuchengren.mvp.app.ui.activity.Test;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.yuchengren.mvp.R;
 import com.yuchengren.mvp.app.presenter.abs.Presenter;
@@ -24,12 +25,13 @@ public class TestActivity extends BaseActivity<Presenter> {
 
 	@Override
 	protected void initViews() {
-		btn_test = (Button) findViewById(R.id.btn_test);
+//		btn_test = (Button) findViewById(R.id.btn_test);
+
 	}
 
 	@Override
 	protected void initListeners() {
-		btn_test.setOnClickListener(this);
+//		btn_test.setOnClickListener(this);
 	}
 
 	@Override
