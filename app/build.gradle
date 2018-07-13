@@ -2,13 +2,13 @@ apply plugin: 'com.android.application'
 apply plugin: 'org.greenrobot.greendao' // apply plugin
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion "24.0.1"
+    compileSdkVersion Integer.parseInt(compile_sdk_version)
+    buildToolsVersion build_tools_version
 
     defaultConfig {
         applicationId "com.yuchengren.mvp"
-        minSdkVersion 14
-        targetSdkVersion 24
+        minSdkVersion min_sdk_version
+        targetSdkVersion target_sdk_version
         versionCode 1
         versionName "1.0"
     }
@@ -34,19 +34,30 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
+    api fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:24.1.1'
-    compile 'com.squareup.okhttp3:okhttp:3.4.1'
-    compile 'org.greenrobot:greendao:3.2.2'
-    compile 'io.reactivex.rxjava2:rxjava:2.1.7'
-    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    implementation "$android_support:appcompat-v7:$android_support_version"
+    api 'com.squareup.okhttp3:okhttp:3.4.1'
+    api 'org.greenrobot:greendao:3.2.2'
+    api 'io.reactivex.rxjava2:rxjava:2.1.7'
+    api 'io.reactivex.rxjava2:rxandroid:2.0.1'
     implementation 'com.google.code.gson:gson:2.8.2'
-    compile 'skin.support:skin-support:1.2.7'
+    api 'skin.support:skin-support:1.2.7'
     // skin-support 基础控件支持
-    compile 'skin.support:skin-support-design:1.2.4'
+    api 'skin.support:skin-support-design:1.2.4'
     // skin-support-design material design 控件支持[可选]
-    compile 'skin.support:skin-support-cardview:1.2.0'
+    api 'skin.support:skin-support-cardview:1.2.0'
     // skin-support-cardview CardView 控件支持[可选]
     implementation 'com.android.support.constraint:constraint-layout:1.1.0'
+    api project(path: ':kernal:kernal-log')
+}
+
+configurations.all {
+
+    //强制统一support库版本
+    resolutionStrategy.eachDependency { dependency ->
+        if (dependency.requested.group == "$android_support" && !dependency.requested.name.contains('multidex')) {
+            dependency.useVersion("$android_support_version")
+        }
+    }
 }

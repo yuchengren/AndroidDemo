@@ -4,18 +4,17 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
-import android.util.Log;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import com.ycr.kernal.log.LogHelper;
 import com.yuchengren.mvp.R;
 import com.yuchengren.mvp.app.presenter.abs.Presenter;
 import com.yuchengren.mvp.app.ui.activity.Base.SuperActivity;
 import com.yuchengren.mvp.constant.SharePrefsKey;
 import com.yuchengren.mvp.constant.SharePrefsValue;
 import com.yuchengren.mvp.util.CrashHandler;
-import com.yuchengren.mvp.util.LogHelper;
 import com.yuchengren.mvp.util.SharePrefsUtil;
 
 import skin.support.SkinCompatManager;

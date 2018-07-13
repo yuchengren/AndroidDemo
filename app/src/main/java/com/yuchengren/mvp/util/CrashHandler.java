@@ -13,6 +13,7 @@ import android.os.Process;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.ycr.kernal.log.LogHelper;
 import com.yuchengren.mvp.app.ui.activity.SplashActivity;
 import com.yuchengren.mvp.cache.UiStack;
 import com.yuchengren.mvp.constant.Constants;
