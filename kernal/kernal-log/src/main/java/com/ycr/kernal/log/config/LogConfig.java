@@ -1,5 +1,7 @@
 package com.ycr.kernal.log.config;
 
+import android.content.Context;
+
 import com.ycr.kernal.log.constants.LogLevel;
 
 import java.util.Arrays;
@@ -11,13 +13,29 @@ import java.util.Set;
  */
 public class LogConfig implements ILogConfig{
 
+	private Context context;
 	private String tagPre;
 	private boolean enabled;
 	private int level;
 	private Set<Integer> logPrinterTypes;
+	private ILogFileConfig logFileConfig;
 
-	public static LogConfig create(){
-		return new LogConfig();
+	public LogConfig(Context context){
+		this.context = context;
+	}
+
+	public static LogConfig create(Context context){
+		return new LogConfig(context);
+	}
+
+	public LogConfig setContext(Context context){
+		this.context = context;
+		return this;
+	}
+
+	public LogConfig setLogFileConfig(ILogFileConfig logFileConfig) {
+		this.logFileConfig = logFileConfig;
+		return this;
 	}
 
 	public LogConfig setTagPre(String tagPre) {
@@ -43,6 +61,11 @@ public class LogConfig implements ILogConfig{
 	}
 
 	@Override
+	public Context context() {
+		return context;
+	}
+
+	@Override
 	public String tagPre() {
 		return tagPre;
 	}
@@ -60,5 +83,10 @@ public class LogConfig implements ILogConfig{
 	@Override
 	public Set<Integer> logPrinterTypes() {
 		return logPrinterTypes;
+	}
+
+	@Override
+	public ILogFileConfig logFileConfig() {
+		return logFileConfig;
 	}
 }

@@ -1,12 +1,13 @@
 package com.ycr.kernal.log.engine;
 
+import android.support.annotation.NonNull;
+
 import com.ycr.kernal.log.config.ILogConfig;
 import com.ycr.kernal.log.constants.LogLevel;
-import com.ycr.kernal.log.constants.LogPrinterType;
 import com.ycr.kernal.log.control.ILogControl;
 import com.ycr.kernal.log.control.LogControl;
-import com.ycr.kernal.log.printer.ConsoleLogPrinter;
 import com.ycr.kernal.log.printer.ILogPrinter;
+import com.ycr.kernal.log.printer.LogPrinterFactory;
 
 import java.util.Map;
 import java.util.Set;
@@ -33,7 +34,7 @@ public class LogEngine implements ILogEngine{
 	}
 
 	@Override
-	public ILogEngine config(ILogConfig logConfig) {
+	public ILogEngine config(@NonNull ILogConfig logConfig) {
 		this.logConfig = logConfig;
 		initLogPrinter(logConfig.logPrinterTypes());
 		if(logControl == null){
@@ -47,23 +48,11 @@ public class LogEngine implements ILogEngine{
 			return;
 		}
 		iLogPrinters = new TreeMap<>();
-
 		for (Integer logPrinterType : logPrinterTypes) {
 			if(logPrinterType == null){
 				continue;
 			}
-			ILogPrinter logPrinter = null;
-			switch (logPrinterType){
-				case LogPrinterType.CONSOLE:
-					logPrinter = new ConsoleLogPrinter();
-					break;
-				case LogPrinterType.FILE:
-					logPrinter = new ConsoleLogPrinter();
-					break;
-				case LogPrinterType.NETWORK:
-					logPrinter = new ConsoleLogPrinter();
-					break;
-			}
+			ILogPrinter logPrinter = LogPrinterFactory.create(logConfig.context(),logPrinterType,logConfig.logFileConfig());
 			if(logPrinter != null){
 				iLogPrinters.put(logPrinterType,logPrinter);
 			}
@@ -92,7 +81,7 @@ public class LogEngine implements ILogEngine{
 	private void print(@LogLevel int level,String tag,String msg,Throwable tr, Object... args){
 		Set<Map.Entry<Integer, ILogPrinter>> entrySet = iLogPrinters.entrySet();
 		for (Map.Entry<Integer, ILogPrinter> entry : entrySet) {
-			String printTag = logControl.buildPrintTag(entry.getKey(),level, moduleName, logConfig.tagPre(), tag);
+			String printTag = logControl.buildPrintTag(entry.getKey(),level, logConfig.tagPre(),moduleName, tag);
 			String printMessage = logControl.buildPrintMessage(msg, tr, args);
 			entry.getValue().print(level,printTag,printMessage);
 		}

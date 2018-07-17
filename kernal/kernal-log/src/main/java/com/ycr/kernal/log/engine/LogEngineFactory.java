@@ -8,16 +8,15 @@ import java.util.Map;
  */
 public class LogEngineFactory {
 	private static ILogEngine appLogEngine;
-	private static String appModuleName = "app";
 	private static Map<String,ILogEngine> logEngineMap = new HashMap<>();
 
 	public static ILogEngine createAppLogEngine(String appModuleName){
-		LogEngineFactory.appModuleName = appModuleName;
-		return getLogEngine(appModuleName);
+		appLogEngine = new LogEngine(appModuleName);
+		return appLogEngine;
 	}
 
 	public static ILogEngine getAppLogEngine(){
-		return getLogEngine(appModuleName);
+		return appLogEngine;
 	}
 
 	public static ILogEngine getLogEngine(String moduleName){

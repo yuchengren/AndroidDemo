@@ -1,12 +1,15 @@
 package com.yuchengren.mvp.app;
 
 import android.app.Application;
+import android.os.Environment;
 import android.util.Log;
 
 import com.ycr.kernal.log.LogHelper;
 import com.ycr.kernal.log.config.LogConfig;
+import com.ycr.kernal.log.config.LogFileConfig;
 import com.ycr.kernal.log.constants.LogLevel;
 import com.ycr.kernal.log.constants.LogPrinterType;
+import com.ycr.kernal.log.engine.ILogEngine;
 import com.yuchengren.mvp.constant.Constants;
 import com.yuchengren.mvp.greendao.gen.DaoMaster;
 import com.yuchengren.mvp.greendao.gen.DaoSession;
@@ -54,12 +57,31 @@ public class MvpApplication extends Application {
         initLog();
     }
 
+    private String getAppRootPath(){
+        String appRootPath;
+//        String packageName = getPackageName();
+        if(Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())){
+//            appRootPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + getPackageName();
+            appRootPath = getExternalFilesDir(null).getPath();
+        }else{
+            appRootPath = getFilesDir().getPath();
+        }
+        appRootPath += "/logs";
+        return appRootPath;
+    }
+
     private void initLog() {
-		LogHelper.initAppModule("app").config(LogConfig.create()
-		.setTagPre("mvp")
-		.setEnabled(true)
-		.setLevel(LogLevel.ERROR)
-		.setLogPrinterTypes(LogPrinterType.CONSOLE,LogPrinterType.FILE));
+		LogHelper.initAppModule("app").config(LogConfig.create(this)
+                .setLogFileConfig(LogFileConfig.create(this).setFileRootPath(getAppRootPath()))
+		        .setTagPre("mvp")
+                .setEnabled(true)
+                .setLevel(LogLevel.ERROR)
+                .setLogPrinterTypes(LogPrinterType.CONSOLE,LogPrinterType.FILE));
+
+        LogHelper.e("tag","msg");
+
+        ILogEngine task = LogHelper.module("task");
+        LogHelper.module("task").e("tag","msg");
     }
 
     private void initSupportSkin() {

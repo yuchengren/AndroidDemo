@@ -1,12 +1,17 @@
 package com.ycr.kernal.log.config;
 
-import java.util.List;
+import android.content.Context;
+
 import java.util.Set;
 
 /**
  * Created by yuchengren on 2018/7/12.
  */
 public interface ILogConfig {
+	/**
+	 * 上下文
+	 */
+	Context context();
 	/**
 	 * 获取tag的前缀
 	 * @return
@@ -30,5 +35,11 @@ public interface ILogConfig {
 	 * @return
 	 */
 	Set<Integer> logPrinterTypes();
+
+	/**
+	 * 文件输出的配置
+	 * @return
+	 */
+	ILogFileConfig logFileConfig();
 
 }
