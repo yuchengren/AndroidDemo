@@ -59,6 +59,9 @@ public class FileLogHelper {
 	private boolean writeMessage(String message) {
 		String fileName = getCacheFileName();
 		File file = new File(logFileConfig.fileRootPath(),fileName);
+		if(!file.exists()){
+			file.mkdirs();
+		}
 		PrintWriter writer = null;
 		try {
 			writer = new PrintWriter(new FileWriter(file,true));

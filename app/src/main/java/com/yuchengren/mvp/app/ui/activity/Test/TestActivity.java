@@ -1,5 +1,9 @@
 package com.yuchengren.mvp.app.ui.activity.Test;
 
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -25,13 +29,13 @@ public class TestActivity extends BaseActivity<Presenter> {
 
 	@Override
 	protected void initViews() {
-//		btn_test = (Button) findViewById(R.id.btn_test);
+		btn_test = (Button) findViewById(R.id.btn_test);
 
 	}
 
 	@Override
 	protected void initListeners() {
-//		btn_test.setOnClickListener(this);
+		btn_test.setOnClickListener(this);
 	}
 
 	@Override
@@ -45,12 +49,27 @@ public class TestActivity extends BaseActivity<Presenter> {
 		switch (v.getId()){
 			case R.id.btn_test:
 //				testDeadLock();
-				testWaitNotify();
+//				testWaitNotify();
+				toSelfSetting(this);
 				break;
 			default:
 				break;
 		}
 
+	}
+
+	public static void toSelfSetting(Context context) {
+		Intent mIntent = new Intent();
+		mIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		if (Build.VERSION.SDK_INT >= 9) {
+			mIntent.setAction("android.settings.APPLICATION_DETAILS_SETTINGS");
+			mIntent.setData(Uri.fromParts("package", context.getPackageName(), null));
+		} else if (Build.VERSION.SDK_INT <= 8) {
+			mIntent.setAction(Intent.ACTION_VIEW);
+			mIntent.setClassName("com.android.settings", "com.android.setting.InstalledAppDetails");
+			mIntent.putExtra("com.android.settings.ApplicationPkgName", context.getPackageName());
+		}
+		context.startActivity(mIntent);
 	}
 
 	/**

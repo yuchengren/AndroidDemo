@@ -87,7 +87,7 @@ public class LogEngine implements ILogEngine{
 		}
 	}
 
-	private void doPrint(@LogLevel int level,String tag, String msg, Throwable tr, Object... args){
+	private void doPrint(@LogLevel int level, String tag, Throwable tr, String msg, Object... args){
 		if(enabled(level)){
 			print(level,tag,msg,tr,args);
 		}
@@ -95,51 +95,151 @@ public class LogEngine implements ILogEngine{
 
 	@Override
 	public void v(String tag, String msg, Object... args) {
-		doPrint(LogLevel.VERBOSE,tag, msg, null, args);
+		doPrint(LogLevel.VERBOSE,tag, null, msg, args);
 	}
 
 	@Override
-	public void v(String tag, String msg, Throwable tr, Object... args) {
-		doPrint(LogLevel.VERBOSE,tag, msg, tr, args);
+	public void v(String tag, Throwable tr, String msg, Object... args) {
+		doPrint(LogLevel.VERBOSE,tag, tr, msg, args);
+	}
+
+	@Override
+	public void v(String tag, Throwable tr) {
+		doPrint(LogLevel.VERBOSE,tag, null, null);
+	}
+
+	@Override
+	public void v(String msg, Object... args) {
+		doPrint(LogLevel.VERBOSE,null, null, msg,args);
+	}
+
+	@Override
+	public void v(Throwable tr, String msg, Object... args) {
+		doPrint(LogLevel.VERBOSE,null, tr, msg,args);
+	}
+
+	@Override
+	public void v(Throwable tr) {
+		doPrint(LogLevel.VERBOSE,null, tr, null);
 	}
 
 	@Override
 	public void d(String tag, String msg, Object... args) {
-		doPrint(LogLevel.DEBUG,tag, msg, null, args);
+		doPrint(LogLevel.DEBUG,tag, null, msg, args);
 	}
 
 	@Override
-	public void d(String tag, String msg, Throwable tr, Object... args) {
-		doPrint(LogLevel.DEBUG,tag, msg, tr, args);
+	public void d(String tag, Throwable tr, String msg, Object... args) {
+		doPrint(LogLevel.DEBUG,tag, tr, msg, args);
+	}
+
+	@Override
+	public void d(String tag, Throwable tr) {
+		doPrint(LogLevel.DEBUG,tag, tr, null);
+	}
+
+	@Override
+	public void d(String msg, Object... args) {
+		doPrint(LogLevel.DEBUG,null, null, msg, args);
+	}
+
+	@Override
+	public void d(Throwable tr, String msg, Object... args) {
+		doPrint(LogLevel.DEBUG,null, tr, msg, args);
+	}
+
+	@Override
+	public void d(Throwable tr) {
+		doPrint(LogLevel.DEBUG,null, tr, null);
 	}
 
 	@Override
 	public void i(String tag, String msg, Object... args) {
-		doPrint(LogLevel.INFO,tag, msg, null, args);
+		doPrint(LogLevel.INFO,tag, null, msg, args);
 	}
 
 	@Override
-	public void i(String tag, String msg, Throwable tr, Object... args) {
-		doPrint(LogLevel.INFO,tag, msg, tr, args);
+	public void i(String tag, Throwable tr, String msg, Object... args) {
+		doPrint(LogLevel.INFO,tag, tr, msg, args);
+	}
+
+	@Override
+	public void i(String tag, Throwable tr) {
+		doPrint(LogLevel.INFO,tag, tr,null);
+	}
+
+	@Override
+	public void i(String msg, Object... args) {
+		doPrint(LogLevel.INFO,null, null, msg, args);
+	}
+
+	@Override
+	public void i(Throwable tr, String msg, Object... args) {
+		doPrint(LogLevel.INFO,null, tr, msg, args);
+	}
+
+	@Override
+	public void i(Throwable tr) {
+		doPrint(LogLevel.INFO,null, tr, null);
 	}
 
 	@Override
 	public void w(String tag, String msg, Object... args) {
-		doPrint(LogLevel.WARN,tag, msg, null, args);
+		doPrint(LogLevel.WARN,tag, null, msg, args);
 	}
 
 	@Override
-	public void w(String tag, String msg, Throwable tr, Object... args) {
-		doPrint(LogLevel.WARN,tag, msg, tr, args);
+	public void w(String tag, Throwable tr, String msg, Object... args) {
+		doPrint(LogLevel.WARN,tag, tr, msg, args);
+	}
+
+	@Override
+	public void w(String tag, Throwable tr) {
+		doPrint(LogLevel.WARN,tag, tr, null);
+	}
+
+	@Override
+	public void w(String msg, Object... args) {
+		doPrint(LogLevel.WARN,null, null, msg, args);
+	}
+
+	@Override
+	public void w(Throwable tr, String msg, Object... args) {
+		doPrint(LogLevel.WARN,null, tr, msg, args);
+	}
+
+	@Override
+	public void w(Throwable tr) {
+		doPrint(LogLevel.WARN,null, tr, null);
 	}
 
 	@Override
 	public void e(String tag, String msg, Object... args) {
-		doPrint(LogLevel.ERROR,tag, msg, null, args);
+		doPrint(LogLevel.ERROR,tag, null, msg, args);
 	}
 
 	@Override
-	public void e(String tag, String msg, Throwable tr, Object... args) {
-		doPrint(LogLevel.ERROR,tag, msg, tr, args);
+	public void e(String tag, Throwable tr, String msg, Object... args) {
+		doPrint(LogLevel.ERROR,tag, tr, msg, args);
+	}
+
+	@Override
+	public void e(String tag, Throwable tr) {
+		doPrint(LogLevel.ERROR,tag, tr, null);
+	}
+
+	@Override
+	public void e(String msg, Object... args) {
+		doPrint(LogLevel.ERROR,null, null, msg, args);
+	}
+
+	@Override
+	public void e(Throwable tr, String msg, Object... args) {
+		doPrint(LogLevel.ERROR,null, tr, msg, args);
+	}
+
+	@Override
+	public void e(Throwable tr) {
+		doPrint(LogLevel.ERROR,null, tr, null);
 	}
 }
