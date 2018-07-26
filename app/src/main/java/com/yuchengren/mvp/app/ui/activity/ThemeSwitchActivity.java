@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
-import com.ycr.kernal.log.LogHelper;
 import com.yuchengren.mvp.R;
 import com.yuchengren.mvp.app.presenter.abs.Presenter;
 import com.yuchengren.mvp.app.ui.activity.Base.SuperActivity;
@@ -16,8 +15,6 @@ import com.yuchengren.mvp.constant.SharePrefsKey;
 import com.yuchengren.mvp.constant.SharePrefsValue;
 import com.yuchengren.mvp.util.CrashHandler;
 import com.yuchengren.mvp.util.SharePrefsUtil;
-
-import skin.support.SkinCompatManager;
 
 /**
  * Created by yuchengren on 2018/3/26.
@@ -93,12 +90,6 @@ public class ThemeSwitchActivity extends SuperActivity<Presenter> implements Vie
             case R.id.rb_apk_theme_blue:
                 switchApkTheme("com.ycr.blueskin");
                 break;
-            case R.id.rb_support_theme_red:
-                switchSupportTheme("red.skin");
-                break;
-            case R.id.rb_support_theme_blue:
-                switchSupportTheme("blue.skin");
-                break;
             default:
                 break;
         }
@@ -122,17 +113,4 @@ public class ThemeSwitchActivity extends SuperActivity<Presenter> implements Vie
         }
     }
 
-    private void switchSupportTheme(String skinName) {
-        // 指定皮肤插件
-        SkinCompatManager.getInstance().loadSkin(skinName, new SkinCompatManager.SkinLoaderListener() {
-            @Override
-            public void onStart() {}
-            @Override
-            public void onSuccess() {}
-            @Override
-            public void onFailed(String errMsg) {
-                LogHelper.e(TAG,errMsg);
-            }
-        });
-    }
 }

@@ -36,24 +36,20 @@ android {
 dependencies {
     api fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
-    implementation "$android_support:appcompat-v7:$android_support_version"
-    api 'com.squareup.okhttp3:okhttp:3.4.1'
-    api 'org.greenrobot:greendao:3.2.2'
+
     api 'io.reactivex.rxjava2:rxjava:2.1.7'
     api 'io.reactivex.rxjava2:rxandroid:2.0.1'
-    implementation 'com.google.code.gson:gson:2.8.2'
-    api 'skin.support:skin-support:1.2.7'
-    // skin-support 基础控件支持
-    api 'skin.support:skin-support-design:1.2.4'
-    // skin-support-design material design 控件支持[可选]
-    api 'skin.support:skin-support-cardview:1.2.0'
-    // skin-support-cardview CardView 控件支持[可选]
-    implementation 'com.android.support.constraint:constraint-layout:1.1.0'
+
+    api "$squareup_okhttp3:okhttp:$okhttp_version"
+    api "$greenrobot:greendao:$greendao_version"
+    implementation "com.google.code.gson:gson:$gson_version"
+    implementation "$android_support:appcompat-v7:$android_support_version"
+    implementation "com.android.support.constraint:constraint-layout:$constraint_layout_version"
+
     api project(path: ':kernal:kernal-log')
 }
 
 configurations.all {
-
     //强制统一support库版本
     resolutionStrategy.eachDependency { dependency ->
         if (dependency.requested.group == "$android_support" && !dependency.requested.name.contains('multidex')) {

@@ -1,8 +1,8 @@
 package com.yuchengren.mvp.app.ui.activity.Base;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 
@@ -17,14 +17,13 @@ import com.yuchengren.mvp.app.view.IView;
 import com.yuchengren.mvp.util.SharePrefsUtil;
 
 import okhttp3.Call;
-import skin.support.app.SkinCompatActivity;
 
 
 /**
  * Created by yuchengren on 2017/2/14.
  */
 
-public abstract class SuperActivity<P extends Presenter> extends SkinCompatActivity {
+public abstract class SuperActivity<P extends Presenter> extends AppCompatActivity {
 
     protected String TAG = this.getClass().getName();
     protected P mPresenter;

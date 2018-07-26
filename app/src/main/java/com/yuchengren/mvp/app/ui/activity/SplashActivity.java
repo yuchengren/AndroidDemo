@@ -58,11 +58,12 @@ public class SplashActivity extends BaseActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		checkPermissions();
+//		checkPermissions();
 		if(SharePrefsUtil.getInstance().getBoolean(SharePrefsKey.IS_FIRST_LOGIN,true)){
 			insertMenu();
 		}
 		SharePrefsUtil.getInstance().putBoolean(SharePrefsKey.IS_FIRST_LOGIN,false);
+		startMainActivity();
 	}
 
 

@@ -4,15 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 
 import com.yuchengren.mvp.R;
 import com.yuchengren.mvp.app.presenter.abs.Presenter;
 import com.yuchengren.mvp.app.ui.activity.Base.BaseActivity;
-import com.yuchengren.mvp.app.ui.activity.Base.SuperActivity;
 
 /**
  * Created by yuchengren on 2017/12/28.
@@ -50,7 +47,7 @@ public class TestActivity extends BaseActivity<Presenter> {
 			case R.id.btn_test:
 //				testDeadLock();
 //				testWaitNotify();
-				toSelfSetting(this);
+//				toSelfSetting(this);
 				break;
 			default:
 				break;
