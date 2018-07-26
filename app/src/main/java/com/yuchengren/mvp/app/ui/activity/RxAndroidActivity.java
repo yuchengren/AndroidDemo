@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.ycr.kernal.log.LogHelper;
+import com.ycr.kernel.log.LogHelper;
 import com.yuchengren.mvp.R;
 import com.yuchengren.mvp.app.ui.activity.Base.BaseActivity;
 import com.yuchengren.mvp.entity.People;

@@ -46,7 +46,8 @@ dependencies {
     implementation "$android_support:appcompat-v7:$android_support_version"
     implementation "com.android.support.constraint:constraint-layout:$constraint_layout_version"
 
-    api project(path: ':kernal:kernal-log')
+    api project(path: ':kernel:kernel-log')
+    api project(path: ':kernel:kernel-mvp')
 }
 
 configurations.all {

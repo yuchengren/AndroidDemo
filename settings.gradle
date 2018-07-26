@@ -1,1 +1,1 @@
-include ':app', ':kernal:kernal-log'
+include ':app', ':kernel:kernel-log', ':kernel:kernel-mvp'

@@ -3,12 +3,12 @@ package com.yuchengren.mvp.app;
 import android.app.Application;
 import android.os.Environment;
 
-import com.ycr.kernal.log.LogHelper;
-import com.ycr.kernal.log.config.LogConfig;
-import com.ycr.kernal.log.config.LogFileConfig;
-import com.ycr.kernal.log.constants.LogLevel;
-import com.ycr.kernal.log.constants.LogPrinterType;
-import com.ycr.kernal.log.engine.ILogEngine;
+import com.ycr.kernel.log.LogHelper;
+import com.ycr.kernel.log.config.LogConfig;
+import com.ycr.kernel.log.config.LogFileConfig;
+import com.ycr.kernel.log.constants.LogLevel;
+import com.ycr.kernel.log.constants.LogPrinterType;
+import com.ycr.kernel.log.engine.ILogEngine;
 import com.yuchengren.mvp.constant.Constants;
 import com.yuchengren.mvp.greendao.gen.DaoMaster;
 import com.yuchengren.mvp.greendao.gen.DaoSession;
