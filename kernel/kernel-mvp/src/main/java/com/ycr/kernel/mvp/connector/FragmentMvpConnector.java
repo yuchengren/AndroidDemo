@@ -13,7 +13,7 @@ import java.util.Set;
  * Created by yuchengren on 2018/7/27.
  */
 public class FragmentMvpConnector extends LifeCycleMvpConnector implements IFragmentSpecialLifeCycle {
-	private Bundle arguments;
+
 	private Set<IFragmentSpecialLifeCycle>  fragmentSpecialLifeCycleSet;
 
 	public FragmentMvpConnector(){
@@ -33,19 +33,6 @@ public class FragmentMvpConnector extends LifeCycleMvpConnector implements IFrag
 	public void destroyPresenter() {
 		super.destroyPresenter();
 		fragmentSpecialLifeCycleSet.clear();
-	}
-
-	@Override
-	final public Bundle getArguments() {
-		return arguments;
-	}
-
-	@Override
-	final public void setArguments(Bundle arguments) {
-		this.arguments = arguments;
-		for (IFragmentSpecialLifeCycle fragmentSpecialLifeCycle : fragmentSpecialLifeCycleSet) {
-			fragmentSpecialLifeCycle.setArguments(arguments);
-		}
 	}
 
 	@Override

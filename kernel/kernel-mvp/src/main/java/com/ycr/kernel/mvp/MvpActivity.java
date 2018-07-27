@@ -29,17 +29,13 @@ public class MvpActivity extends AppCompatActivity implements IMvpView<ActivityM
 	}
 
 	@Override
-	public void setIntent(Intent newIntent) {
-		super.setIntent(newIntent);
-		getMvpConnector().setIntent(newIntent);
-	}
-
-	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		getMvpConnector().setIntent(getIntent());
-		getMvpConnector().onCreated(savedInstanceState);
-
+		Bundle bundle = getIntent().getExtras();
+		if(bundle == null){
+			bundle = new Bundle();
+		}
+		getMvpConnector().onCreated(savedInstanceState,getIntent(),bundle);
 	}
 
 	@Override

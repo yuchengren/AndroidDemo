@@ -1,6 +1,6 @@
 package com.yuchengren.mvp.util;
 
-import com.yuchengren.mvp.app.MvpApplication;
+import com.yuchengren.mvp.app.DemoApplication;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,7 +16,7 @@ public class PropertiesUtil {
 	public static final String PROPERTIES_FILE_CONFIG = "config.properties";
 
 	public static int getIntProperty(String key){
-		MvpApplication context = MvpApplication.getInstance();
+		DemoApplication context = DemoApplication.getInstance();
 		int value = 0;
 		try {
 			String property = getPropertiesObject().getProperty(key);
@@ -28,7 +28,7 @@ public class PropertiesUtil {
 	}
 
 	public static double getDoubleProperty(String key){
-		MvpApplication context = MvpApplication.getInstance();
+		DemoApplication context = DemoApplication.getInstance();
 		double value = 0;
 		try {
 			String property = getPropertiesObject().getProperty(key);
@@ -41,7 +41,7 @@ public class PropertiesUtil {
 
 	public static Properties getPropertiesObject() throws IOException {
 		Properties properties = new Properties();
-		InputStream open = MvpApplication.getInstance().getAssets().open(PROPERTIES_FILE_CONFIG);
+		InputStream open = DemoApplication.getInstance().getAssets().open(PROPERTIES_FILE_CONFIG);
 		properties.load(open);
 		return properties;
 	}

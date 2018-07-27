@@ -1,6 +1,6 @@
 package com.yuchengren.mvp.util;
 
-import com.yuchengren.mvp.app.MvpApplication;
+import com.yuchengren.mvp.app.DemoApplication;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -192,13 +192,13 @@ public class OkHttpUtil {
 
 
 	public static String get(String url) throws Exception {
-		getInstance().setOkHttpClient(MvpApplication.getInstance().getDefaultOkHttpClient());
+		getInstance().setOkHttpClient(DemoApplication.getInstance().getDefaultOkHttpClient());
 		return getInstance().getRequest(url);
 	}
 
 	public static String get(String url, long connectTimeout, Object tag) throws Exception {
 		if (connectTimeout == DEFAULT_CONNECT_TIMEOUT) {
-			getInstance().setOkHttpClient(MvpApplication.getInstance().getDefaultOkHttpClient());
+			getInstance().setOkHttpClient(DemoApplication.getInstance().getDefaultOkHttpClient());
 		} else {
 			getInstance().initClient(connectTimeout);
 		}
@@ -207,7 +207,7 @@ public class OkHttpUtil {
 
 	public static String get(String url, long connectTimeout) throws Exception {
 		if (connectTimeout == DEFAULT_CONNECT_TIMEOUT) {
-			getInstance().setOkHttpClient(MvpApplication.getInstance().getDefaultOkHttpClient());
+			getInstance().setOkHttpClient(DemoApplication.getInstance().getDefaultOkHttpClient());
 		} else {
 			getInstance().initClient(connectTimeout);
 		}
@@ -215,17 +215,17 @@ public class OkHttpUtil {
 	}
 
 	public static String post(String url, String json) throws Exception {
-		getInstance().setOkHttpClient(MvpApplication.getInstance().getDefaultOkHttpClient());
+		getInstance().setOkHttpClient(DemoApplication.getInstance().getDefaultOkHttpClient());
 		return getInstance().postRequest(url, json);
 	}
 
 	public static void postAync(String url, String json, ResponseCallBack responseCallBack) {
-		getInstance().setOkHttpClient(MvpApplication.getInstance().getDefaultOkHttpClient());
+		getInstance().setOkHttpClient(DemoApplication.getInstance().getDefaultOkHttpClient());
 		getInstance().postAsyncRequest(url, json,responseCallBack);
 	}
 
 	public static void postAyncBody(String url, RequestBody requestBodyPost, ResponseCallBack responseCallBack) {
-		getInstance().setOkHttpClient(MvpApplication.getInstance().getDefaultOkHttpClient());
+		getInstance().setOkHttpClient(DemoApplication.getInstance().getDefaultOkHttpClient());
 		getInstance().postAsyncRequestBody(url, requestBodyPost,responseCallBack);
 	}
 }

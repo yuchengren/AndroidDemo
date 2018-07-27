@@ -24,27 +24,27 @@ import okhttp3.OkHttpClient;
 /**
  * Created by yuchengren on 2016/9/2.
  */
-public class MvpApplication extends Application {
+public class DemoApplication extends Application {
 
-    private static MvpApplication mMvpApplication;
+    private static DemoApplication mDemoApplication;
     /**
      * 默认初始化的OkHttpClient
      */
     private OkHttpClient mDefaultOkHttpClient;
     private DaoSession mDaoSession;
 
-    public synchronized static MvpApplication getInstance(){
-        if(mMvpApplication == null ){
-            mMvpApplication = new MvpApplication();
+    public synchronized static DemoApplication getInstance(){
+        if(mDemoApplication == null ){
+            mDemoApplication = new DemoApplication();
         }
-        return mMvpApplication;
+        return mDemoApplication;
     }
 
 
     @Override
     public void onCreate() {
         super.onCreate();
-        mMvpApplication = this;
+        mDemoApplication = this;
         SharePrefsUtil.getInstance().init(getApplicationContext());
         CrashHandler.getInstance().init(getApplicationContext());
         initGreenDao();

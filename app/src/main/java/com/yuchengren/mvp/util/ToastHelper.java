@@ -6,7 +6,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.yuchengren.mvp.R;
-import com.yuchengren.mvp.app.MvpApplication;
+import com.yuchengren.mvp.app.DemoApplication;
 
 
 /**
@@ -48,7 +48,7 @@ public class ToastHelper {
 		}
 	}
 	public static void show(int resId, int duration){
-		show(MvpApplication.getInstance().getResources().getString(resId),duration);
+		show(DemoApplication.getInstance().getResources().getString(resId),duration);
 	}
 
 	public static void show(String message){
@@ -64,14 +64,14 @@ public class ToastHelper {
 	 * @param message
 	 */
 	private static void initToast(String message) {
-		View view = View.inflate(MvpApplication.getInstance(), R.layout.toast,null);
+		View view = View.inflate(DemoApplication.getInstance(), R.layout.toast,null);
 		TextView tv_toast = (TextView) view.findViewById(R.id.tv_toast);
-		int h = MvpApplication.getInstance().getResources().getDisplayMetrics().heightPixels;
-		int l = MvpApplication.getInstance().getResources().getDisplayMetrics().widthPixels;
+		int h = DemoApplication.getInstance().getResources().getDisplayMetrics().heightPixels;
+		int l = DemoApplication.getInstance().getResources().getDisplayMetrics().widthPixels;
 		tv_toast.setMinWidth(l / 4);
 		tv_toast.setText(message);
 
-		mToast = new Toast(MvpApplication.getInstance());
+		mToast = new Toast(DemoApplication.getInstance());
 		mToast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
 		mToast.setView(view);
 	}

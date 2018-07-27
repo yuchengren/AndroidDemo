@@ -41,9 +41,11 @@ public class MvpFragment extends Fragment implements IMvpView<FragmentMvpConnect
 	@Override
 	public void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		getMvpConnector().setIntent(getActivity().getIntent());
-		getMvpConnector().setArguments(getArguments());
-		getMvpConnector().onCreated(savedInstanceState);
+		Bundle bundle = getArguments();
+		if(bundle == null){
+			bundle = new Bundle();
+		}
+		getMvpConnector().onCreated(savedInstanceState,getActivity().getIntent(),bundle);
 	}
 
 	@Nullable
@@ -99,6 +101,7 @@ public class MvpFragment extends Fragment implements IMvpView<FragmentMvpConnect
 	public void onDestroy() {
 		super.onDestroy();
 		getMvpConnector().onDestroy();
+		getMvpConnector().destroyPresenter();
 	}
 
 	@Override
@@ -118,6 +121,4 @@ public class MvpFragment extends Fragment implements IMvpView<FragmentMvpConnect
 		super.onActivityResult(requestCode, resultCode, data);
 		getMvpConnector().onActivityResult(requestCode, resultCode, data);
 	}
-
-
 }

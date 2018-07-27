@@ -1,6 +1,6 @@
 package com.yuchengren.mvp.util.business;
 
-import com.yuchengren.mvp.app.MvpApplication;
+import com.yuchengren.mvp.app.DemoApplication;
 import com.yuchengren.mvp.greendao.gen.MenuEntityDao;
 
 /**
@@ -10,7 +10,7 @@ import com.yuchengren.mvp.greendao.gen.MenuEntityDao;
 public class DaoHelper {
 
 	public static MenuEntityDao getMenuEntityDao(){
-		return MvpApplication.getInstance().getDaoSession().getMenuEntityDao();
+		return DemoApplication.getInstance().getDaoSession().getMenuEntityDao();
 	}
 
 }

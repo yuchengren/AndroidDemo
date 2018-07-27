@@ -36,19 +36,9 @@ public class LifeCycleMvpConnector extends MvpConnector implements IBaseLifeCycl
 	}
 
 	@Override
-	final public Intent getIntent() {
-		return intent;
-	}
-
-	@Override
-	public void setIntent(Intent intent) {
-		this.intent = intent;
-	}
-
-	@Override
-	public void onCreated(Bundle savedInstanceState) {
+	public void onCreated(Bundle savedInstanceState, Intent intent, Bundle bundle) {
 		for (IBaseLifeCycle baseLifeCycle : baseLifeCycleSet) {
-			baseLifeCycle.onCreated(savedInstanceState);
+			baseLifeCycle.onCreated(savedInstanceState,intent,bundle);
 		}
 	}
 
