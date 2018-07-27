@@ -45,9 +45,10 @@ dependencies {
     implementation "com.google.code.gson:gson:$gson_version"
     implementation "$android_support:appcompat-v7:$android_support_version"
     implementation "com.android.support.constraint:constraint-layout:$constraint_layout_version"
-
+//
     api project(path: ':kernel:kernel-log')
     api project(path: ':kernel:kernel-mvp')
+    api project(path: ':kernel:kernel-union')
 }
 
 configurations.all {
