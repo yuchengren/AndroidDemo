@@ -1,1 +1,24 @@
-include ':app', ':kernel:kernel-log', ':kernel:kernel-mvp', ':kernel:kernel-union'
+include ':app'//,':kernel:kernel-log'
+
+//include 'kernel-log'
+//project(":kernel-log").projectDir = file("kernel/kernel-log")
+
+//def includeModule(String moduleName,String path){
+//    include moduleName
+//    project(":$moduleName").projectDir = file("$path/$moduleName")
+//}
+//
+//includeModule("kernel-log","kernel")
+//includeModule("kernel-task","kernel")
+
+def includeModulesInPath(String path){
+    file(path).eachDir { dir ->
+        if(dir.listFiles().any{ it.isFile() && it.name == "build.gradle" }){
+            include dir.name
+            project(":${dir.name}").projectDir = dir
+        }
+    }
+}
+
+includeModulesInPath('kernel')
+

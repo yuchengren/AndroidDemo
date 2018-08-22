@@ -1,12 +1,21 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+    <style name="AppThemeBase" parent="Theme.AppCompat.Light.NoActionBar" />
+    <style name="AppTheme" parent="AppThemeBase">
+
     </style>
+
+
+
+    <!--首屏透明-->
+    <style name="AppTheme.Fullscreen" parent="AppTheme">
+        <!--<item name="windowNoTitle">true</item>-->
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowAnimationStyle">@null</item>
+    </style>
+
     <!--红色主题-->
     <style name="RedTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="switch_text_color">#FF0000</item>

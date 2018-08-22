@@ -2,52 +2,64 @@ package com.yuchengren.mvp.app.ui.activity.Test;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
+import android.util.DisplayMetrics;
+import android.util.Log;
+import android.view.Display;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import com.yuchengren.mvp.R;
-import com.yuchengren.mvp.app.presenter.abs.Presenter;
-import com.yuchengren.mvp.app.ui.activity.Base.BaseActivity;
+import com.yuchengren.mvp.util.BlurUtil;
 
 /**
  * Created by yuchengren on 2017/12/28.
  */
 
-public class TestActivity extends BaseActivity<Presenter> {
+public class TestActivity extends AppCompatActivity implements View.OnClickListener {
 
 	private Button btn_test;
 
 	@Override
-	protected int getLayoutResID() {
-		return R.layout.activity_test;
-	}
-
-	@Override
-	protected void initViews() {
-		btn_test = (Button) findViewById(R.id.btn_test);
-
-	}
-
-	@Override
-	protected void initListeners() {
+	protected void onCreate(@Nullable Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_test);
+		btn_test = findViewById(R.id.btn_test);
 		btn_test.setOnClickListener(this);
-	}
+		DisplayMetrics dm = getResources().getDisplayMetrics();
 
-	@Override
-	protected void initData() {
+		Log.e("dm","widthPixels="+dm.widthPixels + ",heightPixels=" + dm.heightPixels +
+				",scaledDensity=" + dm.scaledDensity + ",density="+dm.density+",densityDpi="+dm.densityDpi);
+
+//		View ll_test = findViewById(R.id.ll_test);
+//
+//		Display defaultDisplay = getWindow().getWindowManager().getDefaultDisplay();
+//
+//		Bitmap scaledBitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.test),defaultDisplay.getWidth() , defaultDisplay.getHeight(), false);
+//
+//		Bitmap bitmap = BlurUtil.blur(this,scaledBitmap, 25);
+//
+//		ll_test.setBackgroundDrawable(new BitmapDrawable(bitmap));
+
 
 	}
 
 	@Override
 	public void onClick(View v) {
-		super.onClick(v);
 		switch (v.getId()){
 			case R.id.btn_test:
 //				testDeadLock();
 //				testWaitNotify();
 //				toSelfSetting(this);
+				Log.e("222",String.valueOf(System.currentTimeMillis()));
 				break;
 			default:
 				break;

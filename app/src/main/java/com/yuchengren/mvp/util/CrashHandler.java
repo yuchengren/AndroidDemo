@@ -82,10 +82,10 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
 
 	public void exitApp(){
 //		 1秒钟后重启应用
-		Intent intent = new Intent(mContext, SplashActivity.class);
-		@SuppressLint("WrongConstant") PendingIntent restartIntent = PendingIntent.getActivity(mContext, 0, intent, Intent.FLAG_ACTIVITY_NEW_TASK);
-		AlarmManager am = (AlarmManager)mContext.getSystemService(Context.ALARM_SERVICE);
-		am.set(AlarmManager.RTC, System.currentTimeMillis() + 1000,restartIntent);
+//		Intent intent = new Intent(mContext, SplashActivity.class);
+//		@SuppressLint("WrongConstant") PendingIntent restartIntent = PendingIntent.getActivity(mContext, 0, intent, Intent.FLAG_ACTIVITY_NEW_TASK);
+//		AlarmManager am = (AlarmManager)mContext.getSystemService(Context.ALARM_SERVICE);
+//		am.set(AlarmManager.RTC, System.currentTimeMillis() + 1000,restartIntent);
 
 		UiStack.getInstance().clearActivitiesStack();
 		Process.killProcess(Process.myPid());

@@ -16,7 +16,7 @@ import com.ycr.kernel.mvp.view.IMvpView;
 /**
  * Created by yuchengren on 2018/7/26.
  */
-public class MvpFragment extends Fragment implements IMvpView<FragmentMvpConnector> {
+public class MvpFragment extends Fragment implements IMvpView {
 	private FragmentMvpConnector mMvpConnector;
 
 	@Override

@@ -6,13 +6,12 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
 import com.ycr.kernel.mvp.connector.ActivityMvpConnector;
-import com.ycr.kernel.mvp.connector.MvpConnector;
 import com.ycr.kernel.mvp.view.IMvpView;
 
 /**
  * Created by yuchengren on 2018/7/26.
  */
-public class MvpActivity extends AppCompatActivity implements IMvpView<ActivityMvpConnector> {
+public class MvpActivity extends AppCompatActivity implements IMvpView {
 
 	private ActivityMvpConnector mMvpConnector;
 

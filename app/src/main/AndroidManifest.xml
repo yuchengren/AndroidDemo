@@ -40,7 +40,11 @@
                   android:configChanges="keyboardHidden|orientation"
                   android:windowSoftInputMode="stateHidden|adjustResize"/>
         <activity android:name=".app.ui.activity.RxAndroidActivity"/>
-        <activity android:name=".app.ui.activity.Test.TestActivity"/>
+
+        <activity android:name=".app.ui.activity.Test.TestActivity"
+            android:theme="@style/AppTheme.Fullscreen"
+            android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".app.ui.activity.ThemeSwitchActivity"/>
 
     </application>
