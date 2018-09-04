@@ -25,7 +25,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="nihao"
-        android:drawableRight="@drawable/blue"
+        android:drawableRight="@drawable/test_drawable_blue"
         android:drawablePadding="30dp"/>
     <EditText
         android:layout_width="match_parent"

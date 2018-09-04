@@ -4,10 +4,14 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.os.Environment;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import com.ycr.kernel.log.LogHelper;
+import com.ycr.lib.changeskin.SkinManager;
+import com.ycr.lib.changeskin.callback.ISkinChangingCallback;
 import com.yuchengren.mvp.R;
 import com.yuchengren.mvp.app.presenter.abs.Presenter;
 import com.yuchengren.mvp.app.ui.activity.Base.SuperActivity;
@@ -15,12 +19,23 @@ import com.yuchengren.mvp.constant.SharePrefsKey;
 import com.yuchengren.mvp.constant.SharePrefsValue;
 import com.yuchengren.mvp.util.CrashHandler;
 import com.yuchengren.mvp.util.SharePrefsUtil;
+import com.yuchengren.mvp.util.ToastHelper;
+
+import org.jetbrains.annotations.NotNull;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.OutputStream;
 
 /**
  * Created by yuchengren on 2018/3/26.
  */
 
-public class ThemeSwitchActivity extends SuperActivity<Presenter> implements View.OnClickListener{
+public class ChangeThemeActivity extends SuperActivity<Presenter> implements View.OnClickListener{
+
+    private static final String PATH_APK = Environment.getExternalStorageDirectory() + File.separator;
 
     private TextView tv_system_theme;
     private RadioButton rb_system_theme_red;
@@ -30,9 +45,10 @@ public class ThemeSwitchActivity extends SuperActivity<Presenter> implements Vie
     private RadioButton rb_apk_theme_red;
     private RadioButton rb_apk_theme_blue;
 
-    private TextView tv_support_theme;
-    private RadioButton rb_support_theme_red;
-    private RadioButton rb_support_theme_blue;
+    private TextView tv_changeskin;
+    private TextView tv_clear_skin;
+    private RadioButton rb_changeskin_red;
+    private RadioButton rb_changeskin_blue;
 
     @Override
     protected int getLayoutResID() {
@@ -49,9 +65,10 @@ public class ThemeSwitchActivity extends SuperActivity<Presenter> implements Vie
         rb_apk_theme_red = (RadioButton) findViewById(R.id.rb_apk_theme_red);
         rb_apk_theme_blue = (RadioButton) findViewById(R.id.rb_apk_theme_blue);
 
-        tv_support_theme = (TextView) findViewById(R.id.tv_support_theme);
-        rb_support_theme_red = (RadioButton) findViewById(R.id.rb_support_theme_red);
-        rb_support_theme_blue = (RadioButton) findViewById(R.id.rb_support_theme_blue);
+        tv_changeskin = (TextView) findViewById(R.id.tv_changeskin);
+        tv_clear_skin = (TextView) findViewById(R.id.tv_clear_skin);
+        rb_changeskin_red = (RadioButton) findViewById(R.id.rb_changeskin_red);
+        rb_changeskin_blue = (RadioButton) findViewById(R.id.rb_changeskin_blue);
     }
 
     @Override
@@ -62,8 +79,9 @@ public class ThemeSwitchActivity extends SuperActivity<Presenter> implements Vie
         rb_apk_theme_red.setOnClickListener(this);
         rb_apk_theme_blue.setOnClickListener(this);
 
-        rb_support_theme_red.setOnClickListener(this);
-        rb_support_theme_blue.setOnClickListener(this);
+        rb_changeskin_red.setOnClickListener(this);
+        rb_changeskin_blue.setOnClickListener(this);
+        tv_clear_skin.setOnClickListener(this);
     }
 
     @Override
@@ -90,9 +108,58 @@ public class ThemeSwitchActivity extends SuperActivity<Presenter> implements Vie
             case R.id.rb_apk_theme_blue:
                 switchApkTheme("com.ycr.blueskin");
                 break;
+            case R.id.rb_changeskin_red:
+                changeRedSkin();
+                break;
+            case R.id.rb_changeskin_blue:
+                changeBlueSkin();
+                break;
+            case R.id.tv_clear_skin:
+                SkinManager.INSTANCE.clearPlugin();
+                break;
             default:
                 break;
         }
+    }
+
+    private void changeRedSkin() {
+//        SkinManager.INSTANCE.changeSkin("red");
+        SkinManager.INSTANCE.changeSkin(PATH_APK + "redskin.apk", "com.ycr.redskin", new ISkinChangingCallback() {
+            @Override
+            public void onStart() {
+
+            }
+
+            @Override
+            public void onCompleted() {
+                ToastHelper.show("换肤红色成功！");
+            }
+
+            @Override
+            public void onError(@NotNull Exception e) {
+                LogHelper.e(e);
+            }
+        });
+    }
+
+    private void changeBlueSkin() {
+//        SkinManager.INSTANCE.changeSkin("blue");
+        SkinManager.INSTANCE.changeSkin(PATH_APK + "blueskin.apk", "com.ycr.blueskin", new ISkinChangingCallback() {
+            @Override
+            public void onStart() {
+
+            }
+
+            @Override
+            public void onCompleted() {
+                ToastHelper.show("换肤蓝色成功！");
+            }
+
+            @Override
+            public void onError(@NotNull Exception e) {
+                LogHelper.e(e);
+            }
+        });
     }
 
     private void switchSystemTheme(String themeStyle) {

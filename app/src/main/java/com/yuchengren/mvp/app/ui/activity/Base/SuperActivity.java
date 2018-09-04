@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 
+import com.ycr.lib.changeskin.SkinManager;
 import com.yuchengren.mvp.R;
 import com.yuchengren.mvp.constant.SharePrefsKey;
 import com.yuchengren.mvp.constant.SharePrefsValue;
@@ -42,12 +43,13 @@ public abstract class SuperActivity<P extends Presenter> extends AppCompatActivi
     }
 
     protected  void initTheme(){
-        String theme_style = SharePrefsUtil.getInstance().getString(SharePrefsKey.THEME_STYLE,SharePrefsValue.Theme.RED);
-        if(SharePrefsValue.Theme.BLUE.equals(theme_style)){
-            setTheme(R.style.BlueTheme);
-        }else{
-            setTheme(R.style.RedTheme);
-        }
+        SkinManager.INSTANCE.register(this);
+//        String theme_style = SharePrefsUtil.getInstance().getString(SharePrefsKey.THEME_STYLE,SharePrefsValue.Theme.RED);
+//        if(SharePrefsValue.Theme.BLUE.equals(theme_style)){
+//            setTheme(R.style.BlueTheme);
+//        }else{
+//            setTheme(R.style.RedTheme);
+//        }
     }
 
     protected  void showStatusBar(){
@@ -122,6 +124,7 @@ public abstract class SuperActivity<P extends Presenter> extends AppCompatActivi
             mPresenter.onDestroy();
             mPresenter.onDetach();
         }
+        SkinManager.INSTANCE.unregister(this);
         UiStack.getInstance().removeActivity(this);
         super.onDestroy();
     }

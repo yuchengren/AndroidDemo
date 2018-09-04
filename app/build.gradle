@@ -50,6 +50,7 @@ dependencies {
 //    api project(':kernel-mvp')
 //    api project(':kernel-union')
 //    api project(':kernel-task')
+    api project(':lib-changeskin')
 }
 
 configurations.all {

@@ -9,6 +9,7 @@ import com.ycr.kernel.log.config.LogFileConfig;
 import com.ycr.kernel.log.constants.LogLevel;
 import com.ycr.kernel.log.constants.LogPrinterType;
 import com.ycr.kernel.log.engine.ILogEngine;
+import com.ycr.lib.changeskin.SkinManager;
 import com.yuchengren.mvp.constant.Constants;
 import com.yuchengren.mvp.greendao.gen.DaoMaster;
 import com.yuchengren.mvp.greendao.gen.DaoSession;
@@ -50,6 +51,11 @@ public class DemoApplication extends Application {
         initGreenDao();
         initOkHttp();
         initLog();
+        initSkin();
+    }
+
+    private void initSkin() {
+		SkinManager.INSTANCE.init(this);
     }
 
     private String getAppRootPath(){

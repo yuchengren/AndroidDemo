@@ -68,34 +68,45 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="第三套方案：框架Android-skin-support引用远程APK主题"
+        android:text="第三套方案：封装lib_changskin引用远程APK主题"
         android:textSize="@dimen/text_size_medium"/>
     <TextView
-        android:id="@+id/tv_support_theme"
+        android:id="@+id/tv_changeskin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/test_color"
-        android:text="@string/test_text"
-        android:textSize="@dimen/test_size"
-        android:drawableRight="@drawable/test_drawable"/>
-
+        android:text="文字测试"
+        android:textSize="@dimen/text_size_medium"
+        android:tag="skin:textColor=test_color"/>
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:tag="skin:src=test_drawable"/>
     <RadioGroup
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
         <RadioButton
-            android:id="@+id/rb_support_theme_red"
+            android:id="@+id/rb_changeskin_red"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="引用红色主题"
             android:textSize="@dimen/text_size_medium"/>
         <RadioButton
-            android:id="@+id/rb_support_theme_blue"
+            android:id="@+id/rb_changeskin_blue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="引用蓝色主题"
             android:textSize="@dimen/text_size_medium"/>
     </RadioGroup>
+
+    <TextView
+        android:id="@+id/tv_clear_skin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="清除皮肤"
+        android:textSize="@dimen/text_size_medium"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"/>
 
 
 </LinearLayout>

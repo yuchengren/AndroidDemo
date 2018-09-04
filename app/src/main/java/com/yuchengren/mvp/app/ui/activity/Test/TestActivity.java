@@ -59,7 +59,7 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
 //				testDeadLock();
 //				testWaitNotify();
 //				toSelfSetting(this);
-				Log.e("222",String.valueOf(System.currentTimeMillis()));
+				Log.e("hi",String.valueOf(System.currentTimeMillis()));
 				break;
 			default:
 				break;

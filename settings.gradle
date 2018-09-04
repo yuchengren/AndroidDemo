@@ -1,5 +1,4 @@
 include ':app'//,':kernel:kernel-log'
-
 //include 'kernel-log'
 //project(":kernel-log").projectDir = file("kernel/kernel-log")
 
@@ -21,4 +20,6 @@ def includeModulesInPath(String path){
 }
 
 includeModulesInPath('kernel')
+includeModulesInPath('libs')
+includeModulesInPath('modules')
 

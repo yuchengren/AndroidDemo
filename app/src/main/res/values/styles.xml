@@ -1,15 +1,18 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppThemeBase" parent="Theme.AppCompat.Light.NoActionBar" />
-    <style name="AppTheme" parent="AppThemeBase">
-
+    <style name="AppThemeBase" parent="Theme.AppCompat.Light.NoActionBar" >
+        <item name="switch_text_color">#000000</item>
+        <item name="switch_text_size">@dimen/test_size</item>
+        <item name="switch_text">@string/black_color</item>
+        <item name="switch_drawable">@drawable/test_drawable</item>
     </style>
 
-
+    <style name="AppTheme" parent="AppThemeBase">
+    </style>
 
     <!--首屏透明-->
-    <style name="AppTheme.Fullscreen" parent="AppTheme">
+    <style name="AppTheme.Fullscreen" parent="AppThemeBase">
         <!--<item name="windowNoTitle">true</item>-->
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowIsTranslucent">true</item>
@@ -21,14 +24,14 @@
         <item name="switch_text_color">#FF0000</item>
         <item name="switch_text_size">@dimen/test_size</item>
         <item name="switch_text">@string/red_color</item>
-        <item name="switch_drawable">@drawable/red</item>
+        <item name="switch_drawable">@drawable/test_drawable_red</item>
     </style>
     <!--蓝色主题-->
     <style name="BlueTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="switch_text_color">#0000FF</item>
         <item name="switch_text_size">@dimen/text_size_small</item>
         <item name="switch_text">@string/blue_color</item>
-        <item name="switch_drawable">@drawable/blue</item>
+        <item name="switch_drawable">@drawable/test_drawable_blue</item>
     </style>
 
     <style name="ll_activity_top">
