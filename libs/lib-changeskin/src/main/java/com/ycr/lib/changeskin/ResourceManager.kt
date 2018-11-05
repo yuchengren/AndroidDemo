@@ -41,7 +41,7 @@ class ResourceManager(private val resources: Resources, private val pluginPkg: S
     }
 
     private fun appendNameSuffix(name: String): String{
-        return name.plus(if(TextUtils.isEmpty(pluginSuffix))"" else "_".plus(pluginSuffix))
+        return name.plus(if(TextUtils.isEmpty(pluginSuffix))"" else SkinConfig.SIGN_CONCAT_SUFFIX.plus(pluginSuffix))
     }
 
 }

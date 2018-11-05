@@ -1,6 +1,7 @@
 package com.yuchengren.mvp.app;
 
 import android.app.Application;
+import android.content.res.AssetManager;
 import android.os.Environment;
 
 import com.ycr.kernel.log.LogHelper;

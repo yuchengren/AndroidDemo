@@ -5,5 +5,5 @@ package com.ycr.kernel.task
  */
 interface ITaskBackground<R> {
 
-    fun <R> doInBackground(): R
+    fun doInBackground(): R
 }

@@ -2,23 +2,17 @@ package com.yuchengren.mvp.app.ui.activity.Test;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.Display;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 
 import com.yuchengren.mvp.R;
-import com.yuchengren.mvp.util.BlurUtil;
+import com.yuchengren.mvp.app.ui.view.ImageEditView;
 
 /**
  * Created by yuchengren on 2017/12/28.
@@ -27,29 +21,26 @@ import com.yuchengren.mvp.util.BlurUtil;
 public class TestActivity extends AppCompatActivity implements View.OnClickListener {
 
 	private Button btn_test;
+	private Button btn_test1;
+	private Button btn_test2;
+	private ImageEditView imageEditView;
 
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_test);
-		btn_test = findViewById(R.id.btn_test);
-		btn_test.setOnClickListener(this);
-		DisplayMetrics dm = getResources().getDisplayMetrics();
 
-		Log.e("dm","widthPixels="+dm.widthPixels + ",heightPixels=" + dm.heightPixels +
-				",scaledDensity=" + dm.scaledDensity + ",density="+dm.density+",densityDpi="+dm.densityDpi);
+//		btn_test = findViewById(R.id.btn_test);
+//		btn_test.setOnClickListener(this);
 
-//		View ll_test = findViewById(R.id.ll_test);
-//
-//		Display defaultDisplay = getWindow().getWindowManager().getDefaultDisplay();
-//
-//		Bitmap scaledBitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.test),defaultDisplay.getWidth() , defaultDisplay.getHeight(), false);
-//
-//		Bitmap bitmap = BlurUtil.blur(this,scaledBitmap, 25);
-//
-//		ll_test.setBackgroundDrawable(new BitmapDrawable(bitmap));
+		imageEditView = findViewById(R.id.idv);
+		imageEditView.setImageBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.test));
 
+		btn_test1 = findViewById(R.id.btn_test1);
+		btn_test1.setOnClickListener(this);
 
+		btn_test2 = findViewById(R.id.btn_test2);
+		btn_test2.setOnClickListener(this);
 	}
 
 	@Override
@@ -59,7 +50,12 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
 //				testDeadLock();
 //				testWaitNotify();
 //				toSelfSetting(this);
-				Log.e("hi",String.valueOf(System.currentTimeMillis()));
+				break;
+			case R.id.btn_test1:
+				imageEditView.clear();
+				break;
+			case R.id.btn_test2:
+				imageEditView.undo();
 				break;
 			default:
 				break;
