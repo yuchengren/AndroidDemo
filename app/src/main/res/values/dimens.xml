@@ -20,4 +20,6 @@
 
     <dimen name="activity_edge_margin">16dp</dimen>
     <dimen name="button_height">50dp</dimen>
+    <dimen name="teacher_paint_width">2dp</dimen>
+    <dimen name="graffiti_path_end_icon_size">24dp</dimen>
 </resources>

@@ -13,4 +13,8 @@
         <attr name="radius" format="dimension"/>
         <attr name="ratio" format="float" />
     </declare-styleable>
+    <declare-styleable name="ImageEditView">
+        <attr name="graffitiPaintColor" format="color"/>
+        <attr name="graffitiPaintWidth" format="dimension" />
+    </declare-styleable>
 </resources>

@@ -19,5 +19,6 @@
 
     <color name="divider">#E6E4E5</color> <!--分割线的颜色-->
     <color name="toast">#313131</color>
+    <color name="teacher_paint">#ff3c4e</color>
 
 </resources>

@@ -41,6 +41,7 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
 
 		btn_test2 = findViewById(R.id.btn_test2);
 		btn_test2.setOnClickListener(this);
+
 	}
 
 	@Override
