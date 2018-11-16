@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.yuchengren.mvp.app.ui.activity.CallPhoneBackActivity;
+import com.yuchengren.mvp.app.ui.activity.ImageEditActivity;
 import com.yuchengren.mvp.app.ui.activity.RxAndroidActivity;
 import com.yuchengren.mvp.app.ui.activity.Test.TestActivity;
 import com.yuchengren.mvp.app.ui.activity.ChangeThemeActivity;
@@ -32,8 +33,11 @@ public class MenuUtil {
 			case MenuCode.Second.TEST:
 				intent = new Intent(context, TestActivity.class);
 				break;
-			case MenuCode.Second.theme_SWITCH:
+			case MenuCode.Second.THEME_SWITCH:
 				intent = new Intent(context, ChangeThemeActivity.class);
+				break;
+			case MenuCode.Second.IMAGE_EDIT:
+				intent = new Intent(context, ImageEditActivity.class);
 				break;
 			default:
 				intent = new Intent();

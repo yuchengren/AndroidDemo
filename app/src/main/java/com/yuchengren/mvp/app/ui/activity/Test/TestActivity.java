@@ -2,7 +2,6 @@ package com.yuchengren.mvp.app.ui.activity.Test;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -12,7 +11,6 @@ import android.view.View;
 import android.widget.Button;
 
 import com.yuchengren.mvp.R;
-import com.yuchengren.mvp.app.ui.view.ImageEditView;
 
 /**
  * Created by yuchengren on 2017/12/28.
@@ -21,26 +19,15 @@ import com.yuchengren.mvp.app.ui.view.ImageEditView;
 public class TestActivity extends AppCompatActivity implements View.OnClickListener {
 
 	private Button btn_test;
-	private Button btn_test1;
-	private Button btn_test2;
-	private ImageEditView imageEditView;
 
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_test);
 
-//		btn_test = findViewById(R.id.btn_test);
-//		btn_test.setOnClickListener(this);
+		btn_test = findViewById(R.id.btn_test);
+		btn_test.setOnClickListener(this);
 
-		imageEditView = findViewById(R.id.idv);
-		imageEditView.setImageBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.test));
-
-		btn_test1 = findViewById(R.id.btn_test1);
-		btn_test1.setOnClickListener(this);
-
-		btn_test2 = findViewById(R.id.btn_test2);
-		btn_test2.setOnClickListener(this);
 
 	}
 
@@ -51,12 +38,6 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
 //				testDeadLock();
 //				testWaitNotify();
 //				toSelfSetting(this);
-				break;
-			case R.id.btn_test1:
-				imageEditView.clear();
-				break;
-			case R.id.btn_test2:
-				imageEditView.undo();
 				break;
 			default:
 				break;

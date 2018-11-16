@@ -1,5 +1,8 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions' //如有直接Id使用空间
+apply plugin: 'kotlin-kapt' //Kotlin Annotation processing tool
+
 apply plugin: 'org.greenrobot.greendao' // apply plugin
 
 android {

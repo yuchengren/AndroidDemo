@@ -15,7 +15,7 @@
         <!--android:layout_width="match_parent"-->
         <!--android:layout_height="match_parent"-->
         <!--android:src="@drawable/test"/>-->
-    
+    <!---->
     <!--<com.yuchengren.mvp.app.ui.view.CircleImageView-->
         <!--android:layout_width="250dp"-->
         <!--android:layout_height="250dp"-->
@@ -36,36 +36,11 @@
         <!--android:textColor="#ff0000"-->
         <!--android:textSize="@dimen/text_size_medium" />-->
 
-    <!--<Button-->
-        <!--android:id="@+id/btn_test"-->
-        <!--android:layout_width="0dp"-->
-        <!--android:layout_height="@dimen/button_height"-->
-        <!--android:text="@string/test"-->
-        <!--android:gravity="center"/>-->
-    <com.yuchengren.mvp.app.ui.view.ImageEditView
-        android:id="@+id/idv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <Button
+        android:id="@+id/btn_test"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/button_height"
+        android:text="@string/test"
+        android:gravity="center"/>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:orientation="horizontal">
-        <Button
-            android:id="@+id/btn_test1"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:text="清空"
-            android:gravity="center"
-            android:layout_weight="1"/>
-        <Button
-            android:id="@+id/btn_test2"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:text="撤销"
-            android:gravity="center"
-            android:layout_weight="1"/>
-    </LinearLayout>
-
-    <!--<include layout="@layout/layout_test" />-->
 </RelativeLayout>
