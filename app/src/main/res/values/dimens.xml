@@ -9,11 +9,11 @@
     <dimen name="test_size">20sp</dimen>
     <!--字体大小-->
 
-    <dimen name="text_size_more_large"></dimen>
-    <dimen name="text_size_large"></dimen>
+    <dimen name="text_size_more_large">20dp</dimen>
+    <dimen name="text_size_large">18dp</dimen>
     <dimen name="text_size_medium">16dp</dimen>
     <dimen name="text_size_small">14dp</dimen>
-    <dimen name="text_size_more_small"></dimen>
+    <dimen name="text_size_more_small">12sp</dimen>
 
     <dimen name="iv_menu_width">42dp</dimen>
     <dimen name="iv_menu_height">42dp</dimen>

@@ -1,12 +1,16 @@
 package com.yuchengren.mvp.app.ui.view.imageedit
 
+import android.graphics.Bitmap
 import android.graphics.Matrix
 import android.graphics.RectF
+import java.io.BufferedOutputStream
+import java.io.File
+import java.io.FileOutputStream
 
 /**
  * Created by yuchengren on 2018/11/16.
  */
-object ImgEditHelper {
+object ImgHelper {
 
     fun getFitHomingValues(winRectF: RectF, imgRectF: RectF): ImgHomingValues {
         val imageRectF = RectF(imgRectF)
@@ -43,6 +47,21 @@ object ImgEditHelper {
         }
 
         return homingValues
+    }
+
+    fun save(bitmap: Bitmap, filePath: String) {
+        val file = File(filePath)
+        if (!file.parentFile.exists()) {
+            file.parentFile.mkdirs() // 创建文件夹
+        }
+        try {
+            val bos = BufferedOutputStream(FileOutputStream(file))
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos) // 向缓冲区之中压缩图片
+            bos.flush()
+            bos.close()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
 

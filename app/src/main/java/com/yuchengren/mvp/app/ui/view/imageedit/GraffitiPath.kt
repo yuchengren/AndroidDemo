@@ -24,19 +24,22 @@ class GraffitiPath(var path: Path = Path()){
 
     fun lineTo(x: Float,y: Float,matrix: Matrix? = null){
         val array = getMatrixMapPointArray(x, y, matrix)
-        pathData.append("L${array[0].toInt()}$SIGN_COLON${array[1].toInt()}")
         path.lineTo(array[0],array[1])
-        lastX = array[0]
-        lastY = array[1]
+        //过滤 位置相同的点
+        if(lastX != array[0] || lastY != array[1]){
+            pathData.append("L${array[0].toInt()}$SIGN_COLON${array[1].toInt()}")
+            lastX = array[0]
+            lastY = array[1]
+        }
 //        pointCount++
     }
 
     fun moveTo(x: Float,y: Float,matrix: Matrix? = null){
         val array = getMatrixMapPointArray(x, y, matrix)
-        pathData.append("M${array[0].toInt()}$SIGN_COLON${array[1].toInt()}")
         path.moveTo(array[0],array[1])
 //        startX = array[0]
 //        startY = array[1]
+        pathData.append("M${array[0].toInt()}$SIGN_COLON${array[1].toInt()}")
         lastX = array[0]
         lastY = array[1]
 //        pointCount++

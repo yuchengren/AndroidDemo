@@ -25,7 +25,8 @@
             android:value="2.1"/>
 
         <activity android:name=".app.ui.activity.SplashActivity"
-            android:launchMode="singleInstance">
+            android:launchMode="singleInstance"
+            android:theme="@style/AppTheme.Fullscreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -46,7 +47,8 @@
         </activity>
         <activity android:name=".app.ui.activity.ChangeThemeActivity"/>
 
-        <activity android:name=".app.ui.activity.ImageEditActivity"/>
+        <activity android:name=".app.ui.activity.ImageEditActivity"
+            android:theme="@style/AppTheme.Fullscreen"/>
 
     </application>
 

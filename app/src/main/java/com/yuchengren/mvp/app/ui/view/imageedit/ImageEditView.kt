@@ -5,11 +5,13 @@ import android.content.Context
 import android.graphics.*
 import android.support.annotation.Nullable
 import android.util.AttributeSet
+import android.util.Log
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.ScaleGestureDetector
 import android.view.View
 import com.yuchengren.mvp.R
+import com.yuchengren.mvp.util.CompressUtils
 import java.util.*
 import java.util.concurrent.atomic.AtomicInteger
 
@@ -36,6 +38,8 @@ class ImageEditView : View {
     private lateinit var graffitiPaint: Paint
     private lateinit var pathEndIconTextPaint: Paint
     private lateinit var pathEndIconBgPaint: Paint
+    private var pathEndIconSize = 0f //路径末端的圆圈大小
+    private var pathEndIconInnerSize = 0f  //路径末端的圆圈内部的图标大小
 
     private var pathList: LinkedList<GraffitiPath> = LinkedList() //已编译完成的涂鸦路径
     private var editGraffitiPath: GraffitiPath = GraffitiPath() //正在编辑的涂鸦路径
@@ -48,6 +52,7 @@ class ImageEditView : View {
     private var imageRectF = RectF() //完整图片区域
     private var hasInitHoming = false //是否已经初始化原始图片状态
     private var imageScale: Float = 1f //图片的当前已缩放的比例
+    private var initScale: Float = 1f //图片居中适配屏幕的初始化缩放比例
     private var homingAnimator: ImgHomingAnimator? = null // 图片归位动画
 
     private var pointerDownTime = 0L //触摸down事件的时间
@@ -58,7 +63,7 @@ class ImageEditView : View {
             style = Paint.Style.STROKE //样式 描边
             strokeWidth = graffitiPaintWidth.toFloat() //描边宽度
             color = graffitiPaintColor //颜色
-            strokeCap = Paint.Cap.ROUND //起始端的线帽的类型 圆角
+            strokeCap = Paint.Cap.BUTT //起始端的线帽的类型 圆角
             strokeJoin = Paint.Join.ROUND //多线条连接拐角
             //PathEffect是用来控制绘制轮廓(线条)的方式
             //可以使用圆角来代替尖锐的角从而对基本图形的形状尖锐的边角进行平滑。
@@ -67,7 +72,7 @@ class ImageEditView : View {
 
         pathEndIconTextPaint = Paint().apply {
             textAlign = Paint.Align.CENTER
-            textSize = context.resources.getDimensionPixelSize(R.dimen.graffiti_path_end_icon_size).toFloat()
+            color = Color.WHITE
         }
         pathEndIconBgPaint = Paint().apply { color = graffitiPaintColor }
     }
@@ -199,20 +204,21 @@ class ImageEditView : View {
         if(graffitiPath.remarkStatus == GraffitiPath.RemarkStatus.MSG_NONE){
             return
         }
-        val size = context.resources.getDimensionPixelSize(R.dimen.text_size_little).toFloat()
+
         if(graffitiPath.remarkStatus == GraffitiPath.RemarkStatus.MSG_DONE){
-            canvas.drawCircle(graffitiPath.lastX,graffitiPath.lastY,size,pathEndIconBgPaint)
-            canvas.drawText(graffitiPath.msgOrder.toString(),graffitiPath.lastX,graffitiPath.lastY,pathEndIconTextPaint)
+            canvas.drawCircle(graffitiPath.lastX,graffitiPath.lastY,pathEndIconSize / 2,pathEndIconBgPaint)
+            val fm = pathEndIconTextPaint.fontMetricsInt
+            canvas.drawText(graffitiPath.msgOrder.toString(),graffitiPath.lastX ,graffitiPath.lastY -(fm.bottom + fm.top) / 2,pathEndIconTextPaint)
         }else{
             if(isSave) return
-            canvas.drawCircle(graffitiPath.lastX,graffitiPath.lastY,size,pathEndIconBgPaint)
+            canvas.drawCircle(graffitiPath.lastX,graffitiPath.lastY,pathEndIconSize / 2,pathEndIconBgPaint)
             var bitmap: Bitmap? = null
             if(graffitiPath.remarkStatus == GraffitiPath.RemarkStatus.MSG_ADD){
                 bitmap = BitmapFactory.decodeResource(context.resources,R.drawable.ic_path_add_remark)
             }else if(graffitiPath.remarkStatus == GraffitiPath.RemarkStatus.MSG_EDITING){
                 bitmap = BitmapFactory.decodeResource(context.resources,R.drawable.ic_path_editing)
             }
-            val halfSize = size / 2
+            val halfSize = pathEndIconInnerSize / 2
             val rectF = RectF(graffitiPath.lastX - halfSize,graffitiPath.lastY - halfSize,
                     graffitiPath.lastX + halfSize,graffitiPath.lastY + halfSize)
             canvas.drawBitmap(bitmap,null,rectF,null)
@@ -347,6 +353,7 @@ class ImageEditView : View {
     }
 
     private fun onPathMove(event: MotionEvent): Boolean {
+//        快速滑动时，move回调里有逻辑操作，不是全部及时处理会丢失，实际处理的点数小于event回调的点数
         if(editGraffitiPath.isSamePointer(event.getPointerId(0))){
             if(isPointInImageRecF(event.x,event.y)){
                 if(editGraffitiPath.isEmpty()){
@@ -374,21 +381,33 @@ class ImageEditView : View {
     }
 
     private fun onPathDone(event: MotionEvent): Boolean {
+        val bitmap = this.bitmap?: return false
         if(editGraffitiPath.isEmpty()){
             return false
         }
-//        快速滑动时，move回调里有逻辑操作，不是全部及时处理会丢失，实际处理的点数小于event回调的点数
-//        if(editGraffitiPath.pointCount < PATH_EFFECT_POINT_COUNT){
-//            editGraffitiPath.reset()
-//            invalidate()
-//            return false
-//        }
+        val radius = pathEndIconSize / 2
+        if(editGraffitiPath.lastX + radius > bitmap.width){
+            editGraffitiPath.lastX = bitmap.width - radius
+        }else if(editGraffitiPath.lastX - radius < 0f){
+            editGraffitiPath.lastX = radius
+        }
+        if(editGraffitiPath.lastY + radius > bitmap.height){
+            editGraffitiPath.lastY = bitmap.height - radius
+        }else if(editGraffitiPath.lastY - radius < 0f){
+            editGraffitiPath.lastY = radius
+        }
+
         editGraffitiPath.id = pathIdAuto.getAndIncrement()
         editGraffitiPath.remarkStatus = GraffitiPath.RemarkStatus.MSG_ADD
         pathList.add(editGraffitiPath)
         pathEventListener?.onPathDrawDone(editGraffitiPath.id)
-//        Log.e("onPathDone length",editGraffitiPath.pathData.length.toString())
-//        Log.e("onPathDone",editGraffitiPath.pathData.toString())
+
+        Log.e("onPathDone",editGraffitiPath.pathData.toString())
+        Log.e("onPathDone length",editGraffitiPath.pathData.toString().toByteArray().size.toString())
+
+        val compressString = CompressUtils.compressString(editGraffitiPath.pathData.toString())
+        Log.e("compressString",compressString)
+        Log.e("compressString length",compressString.length.toString())
         editGraffitiPath = GraffitiPath()
 
         invalidate()
@@ -447,6 +466,10 @@ class ImageEditView : View {
         matrix.postTranslate(windowRectF.centerX() - imageRectF.centerX(),windowRectF.centerY() - imageRectF.centerY())
         matrix.mapRect(imageRectF) //通过矩阵变换矩形
         imageScale = scale
+        initScale = scale
+        pathEndIconTextPaint.textSize = context.resources.getDimensionPixelSize(R.dimen.text_size_small).toFloat() / initScale
+        pathEndIconInnerSize = context.resources.getDimensionPixelSize(R.dimen.text_size_small).toFloat() / initScale
+        pathEndIconSize = context.resources.getDimensionPixelSize(R.dimen.graffiti_path_end_icon_size).toFloat() / initScale
         hasInitHoming = true
     }
     /**
@@ -582,7 +605,7 @@ class ImageEditView : View {
         val winRectF = RectF(windowRectF)
         winRectF.offset(scrollX.toFloat(),scrollY.toFloat())
 
-        homingValues.scrollConcat(ImgEditHelper.getFitHomingValues(winRectF,imgRectF))
+        homingValues.scrollConcat(ImgHelper.getFitHomingValues(winRectF,imgRectF))
         return homingValues
     }
 
