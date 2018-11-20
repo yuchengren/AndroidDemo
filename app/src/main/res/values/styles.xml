@@ -29,7 +29,7 @@
     <!--蓝色主题-->
     <style name="BlueTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="switch_text_color">#0000FF</item>
-        <item name="switch_text_size">@dimen/text_size_small</item>
+        <item name="switch_text_size">@dimen/text_size_little</item>
         <item name="switch_text">@string/blue_color</item>
         <item name="switch_drawable">@drawable/test_drawable_blue</item>
     </style>

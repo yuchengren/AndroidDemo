@@ -14,8 +14,6 @@ class GraffitiPath(var path: Path = Path()){
 
     var remarkStatus: String = RemarkStatus.MSG_NONE //当前批注的状态
     var msgOrder: Int = 0 //标注信息的序号
-    //    var startX: Float = 0f
-//    var startY: Float = 0f
     var lastX: Float = 0f //轨迹最后一个点的横坐标
     var lastY: Float = 0f //轨迹最后一个点的纵坐标
 //    var pointCount: Int = 0 //轨迹点的数目
@@ -25,11 +23,11 @@ class GraffitiPath(var path: Path = Path()){
     fun lineTo(x: Float,y: Float,matrix: Matrix? = null){
         val array = getMatrixMapPointArray(x, y, matrix)
         path.lineTo(array[0],array[1])
+        lastX = array[0]
+        lastY = array[1]
         //过滤 位置相同的点
-        if(lastX != array[0] || lastY != array[1]){
-            pathData.append("L${array[0].toInt()}$SIGN_COLON${array[1].toInt()}")
-            lastX = array[0]
-            lastY = array[1]
+        if(lastX.toInt() != array[0].toInt() || lastY.toInt() != array[1].toInt()){
+            pathData.append("l${array[0].toInt() - lastX.toInt()}$SIGN_COLON${array[1].toInt()-lastY.toInt()}")
         }
 //        pointCount++
     }
@@ -37,9 +35,7 @@ class GraffitiPath(var path: Path = Path()){
     fun moveTo(x: Float,y: Float,matrix: Matrix? = null){
         val array = getMatrixMapPointArray(x, y, matrix)
         path.moveTo(array[0],array[1])
-//        startX = array[0]
-//        startY = array[1]
-        pathData.append("M${array[0].toInt()}$SIGN_COLON${array[1].toInt()}")
+        pathData.append("m${array[0].toInt()}$SIGN_COLON${array[1].toInt()}")
         lastX = array[0]
         lastY = array[1]
 //        pointCount++
@@ -94,7 +90,8 @@ class GraffitiPath(var path: Path = Path()){
             val svgCmdIndexList = getSVGCmdIndexList(svgStr)
             var lastPoint = PointF()
             svgCmdIndexList.forEachIndexed { index, position ->
-                when(svgStr[position]){
+                val svgCmdChar = svgStr[position]
+                when(svgCmdChar){
                     'M','m' -> {
                         val variables = findCmdVariables(svgStr, svgCmdIndexList, index)
                         if(variables.size < 2){
@@ -108,7 +105,9 @@ class GraffitiPath(var path: Path = Path()){
                         if(variables.size < 2){
                             return@forEachIndexed
                         }
-                        lastPoint.set(variables[0].toFloat(),variables[1].toFloat())
+                        val x = if(svgCmdChar == 'L') variables[0].toFloat() else variables[0].toFloat() + lastPoint.x
+                        val y = if(svgCmdChar == 'L') variables[1].toFloat() else variables[1].toFloat() + lastPoint.y
+                        lastPoint.set(x,y)
                         path.lineTo(lastPoint.x,lastPoint.y)
                     }
                     //基于上个坐标在水平方向上划线，因此y轴不变
@@ -117,7 +116,8 @@ class GraffitiPath(var path: Path = Path()){
                         if(variables.isEmpty()){
                             return@forEachIndexed
                         }
-                        lastPoint.set(variables[0].toFloat(),lastPoint.y)
+                        val x = if(svgCmdChar == 'H') variables[0].toFloat() else variables[0].toFloat() + lastPoint.x
+                        lastPoint.set(x,lastPoint.y)
                         path.lineTo(lastPoint.x,lastPoint.y)
                     }
                     //基于上个坐标在水平方向上划线，因此x轴不变
@@ -126,7 +126,8 @@ class GraffitiPath(var path: Path = Path()){
                         if(variables.isEmpty()){
                             return@forEachIndexed
                         }
-                        lastPoint.set(lastPoint.x,variables[0].toFloat())
+                        val y = if(svgCmdChar == 'V') variables[1].toFloat() else variables[1].toFloat() + lastPoint.y
+                        lastPoint.set(lastPoint.x,y)
                         path.lineTo(lastPoint.x,lastPoint.y)
                     }
                     //3次贝塞尔曲线
@@ -135,9 +136,14 @@ class GraffitiPath(var path: Path = Path()){
                         if(variables.size < 6){
                             return@forEachIndexed
                         }
-                        lastPoint.set(variables[4].toFloat(),variables[5].toFloat())
-                        path.cubicTo(variables[0].toFloat(),variables[1].toFloat(),variables[2].toFloat(),variables[3].toFloat(),
-                                variables[4].toFloat(),variables[5].toFloat())
+                        val x1 = if(svgCmdChar == 'C') variables[0].toFloat() else variables[0].toFloat() + lastPoint.x
+                        val y1 = if(svgCmdChar == 'C') variables[1].toFloat() else variables[1].toFloat() + lastPoint.y
+                        val x2 = if(svgCmdChar == 'C') variables[2].toFloat() else variables[2].toFloat() + lastPoint.x
+                        val y2 = if(svgCmdChar == 'C') variables[3].toFloat() else variables[3].toFloat() + lastPoint.y
+                        val x3 = if(svgCmdChar == 'C') variables[4].toFloat() else variables[4].toFloat() + lastPoint.x
+                        val y3 = if(svgCmdChar == 'C') variables[5].toFloat() else variables[5].toFloat() + lastPoint.y
+                        lastPoint.set(x3,y3)
+                        path.cubicTo(x1,y1,x2,y2,x3,y3)
                     }
                     //一般S会跟在C或是S命令后面使用，用前一个点做起始控制点
                     'S','s' ->{
@@ -145,9 +151,12 @@ class GraffitiPath(var path: Path = Path()){
                         if(variables.size < 4){
                             return@forEachIndexed
                         }
-                        path.cubicTo(lastPoint.x,lastPoint.y,variables[0].toFloat(),variables[1].toFloat(),
-                                variables[2].toFloat(),variables[3].toFloat())
-                        lastPoint.set(variables[2].toFloat(),variables[3].toFloat())
+                        val x2 = if(svgCmdChar == 'S') variables[0].toFloat() else variables[0].toFloat() + lastPoint.x
+                        val y2 = if(svgCmdChar == 'S') variables[1].toFloat() else variables[1].toFloat() + lastPoint.y
+                        val x3 = if(svgCmdChar == 'S') variables[2].toFloat() else variables[2].toFloat() + lastPoint.x
+                        val y3 = if(svgCmdChar == 'S') variables[3].toFloat() else variables[3].toFloat() + lastPoint.y
+                        path.cubicTo(lastPoint.x,lastPoint.y,x2,y2,x3,y3)
+                        lastPoint.set(x3,y3)
                     }
                     //二次贝塞尔曲线
                     'Q','q'->{
@@ -155,8 +164,12 @@ class GraffitiPath(var path: Path = Path()){
                         if(variables.size < 4){
                             return@forEachIndexed
                         }
-                        path.quadTo(variables[0].toFloat(),variables[1].toFloat(),variables[2].toFloat(),variables[3].toFloat())
-                        lastPoint.set(variables[2].toFloat(),variables[3].toFloat())
+                        val x1 = if(svgCmdChar == 'Q') variables[0].toFloat() else variables[0].toFloat() + lastPoint.x
+                        val y1 = if(svgCmdChar == 'Q') variables[1].toFloat() else variables[1].toFloat() + lastPoint.y
+                        val x2 = if(svgCmdChar == 'Q') variables[2].toFloat() else variables[2].toFloat() + lastPoint.x
+                        val y2 = if(svgCmdChar == 'Q') variables[3].toFloat() else variables[3].toFloat() + lastPoint.y
+                        path.quadTo(x1,y1,x2,y2)
+                        lastPoint.set(x2,y2)
                     }
                     //T命令会跟在Q后面使用，用Q的结束点做起始点
                     'T','t'->{
@@ -164,13 +177,14 @@ class GraffitiPath(var path: Path = Path()){
                         if(variables.size < 2){
                             return@forEachIndexed
                         }
-                        path.quadTo(lastPoint.x,lastPoint.y,variables[0].toFloat(),variables[1].toFloat())
-                        lastPoint.set(variables[0].toFloat(),variables[1].toFloat())
+                        val x2 = if(svgCmdChar == 'T') variables[0].toFloat() else variables[0].toFloat() + lastPoint.x
+                        val y2 = if(svgCmdChar == 'T') variables[1].toFloat() else variables[1].toFloat() + lastPoint.y
+                        path.quadTo(lastPoint.x,lastPoint.y,x2,y2)
+                        lastPoint.set(x2,y2)
                     }
                     //画弧 待研究
                     'A','a'->{
                         val variables = findCmdVariables(svgStr, svgCmdIndexList, index)
-
                     }
                     'Z','z' -> path.close()
                 }

@@ -9,11 +9,11 @@
     <dimen name="test_size">20sp</dimen>
     <!--字体大小-->
 
-    <dimen name="text_size_more_large">20dp</dimen>
-    <dimen name="text_size_large">18dp</dimen>
-    <dimen name="text_size_medium">16dp</dimen>
-    <dimen name="text_size_small">14dp</dimen>
-    <dimen name="text_size_more_small">12sp</dimen>
+    <dimen name="text_size_more_large">20sp</dimen>
+    <dimen name="text_size_large">18sp</dimen>
+    <dimen name="text_size_medium">16sp</dimen>
+    <dimen name="text_size_little">14sp</dimen>
+    <dimen name="text_size_little_more">12sp</dimen>
 
     <dimen name="iv_menu_width">42dp</dimen>
     <dimen name="iv_menu_height">42dp</dimen>
@@ -22,5 +22,5 @@
     <dimen name="button_height">50dp</dimen>
     <dimen name="teacher_paint_width">2dp</dimen>
     <dimen name="graffiti_path_end_icon_size">24dp</dimen>
-    <dimen name="text_size_little">14sp</dimen>
+
 </resources>

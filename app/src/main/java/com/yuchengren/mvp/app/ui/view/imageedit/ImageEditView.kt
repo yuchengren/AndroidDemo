@@ -5,13 +5,11 @@ import android.content.Context
 import android.graphics.*
 import android.support.annotation.Nullable
 import android.util.AttributeSet
-import android.util.Log
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.ScaleGestureDetector
 import android.view.View
 import com.yuchengren.mvp.R
-import com.yuchengren.mvp.util.CompressUtils
 import java.util.*
 import java.util.concurrent.atomic.AtomicInteger
 
@@ -30,7 +28,7 @@ class ImageEditView : View {
     }
     private val pathIdAuto: AtomicInteger = AtomicInteger(0)
     private val msgOrderAuto: AtomicInteger = AtomicInteger(0)
-    private var pathEventListener: PathEventListener? = null
+    var pathEventListener: PathEventListener? = null
     private var bitmap: Bitmap? = null
 
     private var graffitiPaintColor: Int = 0 //涂鸦画笔的颜色
@@ -402,12 +400,11 @@ class ImageEditView : View {
         pathList.add(editGraffitiPath)
         pathEventListener?.onPathDrawDone(editGraffitiPath.id)
 
-        Log.e("onPathDone",editGraffitiPath.pathData.toString())
-        Log.e("onPathDone length",editGraffitiPath.pathData.toString().toByteArray().size.toString())
-
-        val compressString = CompressUtils.compressString(editGraffitiPath.pathData.toString())
-        Log.e("compressString",compressString)
-        Log.e("compressString length",compressString.length.toString())
+//        Log.e("onPathDone",editGraffitiPath.pathData.toString())
+//        Log.e("onPathDone length,",editGraffitiPath.pathData.toString().toByteArray().size.toString())
+//        val compressString = CompressUtils.compressString(editGraffitiPath.pathData.toString())
+//        Log.e("compressString",compressString)
+//        Log.e("compressString length",compressString.length.toString())
         editGraffitiPath = GraffitiPath()
 
         invalidate()
@@ -467,8 +464,8 @@ class ImageEditView : View {
         matrix.mapRect(imageRectF) //通过矩阵变换矩形
         imageScale = scale
         initScale = scale
-        pathEndIconTextPaint.textSize = context.resources.getDimensionPixelSize(R.dimen.text_size_small).toFloat() / initScale
-        pathEndIconInnerSize = context.resources.getDimensionPixelSize(R.dimen.text_size_small).toFloat() / initScale
+        pathEndIconTextPaint.textSize = context.resources.getDimensionPixelSize(R.dimen.text_size_little).toFloat() / initScale
+        pathEndIconInnerSize = context.resources.getDimensionPixelSize(R.dimen.text_size_little).toFloat() / initScale
         pathEndIconSize = context.resources.getDimensionPixelSize(R.dimen.graffiti_path_end_icon_size).toFloat() / initScale
         hasInitHoming = true
     }
@@ -529,10 +526,6 @@ class ImageEditView : View {
             }
         }
         return null
-    }
-
-    fun setEventListener(pathEventListener: PathEventListener?){
-        this.pathEventListener = pathEventListener
     }
 
     interface PathEventListener{
