@@ -7,10 +7,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
 import com.yuchengren.mvp.R;
+import com.yuchengren.mvp.util.CompressUtils;
 
 /**
  * Created by yuchengren on 2017/12/28.
@@ -33,6 +35,8 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
 	public void onClick(View v) {
 		switch (v.getId()){
 			case R.id.btn_test:
+				Log.e("btn_test", CompressUtils.INSTANCE.uncompressString("H4sIAAAAAAAAAD2Myw3AMAhDF6JSaCCQnej+1xryOTyMBfbHTck4HqYWC46XemihYWCSBTNGLY08\n" +
+						"    RzpfzosJ7OoAmRVwupRkM3DvIPul/gb0eL+7lsrOrS6WH2wqmLS1AAAA"));
 //				testDeadLock();
 //				testWaitNotify();
 //				toSelfSetting(this);

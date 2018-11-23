@@ -13,6 +13,7 @@ class GraffitiPath(var path: Path = Path()){
     var pathData: StringBuilder = StringBuilder()
 
     var remarkStatus: String = RemarkStatus.MSG_NONE //当前批注的状态
+    var remarkMsg: String = "" //批注的信息
     var msgOrder: Int = 0 //标注信息的序号
     var lastX: Float = 0f //轨迹最后一个点的横坐标
     var lastY: Float = 0f //轨迹最后一个点的纵坐标
@@ -23,12 +24,12 @@ class GraffitiPath(var path: Path = Path()){
     fun lineTo(x: Float,y: Float,matrix: Matrix? = null){
         val array = getMatrixMapPointArray(x, y, matrix)
         path.lineTo(array[0],array[1])
-        lastX = array[0]
-        lastY = array[1]
         //过滤 位置相同的点
         if(lastX.toInt() != array[0].toInt() || lastY.toInt() != array[1].toInt()){
             pathData.append("l${array[0].toInt() - lastX.toInt()}$SIGN_COLON${array[1].toInt()-lastY.toInt()}")
         }
+        lastX = array[0]
+        lastY = array[1]
 //        pointCount++
     }
 

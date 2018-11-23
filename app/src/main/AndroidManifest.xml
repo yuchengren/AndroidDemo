@@ -48,8 +48,9 @@
         <activity android:name=".app.ui.activity.ChangeThemeActivity"/>
 
         <activity android:name=".app.ui.activity.ImageEditActivity"
-            android:theme="@style/AppTheme.Fullscreen"/>
-
+            android:theme="@style/AppTheme.Fullscreen"
+            android:screenOrientation="fullSensor"
+            android:configChanges="keyboardHidden|orientation|screenSize"/>
     </application>
 
 </manifest>

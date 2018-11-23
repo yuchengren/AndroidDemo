@@ -3,6 +3,8 @@ package com.yuchengren.mvp.app.ui.view.imageedit
 import android.animation.AnimatorListenerAdapter
 import android.content.Context
 import android.graphics.*
+import android.os.Handler
+import android.os.Looper
 import android.support.annotation.Nullable
 import android.util.AttributeSet
 import android.view.GestureDetector
@@ -10,6 +12,7 @@ import android.view.MotionEvent
 import android.view.ScaleGestureDetector
 import android.view.View
 import com.yuchengren.mvp.R
+
 import java.util.*
 import java.util.concurrent.atomic.AtomicInteger
 
@@ -22,12 +25,19 @@ class ImageEditView : View {
         const val SCALE_MAX = 3f //缩放的最大倍数
         const val SCALE_MIN = 1f //缩放的最小倍数
         const val PATH_COUNT_MAX = 10 //涂鸦最大可画的轨迹数
+        const val PATH_DATA_MAX_LENGTH = 5000 //单条涂鸦最大可画的记录数据长度
 
         const val PATH_EFFECT_INTERVAL = 200L //轨迹描点生效时间
         const val PATH_EFFECT_POINT_COUNT = 3 //轨迹描点生效的个数
+
+        const val PATH_ID_AUTO_INIT = -1
+        const val MSG_ORDER_AUTO_INIT = 0
     }
-    private val pathIdAuto: AtomicInteger = AtomicInteger(0)
-    private val msgOrderAuto: AtomicInteger = AtomicInteger(0)
+
+    private var mainHandler: Handler = Handler(Looper.getMainLooper())
+    private var listenPathOverMaxEventRunnable: Runnable? = null
+    private val pathIdAuto: AtomicInteger = AtomicInteger(PATH_ID_AUTO_INIT)
+    private val pathMsgOrderAuto: AtomicInteger = AtomicInteger(MSG_ORDER_AUTO_INIT)
     var pathEventListener: PathEventListener? = null
     private var bitmap: Bitmap? = null
 
@@ -39,7 +49,7 @@ class ImageEditView : View {
     private var pathEndIconSize = 0f //路径末端的圆圈大小
     private var pathEndIconInnerSize = 0f  //路径末端的圆圈内部的图标大小
 
-    private var pathList: LinkedList<GraffitiPath> = LinkedList() //已编译完成的涂鸦路径
+    var pathList: LinkedList<GraffitiPath> = LinkedList() //已编译完成的涂鸦路径
     private var editGraffitiPath: GraffitiPath = GraffitiPath() //正在编辑的涂鸦路径
     private var currentTouchInEndIconPath: GraffitiPath? = null //当前触摸点在其末端Icon区域范围内的路径 处理为点击事件
 
@@ -59,7 +69,6 @@ class ImageEditView : View {
         graffitiPaint = Paint().apply {
             isAntiAlias = true
             style = Paint.Style.STROKE //样式 描边
-            strokeWidth = graffitiPaintWidth.toFloat() //描边宽度
             color = graffitiPaintColor //颜色
             strokeCap = Paint.Cap.BUTT //起始端的线帽的类型 圆角
             strokeJoin = Paint.Join.ROUND //多线条连接拐角
@@ -123,7 +132,7 @@ class ImageEditView : View {
     }
 
     private fun scale(scaleFactor: Float, px: Float, py: Float) {
-        if(scaleFactor == 1f || scaleFactor * imageScale > SCALE_MAX){
+        if(scaleFactor == 1f || scaleFactor * imageScale / initScale > SCALE_MAX){
             return
         }
         Matrix().apply { setScale(scaleFactor, scaleFactor,px,py) }.mapRect(imageRectF)
@@ -146,11 +155,7 @@ class ImageEditView : View {
         }
         this.bitmap = bitmap
         hasInitHoming = false
-        invalidate()
-    }
-
-    fun setPaths(path: Path){
-        pathList.add(GraffitiPath(path))
+        initHoming()
         invalidate()
     }
 
@@ -219,7 +224,9 @@ class ImageEditView : View {
             val halfSize = pathEndIconInnerSize / 2
             val rectF = RectF(graffitiPath.lastX - halfSize,graffitiPath.lastY - halfSize,
                     graffitiPath.lastX + halfSize,graffitiPath.lastY + halfSize)
-            canvas.drawBitmap(bitmap,null,rectF,null)
+            if(bitmap != null){
+                canvas.drawBitmap(bitmap,null,rectF,null)
+            }
         }
     }
 
@@ -236,17 +243,17 @@ class ImageEditView : View {
 //                Log.e("ACTION_POINTER_DOWN","${event?.x},${event?.y},${event?.actionMasked},${event?.getPointerId(0)}")
                 if(System.currentTimeMillis() - pointerDownTime < PATH_EFFECT_INTERVAL){
                     //为解决双指操作，落在屏幕上的时间不一致导致其中先落的手指会画轨迹的问题
+                    listenPathOverMaxEventRunnable?.let { mainHandler.removeCallbacks(it)}
                     editGraffitiPath.reset()
                 }
                 pointerDownTime = 0
             }
         }
-        var handled: Boolean
-        if(event.pointerCount > 1){
-            onPathDone(event)
-            handled = scaleGestureDetector.onTouchEvent(event).or(gestureDetector.onTouchEvent(event))
+        val handled: Boolean = if(event.pointerCount > 1){
+            onPathDone()
+            scaleGestureDetector.onTouchEvent(event).or(gestureDetector.onTouchEvent(event))
         }else{
-            handled = onTouchEventPath(event)
+            onTouchEventPath(event)
         }
 
         when(event.actionMasked){
@@ -301,7 +308,7 @@ class ImageEditView : View {
             MotionEvent.ACTION_UP,  MotionEvent.ACTION_CANCEL ->{
                 val currentTouchInEndIconPath = currentTouchInEndIconPath
                 return if(currentTouchInEndIconPath == null){
-                    editGraffitiPath.isSamePointer(event.getPointerId(0)) && onPathDone(event)
+                    editGraffitiPath.isSamePointer(event.getPointerId(0)) && onPathDone()
                 }else{
                     onClickPathEndIcon(currentTouchInEndIconPath)
                     true
@@ -329,7 +336,7 @@ class ImageEditView : View {
             if(it.remarkStatus == GraffitiPath.RemarkStatus.MSG_NONE){
                 return@forEach
             }
-            val halfSize = context.resources.getDimensionPixelSize(R.dimen.graffiti_path_end_icon_size).toFloat() /2
+            val halfSize = pathEndIconSize / 2
             val endIconRectF = RectF(it.lastX - halfSize,it.lastY - halfSize,
                     it.lastX + halfSize,it.lastY + halfSize)
             if(endIconRectF.contains(pointArray[0],pointArray[1])){
@@ -342,8 +349,13 @@ class ImageEditView : View {
 
     private fun onPathBegin(event: MotionEvent): Boolean {
         if(pathList.size >= PATH_COUNT_MAX){
-            pathEventListener?.onDrawPathOverMax(pathList.size)
+            listenPathOverMaxEventRunnable = Runnable {
+                pathEventListener?.onDrawPathOverMax(pathList.size)
+                this@ImageEditView.listenPathOverMaxEventRunnable = null
+            }
+            mainHandler.postDelayed(listenPathOverMaxEventRunnable, PATH_EFFECT_INTERVAL + 1)
             return true
+
         }
         editGraffitiPath.moveTo(event.x,event.y,getOriginPathMatrix())
         editGraffitiPath.pointerId = event.getPointerId(0)
@@ -357,6 +369,9 @@ class ImageEditView : View {
                 if(editGraffitiPath.isEmpty()){
                     if(pathList.size >= PATH_COUNT_MAX){
                         pathEventListener?.onDrawPathOverMax(pathList.size)
+                        return true
+                    }
+                    if(editGraffitiPath.pathData.length >= PATH_DATA_MAX_LENGTH){
                         return true
                     }
                     editGraffitiPath.moveTo(event.x,event.y,getOriginPathMatrix())
@@ -378,7 +393,7 @@ class ImageEditView : View {
         return imageRectF.contains(pointArray[0],pointArray[1])
     }
 
-    private fun onPathDone(event: MotionEvent): Boolean {
+    private fun onPathDone(): Boolean {
         val bitmap = this.bitmap?: return false
         if(editGraffitiPath.isEmpty()){
             return false
@@ -395,13 +410,13 @@ class ImageEditView : View {
             editGraffitiPath.lastY = radius
         }
 
-        editGraffitiPath.id = pathIdAuto.getAndIncrement()
+        editGraffitiPath.id = pathIdAuto.incrementAndGet()
         editGraffitiPath.remarkStatus = GraffitiPath.RemarkStatus.MSG_ADD
         pathList.add(editGraffitiPath)
         pathEventListener?.onPathDrawDone(editGraffitiPath.id)
 
-//        Log.e("onPathDone",editGraffitiPath.pathData.toString())
-//        Log.e("onPathDone length,",editGraffitiPath.pathData.toString().toByteArray().size.toString())
+//        Log.e("pathData",editGraffitiPath.pathData.toString())
+//        Log.e("pathData length,",editGraffitiPath.pathData.toString().length.toString())
 //        val compressString = CompressUtils.compressString(editGraffitiPath.pathData.toString())
 //        Log.e("compressString",compressString)
 //        Log.e("compressString length",compressString.length.toString())
@@ -424,10 +439,6 @@ class ImageEditView : View {
         super.onLayout(changed, left, top, right, bottom)
         if(changed){
             onWindowSizeChanged((right - left).toFloat(),(bottom - top).toFloat())
-        }else{
-            if(!hasInitHoming){
-                initHoming()
-            }
         }
     }
 
@@ -439,13 +450,7 @@ class ImageEditView : View {
             return
         }
         windowRectF.set(0f,0f,width,height)
-        if(!hasInitHoming){
-            initHoming()
-        }else{
-            Matrix().apply {
-                setTranslate(windowRectF.centerX() - imageRectF.centerX(),windowRectF.centerY() - imageRectF.centerY())
-            }.mapRect(imageRectF)
-        }
+        initHoming()
     }
 
     private fun initHoming() {
@@ -463,7 +468,9 @@ class ImageEditView : View {
         matrix.postTranslate(windowRectF.centerX() - imageRectF.centerX(),windowRectF.centerY() - imageRectF.centerY())
         matrix.mapRect(imageRectF) //通过矩阵变换矩形
         imageScale = scale
+
         initScale = scale
+        graffitiPaint.strokeWidth = graffitiPaintWidth.toFloat() / initScale //描边宽度
         pathEndIconTextPaint.textSize = context.resources.getDimensionPixelSize(R.dimen.text_size_little).toFloat() / initScale
         pathEndIconInnerSize = context.resources.getDimensionPixelSize(R.dimen.text_size_little).toFloat() / initScale
         pathEndIconSize = context.resources.getDimensionPixelSize(R.dimen.graffiti_path_end_icon_size).toFloat() / initScale
@@ -474,6 +481,11 @@ class ImageEditView : View {
      */
     fun undo(){
         if(pathList.size >= 1){
+            val last = pathList.last
+            if(last.remarkStatus == GraffitiPath.RemarkStatus.MSG_DONE){
+                pathMsgOrderAuto.decrementAndGet()
+            }
+            pathIdAuto.decrementAndGet()
             pathList.removeLast()
             invalidate()
         }
@@ -483,6 +495,8 @@ class ImageEditView : View {
      * 清除
      */
     fun clear(){
+        pathIdAuto.set(PATH_ID_AUTO_INIT)
+        pathMsgOrderAuto.set(MSG_ORDER_AUTO_INIT)
         pathList.clear()
         invalidate()
     }
@@ -498,19 +512,22 @@ class ImageEditView : View {
                 it.msgOrder = it.msgOrder - 1
             }
         }
-        msgOrderAuto.decrementAndGet()
+        pathMsgOrderAuto.getAndDecrement()
         invalidate()
     }
 
-    fun onMsgDone(pathId: Int){
+    fun onMsgDone(pathId: Int,msg: String){
+        currentTouchInEndIconPath = null
         getPath(pathId)?.run {
-            msgOrder = msgOrderAuto.incrementAndGet()
+            msgOrder = pathMsgOrderAuto.incrementAndGet()
             remarkStatus = GraffitiPath.RemarkStatus.MSG_DONE
+            remarkMsg = msg
             invalidate()
         }
     }
 
     fun onMsgEditCancel(pathId: Int){
+        currentTouchInEndIconPath = null
         getPath(pathId)?.run {
             remarkStatus = GraffitiPath.RemarkStatus.MSG_ADD
             invalidate()
@@ -526,6 +543,19 @@ class ImageEditView : View {
             }
         }
         return null
+    }
+
+    fun onPathMsgUndo(pathId: Int) {
+        val path = getPath(pathId)?:return
+        clearPathMsg(path)
+        pathMsgOrderAuto.decrementAndGet()
+    }
+
+    private fun clearPathMsg(path: GraffitiPath){
+        path.remarkStatus = GraffitiPath.RemarkStatus.MSG_ADD
+        path.remarkMsg = ""
+        path.msgOrder = 0
+        invalidate()
     }
 
     interface PathEventListener{
@@ -601,6 +631,4 @@ class ImageEditView : View {
         homingValues.scrollConcat(ImgHelper.getFitHomingValues(winRectF,imgRectF))
         return homingValues
     }
-
-
 }

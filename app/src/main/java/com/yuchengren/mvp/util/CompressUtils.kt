@@ -1,5 +1,6 @@
 package com.yuchengren.mvp.util
 
+import android.util.Base64
 import android.util.Log
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
@@ -32,7 +33,8 @@ object CompressUtils {
             }
         }
 //        Log.e("compressString byte",out.toByteArray().size.toString())
-        return out.toString(CHARSET_ISO_8859_1)
+//        return out.toString(CHARSET_ISO_8859_1)
+        return Base64.encodeToString(out.toByteArray(),Base64.DEFAULT)
     }
 
     fun uncompressString(zippedString: String?): String{
@@ -40,7 +42,8 @@ object CompressUtils {
             return ""
         }
         val output = ByteArrayOutputStream()
-        val input = ByteArrayInputStream(zippedString?.toByteArray(Charset.forName(CHARSET_ISO_8859_1)))
+//        val input = ByteArrayInputStream(zippedString?.toByteArray(Charset.forName(CHARSET_ISO_8859_1)))
+        val input = ByteArrayInputStream(Base64.decode(zippedString,Base64.DEFAULT))
         val gzipIn = GZIPInputStream(input)
         try {
             val byteArray = ByteArray(1024)
