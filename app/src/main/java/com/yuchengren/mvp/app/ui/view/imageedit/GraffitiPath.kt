@@ -14,12 +14,16 @@ class GraffitiPath(var path: Path = Path()){
 
     var remarkStatus: String = RemarkStatus.MSG_NONE //当前批注的状态
     var remarkMsg: String = "" //批注的信息
+    var remarkMsgType = PostilPathParam.COMMENT_TYPE_TEXT //批注的信息类型
     var msgOrder: Int = 0 //标注信息的序号
+    var startX = 0f //轨迹第一个点的横坐标
+    var startY = 0f //轨迹第一个点的横坐标
     var lastX: Float = 0f //轨迹最后一个点的横坐标
     var lastY: Float = 0f //轨迹最后一个点的纵坐标
-//    var pointCount: Int = 0 //轨迹点的数目
 
     var pointerId: Int = Integer.MIN_VALUE //触摸点的id
+    //    var pointCount = 0 //触摸路径的点数
+    var isValid = false //是否是有效的路径，如果有效则开始绘制
 
     fun lineTo(x: Float,y: Float,matrix: Matrix? = null){
         val array = getMatrixMapPointArray(x, y, matrix)
@@ -37,6 +41,8 @@ class GraffitiPath(var path: Path = Path()){
         val array = getMatrixMapPointArray(x, y, matrix)
         path.moveTo(array[0],array[1])
         pathData.append("m${array[0].toInt()}$SIGN_COLON${array[1].toInt()}")
+        startX = array[0]
+        startY = array[1]
         lastX = array[0]
         lastY = array[1]
 //        pointCount++
@@ -46,14 +52,21 @@ class GraffitiPath(var path: Path = Path()){
         return path.isEmpty
     }
 
+    fun getLineDistance(): Double{
+        return Math.sqrt(Math.pow((lastX - startX).toDouble(),2.0) + Math.pow((lastY - startY).toDouble(),2.0))
+    }
+
     fun reset() {
         path.reset()
         pointerId = Integer.MIN_VALUE
         pathData = StringBuilder()
         remarkStatus = RemarkStatus.MSG_NONE
         msgOrder = 0
+        startX = 0f
+        startY = 0f
         lastX = 0f
         lastY = 0f
+        isValid = false
 //        pointCount = 0
     }
 

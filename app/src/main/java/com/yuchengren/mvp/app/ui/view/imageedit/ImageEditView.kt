@@ -7,6 +7,7 @@ import android.os.Handler
 import android.os.Looper
 import android.support.annotation.Nullable
 import android.util.AttributeSet
+import android.util.Log
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.ScaleGestureDetector
@@ -23,12 +24,11 @@ import java.util.concurrent.atomic.AtomicInteger
 class ImageEditView : View {
     companion object {
         const val SCALE_MAX = 3f //缩放的最大倍数
-        const val SCALE_MIN = 1f //缩放的最小倍数
         const val PATH_COUNT_MAX = 10 //涂鸦最大可画的轨迹数
         const val PATH_DATA_MAX_LENGTH = 5000 //单条涂鸦最大可画的记录数据长度
 
         const val PATH_EFFECT_INTERVAL = 200L //轨迹描点生效时间
-        const val PATH_EFFECT_POINT_COUNT = 3 //轨迹描点生效的个数
+//        const val PATH_EFFECT_POINT_COUNT = 11 //轨迹生效的点数
 
         const val PATH_ID_AUTO_INIT = -1
         const val MSG_ORDER_AUTO_INIT = 0
@@ -52,10 +52,12 @@ class ImageEditView : View {
     var pathList: LinkedList<GraffitiPath> = LinkedList() //已编译完成的涂鸦路径
     private var editGraffitiPath: GraffitiPath = GraffitiPath() //正在编辑的涂鸦路径
     private var currentTouchInEndIconPath: GraffitiPath? = null //当前触摸点在其末端Icon区域范围内的路径 处理为点击事件
+    private var pathEffectDistance: Double = 0.0 //轨迹生效的距离
 
     private lateinit var gestureDetector: GestureDetector
     private lateinit var scaleGestureDetector: ScaleGestureDetector
 
+    private val M = Matrix()
     private var windowRectF = RectF() //控件可视化区域
     private var imageRectF = RectF() //完整图片区域
     private var hasInitHoming = false //是否已经初始化原始图片状态
@@ -94,6 +96,7 @@ class ImageEditView : View {
             graffitiPaintColor = getColor(R.styleable.ImageEditView_graffitiPaintColor,context.getColor(R.color.teacher_paint))
             graffitiPaintWidth = getDimensionPixelSize(R.styleable.ImageEditView_graffitiPaintWidth,context.resources.getDimensionPixelSize(R.dimen.teacher_paint_width))
         }
+        pathEffectDistance = context.resources.getDimensionPixelSize(R.dimen.postil_path_effect_distance).toDouble()
         initPaint()
         initGesture(context)
     }
@@ -135,7 +138,7 @@ class ImageEditView : View {
         if(scaleFactor == 1f || scaleFactor * imageScale / initScale > SCALE_MAX){
             return
         }
-        Matrix().apply { setScale(scaleFactor, scaleFactor,px,py) }.mapRect(imageRectF)
+        M.apply { setScale(scaleFactor, scaleFactor,px,py) }.mapRect(imageRectF)
         imageScale *= scaleFactor
         invalidate()
 
@@ -164,9 +167,9 @@ class ImageEditView : View {
         val createBitmap = Bitmap.createBitmap(bitmap.width, bitmap.height, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(createBitmap)
         canvas.drawBitmap(bitmap,0f,0f,null)
-        pathList.forEachIndexed { index, graffitiPath ->
-            canvas.drawPath(graffitiPath.path,graffitiPaint)
-            drawPathEndIcon(canvas, graffitiPath, true)
+        pathList.forEach {
+            canvas.drawPath(it.path,graffitiPaint)
+            drawPathEndIcon(canvas, it, true)
         }
         return createBitmap
     }
@@ -193,9 +196,9 @@ class ImageEditView : View {
         canvas.translate(imageRectF.left,imageRectF.top)
         canvas.scale(scale,scale)
 
-        pathList.forEachIndexed { index, graffitiPath ->
-            canvas.drawPath(graffitiPath.path,graffitiPaint)
-            drawPathEndIcon(canvas, graffitiPath, false)
+        pathList.forEach {
+            canvas.drawPath(it.path,graffitiPaint)
+            drawPathEndIcon(canvas, it, false)
         }
         if(!editGraffitiPath.isEmpty()){
             canvas.drawPath(editGraffitiPath.path,graffitiPaint)
@@ -240,7 +243,6 @@ class ImageEditView : View {
         when(event.actionMasked){
             MotionEvent.ACTION_DOWN -> pointerDownTime = System.currentTimeMillis()
             MotionEvent.ACTION_POINTER_DOWN -> {
-//                Log.e("ACTION_POINTER_DOWN","${event?.x},${event?.y},${event?.actionMasked},${event?.getPointerId(0)}")
                 if(System.currentTimeMillis() - pointerDownTime < PATH_EFFECT_INTERVAL){
                     //为解决双指操作，落在屏幕上的时间不一致导致其中先落的手指会画轨迹的问题
                     listenPathOverMaxEventRunnable?.let { mainHandler.removeCallbacks(it)}
@@ -267,7 +269,6 @@ class ImageEditView : View {
         if(event == null){
             return super.onTouchEvent(event)
         }
-//        Log.e("onTouchEventPath","${event?.x},${event?.y},${event?.actionMasked},${event?.getPointerId(0)}")
         when(event.actionMasked){
             MotionEvent.ACTION_DOWN -> {
                 if(!isPointInImageRecF(event.x,event.y)){
@@ -371,14 +372,21 @@ class ImageEditView : View {
                         pathEventListener?.onDrawPathOverMax(pathList.size)
                         return true
                     }
+                    editGraffitiPath.moveTo(event.x,event.y,getOriginPathMatrix())
+                }else{
                     if(editGraffitiPath.pathData.length >= PATH_DATA_MAX_LENGTH){
                         return true
                     }
-                    editGraffitiPath.moveTo(event.x,event.y,getOriginPathMatrix())
-                }else{
                     editGraffitiPath.lineTo(event.x,event.y,getOriginPathMatrix())
+                    if(!editGraffitiPath.isValid){
+                        editGraffitiPath.isValid = isPathValid()
+                    }
+
+                    if(editGraffitiPath.isValid){
+                        invalidate()
+                    }
                 }
-                invalidate()
+
             }
             return true
         }
@@ -387,15 +395,22 @@ class ImageEditView : View {
 
     private fun isPointInImageRecF(x: Float,y: Float): Boolean{
         val pointArray = floatArrayOf(x,y)
-        Matrix().apply {
+        M.apply {
             setTranslate(scrollX.toFloat(),scrollY.toFloat())
         }.mapPoints(pointArray)
         return imageRectF.contains(pointArray[0],pointArray[1])
     }
 
+    private fun isPathValid(): Boolean{
+        return editGraffitiPath.getLineDistance() >= pathEffectDistance
+    }
+
     private fun onPathDone(): Boolean {
         val bitmap = this.bitmap?: return false
-        if(editGraffitiPath.isEmpty()){
+//        Log.e("onPathDone","${editGraffitiPath.pointCount},${editGraffitiPath.getLineDistance()}")
+        if(!editGraffitiPath.isValid){
+            editGraffitiPath.reset()
+            invalidate()
             return false
         }
         val radius = pathEndIconSize / 2
@@ -414,20 +429,13 @@ class ImageEditView : View {
         editGraffitiPath.remarkStatus = GraffitiPath.RemarkStatus.MSG_ADD
         pathList.add(editGraffitiPath)
         pathEventListener?.onPathDrawDone(editGraffitiPath.id)
-
-//        Log.e("pathData",editGraffitiPath.pathData.toString())
-//        Log.e("pathData length,",editGraffitiPath.pathData.toString().length.toString())
-//        val compressString = CompressUtils.compressString(editGraffitiPath.pathData.toString())
-//        Log.e("compressString",compressString)
-//        Log.e("compressString length",compressString.length.toString())
         editGraffitiPath = GraffitiPath()
-
         invalidate()
         return true
     }
 
     private fun getOriginPathMatrix(): Matrix{
-        return  Matrix().apply {
+        return  M.apply {
             setTranslate(scrollX.toFloat(),scrollY.toFloat())
             postTranslate(-imageRectF.left,-imageRectF.top)
             val scale: Float = 1 / imageScale
@@ -461,12 +469,11 @@ class ImageEditView : View {
         imageRectF.set(0f,0f,bitmap.width.toFloat(),bitmap.height.toFloat())
 
         val scale = Math.min(windowRectF.width() / imageRectF.width(),windowRectF.height() / imageRectF.height())
-        val matrix = Matrix()
         //图片适配View窗口大小
-        matrix.setScale(scale,scale,imageRectF.centerX(),imageRectF.centerY())
+        M.setScale(scale,scale,imageRectF.centerX(),imageRectF.centerY())
         //图片平移至View窗口居中
-        matrix.postTranslate(windowRectF.centerX() - imageRectF.centerX(),windowRectF.centerY() - imageRectF.centerY())
-        matrix.mapRect(imageRectF) //通过矩阵变换矩形
+        M.postTranslate(windowRectF.centerX() - imageRectF.centerX(),windowRectF.centerY() - imageRectF.centerY())
+        M.mapRect(imageRectF) //通过矩阵变换矩形
         imageScale = scale
 
         initScale = scale
@@ -516,12 +523,13 @@ class ImageEditView : View {
         invalidate()
     }
 
-    fun onMsgDone(pathId: Int,msg: String){
+    fun onMsgDone(pathId: Int,msg: String,msgType: String){
         currentTouchInEndIconPath = null
         getPath(pathId)?.run {
             msgOrder = pathMsgOrderAuto.incrementAndGet()
             remarkStatus = GraffitiPath.RemarkStatus.MSG_DONE
             remarkMsg = msg
+            remarkMsgType = msgType
             invalidate()
         }
     }
@@ -623,7 +631,8 @@ class ImageEditView : View {
     private fun getEndHomingValues(): ImgHomingValues {
         val homingValues = getStartHomingValues()
         val imgRectF = RectF()
-        Matrix().mapRect(imgRectF,imageRectF)
+        M.reset()
+        M.mapRect(imgRectF,imageRectF)
 
         val winRectF = RectF(windowRectF)
         winRectF.offset(scrollX.toFloat(),scrollY.toFloat())

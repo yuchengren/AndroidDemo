@@ -22,5 +22,6 @@
     <dimen name="button_height">50dp</dimen>
     <dimen name="teacher_paint_width">2dp</dimen>
     <dimen name="graffiti_path_end_icon_size">24dp</dimen>
+    <dimen name="postil_path_effect_distance">4dp</dimen>
 
 </resources>

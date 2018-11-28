@@ -35,8 +35,6 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
 	public void onClick(View v) {
 		switch (v.getId()){
 			case R.id.btn_test:
-				Log.e("btn_test", CompressUtils.INSTANCE.uncompressString("H4sIAAAAAAAAAD2Myw3AMAhDF6JSaCCQnej+1xryOTyMBfbHTck4HqYWC46XemihYWCSBTNGLY08\n" +
-						"    RzpfzosJ7OoAmRVwupRkM3DvIPul/gb0eL+7lsrOrS6WH2wqmLS1AAAA"));
 //				testDeadLock();
 //				testWaitNotify();
 //				toSelfSetting(this);
