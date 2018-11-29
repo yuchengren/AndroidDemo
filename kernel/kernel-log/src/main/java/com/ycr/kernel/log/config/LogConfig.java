@@ -3,6 +3,7 @@ package com.ycr.kernel.log.config;
 import android.content.Context;
 
 import com.ycr.kernel.log.constants.LogLevel;
+import com.ycr.kernel.log.printer.ILogPrinter;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -17,8 +18,7 @@ public class LogConfig implements ILogConfig{
 	private String tagPre;
 	private boolean enabled;
 	private int level;
-	private Set<Integer> logPrinterTypes;
-	private ILogFileConfig logFileConfig;
+	private Set<ILogPrinter> logPrinters;
 
 	public LogConfig(Context context){
 		this.context = context;
@@ -30,11 +30,6 @@ public class LogConfig implements ILogConfig{
 
 	public LogConfig setContext(Context context){
 		this.context = context;
-		return this;
-	}
-
-	public LogConfig setLogFileConfig(ILogFileConfig logFileConfig) {
-		this.logFileConfig = logFileConfig;
 		return this;
 	}
 
@@ -50,13 +45,6 @@ public class LogConfig implements ILogConfig{
 
 	public LogConfig setLevel(@LogLevel int level) {
 		this.level = level;
-		return this;
-	}
-
-	public LogConfig setLogPrinterTypes(Integer... logPrinterTypes) {
-		if(logPrinterTypes != null && logPrinterTypes.length != 0){
-			this.logPrinterTypes = new HashSet<>(Arrays.asList(logPrinterTypes));
-		}
 		return this;
 	}
 
@@ -80,13 +68,5 @@ public class LogConfig implements ILogConfig{
 		return enabled;
 	}
 
-	@Override
-	public Set<Integer> logPrinterTypes() {
-		return logPrinterTypes;
-	}
 
-	@Override
-	public ILogFileConfig logFileConfig() {
-		return logFileConfig;
-	}
 }

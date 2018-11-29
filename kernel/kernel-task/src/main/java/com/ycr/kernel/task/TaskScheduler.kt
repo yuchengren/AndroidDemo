@@ -7,7 +7,7 @@ import java.util.concurrent.TimeUnit
 /**
  * Created by yuchengren on 2018/9/13.
  */
-object TaskSchduler {
+object TaskScheduler {
     private val CPU_COUNT = Runtime.getRuntime().availableProcessors()
     private val CORE_POOL_SIZE = CPU_COUNT * 2 + 1 // 核心线程数
     private val MAXIMUM_POOL_SIZE = CPU_COUNT * 16 + 1 //最大线程数
@@ -24,11 +24,14 @@ object TaskSchduler {
     }
 
     private class ExecutorInterceptor: TaskThreadPoolExecutor.Interceptor{
+
+        override fun beforeExecute(t: Thread?, r: Runnable?) {
+
+        }
         override fun afterExecute(r: Runnable?, t: Throwable?) {
         }
 
-        override fun beforeExecute(t: Thread?, r: Runnable?) {
-        }
+
     }
 
     fun <R> submit(task: AbstractTask<R>){

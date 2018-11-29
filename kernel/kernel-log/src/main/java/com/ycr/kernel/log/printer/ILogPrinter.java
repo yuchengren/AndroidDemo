@@ -14,4 +14,9 @@ public interface ILogPrinter {
 	 * @param msg	日志内容
 	 */
 	void print(@LogLevel int level,String tag,String msg);
+
+	/**
+	 * 可打印日志的界别
+	 */
+	int level();
 }

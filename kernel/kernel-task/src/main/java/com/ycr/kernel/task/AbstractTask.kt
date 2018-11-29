@@ -77,7 +77,7 @@ class AbstractTask<R>(doBackground: ITaskBackground<R>,private val callback: ITa
     }
 
     override fun retry() {
-        TaskSchduler.submit(this)
+        TaskScheduler.submit(this)
     }
 
     override fun setStatus(status: Int) {

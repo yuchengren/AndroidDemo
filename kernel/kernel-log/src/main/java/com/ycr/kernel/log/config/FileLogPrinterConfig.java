@@ -3,10 +3,14 @@ package com.ycr.kernel.log.config;
 import android.content.Context;
 import android.os.Environment;
 
+import com.ycr.kernel.log.constants.LogLevel;
+
 /**
  * Created by yuchengren on 2018/7/16.
  */
-public class LogFileConfig implements ILogFileConfig {
+public class FileLogPrinterConfig extends LogPrinterConfig implements IFileLogPrinterConfig {
+	protected int level = LogLevel.INFO;
+
 	public static final long DEFAULT_MAX_TOTAL_SIZE = 10 * 1024 * 1024;
 	public static final String DEFAULT_NAME_TIME_FORMAT = "yyyy-MM-dd";
 	public static final String LOG_DIR = "logs";
@@ -15,7 +19,7 @@ public class LogFileConfig implements ILogFileConfig {
 	private long maxTotalCacheSize;
 	private String fileNameDateFormat;
 
-	private LogFileConfig(Context context){
+	private FileLogPrinterConfig(Context context){
 		this.context = context.getApplicationContext();
 		fileRootPath = getDefaultFileRootPath(this.context);
 		maxTotalCacheSize = DEFAULT_MAX_TOTAL_SIZE;
@@ -32,23 +36,28 @@ public class LogFileConfig implements ILogFileConfig {
 		return fileRootPath +"/"+ LOG_DIR;
 	}
 
-	public static LogFileConfig create(Context context){
-		return new LogFileConfig(context);
+	public static FileLogPrinterConfig create(Context context){
+		return new FileLogPrinterConfig(context);
 	}
 
-	public LogFileConfig setFileRootPath(String fileRootPath) {
+	public FileLogPrinterConfig setFileRootPath(String fileRootPath) {
 		this.fileRootPath = fileRootPath;
 		return this;
 	}
 
-	public LogFileConfig setMaxTotalCacheSize(long maxTotalCacheSize) {
+	public FileLogPrinterConfig setMaxTotalCacheSize(long maxTotalCacheSize) {
 		this.maxTotalCacheSize = maxTotalCacheSize;
 		return this;
 	}
 
-	public LogFileConfig setFileNameDateFormat(String fileNameDateFormat) {
+	public FileLogPrinterConfig setFileNameDateFormat(String fileNameDateFormat) {
 		this.fileNameDateFormat = fileNameDateFormat;
 		return this;
+	}
+
+	@Override
+	public Context context() {
+		return context;
 	}
 
 	@Override
@@ -65,4 +74,5 @@ public class LogFileConfig implements ILogFileConfig {
 	public String fileNameDateFormat() {
 		return fileNameDateFormat;
 	}
+
 }

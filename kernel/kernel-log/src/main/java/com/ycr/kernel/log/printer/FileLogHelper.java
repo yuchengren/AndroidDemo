@@ -2,7 +2,7 @@ package com.ycr.kernel.log.printer;
 
 import android.text.TextUtils;
 
-import com.ycr.kernel.log.config.ILogFileConfig;
+import com.ycr.kernel.log.config.IFileLogPrinterConfig;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -22,13 +22,13 @@ import java.util.List;
  */
 public class FileLogHelper {
 	private static FileLogHelper instance;
-	private ILogFileConfig logFileConfig;
+	private IFileLogPrinterConfig logFileConfig;
 
-	private FileLogHelper(ILogFileConfig logFileConfig){
+	private FileLogHelper(IFileLogPrinterConfig logFileConfig){
 		this.logFileConfig = logFileConfig;
 	}
 
-	public static FileLogHelper getInstance(ILogFileConfig logFileConfig){
+	public static FileLogHelper getInstance(IFileLogPrinterConfig logFileConfig){
 		if(instance == null){
 			synchronized (FileLogHelper.class){
 				if(instance == null){

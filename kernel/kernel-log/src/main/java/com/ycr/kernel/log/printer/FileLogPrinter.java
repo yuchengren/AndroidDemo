@@ -1,22 +1,20 @@
 package com.ycr.kernel.log.printer;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.os.Message;
+import android.support.annotation.NonNull;
 
-import com.ycr.kernel.log.config.ILogFileConfig;
+import com.ycr.kernel.log.config.IFileLogPrinterConfig;
 
 /**
  * Created by yuchengren on 2018/7/13.
  */
-public class FileLogPrinter implements ILogPrinter {
+public class FileLogPrinter extends AbstractLogPrinter {
 
-	private Context context;
 	private LogHandler logHandler;
 
-	public FileLogPrinter(Context context, ILogFileConfig logFileConfig){
-		this.context = context;
-		logHandler = new LogHandler(LogHandlerThread.getInstance().getLooper(),context,logFileConfig);
+	public FileLogPrinter(@NonNull IFileLogPrinterConfig logFileConfig){
+		logHandler = new LogHandler(LogHandlerThread.getInstance().getLooper(),logFileConfig);
 	}
 
 	@Override
@@ -28,5 +26,10 @@ public class FileLogPrinter implements ILogPrinter {
 		bundle.putString(LogHandler.MESSAGE,msg);
 		message.setData(bundle);
 		logHandler.sendMessage(message);
+	}
+
+	@Override
+	public int level() {
+		return logHandler.logFileConfig.level();
 	}
 }

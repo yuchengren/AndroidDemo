@@ -1,15 +1,15 @@
 package com.yuchengren.mvp.app;
 
 import android.app.Application;
-import android.content.res.AssetManager;
 import android.os.Environment;
 
 import com.ycr.kernel.log.LogHelper;
 import com.ycr.kernel.log.config.LogConfig;
-import com.ycr.kernel.log.config.LogFileConfig;
+import com.ycr.kernel.log.config.FileLogPrinterConfig;
 import com.ycr.kernel.log.constants.LogLevel;
-import com.ycr.kernel.log.constants.LogPrinterType;
 import com.ycr.kernel.log.engine.ILogEngine;
+import com.ycr.kernel.log.printer.ConsoleLogPrinter;
+import com.ycr.kernel.log.printer.FileLogPrinter;
 import com.ycr.lib.changeskin.SkinManager;
 import com.yuchengren.mvp.constant.Constants;
 import com.yuchengren.mvp.greendao.gen.DaoMaster;
@@ -73,17 +73,18 @@ public class DemoApplication extends Application {
     }
 
     private void initLog() {
-		LogHelper.initAppModule("app").config(LogConfig.create(this)
-                .setLogFileConfig(LogFileConfig.create(this).setFileRootPath(getAppRootPath()))
-		        .setTagPre("mvp")
-                .setEnabled(true)
-                .setLevel(LogLevel.ERROR)
-                .setLogPrinterTypes(LogPrinterType.CONSOLE,LogPrinterType.FILE));
-
-        LogHelper.e("tag","msg");
-
-        ILogEngine task = LogHelper.module("task");
-        LogHelper.module("task").e("tag","msg");
+		LogHelper.initAppModule("app").
+                config(LogConfig.create(this).
+                        setTagPre("mvp").
+                        setEnabled(true).
+                        setLevel(LogLevel.ERROR)).
+                setLogPrinters(
+                        new ConsoleLogPrinter(),
+                        new FileLogPrinter(FileLogPrinterConfig.create(this).setFileRootPath(getAppRootPath())));
+        //使用范例
+//        LogHelper.e("tag","msg");
+//        ILogEngine task = LogHelper.module("task");
+//        LogHelper.module("task").e("tag","msg");
     }
 
     private void initGreenDao() {

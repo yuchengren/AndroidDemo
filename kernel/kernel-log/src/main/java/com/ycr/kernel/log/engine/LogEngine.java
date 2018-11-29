@@ -3,15 +3,15 @@ package com.ycr.kernel.log.engine;
 import android.support.annotation.NonNull;
 
 import com.ycr.kernel.log.config.ILogConfig;
+import com.ycr.kernel.log.config.LogConfig;
 import com.ycr.kernel.log.constants.LogLevel;
 import com.ycr.kernel.log.control.ILogControl;
 import com.ycr.kernel.log.control.LogControl;
 import com.ycr.kernel.log.printer.ILogPrinter;
-import com.ycr.kernel.log.printer.LogPrinterFactory;
 
-import java.util.Map;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Set;
-import java.util.TreeMap;
 
 /**
  * Created by yuchengren on 2018/7/12.
@@ -21,7 +21,7 @@ public class LogEngine implements ILogEngine{
 	private String moduleName;
 	private ILogConfig logConfig ;
 	private ILogControl logControl;
-	private Map<Integer,ILogPrinter> iLogPrinters;
+	private Set<ILogPrinter> logPrinters;
 
 	public LogEngine(String moduleName){
 		this.moduleName  = moduleName;
@@ -29,34 +29,22 @@ public class LogEngine implements ILogEngine{
 		if(appLogEngine != null){
 			logConfig = appLogEngine.logConfig();
 			logControl = appLogEngine.logControl();
-			iLogPrinters = appLogEngine.logPrinters();
+			logPrinters = appLogEngine.logPrinters();
 		}
 	}
 
 	@Override
 	public ILogEngine config(@NonNull ILogConfig logConfig) {
 		this.logConfig = logConfig;
-		initLogPrinter(logConfig.logPrinterTypes());
 		if(logControl == null){
 			logControl = new LogControl();
 		}
 		return this;
 	}
 
-	private void initLogPrinter(Set<Integer> logPrinterTypes) {
-		if(logPrinterTypes == null || logPrinterTypes.size() == 0){
-			return;
-		}
-		iLogPrinters = new TreeMap<>();
-		for (Integer logPrinterType : logPrinterTypes) {
-			if(logPrinterType == null){
-				continue;
-			}
-			ILogPrinter logPrinter = LogPrinterFactory.create(logConfig.context(),logPrinterType,logConfig.logFileConfig());
-			if(logPrinter != null){
-				iLogPrinters.put(logPrinterType,logPrinter);
-			}
-		}
+	public ILogEngine setLogPrinters(ILogPrinter... logPrinters) {
+		this.logPrinters = new HashSet(Arrays.asList(logPrinters));
+		return this;
 	}
 
 	@Override
@@ -70,20 +58,21 @@ public class LogEngine implements ILogEngine{
 	}
 
 	@Override
-	public Map<Integer,ILogPrinter> logPrinters() {
-		return iLogPrinters;
+	public Set<ILogPrinter> logPrinters() {
+		return logPrinters;
 	}
 
 	private boolean enabled(@LogLevel int level){
-		return logControl.enabled(logConfig.enabled(),logConfig.level(),level,logConfig.logPrinterTypes());
+		return logControl.enabled(logConfig.enabled(),logConfig.level(),level,logPrinters);
 	}
 
 	private void print(@LogLevel int level,String tag,String msg,Throwable tr, Object... args){
-		Set<Map.Entry<Integer, ILogPrinter>> entrySet = iLogPrinters.entrySet();
-		for (Map.Entry<Integer, ILogPrinter> entry : entrySet) {
-			String printTag = logControl.buildPrintTag(entry.getKey(),level, logConfig.tagPre(),moduleName, tag);
-			String printMessage = logControl.buildPrintMessage(msg, tr, args);
-			entry.getValue().print(level,printTag,printMessage);
+		for (ILogPrinter logPrinter : logPrinters) {
+			if(level >= logPrinter.level()){
+				String printTag = logControl.buildPrintTag(logPrinter,level, logConfig.tagPre(),moduleName, tag);
+				String printMessage = logControl.buildPrintMessage(msg, tr, args);
+				logPrinter.print(level,printTag,printMessage);
+			}
 		}
 	}
 

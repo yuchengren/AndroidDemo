@@ -1,9 +1,8 @@
 package com.ycr.kernel.log.control;
 
 import com.ycr.kernel.log.constants.LogLevel;
-import com.ycr.kernel.log.constants.LogPrinterType;
+import com.ycr.kernel.log.printer.ILogPrinter;
 
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -11,7 +10,7 @@ import java.util.Set;
  */
 public interface ILogControl {
 
-	String buildPrintTag(@LogPrinterType int logPrinterType, @LogLevel int level, String preTag, String moduleName, String tag);
+	String buildPrintTag(ILogPrinter logPrinter, @LogLevel int level, String preTag, String moduleName, String tag);
 
 	/**
 	 * 构建生成输出的message
@@ -23,5 +22,5 @@ public interface ILogControl {
 	 * 判断日志是否可打印
 	 * @return
 	 */
-	boolean enabled(boolean configEnabled, @LogLevel int enabledLevel, @LogLevel int level, Set<Integer> logPrinterTypes);
+	boolean enabled(boolean configEnabled, @LogLevel int enabledLevel, @LogLevel int level, Set<ILogPrinter> logPrinters);
 }

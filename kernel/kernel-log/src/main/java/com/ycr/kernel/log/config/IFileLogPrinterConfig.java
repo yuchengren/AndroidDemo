@@ -1,9 +1,12 @@
 package com.ycr.kernel.log.config;
 
+import android.content.Context;
+
 /**
  * Created by yuchengren on 2018/7/16.
  */
-public interface ILogFileConfig {
+public interface IFileLogPrinterConfig extends ILogPrinterConfig{
+	Context context();
 	/**
 	 * 文件根路径
 	 * @return

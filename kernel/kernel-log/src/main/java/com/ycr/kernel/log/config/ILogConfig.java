@@ -2,6 +2,8 @@ package com.ycr.kernel.log.config;
 
 import android.content.Context;
 
+import com.ycr.kernel.log.printer.ILogPrinter;
+
 import java.util.Set;
 
 /**
@@ -29,17 +31,4 @@ public interface ILogConfig {
 	 * @return
 	 */
 	boolean enabled();
-
-	/**
-	 * 日志打印机的类型
-	 * @return
-	 */
-	Set<Integer> logPrinterTypes();
-
-	/**
-	 * 文件输出的配置
-	 * @return
-	 */
-	ILogFileConfig logFileConfig();
-
 }

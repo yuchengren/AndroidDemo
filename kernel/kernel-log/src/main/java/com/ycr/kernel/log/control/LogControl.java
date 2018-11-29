@@ -4,7 +4,8 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.ycr.kernel.log.constants.LogLevel;
-import com.ycr.kernel.log.constants.LogPrinterType;
+import com.ycr.kernel.log.printer.ConsoleLogPrinter;
+import com.ycr.kernel.log.printer.ILogPrinter;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -17,13 +18,14 @@ public class LogControl implements ILogControl {
 	private static final String TIME_FORMAT_LAST_MILLIS = "yyyy-MM-dd HH:mm:ss.SSS";
 
 	@Override
-	public String buildPrintTag(int logPrinterType, int level, String preTag, String moduleName, String tag) {
+	public String buildPrintTag(ILogPrinter logPrinter, int level, String preTag, String moduleName, String tag) {
 		StringBuilder printTag = new StringBuilder();
-		if(logPrinterType != LogPrinterType.CONSOLE){
+		boolean isConsoleLogPrinter= logPrinter instanceof ConsoleLogPrinter;
+		if(!isConsoleLogPrinter){
 			printTag.append(getCurrentTime() + " ");
 		}
 		String levelString = getLevelString(level);
-		if(!TextUtils.isEmpty(levelString) && logPrinterType != LogPrinterType.CONSOLE){
+		if(!TextUtils.isEmpty(levelString) && !isConsoleLogPrinter){
 			printTag.append(levelString + "/");
 		}
 		if(!TextUtils.isEmpty(preTag)){
@@ -35,7 +37,7 @@ public class LogControl implements ILogControl {
 		if(!TextUtils.isEmpty(tag)){
 			printTag.append(tag);
 		}
-		if(logPrinterType != LogPrinterType.CONSOLE){
+		if(!isConsoleLogPrinter){
 			printTag.append(": ");
 		}
 		return printTag.toString();
@@ -81,8 +83,8 @@ public class LogControl implements ILogControl {
 	}
 
 	@Override
-	public boolean enabled(boolean configEnabled, int enabledLevel, int level, Set<Integer> logPrinterTypes) {
-		boolean isLogPrinterTypesEmpty = logPrinterTypes == null || logPrinterTypes.size() == 0;
+	public boolean enabled(boolean configEnabled, int enabledLevel, int level, Set<ILogPrinter> logPrinters) {
+		boolean isLogPrinterTypesEmpty = logPrinters == null || logPrinters.size() == 0;
 		return configEnabled && level >= enabledLevel && !isLogPrinterTypesEmpty;
 	}
 
