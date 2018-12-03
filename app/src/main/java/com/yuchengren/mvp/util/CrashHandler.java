@@ -1,20 +1,14 @@
 package com.yuchengren.mvp.util;
 
-import android.annotation.SuppressLint;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Looper;
 import android.os.Process;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.ycr.kernel.log.LogHelper;
-import com.yuchengren.mvp.app.ui.activity.SplashActivity;
 import com.yuchengren.mvp.cache.UiStack;
 import com.yuchengren.mvp.constant.Constants;
 

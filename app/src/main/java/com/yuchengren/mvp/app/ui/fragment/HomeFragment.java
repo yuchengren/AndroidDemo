@@ -1,5 +1,6 @@
 package com.yuchengren.mvp.app.ui.fragment;
 
+import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -10,7 +11,6 @@ import android.widget.GridView;
 
 import com.yuchengren.mvp.R;
 import com.yuchengren.mvp.app.ui.adapter.MenuAdapter;
-import com.yuchengren.mvp.app.ui.fragment.base.BaseFragment;
 import com.yuchengren.mvp.constant.MenuCode;
 import com.yuchengren.mvp.entity.db.MenuEntity;
 import com.yuchengren.mvp.greendao.gen.MenuEntityDao;
@@ -23,7 +23,7 @@ import java.util.List;
  * Created by yuchengren on 2017/12/19.
  */
 
-public class HomeFragment extends BaseFragment {
+public class HomeFragment extends Fragment {
 
 	private GridView gv_menu;
 	private MenuAdapter mMenuAdapter;

@@ -5,15 +5,14 @@ package com.ycr.kernel.task
  */
 interface ITaskStatus {
     companion object {
-        const val NEW = 0
-        const val READY = 1
-        const val WAIT = 2
-        const val RUNNING = 3
-        const val OVER = 4
-        const val CANCLE = 5
+        const val NEW = 0 //新建状态
+        const val READY = 1 //就绪
+        const val WAIT = 2 //等待或阻塞
+        const val RUNNING = 3 //运行
+        const val OVER = 4 //结束
+        const val CANCEL = 5 //取消
     }
-    fun setStatus(status: Int)
-    fun getStatus(): Int
+    fun status(): Int
 }
 
 

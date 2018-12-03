@@ -1,13 +1,15 @@
-include ':app'//,':kernel:kernel-log'
+include ':app'
 //include 'kernel-log'
 //project(":kernel-log").projectDir = file("kernel/kernel-log")
+include 'module-framework'
+project(":module-framework").projectDir = file("modules/module-framework")
 
 //def includeModule(String moduleName,String path){
 //    include moduleName
 //    project(":$moduleName").projectDir = file("$path/$moduleName")
 //}
 //
-//includeModule("kernel-log","kernel")
+//includeModule("module-framwork","modules")
 //includeModule("kernel-task","kernel")
 
 def includeModulesInPath(String path){

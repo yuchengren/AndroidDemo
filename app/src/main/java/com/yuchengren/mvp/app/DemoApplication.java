@@ -77,7 +77,7 @@ public class DemoApplication extends Application {
                 config(LogConfig.create(this).
                         setTagPre("mvp").
                         setEnabled(true).
-                        setLevel(LogLevel.ERROR)).
+                        setLevel(LogLevel.VERBOSE)).
                 setLogPrinters(
                         new ConsoleLogPrinter(),
                         new FileLogPrinter(FileLogPrinterConfig.create(this).setFileRootPath(getAppRootPath())));

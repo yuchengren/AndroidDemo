@@ -30,4 +30,8 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
     implementation "$android_support:appcompat-v7:$android_support_version"
+
+    api project(':kernel-log')
+    api project(':kernel-mvp')
+    api project(':kernel-task')
 }

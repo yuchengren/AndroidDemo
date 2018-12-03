@@ -4,7 +4,10 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.util.Log;
@@ -13,42 +16,29 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.yuchengren.mvp.R;
-import com.yuchengren.mvp.app.ui.activity.Base.BaseActivity;
 import com.yuchengren.mvp.entity.People;
-import com.yuchengren.mvp.util.AndroidUtil;
 import com.yuchengren.mvp.util.GsonUtil;
 
 import java.util.HashMap;
-import java.util.LinkedList;
 
 /**
  * Created by yuchengren on 2017/12/19.
  */
 
-public class CallPhoneBackActivity extends BaseActivity{
+public class CallPhoneBackActivity extends AppCompatActivity implements View.OnClickListener{
+	public final String TAG = getClass().getSimpleName();
 	private EditText et_mobile_phone;
 	private Button btn_call;
 	private TelephonyManager mTelephonyManager;
 	private BackAfterCallPhoneListener mPhoneListener;
-	@Override
-	protected int getLayoutResID() {
-		return R.layout.activity_call_phone_back;
-	}
 
 	@Override
-	protected void initViews() {
+	protected void onCreate(@Nullable Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_call_phone_back);
 		et_mobile_phone = (EditText) findViewById(R.id.et_mobile_phone);
 		btn_call = (Button) findViewById(R.id.btn_call);
-	}
-
-	@Override
-	protected void initListeners() {
 		btn_call.setOnClickListener(this);
-	}
-
-	@Override
-	protected void initData() {
-
 	}
 
 	@Override

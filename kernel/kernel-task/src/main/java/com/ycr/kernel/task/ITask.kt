@@ -8,10 +8,12 @@ interface ITask{
         const val TASK_NAME_DEFAULT = "anonymous-task"
     }
 
-    fun getTaskName(): String?
+    fun setTaskName(taskName: String?)
+
+    fun taskName(): String?
 
     /**
-     * 是否是线程执行
+     * 是否是 串行 执行（并行、串行）
      */
     fun isSerial(): Boolean
 

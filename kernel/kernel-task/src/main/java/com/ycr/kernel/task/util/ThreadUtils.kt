@@ -11,8 +11,6 @@ import com.ycr.kernel.log.LogHelper
  * Created by yuchengren on 2018/8/6.
  */
 
-internal val taskLog = LogHelper.module("task")
-
 /**
  * 主线程Handler
  */

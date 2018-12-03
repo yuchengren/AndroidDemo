@@ -4,7 +4,10 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.os.Bundle;
 import android.os.Environment;
+import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -13,8 +16,6 @@ import com.ycr.kernel.log.LogHelper;
 import com.ycr.lib.changeskin.SkinManager;
 import com.ycr.lib.changeskin.callback.ISkinChangingCallback;
 import com.yuchengren.mvp.R;
-import com.yuchengren.mvp.app.presenter.abs.Presenter;
-import com.yuchengren.mvp.app.ui.activity.Base.SuperActivity;
 import com.yuchengren.mvp.constant.SharePrefsKey;
 import com.yuchengren.mvp.constant.SharePrefsValue;
 import com.yuchengren.mvp.util.CrashHandler;
@@ -23,17 +24,13 @@ import com.yuchengren.mvp.util.ToastHelper;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.OutputStream;
 
 /**
  * Created by yuchengren on 2018/3/26.
  */
 
-public class ChangeThemeActivity extends SuperActivity<Presenter> implements View.OnClickListener{
+public class ChangeThemeActivity extends AppCompatActivity implements View.OnClickListener{
 
     private static final String PATH_APK = Environment.getExternalStorageDirectory() + File.separator;
 
@@ -51,11 +48,14 @@ public class ChangeThemeActivity extends SuperActivity<Presenter> implements Vie
     private RadioButton rb_changeskin_blue;
 
     @Override
-    protected int getLayoutResID() {
-        return R.layout.activity_theme_switch;
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_theme_switch);
+        initViews();
+        initListeners();
+        initData();
     }
 
-    @Override
     protected void initViews() {
         tv_system_theme = (TextView) findViewById(R.id.tv_system_theme);
         rb_system_theme_red = (RadioButton) findViewById(R.id.rb_system_theme_red);
@@ -71,7 +71,6 @@ public class ChangeThemeActivity extends SuperActivity<Presenter> implements Vie
         rb_changeskin_blue = (RadioButton) findViewById(R.id.rb_changeskin_blue);
     }
 
-    @Override
     protected void initListeners() {
         rb_system_theme_red.setOnClickListener(this);
         rb_system_theme_blue.setOnClickListener(this);
@@ -84,7 +83,6 @@ public class ChangeThemeActivity extends SuperActivity<Presenter> implements Vie
         tv_clear_skin.setOnClickListener(this);
     }
 
-    @Override
     protected void initData() {
         TypedArray typedArray = obtainStyledAttributes(new int[]{R.attr.switch_text_color, R.attr.switch_text_size, R.attr.switch_text,R.attr.switch_drawable});
         tv_system_theme.setTextColor(typedArray.getColor(0, 0x000000));

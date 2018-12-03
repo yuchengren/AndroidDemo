@@ -1,12 +1,12 @@
 package com.yuchengren.mvp.app.ui.activity;
 
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
 import com.ycr.kernel.log.LogHelper;
 import com.yuchengren.mvp.R;
-import com.yuchengren.mvp.app.ui.activity.Base.BaseActivity;
 import com.yuchengren.mvp.entity.People;
 import com.yuchengren.mvp.util.GsonUtil;
 import com.yuchengren.mvp.util.ToastHelper;
@@ -28,38 +28,20 @@ import io.reactivex.schedulers.Schedulers;
  * Created by yuchengren on 2017/12/20.
  */
 
-public class RxAndroidActivity extends BaseActivity {
-
+public class RxAndroidActivity extends AppCompatActivity implements View.OnClickListener{
+	public final String TAG = getClass().getSimpleName();
 	private Button btn_test;
-
-	@Override
-	protected int getLayoutResID() {
-		return R.layout.activity_rx_android;
-	}
-
-	@Override
-	protected void initViews() {
-		btn_test = (Button) findViewById(R.id.btn_test);
-	}
-
-	@Override
-	protected void initListeners() {
-		btn_test.setOnClickListener(this);
-	}
-
-	@Override
-	protected void initData() {
-
-	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_rx_android);
+		btn_test = (Button) findViewById(R.id.btn_test);
+		btn_test.setOnClickListener(this);
 	}
 
 	@Override
 	public void onClick(View v) {
-		super.onClick(v);
 		switch (v.getId()){
 			case R.id.btn_test:
 //				test();

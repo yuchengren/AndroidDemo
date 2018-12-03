@@ -5,7 +5,7 @@ package com.ycr.kernel.task
  */
 interface ITaskCallback<R> {
 
-    fun onBeforeCall()
+    fun onBeforeCall(task: AbstractTask<R>)
 
     fun onAfterCall()
 

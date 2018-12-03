@@ -10,17 +10,17 @@ import android.os.Bundle;
 import android.os.Process;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatActivity;
 
 import com.yuchengren.mvp.R;
-import com.yuchengren.mvp.app.ui.activity.Base.BaseActivity;
 import com.yuchengren.mvp.constant.Constants;
 import com.yuchengren.mvp.constant.MenuCode;
 import com.yuchengren.mvp.constant.SharePrefsKey;
 import com.yuchengren.mvp.entity.db.MenuEntity;
 import com.yuchengren.mvp.greendao.gen.MenuEntityDao;
-import com.yuchengren.mvp.util.business.DaoHelper;
 import com.yuchengren.mvp.util.PermissionUtil;
 import com.yuchengren.mvp.util.SharePrefsUtil;
+import com.yuchengren.mvp.util.business.DaoHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,43 +29,22 @@ import java.util.List;
  * Created by yuchengren on 2017/11/10.
  */
 
-public class SplashActivity extends BaseActivity {
+public class SplashActivity extends AppCompatActivity {
 
 	private List<String> mRequestPermissionList = new ArrayList<>();
 
 	public static final int REQUEST_PERMISSION_CODE = 1;
 
 	@Override
-	protected int getLayoutResID() {
-		return R.layout.activity_splash;
-	}
-
-	@Override
-	protected void initViews() {
-
-	}
-
-	@Override
-	protected void initListeners() {
-
-	}
-
-	@Override
-	protected void initData() {
-
-	}
-
-	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_splash);
 		checkPermissions();
 		if(SharePrefsUtil.getInstance().getBoolean(SharePrefsKey.IS_FIRST_LOGIN,true)){
 			insertMenu();
 		}
 		SharePrefsUtil.getInstance().putBoolean(SharePrefsKey.IS_FIRST_LOGIN,false);
 	}
-
-
 
 	private void checkPermissions() {
 		//如果系统版本大于或等于6.0

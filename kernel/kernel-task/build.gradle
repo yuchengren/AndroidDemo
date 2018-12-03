@@ -32,7 +32,7 @@ dependencies {
 
     implementation "$android_support:appcompat-v7:$android_support_version"
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    api project(':kernel-log')
+    implementation project(':kernel-log')
 }
 repositories {
     mavenCentral()

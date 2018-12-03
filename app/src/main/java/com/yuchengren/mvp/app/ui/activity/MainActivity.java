@@ -3,6 +3,7 @@ package com.yuchengren.mvp.app.ui.activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -11,8 +12,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.yuchengren.mvp.R;
-import com.yuchengren.mvp.app.presenter.MainPresenter;
-import com.yuchengren.mvp.app.ui.activity.Base.BaseActivity;
 import com.yuchengren.mvp.app.view.IMainView;
 import com.yuchengren.mvp.constant.MenuCode;
 import com.yuchengren.mvp.entity.db.MenuEntity;
@@ -21,34 +20,13 @@ import com.yuchengren.mvp.greendao.gen.MenuEntityDao;
 import com.yuchengren.mvp.util.business.DaoHelper;
 
 
-import java.lang.ref.SoftReference;
-import java.lang.ref.WeakReference;
 import java.util.List;
 
-public class MainActivity extends BaseActivity<MainPresenter> implements IMainView, View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements IMainView, View.OnClickListener {
 
     private FrameLayout fl_container;
     private LinearLayout ll_bottom_tab;
 
-    @Override
-    protected int getLayoutResID() {
-        return R.layout.activity_main;
-    }
-
-    @Override
-    protected void initViews() {
-        fl_container = (FrameLayout) findViewById(R.id.fl_container);
-        ll_bottom_tab = (LinearLayout) findViewById(R.id.ll_bottom_tab);
-    }
-
-    @Override
-    protected void initListeners() {
-
-    }
-
-
-
-    @Override
     protected void initData() {
         ll_bottom_tab.removeAllViews();
         MenuEntityDao menuEntityDao = DaoHelper.getMenuEntityDao();
@@ -78,6 +56,10 @@ public class MainActivity extends BaseActivity<MainPresenter> implements IMainVi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        fl_container = (FrameLayout) findViewById(R.id.fl_container);
+        ll_bottom_tab = (LinearLayout) findViewById(R.id.ll_bottom_tab);
+        initData();
     }
 
     @Override

@@ -51,11 +51,7 @@ dependencies {
     implementation "$android_support:appcompat-v7:$android_support_version"
     implementation "com.android.support.constraint:constraint-layout:$constraint_layout_version"
 
-    api project(':kernel-log')
-//    api project(':kernel-mvp')
-//    api project(':kernel-union')
-//    api project(':kernel-task')
-    api project(':lib-changeskin')
+    api project(':module-framework')
 }
 
 configurations.all {
