@@ -62,16 +62,19 @@ object TaskScheduler {
                     onTaskOver(task)
                 }
                 MSG_TYPE_TASK_PRIORITY_CHANGE -> {
+                    if(msg.obj !is Array<*>){
+                        return true
+                    }
                     val uiStatus = msg.arg1
-                    val taskNames = msg.obj as? Array<String>
+                    val taskNames = msg.obj as? Array<*>
                     var groupName: String? = null
                     var taskName: String? = null
                     if(taskNames != null){
                         when(taskNames.size){
-                            1 -> groupName = taskNames[0]
+                            1 -> groupName = taskNames[0] as? String
                             2 ->{
-                                groupName = taskNames[0]
-                                taskName = taskNames[1]
+                                groupName = taskNames[0] as? String
+                                taskName = taskNames[1] as? String
                             }
                         }
                     }

@@ -2,8 +2,8 @@ package com.yuchengren.mvp.factory;
 
 import android.app.Fragment;
 
-import com.yuchengren.mvp.app.ui.fragment.HomeFragment;
-import com.yuchengren.mvp.app.ui.fragment.OtherFragment;
+import com.yuchengren.mvp.app.body.main.fragment.HomeFragment;
+import com.yuchengren.mvp.app.body.main.fragment.OtherFragment;
 import com.yuchengren.mvp.constant.MenuCode;
 
 import java.util.HashMap;

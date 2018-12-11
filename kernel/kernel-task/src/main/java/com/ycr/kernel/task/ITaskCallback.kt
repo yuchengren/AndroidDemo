@@ -11,7 +11,7 @@ interface ITaskCallback<R> {
 
     fun onCompleted(data: R)
 
-    fun onError(t: Throwable)
+    fun onError(tr: Throwable)
 
     fun onCancelled()
 

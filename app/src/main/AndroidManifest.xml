@@ -24,7 +24,7 @@
             android:name="android.max_aspect"
             android:value="2.1"/>
 
-        <activity android:name=".app.ui.activity.SplashActivity"
+        <activity android:name=".app.body.splash.SplashActivity"
             android:launchMode="singleInstance"
             android:theme="@style/AppTheme.Fullscreen">
             <intent-filter>
@@ -33,21 +33,21 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".app.ui.activity.MainActivity"
+        <activity android:name=".app.body.main.MainActivity"
             android:launchMode="singleTask">
         </activity>
 
-        <activity android:name=".app.ui.activity.CallPhoneBackActivity"
+        <activity android:name=".app.other.CallPhoneBackActivity"
                   android:configChanges="keyboardHidden|orientation"
                   android:windowSoftInputMode="stateHidden|adjustResize"/>
-        <activity android:name=".app.ui.activity.RxAndroidActivity"/>
+        <activity android:name=".app.other.RxAndroidActivity"/>
 
-        <activity android:name=".app.ui.activity.Test.TestActivity"
+        <activity android:name=".app.test.TestActivity"
             android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".app.ui.activity.ChangeThemeActivity"/>
+        <activity android:name=".app.other.ChangeThemeActivity"/>
 
-        <activity android:name=".app.ui.activity.ImageEditActivity"
+        <activity android:name=".app.other.ImageEditActivity"
             android:theme="@style/AppTheme.Fullscreen"
             android:screenOrientation="fullSensor"
             android:configChanges="keyboardHidden|orientation|screenSize"/>

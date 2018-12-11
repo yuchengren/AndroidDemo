@@ -3,11 +3,11 @@ package com.yuchengren.mvp.util.business;
 import android.content.Context;
 import android.content.Intent;
 
-import com.yuchengren.mvp.app.ui.activity.CallPhoneBackActivity;
-import com.yuchengren.mvp.app.ui.activity.ImageEditActivity;
-import com.yuchengren.mvp.app.ui.activity.RxAndroidActivity;
-import com.yuchengren.mvp.app.ui.activity.Test.TestActivity;
-import com.yuchengren.mvp.app.ui.activity.ChangeThemeActivity;
+import com.yuchengren.mvp.app.other.CallPhoneBackActivity;
+import com.yuchengren.mvp.app.other.ImageEditActivity;
+import com.yuchengren.mvp.app.other.RxAndroidActivity;
+import com.yuchengren.mvp.app.test.TestActivity;
+import com.yuchengren.mvp.app.other.ChangeThemeActivity;
 import com.yuchengren.mvp.constant.MapKey;
 import com.yuchengren.mvp.constant.MenuCode;
 import com.yuchengren.mvp.entity.db.MenuEntity;

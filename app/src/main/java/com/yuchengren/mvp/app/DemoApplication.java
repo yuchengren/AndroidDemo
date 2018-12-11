@@ -11,6 +11,7 @@ import com.ycr.kernel.log.engine.ILogEngine;
 import com.ycr.kernel.log.printer.ConsoleLogPrinter;
 import com.ycr.kernel.log.printer.FileLogPrinter;
 import com.ycr.lib.changeskin.SkinManager;
+import com.ycr.module.framework.base.BaseApplication;
 import com.yuchengren.mvp.constant.Constants;
 import com.yuchengren.mvp.greendao.gen.DaoMaster;
 import com.yuchengren.mvp.greendao.gen.DaoSession;
@@ -26,7 +27,7 @@ import okhttp3.OkHttpClient;
 /**
  * Created by yuchengren on 2016/9/2.
  */
-public class DemoApplication extends Application {
+public class DemoApplication extends BaseApplication {
 
     private static DemoApplication mDemoApplication;
     /**

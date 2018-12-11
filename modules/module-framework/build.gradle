@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion Integer.parseInt(compile_sdk_version)
@@ -30,6 +31,16 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
     implementation "$android_support:appcompat-v7:$android_support_version"
+    implementation "$kotlin_group:kotlin-stdlib-jdk7:$kotlin_version"
+
+    api "$butterknife_group:butterknife:$butterknife_version"
+
+    //dagger
+//    api "$dagger_group:dagger:$dagger_version"
+//    api "$dagger_group:dagger-android:$dagger_version"
+//    api "$dagger_group:dagger-android-support:$dagger_version"
+//    annotationProcessor "$dagger_group:dagger-compiler:$dagger_version"
+//    api "javax.inject:javax.inject:1"
 
     api project(':lib-changeskin')
     api project(':kernel-union')

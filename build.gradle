@@ -1,17 +1,17 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    ext.kotlin_version = '1.2.61'
-    ext.kotlin_version = '1.2.60'
     repositories {
         jcenter()
-        mavenCentral() // add repository
         google()
+        mavenCentral()
+        maven { url 'https://maven.google.com' }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.0.1'
         classpath 'org.greenrobot:greendao-gradle-plugin:3.2.2'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version" // add plugin
+        classpath "com.leon.channel:plugin:$channel_packer_version"//渠道打包工具
+        classpath "$kotlin_group:kotlin-gradle-plugin:$kotlin_version" // add plugin
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -22,6 +22,8 @@ allprojects {
     repositories {
         jcenter()
         google()
+        mavenCentral()
+        maven { url 'https://maven.google.com' }
     }
 }
 

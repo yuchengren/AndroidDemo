@@ -12,4 +12,5 @@
     <string name="test_text">红  色</string>
     <string name="black_color">黑色</string>
     <string name="image_edit">图片编辑</string>
+    <string name="login">登录</string>
 </resources>

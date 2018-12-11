@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion Integer.parseInt(compile_sdk_version)
@@ -30,8 +31,11 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
     implementation "$android_support:appcompat-v7:$android_support_version"
+    implementation "$kotlin_group:kotlin-stdlib-jdk7:$kotlin_version"
 
     api project(':kernel-log')
     api project(':kernel-mvp')
     api project(':kernel-task')
+    api project(':kernel-http')
+    api project(':kernel-util')
 }

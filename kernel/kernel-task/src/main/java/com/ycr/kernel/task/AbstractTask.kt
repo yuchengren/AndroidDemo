@@ -1,7 +1,7 @@
 package com.ycr.kernel.task
 
-import com.ycr.kernel.task.util.isMainThread
-import com.ycr.kernel.task.util.runOnMainThread
+import com.ycr.kernel.util.isMainThread
+import com.ycr.kernel.util.runOnMainThread
 import java.util.concurrent.Callable
 import java.util.concurrent.ExecutionException
 import java.util.concurrent.FutureTask
@@ -9,8 +9,8 @@ import java.util.concurrent.FutureTask
 /**
  * Created by yuchengren on 2018/8/6.
  */
-open class AbstractTask<R>(doBackground: ITaskBackground<R>,private val callback: ITaskCallback<R>?):
-        FutureTask<R>(Callable<R> {  doBackground.doInBackground() }), IGroup,ITask,ITaskStatus,ITaskPolicy,ITaskPriority{
+open class AbstractTask<R>(doBackground: ITaskBackground<R>, private val callback: ITaskCallback<R>?) :
+        FutureTask<R>(Callable<R> { doBackground.doInBackground() }), IGroup, ITask, ITaskStatus, ITaskPolicy, ITaskPriority {
 
     private var groupName: String? = IGroup.GROUP_NAME_DEFAULT
     private var taskName: String? = ITask.TASK_NAME_DEFAULT
@@ -31,9 +31,9 @@ open class AbstractTask<R>(doBackground: ITaskBackground<R>,private val callback
         endExecuteTime = System.currentTimeMillis()
         Runnable {
             onAfterCall()
-            if(isCancelled){
+            if (isCancelled) {
                 onCancelled()
-            }else{
+            } else {
                 onCompleted()
             }
         }.runOnMainThread()
@@ -47,48 +47,51 @@ open class AbstractTask<R>(doBackground: ITaskBackground<R>,private val callback
     override fun setException(tr: Throwable?) {
         super.setException(tr)
         endExecuteTime = System.currentTimeMillis()
-        printException(tr,"setException")
-        if(tr == null){
+        printException(tr, "setException")
+        if (isMainThread()) onAfterCall() else Runnable { onAfterCall() }.runOnMainThread()
+        if (tr == null) {
             return
         }
-        if(isMainThread()) onError(tr) else Runnable { onError(tr) }.runOnMainThread()
+        if (isMainThread()) onError(tr) else Runnable { onError(tr) }.runOnMainThread()
     }
 
     fun onBeforeCall() {
-        if(isMainThread()) onBeforeCallMain() else Runnable { onBeforeCallMain() }.runOnMainThread()
+        if (isMainThread()) onBeforeCallMain() else Runnable { onBeforeCallMain() }.runOnMainThread()
     }
 
-    private fun onBeforeCallMain(){
+    private fun onBeforeCallMain() {
         try {
             callback?.onBeforeCall(this)
-        }catch (tr: Throwable){
-            printException(tr,"onBeforeCall")
+        } catch (tr: Throwable) {
+            printException(tr, "onBeforeCall")
         }
     }
 
     private fun printException(tr: Throwable?, period: String) {
-        val cause: Throwable? = if(tr is ExecutionException){ tr.cause} else tr
-        TaskLog.e(cause,"task-$groupName-$taskName occur exception at $period ")
+        val cause: Throwable? = if (tr is ExecutionException) {
+            tr.cause
+        } else tr
+        TaskLog.e(cause, "task-$groupName-$taskName occur exception at $period ")
     }
 
     private fun onAfterCall() {
         try {
             callback?.onAfterCall()
-        }catch (tr: Throwable){
-            printException(tr,"onAfterCall")
+        } catch (tr: Throwable) {
+            printException(tr, "onAfterCall")
         }
     }
 
     private fun onCompleted() {
         try {
             val result: R? = get()
-            if(result == null){
+            if (result == null) {
                 TaskLog.d("task-$groupName-$taskName get() result is null")
-            }else{
+            } else {
                 callback?.onCompleted(result)
             }
-        }catch (tr: Throwable){
-            printException(tr,"onCompleted")
+        } catch (tr: Throwable) {
+            printException(tr, "onCompleted")
         }
     }
 
@@ -96,8 +99,8 @@ open class AbstractTask<R>(doBackground: ITaskBackground<R>,private val callback
         try {
             callback?.onCancelled()
             TaskLog.d("task-$groupName-$taskName is cancelled")
-        }catch (tr: Throwable){
-            printException(tr,"onCancelled")
+        } catch (tr: Throwable) {
+            printException(tr, "onCancelled")
         }
 
     }
@@ -105,8 +108,8 @@ open class AbstractTask<R>(doBackground: ITaskBackground<R>,private val callback
     private fun onError(t: Throwable) {
         try {
             callback?.onError(t)
-        }catch (tr: Throwable){
-            printException(tr,"onError")
+        } catch (tr: Throwable) {
+            printException(tr, "onError")
         }
     }
 
@@ -114,7 +117,7 @@ open class AbstractTask<R>(doBackground: ITaskBackground<R>,private val callback
         return groupName
     }
 
-    fun setGroupName(groupName: String?){
+    fun setGroupName(groupName: String?) {
         this.groupName = groupName
     }
 
@@ -130,7 +133,7 @@ open class AbstractTask<R>(doBackground: ITaskBackground<R>,private val callback
         return isSerial
     }
 
-    fun setSerial(isSerial: Boolean){
+    fun setSerial(isSerial: Boolean) {
         this.isSerial = isSerial
     }
 
@@ -149,7 +152,8 @@ open class AbstractTask<R>(doBackground: ITaskBackground<R>,private val callback
     override fun policy(): Int {
         return policy
     }
-    fun setPolicy(policy: Int){
+
+    fun setPolicy(policy: Int) {
         this.policy = policy
     }
 
@@ -166,17 +170,17 @@ open class AbstractTask<R>(doBackground: ITaskBackground<R>,private val callback
     }
 
     override fun hashCode(): Int {
-        return  (groupName?.hashCode()?:0) * 31 + (taskName?.hashCode()?:0)
+        return (groupName?.hashCode() ?: 0) * 31 + (taskName?.hashCode() ?: 0)
     }
 
     override fun equals(other: Any?): Boolean {
-        if(other == null){
+        if (other == null) {
             return false
         }
-        if(this === other){
+        if (this === other) {
             return true
         }
-        if(other::class != this::class){
+        if (other::class != this::class) {
             return false
         }
         other as AbstractTask<*>

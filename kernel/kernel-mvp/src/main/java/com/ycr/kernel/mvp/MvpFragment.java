@@ -16,7 +16,7 @@ import com.ycr.kernel.mvp.view.IMvpView;
 /**
  * Created by yuchengren on 2018/7/26.
  */
-public class MvpFragment extends Fragment implements IMvpView {
+public abstract class MvpFragment extends Fragment implements IMvpView {
 	private FragmentMvpConnector mMvpConnector;
 
 	@Override
@@ -52,8 +52,10 @@ public class MvpFragment extends Fragment implements IMvpView {
 	@Override
 	public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		getMvpConnector().onCreateView(savedInstanceState);
-		return super.onCreateView(inflater, container, savedInstanceState);
+		return inflaterView(inflater,container,savedInstanceState);
 	}
+
+	protected abstract View inflaterView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState);
 
 	@Override
 	public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {

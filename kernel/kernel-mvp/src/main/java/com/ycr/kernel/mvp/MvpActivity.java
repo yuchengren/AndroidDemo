@@ -29,12 +29,22 @@ public class MvpActivity extends AppCompatActivity implements IMvpView {
 
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
+		beforeCreate(savedInstanceState);
 		super.onCreate(savedInstanceState);
 		Bundle bundle = getIntent().getExtras();
 		if(bundle == null){
 			bundle = new Bundle();
 		}
 		getMvpConnector().onCreated(savedInstanceState,getIntent(),bundle);
+		afterCreate(savedInstanceState);
+	}
+
+	protected void beforeCreate(@Nullable Bundle savedInstanceState) {
+
+	}
+
+	protected void afterCreate(Bundle savedInstanceState) {
+
 	}
 
 	@Override
@@ -69,9 +79,9 @@ public class MvpActivity extends AppCompatActivity implements IMvpView {
 
 	@Override
 	protected void onDestroy() {
-		super.onDestroy();
 		getMvpConnector().onDestroy();
 		getMvpConnector().destroyPresenter();
+		super.onDestroy();
 	}
 
 	@Override
