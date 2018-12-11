@@ -11,7 +11,7 @@ android {
     buildToolsVersion build_tools_version
 
     defaultConfig {
-        applicationId "com.yuchengren.mvp"
+        applicationId "com.yuchengren.demo"
         minSdkVersion min_sdk_version
         targetSdkVersion target_sdk_version
         versionCode 1
