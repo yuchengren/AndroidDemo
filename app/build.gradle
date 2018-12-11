@@ -25,7 +25,7 @@ android {
     }
     greendao {
         schemaVersion 1
-        daoPackage 'com.yuchengren.mvp.greendao.gen'
+        daoPackage 'com.yuchengren.demo.greendao.gen'
         targetGenDir 'src/main/java'
     }
 
