@@ -8,9 +8,9 @@ import com.ycr.kernel.mvp.view.IMvpView;
 /**
  * Created by yuchengren on 2018/12/10.
  */
-public abstract class BaseActivityPresenter<view extends IMvpView> extends BasePresenter<view> implements IActivitySpecialLifeCycle {
+public abstract class BaseActivityPresenter<V extends IMvpView> extends BasePresenter<V> implements IActivitySpecialLifeCycle {
 
-	public BaseActivityPresenter(view mvpView) {
+	public BaseActivityPresenter(V mvpView) {
 		super(mvpView);
 	}
 

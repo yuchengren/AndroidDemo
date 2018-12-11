@@ -12,9 +12,9 @@ import com.ycr.module.framework.task.ApiTask;
 /**
  * Created by yuchengren on 2018/12/7.
  */
-public abstract class BasePresenter<view extends IMvpView> extends BaseLifeCyclePresenter<view> {
+public abstract class BasePresenter<V extends IMvpView> extends BaseLifeCyclePresenter<V> {
 
-	public BasePresenter(view mvpView) {
+	public BasePresenter(V mvpView) {
 		super(mvpView);
 	}
 

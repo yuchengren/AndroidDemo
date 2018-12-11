@@ -9,9 +9,9 @@ import com.ycr.kernel.mvp.view.IMvpView;
 /**
  * Created by yuchengren on 2018/12/3.
  */
-public abstract class BaseLifeCyclePresenter<view extends IMvpView>  extends MvpPresenter<view> implements IBaseLifeCycle {
+public abstract class BaseLifeCyclePresenter<V extends IMvpView>  extends MvpPresenter<V> implements IBaseLifeCycle {
 
-	public BaseLifeCyclePresenter(view mvpView) {
+	public BaseLifeCyclePresenter(V mvpView) {
 		super(mvpView);
 	}
 

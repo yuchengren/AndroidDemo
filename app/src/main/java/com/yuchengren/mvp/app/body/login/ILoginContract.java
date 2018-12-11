@@ -17,7 +17,7 @@ public interface ILoginContract {
 		void login(String loginName,String password);
 	}
 
-	IView emtpyView = new IView(){
+	IView emptyView = new IView(){
 		@Override
 		public <C extends IMvpConnector> C getMvpConnector() {
 			return null;

@@ -18,6 +18,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     @BindView(R.id.btn_login)
     Button btn_login;
 
+    ILoginContract.IPresenter presenter;
+
     @Override
     public int getRootLayoutResId() {
         return R.layout.activity_login;
@@ -26,7 +28,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     @Override
     public void afterBindView(View rootView, Bundle savedInstanceState) {
         super.afterBindView(rootView, savedInstanceState);
-
+        presenter = new LoginPresenter(this);
     }
 
     @Override
@@ -34,7 +36,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btn_login:
-
+                presenter.login("","");
                 break;
         }
     }

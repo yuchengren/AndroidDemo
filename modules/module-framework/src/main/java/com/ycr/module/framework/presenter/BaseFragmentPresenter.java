@@ -9,9 +9,9 @@ import com.ycr.kernel.mvp.view.IMvpView;
 /**
  * Created by yuchengren on 2018/12/10.
  */
-public abstract class BaseFragmentPresenter<view extends IMvpView> extends BasePresenter<view> implements IFragmentSpecialLifeCycle{
+public abstract class BaseFragmentPresenter<V extends IMvpView> extends BasePresenter<V> implements IFragmentSpecialLifeCycle{
 
-	public BaseFragmentPresenter(view mvpView) {
+	public BaseFragmentPresenter(V mvpView) {
 		super(mvpView);
 	}
 

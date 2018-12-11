@@ -18,7 +18,7 @@ public class LoginPresenter extends BaseActivityPresenter<ILoginContract.IView> 
 
 	@Override
 	public ILoginContract.IView getEmptyView() {
-		return ILoginContract.emtpyView;
+		return ILoginContract.emptyView;
 	}
 
 	@Override
