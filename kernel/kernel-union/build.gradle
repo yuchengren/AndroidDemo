@@ -11,7 +11,7 @@ android {
         versionCode 1
         versionName "1.0"
 
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+//        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
     }
 
@@ -26,9 +26,6 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
     implementation "$android_support:appcompat-v7:$android_support_version"
     implementation "$kotlin_group:kotlin-stdlib-jdk7:$kotlin_version"
@@ -37,5 +34,6 @@ dependencies {
     api project(':kernel-mvp')
     api project(':kernel-task')
     api project(':kernel-http')
+    api project(':kernel-http-okhttp')
     api project(':kernel-util')
 }

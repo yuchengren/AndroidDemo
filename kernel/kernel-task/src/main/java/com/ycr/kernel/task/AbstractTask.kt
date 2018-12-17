@@ -1,5 +1,6 @@
 package com.ycr.kernel.task
 
+import com.ycr.kernel.util.ThreadLocalHelper
 import com.ycr.kernel.util.isMainThread
 import com.ycr.kernel.util.runOnMainThread
 import java.util.concurrent.Callable
@@ -22,8 +23,10 @@ open class AbstractTask<R>(doBackground: ITaskBackground<R>, private val callbac
     private var submitTime: Long = 0
     private var beginExecuteTime: Long = 0
     private var endExecuteTime: Long = 0
+
     override fun run() {
         beginExecuteTime = System.currentTimeMillis()
+        ThreadLocalHelper.put(TASK_INFO,TaskInfo(groupName,taskName))
         super.run()
     }
 

@@ -94,6 +94,7 @@ class ImageEditView : View {
         typedArray?.run {
             graffitiPaintColor = getColor(R.styleable.ImageEditView_graffitiPaintColor, ContextCompat.getColor(context, R.color.teacher_paint))
             graffitiPaintWidth = getDimensionPixelSize(R.styleable.ImageEditView_graffitiPaintWidth, context.resources.getDimensionPixelSize(R.dimen.teacher_paint_width))
+            recycle()
         }
         pathEffectDistance = context.resources.getDimensionPixelSize(R.dimen.postil_path_effect_distance).toDouble()
         initPaint()

@@ -68,10 +68,10 @@ fun Runnable.removeCallbacksOnMainThread(){
 fun Thread.getTaskNameFromTrace(place: Int): String{
     if(stackTrace.size > place){
         stackTrace[place].let {
-            return it.className + Strings.COLON + it.lineNumber
+            return it.className + Chars.COLON + it.lineNumber
         }
     }
-    return "task" + Strings.HYPHEN + System.currentTimeMillis()
+    return "task" + Chars.HYPHEN + System.currentTimeMillis()
 }
 
 

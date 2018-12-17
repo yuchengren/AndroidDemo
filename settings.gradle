@@ -1,6 +1,6 @@
 include ':app'
-//include 'kernel-util'
-//project(":kernel-util").projectDir = file("kernel/kernel-util")
+//include 'kernel-json-parse'
+//project(":kernel-json-parse").projectDir = file("kernel/kernel-json-parse")
 
 //def includeModule(String moduleName,String path){
 //    include moduleName
