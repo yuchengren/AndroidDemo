@@ -23,14 +23,14 @@ object HttpHelper {
         this.httpScheduler = httpScheduler
     }
 
-    fun <T> excute(api: IApi, params: Any?): IResult<T>{
+    fun <T> execute(api: IApi, params: Any?): IResult<T>{
         if(!context.isNetworkConnected()){
             throw NetworkNotConnectedException()
         }
         val newCall = httpScheduler.newCall(api.newRequestBuilder().setParams(params).build())
         val taskInfo = ThreadLocalHelper.getThreadLocalInfo<TaskInfo>(TASK_INFO)
         val response = httpScheduler.execute(newCall, taskInfo?.groupName, taskInfo?.taskName)
-        return httpScheduler.parse(api.resultParser(),api.resultType(), response)
+        return httpScheduler.parse(api, response)
     }
 
 

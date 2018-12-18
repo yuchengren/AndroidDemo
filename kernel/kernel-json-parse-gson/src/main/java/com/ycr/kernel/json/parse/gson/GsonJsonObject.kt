@@ -11,6 +11,36 @@ import com.ycr.kernel.json.parse.IJsonObject
  * Created by yuchengren on 2018/12/17.
  */
 class GsonJsonObject(val jsonObject: JsonObject?): GsonJsonElement(jsonObject),IJsonObject {
+
+    override fun getBoolean(key: String, defaultValue: Boolean): Boolean {
+        if(jsonObject != null){
+            val jsonElement: JsonElement? = jsonObject.get(key)
+            if(jsonElement != null && jsonElement.isJsonPrimitive){
+                try {
+                    return jsonElement.asBoolean
+                }catch (e: Exception){
+                    printExceptionLog(e,"getBoolean")
+                }
+            }
+        }
+        return defaultValue
+    }
+
+    override fun getString(key: String, defaultValue: String?): String? {
+        if(jsonObject != null){
+            val jsonElement: JsonElement? = jsonObject.get(key)
+            if(jsonElement != null && jsonElement.isJsonPrimitive){
+                try {
+                    return jsonElement.asString
+                }catch (e: Exception){
+                    printExceptionLog(e,"getString")
+                }
+            }
+        }
+        return defaultValue
+    }
+
+
     override fun get(key: String): IJsonElement? {
         return GsonJsonElement(jsonObject?.get(key))
     }
@@ -34,5 +64,9 @@ class GsonJsonObject(val jsonObject: JsonObject?): GsonJsonElement(jsonObject),I
         }
         return null
 
+    }
+
+    private fun printExceptionLog(e: Exception, period: String) {
+        GsonJsonLog.e(e, " ${javaClass.simpleName} occur exception at $period ")
     }
 }

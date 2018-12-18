@@ -35,7 +35,7 @@ dependencies {
     implementation project(':kernel-log')
     implementation project(':kernel-http')
     implementation project(':kernel-util')
-    implementation project(':kernel-json-parse')
+    api project(':kernel-json-parse')
 }
 repositories {
     mavenCentral()

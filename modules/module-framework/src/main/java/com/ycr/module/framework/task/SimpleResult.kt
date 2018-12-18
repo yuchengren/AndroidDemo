@@ -7,11 +7,29 @@ import com.ycr.kernel.union.task.Result
  */
 class SimpleResult<T>: Result<T>() {
     companion object {
-        fun <T> fail(status: String?,tr:Throwable? = null): SimpleResult<T>{
+        fun <T> fail(status: String?,tr:Throwable?): SimpleResult<T>{
             return SimpleResult<T>().apply {
                 setSuccess(false)
                 setStatus(status)
                 setException(tr)
+            }
+        }
+
+        fun <T> fail(status: String?,msg: String? = null,code: String? = null): SimpleResult<T>{
+            return SimpleResult<T>().apply {
+                setSuccess(false)
+                setStatus(status)
+                setMsg(msg)
+                setCode(code)
+            }
+        }
+
+        fun <T> success(msg: String? = null,code: String? = null,data: T?): SimpleResult<T>{
+            return SimpleResult<T>().apply {
+                setSuccess(true)
+                setMsg(msg)
+                setCode(code)
+                setData(data)
             }
         }
     }

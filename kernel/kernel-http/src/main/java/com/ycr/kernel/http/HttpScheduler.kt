@@ -1,6 +1,5 @@
 package com.ycr.kernel.http
 
-import java.lang.reflect.Type
 import java.util.concurrent.ConcurrentHashMap
 
 /**
@@ -24,8 +23,8 @@ abstract class HttpScheduler: IHttpScheduler {
         return response
     }
 
-    override fun <T> parse(resultParser: IResultParser, type: Type?, response: IResponse): IResult<T> {
-        val result = resultParser.parse<T>(type,response)
+    override fun <T> parse(api: IApi, response: IResponse): IResult<T> {
+        val result = api.resultParser().parse<T>(api.resultType(), response, api)
         return result
     }
 

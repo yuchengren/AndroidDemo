@@ -1,5 +1,6 @@
 package com.ycr.kernel.union.http
 
+import com.ycr.kernel.http.IApi
 import com.ycr.kernel.http.IParamBuilder
 
 /**
@@ -7,10 +8,14 @@ import com.ycr.kernel.http.IParamBuilder
  */
 object UnionParamBuilder: IParamBuilder {
 
-    override fun buildParam(vararg args: Any?): MutableMap<String, Any?> {
-        val map = mutableMapOf<String,Any?>()
-
-
+    override fun buildParam(api: IApi, serverData: Any?, params: Any?): MutableMap<String, Any?> {
+        val map = mutableMapOf<String, Any?>()
+        if(serverData is MutableMap<*, *>){
+            map.putAll(serverData as Map<out String, Any?>)
+        }
+        if(params is MutableMap<*, *>){
+            map.putAll(params as Map<out String, Any?>)
+        }
         return map
     }
 }

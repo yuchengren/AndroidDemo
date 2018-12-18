@@ -44,5 +44,4 @@ dependencies {
 
     api project(':lib-changeskin')
     api project(':kernel-union')
-    api project(':kernel-json-parse-gson')
 }

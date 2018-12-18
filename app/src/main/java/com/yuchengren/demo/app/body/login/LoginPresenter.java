@@ -2,10 +2,15 @@ package com.yuchengren.demo.app.body.login;
 
 import com.ycr.kernel.http.IResult;
 import com.ycr.kernel.task.AbstractTask;
+import com.ycr.kernel.union.http.HttpHelper;
 import com.ycr.module.framework.presenter.BaseActivityPresenter;
 import com.ycr.module.framework.task.ApiTask;
+import com.yuchengren.demo.app.body.BodyApis;
 
 import org.jetbrains.annotations.NotNull;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by yuchengren on 2018/12/11.
@@ -22,7 +27,7 @@ public class LoginPresenter extends BaseActivityPresenter<ILoginContract.IView> 
 	}
 
 	@Override
-	public void login(String loginName, String password) {
+	public void login(final String loginName, final String password) {
 		submitTask(new ApiTask<UserEntity>() {
 
 			@Override
@@ -39,7 +44,10 @@ public class LoginPresenter extends BaseActivityPresenter<ILoginContract.IView> 
 
 			@Override
 			public IResult<UserEntity> doInBackground() {
-				return null;
+				Map map = new HashMap<String,Object>();
+				map.put("loginName",loginName);
+				map.put("password",password);
+				return HttpHelper.INSTANCE.execute(BodyApis.Companion.getLogin(),map);
 			}
 
 			@Override

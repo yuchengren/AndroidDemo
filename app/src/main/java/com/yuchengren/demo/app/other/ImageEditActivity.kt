@@ -20,7 +20,7 @@ class ImageEditActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_image_edit)
-        imageEditView.setImageBitmap(BitmapFactory.decodeResource(resources, R.drawable.test2))
+        imageEditView.setImageBitmap(BitmapFactory.decodeResource(resources, R.drawable.test))
 
 //        imageEditView.pathList.add(GraffitiPath(GraffitiPath.parseSVGStringToPath(CompressUtils.uncompressString("H4sIAAAAAAAAAD1QyREDMQhrCGYs8LU9Kf1/I9hJPpLBHEKfGMeASDrM8cMwj343jgIwLIlhl0i1\n" +
 //                "    MLbhcoZFcG0LcD2GwT3NJ/djfivjSO4hev5Ucxen/uJhXhGYaZ6DqGgTS3S5ldNO4asmN73qJl11\n" +

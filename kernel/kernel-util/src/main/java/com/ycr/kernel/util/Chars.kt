@@ -5,7 +5,7 @@ package com.ycr.kernel.util
  */
 class Chars{
     companion object {
-        const val empty = ""
+
         const val BLANK = ' ' //空格
         const val COLON = ':'//冒号
         const val SEMICOLON = ';' //分号
@@ -19,6 +19,7 @@ class Chars{
         const val HYPHEN = '-' //连字符
         const val UNDERLINE = '_'//下划线
         const val AT = '@'
+        const val ASTERISK = '*'
 
         const val BRACKET_ROUND_LEFT = '('
         const val BRACKET_ROUND_RIGHT = ')'
@@ -30,6 +31,6 @@ class Chars{
         const val SINGLE_QUOTE = '\''
         const val EXCLAMATION_MARK = '!'
 
-        const val ELLIPSIS = "..." //省略号
+
     }
 }

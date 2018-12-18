@@ -4,5 +4,5 @@ package com.ycr.kernel.http
  * Created by yuchengren on 2018/12/15.
  */
 interface IParamBuilder {
-    fun buildParam(vararg args: Any?): MutableMap<String,Any?>
+    fun buildParam(api: IApi, serverData: Any?, params: Any?): MutableMap<String,Any?>
 }
