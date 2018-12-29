@@ -9,6 +9,6 @@ public abstract class AbstractLogPrinter implements ILogPrinter {
 
 	@Override
 	public int level() {
-		return LogLevel.ASSERT;
+		return LogLevel.VERBOSE;
 	}
 }

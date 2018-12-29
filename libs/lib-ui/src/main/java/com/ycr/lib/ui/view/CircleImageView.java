@@ -1,4 +1,4 @@
-package com.yuchengren.demo.view;
+package com.ycr.lib.ui.view;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -16,9 +16,8 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.util.AttributeSet;
-import android.widget.ImageView;
 
-import com.yuchengren.demo.R;
+import com.ycr.lib.ui.R;
 
 
 public class CircleImageView extends android.support.v7.widget.AppCompatImageView {

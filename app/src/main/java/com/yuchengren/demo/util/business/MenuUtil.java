@@ -5,6 +5,7 @@ import android.content.Intent;
 
 import com.yuchengren.demo.app.other.CallPhoneBackActivity;
 import com.yuchengren.demo.app.other.ImageEditActivity;
+import com.yuchengren.demo.app.other.NineGridActivity;
 import com.yuchengren.demo.app.other.RxAndroidActivity;
 import com.yuchengren.demo.app.test.TestActivity;
 import com.yuchengren.demo.app.other.ChangeThemeActivity;
@@ -38,6 +39,9 @@ public class MenuUtil {
 				break;
 			case MenuCode.Second.IMAGE_EDIT:
 				intent = new Intent(context, ImageEditActivity.class);
+				break;
+			case MenuCode.Second.NINE_GRID:
+				intent = new Intent(context, NineGridActivity.class);
 				break;
 			default:
 				intent = new Intent();

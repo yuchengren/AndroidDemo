@@ -42,6 +42,8 @@ dependencies {
 //    annotationProcessor "$dagger_group:dagger-compiler:$dagger_version"
 //    api "javax.inject:javax.inject:1"
 
-    api project(':lib-changeskin')
+
     api project(':kernel-union')
+    api project(':lib-changeskin')
+    api project(':lib-ui')
 }

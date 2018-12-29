@@ -9,7 +9,6 @@ import com.ycr.kernel.log.constants.LogLevel;
  * Created by yuchengren on 2018/7/16.
  */
 public class FileLogPrinterConfig extends LogPrinterConfig implements IFileLogPrinterConfig {
-	protected int level = LogLevel.INFO;
 
 	public static final long DEFAULT_MAX_TOTAL_SIZE = 10 * 1024 * 1024;
 	public static final String DEFAULT_NAME_TIME_FORMAT = "yyyy-MM-dd";
@@ -75,4 +74,9 @@ public class FileLogPrinterConfig extends LogPrinterConfig implements IFileLogPr
 		return fileNameDateFormat;
 	}
 
+	@Override
+	public FileLogPrinterConfig setLevel(int level) {
+		this.level = level;
+		return this;
+	}
 }

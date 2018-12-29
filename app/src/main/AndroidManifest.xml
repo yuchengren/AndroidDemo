@@ -51,6 +51,8 @@
             android:theme="@style/AppTheme.Fullscreen"
             android:screenOrientation="fullSensor"
             android:configChanges="keyboardHidden|orientation|screenSize"/>
+
+        <activity android:name=".app.other.NineGridActivity"/>
     </application>
 
 </manifest>

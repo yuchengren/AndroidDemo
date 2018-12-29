@@ -157,5 +157,12 @@ public class SplashActivity extends AppCompatActivity {
 		imageEditMenuEntity.setParentCode(MenuCode.First.HOME);
 		menuEntityDao.insert(imageEditMenuEntity);
 
+
+		MenuEntity nineGridViewEntity = new MenuEntity();
+		nineGridViewEntity.setName(getString(R.string.nine_grid));
+		nineGridViewEntity.setCode(MenuCode.Second.NINE_GRID);
+		nineGridViewEntity.setParentCode(MenuCode.First.HOME);
+		menuEntityDao.insert(nineGridViewEntity);
+
 	}
 }

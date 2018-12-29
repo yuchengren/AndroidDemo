@@ -17,6 +17,7 @@ public interface MenuCode {
 		String TEST = "test";
 		String THEME_SWITCH = "skin_switch";
 		String IMAGE_EDIT = "image_edit";
+		String NINE_GRID = "nine_grid";
 	}
 
 }

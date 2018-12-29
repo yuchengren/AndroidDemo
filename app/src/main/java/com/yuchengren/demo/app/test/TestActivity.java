@@ -7,9 +7,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.ycr.kernel.log.LogHelper;
 import com.yuchengren.demo.R;
 
 /**
@@ -27,6 +30,9 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
 
 		btn_test = findViewById(R.id.btn_test);
 		btn_test.setOnClickListener(this);
+		DisplayMetrics dm = getResources().getDisplayMetrics();
+		Log.e("TestActivity",dm.density +"," +dm.densityDpi );
+		Log.e("TestActivity",getResources().getDimensionPixelSize(R.dimen.button_height) + "");
 	}
 
 	@Override

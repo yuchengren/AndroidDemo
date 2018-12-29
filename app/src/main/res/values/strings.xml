@@ -13,4 +13,5 @@
     <string name="black_color">黑色</string>
     <string name="image_edit">图片编辑</string>
     <string name="login">登录</string>
+    <string name="nine_grid">九宫格</string>
 </resources>

@@ -50,28 +50,6 @@ object GsonJsonParser : IJsonParser {
         return null
     }
 
-    override fun <T> fromJson(json: IJsonObject?, type: Type?): T? {
-        try {
-            if (json is GsonJsonObject) {
-                return gson.fromJson<T>(json.jsonObject, type)
-            }
-        } catch (e: Exception) {
-            printExceptionLog(e, "IJsonObject fromJson")
-        }
-        return null
-    }
-
-    override fun <T> fromJson(json: IJsonArray?, type: Type?): T? {
-        try {
-            if (json is GsonJsonArray) {
-                return gson.fromJson<T>(json.jsonArray, type)
-            }
-        } catch (e: Exception) {
-            printExceptionLog(e, "IJsonArray fromJson")
-        }
-        return null
-    }
-
     override fun parseJsonToElement(json: String?): IJsonElement? {
         try{
             return GsonJsonElement(gsonParser.parse(json))

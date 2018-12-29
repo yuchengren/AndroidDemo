@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.ycr.module.framework.base.BaseActivity;
+import com.ycr.module.framework.base.SuperActivity;
 import com.yuchengren.demo.R;
 
 import butterknife.BindView;
@@ -13,7 +13,7 @@ import butterknife.OnClick;
 /**
  * Created by yuchengren on 2016/9/14.
  */
-public class LoginActivity extends BaseActivity implements View.OnClickListener,ILoginContract.IView{
+public class LoginActivity extends SuperActivity implements View.OnClickListener,ILoginContract.IView{
 
     @BindView(R.id.btn_login)
     Button btn_login;

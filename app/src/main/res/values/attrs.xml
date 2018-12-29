@@ -5,10 +5,7 @@
     <attr name="switch_text" format="string" />
     <attr name="switch_drawable" format="reference"/>
 
-    <declare-styleable name="CircleImageView">
-        <attr name="border_width" format="dimension" />
-        <attr name="border_color" format="color" />
-    </declare-styleable>
+
     <declare-styleable name="RoundImageView">
         <attr name="radius" format="dimension"/>
         <attr name="ratio" format="float" />

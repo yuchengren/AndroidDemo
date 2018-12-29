@@ -10,8 +10,6 @@ interface IJsonParser{
 
     fun <T> fromJson(json: String?,type: Type?): T?
     fun <T> fromJson(json: IJsonElement?,type: Type?): T?
-    fun <T> fromJson(json: IJsonObject?,type: Type?): T?
-    fun <T> fromJson(json: IJsonArray?,type: Type?): T?
 
     fun parseJsonToElement(json: String?): IJsonElement?
 }

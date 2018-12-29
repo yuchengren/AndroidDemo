@@ -28,14 +28,6 @@ object JsonHelper: IJsonParser{
         return jsonParser.fromJson(json,type)
     }
 
-    override fun <T> fromJson(json: IJsonObject?, type: Type?): T? {
-        return jsonParser.fromJson(json,type)
-    }
-
-    override fun <T> fromJson(json: IJsonArray?, type: Type?): T? {
-        return jsonParser.fromJson(json,type)
-    }
-
     override fun parseJsonToElement(json: String?): IJsonElement? {
         return jsonParser.parseJsonToElement(json)
     }

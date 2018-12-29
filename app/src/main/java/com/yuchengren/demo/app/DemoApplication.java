@@ -60,10 +60,8 @@ public class DemoApplication extends BaseApplication {
 
     private String getAppRootPath(){
         String appRootPath;
-//        String packageName = getPackageName();
         if(Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())){
-//            appRootPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + getPackageName();
-            appRootPath = getExternalFilesDir(null).getPath();
+            appRootPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + getPackageName();
         }else{
             appRootPath = getFilesDir().getPath();
         }
@@ -79,7 +77,7 @@ public class DemoApplication extends BaseApplication {
                         setLevel(LogLevel.VERBOSE)).
                 setLogPrinters(
                         new ConsoleLogPrinter(),
-                        new FileLogPrinter(FileLogPrinterConfig.create(this).setFileRootPath(getAppRootPath())));
+                        new FileLogPrinter(FileLogPrinterConfig.create(this).setFileRootPath(getAppRootPath()).setLevel(LogLevel.ERROR)));
         //使用范例
 //        LogHelper.e("tag","msg");
 //        ILogEngine task = LogHelper.module("task");

@@ -2,24 +2,39 @@ include ':app'
 //include 'kernel-json-parse'
 //project(":kernel-json-parse").projectDir = file("kernel/kernel-json-parse")
 
-//def includeModule(String moduleName,String path){
-//    include moduleName
-//    project(":$moduleName").projectDir = file("$path/$moduleName")
+//def includeModulesInPath(String path){
+//    file(path).eachDir { dir ->
+//        if(dir.listFiles().any{ it.isFile() && it.name == "build.gradle" }){
+//            include dir.name
+//            project(":${dir.name}").projectDir = dir
+//        }
+//    }
 //}
 //
-//includeModule("module-framework","modules")
-//includeModule("kernel-task","kernel")
+//includeModulesInPath('kernel')
+//includeModulesInPath('libs')
+//includeModulesInPath('modules')
 
-def includeModulesInPath(String path){
-    file(path).eachDir { dir ->
-        if(dir.listFiles().any{ it.isFile() && it.name == "build.gradle" }){
-            include dir.name
-            project(":${dir.name}").projectDir = dir
-        }
-    }
+def includeModule(String moduleName,String path){
+    include moduleName
+    project(":$moduleName").projectDir = file("$path/$moduleName")
 }
 
-includeModulesInPath('kernel')
-includeModulesInPath('libs')
-includeModulesInPath('modules')
+includeModule("module-framework","modules")
+
+includeModule("kernel-union","kernel")
+includeModule("kernel-http","kernel")
+includeModule("kernel-http-okhttp","kernel")
+includeModule("kernel-json-parse","kernel")
+includeModule("kernel-json-parse-gson","kernel")
+includeModule("kernel-log","kernel")
+includeModule("kernel-mvp","kernel")
+includeModule("kernel-task","kernel")
+includeModule("kernel-util","kernel")
+
+includeModule("lib-changeskin","libs")
+includeModule("lib-ui","libs")
+
+
+
 

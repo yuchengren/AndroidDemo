@@ -12,5 +12,5 @@ public interface ILogPrinterConfig {
 	 */
 	int level();
 
-	void setLevel(@LogLevel int level);
+	ILogPrinterConfig setLevel(@LogLevel int level);
 }

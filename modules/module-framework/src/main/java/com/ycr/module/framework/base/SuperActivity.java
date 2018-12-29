@@ -11,7 +11,7 @@ import butterknife.ButterKnife;
 /**
  * Created by yuchengren on 2018/12/10.
  */
-public abstract class BaseActivity extends UnionActivity {
+public abstract class SuperActivity extends UnionActivity {
 
 	@Override
 	public void beforeBindView() {
