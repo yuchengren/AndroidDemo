@@ -35,6 +35,9 @@ dependencies {
     implementation "$kotlin_group:kotlin-stdlib-jdk7:$kotlin_version"
 
     implementation project(':kernel-log')
+
+    // quickadapter
+    api "com.github.CymChad:BaseRecyclerViewAdapterHelper:${base_quick_adapter_version}"
 }
 repositories {
     mavenCentral()

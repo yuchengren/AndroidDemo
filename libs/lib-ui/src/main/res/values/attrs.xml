@@ -4,10 +4,25 @@
         <attr name="border_width" format="dimension" />
         <attr name="border_color" format="color" />
     </declare-styleable>
-    <declare-styleable name="NineGridView">
+    <declare-styleable name="GridRecyclerView">
         <attr name="maxItemCount" format="integer" />
         <attr name="columnsNum" format="integer" />
+
+        <attr name="itemWidth" format="dimension" />
+        <attr name="itemHorizontalSpacing" format="dimension" />
+        <attr name="itemVerticalSpacing" format="dimension" />
+
         <attr name="itemCornerRadius" format="dimension" />
+        <attr name="itemStrokeVisible" format="boolean" />
+        <attr name="itemStrokeWidth" format="dimension" />
+        <attr name="itemStrokeColor" format="color" />
+
+
+        <attr name="plusCornerRadius" format="dimension" />
+        <attr name="plusStrokeVisible" format="boolean" />
+        <attr name="plusStrokeWidth" format="dimension" />
+        <attr name="plusStrokeColor" format="color" />
+
         <attr name="plusDrawable" format="reference" />
         <attr name="plusEnabled" format="boolean" />
     </declare-styleable>

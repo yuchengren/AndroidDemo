@@ -22,13 +22,19 @@ import com.ycr.lib.ui.R
 class GridImageView: AppCompatImageView {
 
     private val strokePaint = Paint()
+    private var windowRectF = RectF() //控件可视化区域
 
-    private var strokeWidth: Float = 0f //描边宽度
-    private var strokeVisible: Boolean = false //描边是否可见
-    private var strokeColor: Int = 0//描边颜色
+    var strokeWidth = 0 //描边宽度
+        set(value) {
+            field = value
+            strokePaint.strokeWidth = strokeWidth.toFloat()
+        }
 
-    private var ratio: Float = 1f //宽高比
-    private var cornerRadius: Float = 0f //圆角度数
+    var strokeVisible: Boolean = false //描边是否可见
+    var strokeColor: Int = 0//描边颜色
+
+    var ratio: Float = 1f //宽高比
+    var cornerRadius = 0 //圆角度数
 
     constructor(context: Context) : this(context, null)
 
@@ -37,12 +43,12 @@ class GridImageView: AppCompatImageView {
     constructor(context: Context, @Nullable attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
         val typeArray = context.obtainStyledAttributes(attrs, R.styleable.GridImageView, defStyleAttr, 0)
         typeArray.run {
-            strokeWidth = getDimensionPixelSize(R.styleable.GridImageView_strokeWidth,0).toFloat()
+            strokeWidth = getDimensionPixelSize(R.styleable.GridImageView_strokeWidth,0)
             strokeVisible = getBoolean(R.styleable.GridImageView_strokeVisible,false)
             strokeColor = getColor(R.styleable.GridImageView_strokeColor,ContextCompat.getColor(context,android.R.color.white))
 
-            cornerRadius = getDimensionPixelSize(R.styleable.GridImageView_cornerRadius,0).toFloat()
-            ratio = typeArray.getFloat(R.styleable.GridImageView_ratio, 0.0f)
+            cornerRadius = getDimensionPixelSize(R.styleable.GridImageView_cornerRadius,0)
+            ratio = typeArray.getFloat(R.styleable.GridImageView_ratio, 1.0f)
             recycle()
         }
         initStrokePaint()
@@ -51,54 +57,12 @@ class GridImageView: AppCompatImageView {
     private fun initStrokePaint() {
         strokePaint.style = Paint.Style.STROKE
         strokePaint.isAntiAlias = true
-        strokePaint.strokeWidth = strokeWidth
+        strokePaint.strokeWidth = strokeWidth.toFloat()
         strokePaint.color = strokeColor
     }
 
-    fun setStrokeWidth(strokeWidthPixels: Float){
-        strokeWidth = strokeWidthPixels
-        strokePaint.strokeWidth = strokeWidth
-        invalidate()
-    }
-
-    fun setStrokeWidth(@DimenRes resId: Int){
-        setStrokeWidth(context.resources.getDimensionPixelSize(resId).toFloat())
-    }
-
-    fun setStrokeVisible(strokeVisible: Boolean){
-        this.strokeVisible = strokeVisible
-        invalidate()
-    }
-
-
     override fun setImageResource(@DrawableRes resId: Int) {
         setImageDrawable(ContextCompat.getDrawable(context,resId))
-    }
-
-    override fun setImageDrawable(drawable: Drawable?) {
-        if (drawable is BitmapDrawable && cornerRadius > 0){
-            super.setImageDrawable(drawable)
-//            super.setImageDrawable(getRoundedDrawable(context, (this.drawable as? BitmapDrawable)?.bitmap?:return,cornerRadius))
-//            super.setImageDrawable(getRoundedDrawable(context, drawable.bitmap,cornerRadius))
-        } else {
-            super.setImageDrawable(drawable)
-        }
-
-
-
-        if(strokeVisible && strokeWidth > 0 && getDrawable() != null){
-            val bounds = getDrawable().bounds
-            val offset = (strokeWidth / 2f).toInt()
-//            if(bounds.width() >= width - strokeWidth.toInt()){
-//                bounds.left +=  offset
-//                bounds.right -= offset
-//            }
-//            if(bounds.height() >= height - strokeWidth.toInt()){
-//                bounds.top +=  offset
-//                bounds.bottom -= offset
-//            }
-//            getDrawable().setBounds(bounds.left + offset,bounds.top + offset,bounds.right - offset,bounds.bottom - offset)
-        }
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -122,100 +86,70 @@ class GridImageView: AppCompatImageView {
         super.onMeasure(widthSpec,heightSpec)
     }
 
+    override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
+        super.onLayout(changed, left, top, right, bottom)
+        if(changed){
+            onWindowSizeChanged((right - left).toFloat(), (bottom - top).toFloat())
+        }
+    }
+
+    /**
+     * 当View窗口大小发生变化时
+     */
+    private fun onWindowSizeChanged(width: Float, height: Float) {
+        if (width == 0f || height == 0f) {
+            return
+        }
+        windowRectF.set(0f, 0f, width, height)
+    }
+
     override fun onDraw(canvas: Canvas) {
-//        if(strokeVisible && strokeWidth > 0){
-//            val bounds = drawable?.bounds?:return
-//            val offset = (strokeWidth / 2f).toInt()
-//            if(bounds.width() >= width - strokeWidth.toInt()){
-//                bounds.left +=  offset
-//                bounds.right -= offset
-//            }
-//            if(bounds.height() >= height - strokeWidth.toInt()){
-//                bounds.top +=  offset
-//                bounds.bottom -= offset
-//            }
-//        }
         if (drawable == null) {
-            return  // couldn't resolve the URI
+            return
+        }
+        if (drawable.intrinsicWidth == 0 || drawable.intrinsicHeight == 0) {
+            return
         }
 
-        if ( drawable.intrinsicWidth == 0 || drawable.intrinsicHeight == 0) {
-            return      // nothing to draw (empty bounds)
+        val isNeedDrawStroke = strokeVisible && strokeWidth > 0
+        val offset = strokeWidth / 2f
+
+        val imageMatrixArray = FloatArray(9)
+        imageMatrix.getValues(imageMatrixArray)
+        val scaleX = imageMatrixArray[0]
+        val scaleY = imageMatrixArray[4]
+
+        if(cornerRadius == 0 || (drawable.intrinsicWidth * scaleX < width - paddingLeft - paddingRight &&
+                        drawable.intrinsicWidth * scaleY < height - paddingTop - paddingBottom)){
+            super.onDraw(canvas)
+        }else{
+            if (imageMatrix == null && paddingTop === 0 && paddingLeft === 0) {
+                drawable.draw(canvas)
+            } else {
+                val saveCount = canvas.saveCount
+                canvas.save()
+                if (cropToPadding) {
+                    canvas.clipRect(scrollX + paddingLeft,
+                            scrollY + paddingTop,
+                            scrollX + right - left - paddingRight,
+                            scrollY + bottom - top - paddingBottom)
+                }
+                canvas.translate(paddingLeft.toFloat(), paddingTop.toFloat())
+
+                var mPaint = Paint(Paint.ANTI_ALIAS_FLAG or Paint.DITHER_FLAG).apply {
+                    shader = BitmapShader((drawable as? BitmapDrawable)?.bitmap?:return, Shader.TileMode.CLAMP,
+                            Shader.TileMode.CLAMP).apply { setLocalMatrix(imageMatrix) }
+                }
+                val imgRectF = RectF(paddingLeft + offset, paddingTop + offset,
+                        width - paddingRight -offset, height - paddingBottom - offset)
+                canvas.drawRoundRect(imgRectF,cornerRadius.toFloat(), cornerRadius.toFloat(), mPaint)
+                canvas.restoreToCount(saveCount)
+            }
         }
-
-        val mDrawable = drawable
-        val mDrawMatrix = imageMatrix
-
-        if (mDrawMatrix == null && paddingTop === 0 && paddingLeft === 0) {
-            mDrawable.draw(canvas)
-        } else {
-            val saveCount = canvas.saveCount
-            canvas.save()
-
-            if (cropToPadding) {
-                val scrollX = scrollX
-                val scrollY = scrollY
-                canvas.clipRect(scrollX + paddingLeft, scrollY + paddingTop,
-                        scrollX + right - left - paddingRight,
-                        scrollY + bottom - top - paddingBottom)
-            }
-
-            canvas.translate(paddingLeft.toFloat(), paddingTop.toFloat())
-
-            if (mDrawMatrix != null) {
-                canvas.concat(mDrawMatrix)
-            }
-
-            val bounds = drawable.bounds
-//            mDrawable.draw(canvas)
-            var mPaint = Paint(Paint.ANTI_ALIAS_FLAG or Paint.DITHER_FLAG)
-            mPaint.setShader(BitmapShader((drawable as? BitmapDrawable)?.bitmap?:return, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP))
-//            canvas.drawRoundRect(RectF(bounds.left.toFloat(),bounds.top.toFloat(),bounds.right.toFloat(),bounds.bottom.toFloat()),
-//                    cornerRadius, cornerRadius, mPaint)
-            val rect = RectF(paddingLeft.toFloat(), paddingTop.toFloat(), (width - paddingRight).toFloat(), (height - paddingBottom).toFloat())
-            val matrix = Matrix()
-            val array = FloatArray(9)
-            mDrawMatrix.getValues(array)
-            array.forEach {
-                LogHelper.d(it.toString())
-            }
-            matrix.setScale(1 /array[0],1/ array[4])
-
-            matrix.mapRect(rect)
-//            canvas.drawRoundRect(rect,cornerRadius, cornerRadius, mPaint)
-
-
-
-//            canvas.drawRoundRect(RectF(paddingLeft.toFloat(), paddingTop.toFloat(), (width - paddingRight).toFloat(), (height - paddingBottom).toFloat()),
-//                    cornerRadius, cornerRadius, mPaint)
-
-            canvas.restoreToCount(saveCount)
-
-            val bitmap = (drawable as? BitmapDrawable)?.bitmap ?: return
-            val createBitmap = Bitmap.createBitmap(bitmap.width, bitmap.height, Bitmap.Config.ARGB_8888)
-            val canva = Canvas(createBitmap)
-            canva.concat(mDrawMatrix)
-            canva.drawBitmap(bitmap, 0f, 0f, null)
-
-            var paint = Paint(Paint.ANTI_ALIAS_FLAG or Paint.DITHER_FLAG)
-            paint.setShader(BitmapShader(createBitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP))
-
-                        canvas.drawRoundRect(RectF(paddingLeft.toFloat(), paddingTop.toFloat(), (width - paddingRight).toFloat(), (height - paddingBottom).toFloat()),
-                    cornerRadius, cornerRadius, paint)
-
-
-
-
-
+        if(isNeedDrawStroke){
+            val strokeRectF = RectF(offset, offset, width -offset, height - offset)
+            canvas.drawRoundRect(strokeRectF, cornerRadius.toFloat(),cornerRadius.toFloat(),strokePaint)
         }
-
-//        getRoundedDrawable(context, (this.drawable as? BitmapDrawable)?.bitmap?:return,cornerRadius)
-//        super.onDraw(canvas)
-
-        var offset = strokeWidth / 2f
-        val rect = canvas.clipBounds
-        val strokeRectF = RectF(rect.left + offset,rect.top + offset,rect.right - offset,rect.bottom - offset)
-        canvas.drawRoundRect(strokeRectF, cornerRadius,cornerRadius,strokePaint)
     }
 
 

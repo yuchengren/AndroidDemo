@@ -2,18 +2,39 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <com.ycr.lib.ui.view.ninegrid.GridImageView
-        android:id="@+id/gridImageView"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:scaleType="centerCrop"
-        app:strokeColor="#99aaff"
-        app:strokeWidth="5dp"
-        app:strokeVisible="true"
-        app:cornerRadius="20dp"
-        android:layout_centerInParent="true" />
+    <com.ycr.lib.ui.view.ninegrid.GridRecyclerView
+        android:id="@+id/gridRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#000000"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        app:maxItemCount="9"
+        app:columnsNum="3"
+        app:itemHorizontalSpacing="10dp"
+        app:itemVerticalSpacing="10dp"
+        app:itemCornerRadius="4dp"
+        app:itemStrokeColor="#ff3c58"
+        app:itemStrokeWidth="2dp"
+        app:plusCornerRadius="4dp"
+        app:plusDrawable="@drawable/ic_plus"
+        app:plusEnabled="true"
+        app:plusStrokeColor="#99aaff"
+        app:plusStrokeWidth="2dp"/>
+
+
+    <!--<com.ycr.lib.ui.view.ninegrid.GridImageView-->
+        <!--android:id="@+id/gridImageView"-->
+        <!--android:layout_width="100dp"-->
+        <!--android:layout_height="100dp"-->
+        <!--android:scaleType="centerCrop"-->
+        <!--app:strokeColor="#99aaff"-->
+        <!--app:strokeWidth="5dp"-->
+        <!--app:strokeVisible="true"-->
+        <!--app:cornerRadius="20dp"-->
+        <!--android:layout_centerInParent="true"-->
+        <!--android:src="@drawable/ic_plus_grid_view"/>-->
+
 </RelativeLayout>

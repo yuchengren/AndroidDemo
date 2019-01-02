@@ -12,8 +12,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.bumptech.glide.Glide;
 import com.ycr.kernel.log.LogHelper;
 import com.yuchengren.demo.R;
+
+import java.io.File;
 
 /**
  * Created by yuchengren on 2017/12/28.
