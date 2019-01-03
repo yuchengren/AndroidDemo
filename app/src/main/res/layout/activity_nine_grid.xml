@@ -18,6 +18,8 @@
         app:itemCornerRadius="4dp"
         app:itemStrokeColor="#ff3c58"
         app:itemStrokeWidth="2dp"
+        app:itemScaleType="CENTER_CROP"
+
         app:plusCornerRadius="4dp"
         app:plusDrawable="@drawable/ic_plus"
         app:plusEnabled="true"

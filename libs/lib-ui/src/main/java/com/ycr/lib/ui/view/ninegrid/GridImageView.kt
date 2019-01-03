@@ -27,11 +27,15 @@ class GridImageView: AppCompatImageView {
     var strokeWidth = 0 //描边宽度
         set(value) {
             field = value
-            strokePaint.strokeWidth = strokeWidth.toFloat()
+            strokePaint.strokeWidth = value.toFloat()
         }
 
     var strokeVisible: Boolean = false //描边是否可见
-    var strokeColor: Int = 0//描边颜色
+    var strokeColor: Int = 0 //描边颜色
+        set(value) {
+            field = value
+            strokePaint.color = value
+        }
 
     var ratio: Float = 1f //宽高比
     var cornerRadius = 0 //圆角度数
