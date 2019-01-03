@@ -1,7 +1,6 @@
 package com.ycr.lib.ui.view.ninegrid
 
 import android.content.Context
-import android.graphics.Canvas
 import android.support.annotation.Nullable
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -10,9 +9,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.RelativeLayout
-import com.chad.library.adapter.base.BaseQuickAdapter
-import com.chad.library.adapter.base.BaseViewHolder
 import com.ycr.lib.ui.R
 
 /**
@@ -96,15 +92,15 @@ class GridRecyclerView : RecyclerView {
     }
 
     fun setNewData(data: MutableList<Pair<String, Boolean>>) {
-        gridImageAdapter?.setNewData(data)
+        gridImageAdapter?.replaceAll(data)
     }
 
     fun addData(data: MutableList<Pair<String, Boolean>>) {
-        gridImageAdapter?.addData(data)
+        gridImageAdapter?.addAll(data)
     }
 
-    fun addData(data: Pair<String, Boolean>) {
-        gridImageAdapter?.addData(data)
+    fun addData(item: Pair<String, Boolean>) {
+        gridImageAdapter?.add(item)
     }
 
     fun removeItem(position: Int) {
@@ -125,34 +121,18 @@ class GridRecyclerView : RecyclerView {
         }
     }
 
-    inner class GridImageAdapter(data: MutableList<Pair<String, Boolean>>?) :
-            BaseQuickAdapter<Pair<String, Boolean>, BaseViewHolder>(R.layout.item_grid_image, data) {
+    inner class GridImageAdapter(private var data: MutableList<Pair<String, Boolean>>?) :
+            RecyclerView.Adapter<GridImageAdapter.GridViewHolder>() {
 
-        override fun getItemCount(): Int {
-            var itemCount = data?.size ?: 0
-            if (plusEnabled && itemCount < maxItemCount) {
-                itemCount += 1
-            }
-            return itemCount
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GridViewHolder {
+            val view = LayoutInflater.from(parent.context).inflate(R.layout.item_grid_image, parent, false)
+            return GridViewHolder(view)
         }
 
-        override fun getItem(position: Int): Pair<String, Boolean>? {
-            if (isPlusItem(position)) {
-                return null
-            }
-            return super.getItem(position)
-        }
+        override fun onBindViewHolder(holder: GridViewHolder, position: Int) {
+            val gridImageView = holder.gridImageView
 
-        fun isPlusItem(position: Int): Boolean {
-            return plusEnabled && super.getItemCount() < maxItemCount && position == itemCount - 1
-        }
-
-        override fun convert(helper: BaseViewHolder?, item: Pair<String, Boolean>?) {
-
-            if (helper == null) {
-                return
-            }
-            val gridImageView = helper.getView<GridImageView>(R.id.gridImageView)
+            val item = getItem(position)
             if (item == null) {
                 gridImageView.run {
                     strokeVisible = plusStrokeWidth > 0
@@ -172,6 +152,57 @@ class GridRecyclerView : RecyclerView {
                 }
                 onEventListener?.loadUrl(item.first, gridImageView)
             }
+        }
+
+        fun getItem(position: Int): Pair<String, Boolean>? {
+            if (isPlusItem(position)) {
+                return null
+            }
+            return data?.get(position)
+        }
+
+        override fun getItemCount(): Int {
+            var itemCount = data?.size ?: 0
+            if (plusEnabled && itemCount < maxItemCount) {
+                itemCount += 1
+            }
+            return itemCount
+        }
+
+        fun isPlusItem(position: Int): Boolean {
+            return plusEnabled && data?.size ?: 0 < maxItemCount && position == itemCount - 1
+        }
+
+        inner class GridViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+            var gridImageView: GridImageView = itemView.findViewById(R.id.gridImageView)
+        }
+
+        fun add(item: Pair<String, Boolean>) {
+            if (data == null) {
+                data = mutableListOf()
+            }
+            data?.add(item)
+            notifyDataSetChanged()
+        }
+
+        fun addAll(newData: MutableList<Pair<String, Boolean>>?) {
+            if (data == null) {
+                data = mutableListOf()
+            }
+            newData?.run {
+                data?.addAll(this)
+                notifyDataSetChanged()
+            }
+        }
+
+        fun replaceAll(newData: MutableList<Pair<String, Boolean>>?) {
+            this.data = data
+            notifyDataSetChanged()
+        }
+
+        fun remove(positon: Int) {
+            data?.removeAt(positon)
+            notifyDataSetChanged()
         }
     }
 
