@@ -1,19 +1,15 @@
-package com.ycr.lib.ui.view.ninegrid
+package com.ycr.lib.ui.view.gridimage
 
 import android.content.Context
 import android.graphics.*
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
-import android.support.annotation.DimenRes
 import android.support.annotation.DrawableRes
 import android.support.annotation.Nullable
 import android.support.v4.content.ContextCompat
-import android.support.v4.graphics.drawable.RoundedBitmapDrawable
-import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory
 import android.support.v7.widget.AppCompatImageView
 import android.util.AttributeSet
 import android.view.View
-import com.ycr.kernel.log.LogHelper
 import com.ycr.lib.ui.R
 
 /**
@@ -22,7 +18,11 @@ import com.ycr.lib.ui.R
 class GridImageView: AppCompatImageView {
 
     private val strokePaint = Paint()
+    private val imagePaint: Paint =  Paint(Paint.ANTI_ALIAS_FLAG or Paint.DITHER_FLAG)
     private var windowRectF = RectF() //控件可视化区域
+    private var imageRectF = RectF() //控件可视化区域
+    private var strokeRectF = RectF() //控件可视化区域
+    private val imageMatrixArray = FloatArray(9)
 
     var strokeWidth = 0 //描边宽度
         set(value) {
@@ -53,8 +53,8 @@ class GridImageView: AppCompatImageView {
 
             cornerRadius = getDimensionPixelSize(R.styleable.GridImageView_cornerRadius,0)
             ratio = typeArray.getFloat(R.styleable.GridImageView_ratio, 1.0f)
-            recycle()
         }
+        typeArray.recycle()
         initStrokePaint()
     }
 
@@ -69,15 +69,21 @@ class GridImageView: AppCompatImageView {
         setImageDrawable(ContextCompat.getDrawable(context,resId))
     }
 
+    override fun setImageDrawable(drawable: Drawable?) {
+        super.setImageDrawable(drawable)
+        imagePaint.shader = BitmapShader((drawable as? BitmapDrawable)?.bitmap?:return, Shader.TileMode.CLAMP,
+                Shader.TileMode.CLAMP)
+    }
+
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         var widthSpec = widthMeasureSpec
         var heightSpec = heightMeasureSpec
         //获取宽度的模式和尺寸
         var widthSize = View.MeasureSpec.getSize(widthMeasureSpec)
-        var widthMode = View.MeasureSpec.getMode(widthMeasureSpec)
+        val widthMode = View.MeasureSpec.getMode(widthMeasureSpec)
         //获取高度的模式和尺寸
         var heightSize = View.MeasureSpec.getSize(heightMeasureSpec)
-        var heightMode = View.MeasureSpec.getMode(heightMeasureSpec)
+        val heightMode = View.MeasureSpec.getMode(heightMeasureSpec)
 
         //宽确定，高不确定
         if (widthMode == View.MeasureSpec.EXACTLY && (heightMode != View.MeasureSpec.EXACTLY || heightSize == 0) && ratio != 0f) {
@@ -105,6 +111,11 @@ class GridImageView: AppCompatImageView {
             return
         }
         windowRectF.set(0f, 0f, width, height)
+
+        val offset = strokeWidth / 2f
+        imageRectF.set(paddingLeft + offset, paddingTop + offset,
+        width - paddingRight -offset, height - paddingBottom - offset)
+        strokeRectF.set(offset, offset, width -offset, height - offset)
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -116,9 +127,7 @@ class GridImageView: AppCompatImageView {
         }
 
         val isNeedDrawStroke = strokeVisible && strokeWidth > 0
-        val offset = strokeWidth / 2f
 
-        val imageMatrixArray = FloatArray(9)
         imageMatrix.getValues(imageMatrixArray)
         val scaleX = imageMatrixArray[0]
         val scaleY = imageMatrixArray[4]
@@ -127,7 +136,7 @@ class GridImageView: AppCompatImageView {
                         drawable.intrinsicWidth * scaleY < height - paddingTop - paddingBottom)){
             super.onDraw(canvas)
         }else{
-            if (imageMatrix == null && paddingTop === 0 && paddingLeft === 0) {
+            if (imageMatrix == null && paddingTop == 0 && paddingLeft == 0) {
                 drawable.draw(canvas)
             } else {
                 val saveCount = canvas.saveCount
@@ -139,28 +148,13 @@ class GridImageView: AppCompatImageView {
                             scrollY + bottom - top - paddingBottom)
                 }
                 canvas.translate(paddingLeft.toFloat(), paddingTop.toFloat())
-
-                var mPaint = Paint(Paint.ANTI_ALIAS_FLAG or Paint.DITHER_FLAG).apply {
-                    shader = BitmapShader((drawable as? BitmapDrawable)?.bitmap?:return, Shader.TileMode.CLAMP,
-                            Shader.TileMode.CLAMP).apply { setLocalMatrix(imageMatrix) }
-                }
-                val imgRectF = RectF(paddingLeft + offset, paddingTop + offset,
-                        width - paddingRight -offset, height - paddingBottom - offset)
-                canvas.drawRoundRect(imgRectF,cornerRadius.toFloat(), cornerRadius.toFloat(), mPaint)
+                imagePaint.shader?.setLocalMatrix(imageMatrix)
+                canvas.drawRoundRect(imageRectF,cornerRadius.toFloat(), cornerRadius.toFloat(), imagePaint)
                 canvas.restoreToCount(saveCount)
             }
         }
         if(isNeedDrawStroke){
-            val strokeRectF = RectF(offset, offset, width -offset, height - offset)
             canvas.drawRoundRect(strokeRectF, cornerRadius.toFloat(),cornerRadius.toFloat(),strokePaint)
-        }
-    }
-
-
-    private fun getRoundedDrawable(context: Context, bitmap: Bitmap, cornerRadius: Float): RoundedBitmapDrawable {
-        return RoundedBitmapDrawableFactory.create(context.resources, bitmap).apply {
-            setAntiAlias(true)
-            this.cornerRadius = cornerRadius
         }
     }
 }

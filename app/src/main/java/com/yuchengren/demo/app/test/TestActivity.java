@@ -36,6 +36,7 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
 		DisplayMetrics dm = getResources().getDisplayMetrics();
 		Log.e("TestActivity",dm.density +"," +dm.densityDpi );
 		Log.e("TestActivity",getResources().getDimensionPixelSize(R.dimen.button_height) + "");
+
 	}
 
 	@Override

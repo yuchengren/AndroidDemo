@@ -1,4 +1,4 @@
-package com.ycr.lib.ui.view.ninegrid
+package com.ycr.lib.ui.view.gridimage
 
 import android.content.Context
 import android.support.annotation.Nullable
@@ -60,7 +60,7 @@ class GridRecyclerView : RecyclerView {
             itemStrokeColor = getColor(R.styleable.GridRecyclerView_itemStrokeColor, 0)
             itemScaleType = getInt(R.styleable.GridRecyclerView_itemScaleType, -1)
 
-            plusScaleType = getInt(R.styleable.GridRecyclerView_plusScaleType, 5)
+            plusScaleType = getInt(R.styleable.GridRecyclerView_plusScaleType, -1)
             plusCornerRadius = getDimensionPixelSize(R.styleable.GridRecyclerView_plusCornerRadius, 0)
             plusStrokeVisible = getBoolean(R.styleable.GridRecyclerView_plusStrokeVisible, false)
             plusStrokeWidth = getDimensionPixelSize(R.styleable.GridRecyclerView_plusStrokeWidth, 0)
@@ -79,7 +79,6 @@ class GridRecyclerView : RecyclerView {
         if (gridImageAdapter == null) {
             gridImageAdapter = GridImageAdapter(null)
             adapter = gridImageAdapter
-
         }
     }
 
@@ -91,20 +90,24 @@ class GridRecyclerView : RecyclerView {
         }
     }
 
-    fun setNewData(data: MutableList<Pair<String, Boolean>>) {
+    fun setNewData(data: MutableList<GridImageEntity>) {
         gridImageAdapter?.replaceAll(data)
     }
 
-    fun addData(data: MutableList<Pair<String, Boolean>>) {
+    fun addData(data: MutableList<GridImageEntity>) {
         gridImageAdapter?.addAll(data)
     }
 
-    fun addData(item: Pair<String, Boolean>) {
+    fun addData(item: GridImageEntity) {
         gridImageAdapter?.add(item)
     }
 
     fun removeItem(position: Int) {
         gridImageAdapter?.remove(position)
+    }
+
+    fun replaceItem(newItem: GridImageEntity,position: Int){
+        gridImageAdapter?.replace(newItem,position)
     }
 
     private fun getImageScaleType(type: Int): ImageView.ScaleType {
@@ -121,7 +124,7 @@ class GridRecyclerView : RecyclerView {
         }
     }
 
-    inner class GridImageAdapter(private var data: MutableList<Pair<String, Boolean>>?) :
+    inner class GridImageAdapter(private var data: MutableList<GridImageEntity>?) :
             RecyclerView.Adapter<GridImageAdapter.GridViewHolder>() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GridViewHolder {
@@ -141,20 +144,26 @@ class GridRecyclerView : RecyclerView {
                     cornerRadius = plusCornerRadius
                     scaleType = getImageScaleType(plusScaleType)
                     setImageResource(plusDrawable)
+                    setOnClickListener {
+                        onEventListener?.onClickPlus()
+                    }
                 }
             } else {
                 gridImageView.run {
-                    strokeVisible = itemStrokeWidth > 0 && item.second
+                    strokeVisible = itemStrokeWidth > 0 && item.showStroke
                     strokeWidth = itemStrokeWidth
                     strokeColor = itemStrokeColor
                     cornerRadius = itemCornerRadius
                     scaleType = getImageScaleType(itemScaleType)
+                    setOnClickListener {
+                        onEventListener?.onClickItem(item.url,position)
+                    }
                 }
-                onEventListener?.loadUrl(item.first, gridImageView)
+                onEventListener?.loadUrl(item.url, gridImageView)
             }
         }
 
-        fun getItem(position: Int): Pair<String, Boolean>? {
+        fun getItem(position: Int): GridImageEntity? {
             if (isPlusItem(position)) {
                 return null
             }
@@ -169,7 +178,7 @@ class GridRecyclerView : RecyclerView {
             return itemCount
         }
 
-        fun isPlusItem(position: Int): Boolean {
+        private fun isPlusItem(position: Int): Boolean {
             return plusEnabled && data?.size ?: 0 < maxItemCount && position == itemCount - 1
         }
 
@@ -177,7 +186,7 @@ class GridRecyclerView : RecyclerView {
             var gridImageView: GridImageView = itemView.findViewById(R.id.gridImageView)
         }
 
-        fun add(item: Pair<String, Boolean>) {
+        fun add(item: GridImageEntity) {
             if (data == null) {
                 data = mutableListOf()
             }
@@ -185,7 +194,7 @@ class GridRecyclerView : RecyclerView {
             notifyDataSetChanged()
         }
 
-        fun addAll(newData: MutableList<Pair<String, Boolean>>?) {
+        fun addAll(newData: MutableList<GridImageEntity>?) {
             if (data == null) {
                 data = mutableListOf()
             }
@@ -195,19 +204,31 @@ class GridRecyclerView : RecyclerView {
             }
         }
 
-        fun replaceAll(newData: MutableList<Pair<String, Boolean>>?) {
-            this.data = data
+        fun replaceAll(newData: MutableList<GridImageEntity>?) {
+            this.data = newData
             notifyDataSetChanged()
         }
 
-        fun remove(positon: Int) {
-            data?.removeAt(positon)
-            notifyDataSetChanged()
+        fun remove(position: Int) {
+            if(position >=0 && position < data?.size?: 0){
+                data?.removeAt(position)
+                notifyDataSetChanged()
+            }
+        }
+
+        fun replace(newItem: GridImageEntity,position: Int){
+            if(position >=0 && position < data?.size?: 0){
+                data?.removeAt(position)
+                data?.add(position,newItem)
+                notifyDataSetChanged()
+            }
         }
     }
 
     interface OnEventListener {
         fun loadUrl(url: String, view: ImageView)
+        fun onClickItem(url: String, position: Int)
+        fun onClickPlus()
     }
 
 

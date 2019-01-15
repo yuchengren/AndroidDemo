@@ -5,13 +5,11 @@ import android.os.Environment
 import android.view.View
 import android.widget.ImageView
 import com.bumptech.glide.Glide
-import com.ycr.lib.ui.view.ninegrid.GridRecyclerView
-import com.ycr.module.framework.base.SuperActivity
+import com.ycr.lib.ui.view.gridimage.GridImageEntity
+import com.ycr.lib.ui.view.gridimage.GridRecyclerView
 import com.yuchengren.demo.R
 import com.yuchengren.demo.base.BaseActivity
-import kotlinx.android.synthetic.main.activity_call_phone_back.view.*
 import kotlinx.android.synthetic.main.activity_nine_grid.*
-import java.io.File
 
 /**
  * Created by yuchengren on 2018/12/27.
@@ -25,12 +23,18 @@ class NineGridActivity: BaseActivity() {
 
     override fun afterBindView(rootView: View?, savedInstanceState: Bundle?) {
         super.afterBindView(rootView, savedInstanceState)
-        val item =Pair<String,Boolean>("file://${Environment.getExternalStorageDirectory().absolutePath + "/test.png"}",true)
-        val mutableList = mutableListOf<Pair<String,Boolean>>(item,item,item,item)
+        val item = GridImageEntity("file://${Environment.getExternalStorageDirectory().absolutePath + "/test.png"}",true)
+        val mutableList = mutableListOf<GridImageEntity>(item,item,item,item)
 
         gridRecyclerView.run {
             setNewData(mutableList)
             onEventListener = object : GridRecyclerView.OnEventListener{
+                override fun onClickItem(url: String, position: Int) {
+                }
+
+                override fun onClickPlus() {
+                }
+
                 override fun loadUrl(url: String, view: ImageView) {
                     Glide.with(context).load(url).into(view)
                 }
@@ -44,7 +48,4 @@ class NineGridActivity: BaseActivity() {
         },100)
     }
 
-    override fun onResume() {
-        super.onResume()
-    }
 }

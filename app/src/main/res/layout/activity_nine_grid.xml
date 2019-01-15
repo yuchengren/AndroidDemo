@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <com.ycr.lib.ui.view.ninegrid.GridRecyclerView
+    <com.ycr.lib.ui.view.gridimage.GridRecyclerView
         android:id="@+id/gridRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -19,7 +19,7 @@
         app:itemStrokeColor="#ff3c58"
         app:itemStrokeWidth="2dp"
         app:itemScaleType="CENTER_CROP"
-
+        app:plusScaleType="CENTER"
         app:plusCornerRadius="4dp"
         app:plusDrawable="@drawable/ic_plus"
         app:plusEnabled="true"

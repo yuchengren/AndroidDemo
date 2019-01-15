@@ -1,4 +1,4 @@
-package com.ycr.lib.ui.view.ninegrid
+package com.ycr.lib.ui.view.gridimage
 
 import android.graphics.Rect
 import android.support.v7.widget.RecyclerView
