@@ -5,6 +5,7 @@ import android.support.annotation.Nullable
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,14 +19,24 @@ class GridRecyclerView : RecyclerView {
     var maxItemCount = 9
     var columnsNum = 3
     var itemWidth = 0
+    var itemHeight = 0
+    var itemRatio = 0f
     var itemHorizontalSpacing = 0
     var itemVerticalSpacing = 0
-
     var itemCornerRadius = 0
-    var itemStrokeVisible = false
+    var itemScaleType = -1
+
+    var itemCheckEnabled = false //选中功能是否可用
+    var itemCheckedDrawableResId = -1
+    var itemNotCheckedDrawableResId = -1
+    var itemCheckDrawableWidth = 0f
+    var itemCheckDrawableHeight = 0f
+    var itemCheckDrawableHorizontalMargin = 0f
+    var itemCheckDrawableVerticalMargin = 0f
+    var itemCheckDrawableGravity = Gravity.RIGHT or Gravity.TOP
+
     var itemStrokeWidth = 0
     var itemStrokeColor = 0
-    var itemScaleType = -1
 
     var plusScaleType = -1
     var plusCornerRadius = 0
@@ -50,15 +61,25 @@ class GridRecyclerView : RecyclerView {
             columnsNum = getInt(R.styleable.GridRecyclerView_columnsNum, 3)
 
             itemWidth = getDimensionPixelSize(R.styleable.GridRecyclerView_itemWidth, 0)
+            itemHeight = getDimensionPixelSize(R.styleable.GridRecyclerView_itemHeight, 0)
+            itemRatio= getFloat(R.styleable.GridRecyclerView_itemRatio, 0f)
+
             itemHorizontalSpacing = getDimensionPixelSize(R.styleable.GridRecyclerView_itemHorizontalSpacing, 0)
             itemVerticalSpacing = getDimensionPixelSize(R.styleable.GridRecyclerView_itemVerticalSpacing, 0)
-
-
+            itemScaleType = getInt(R.styleable.GridRecyclerView_itemScaleType, -1)
             itemCornerRadius = getDimensionPixelSize(R.styleable.GridRecyclerView_itemCornerRadius, 0)
-            itemStrokeVisible = getBoolean(R.styleable.GridRecyclerView_itemStrokeVisible, false)
+
+            itemCheckEnabled = getBoolean(R.styleable.GridRecyclerView_itemCheckEnabled,false)
+            itemCheckedDrawableResId = getResourceId(R.styleable.GridRecyclerView_itemCheckedDrawableResId, -1)
+            itemNotCheckedDrawableResId = getResourceId(R.styleable.GridRecyclerView_itemNotCheckedDrawableResId, -1)
+            itemCheckDrawableWidth = getDimensionPixelSize(R.styleable.GridRecyclerView_itemCheckDrawableWidth,0).toFloat()
+            itemCheckDrawableHeight = getDimensionPixelSize(R.styleable.GridRecyclerView_itemCheckDrawableHeight,0).toFloat()
+            itemCheckDrawableHorizontalMargin = getDimensionPixelSize(R.styleable.GridRecyclerView_itemCheckDrawableHorizontalMargin,0).toFloat()
+            itemCheckDrawableVerticalMargin = getDimensionPixelSize(R.styleable.GridRecyclerView_itemCheckDrawableVerticalMargin,0).toFloat()
+            itemCheckDrawableGravity = getInt(R.styleable.GridRecyclerView_itemCheckDrawableGravity, Gravity.RIGHT or Gravity.TOP)
+
             itemStrokeWidth = getDimensionPixelSize(R.styleable.GridRecyclerView_itemStrokeWidth, 0)
             itemStrokeColor = getColor(R.styleable.GridRecyclerView_itemStrokeColor, 0)
-            itemScaleType = getInt(R.styleable.GridRecyclerView_itemScaleType, -1)
 
             plusScaleType = getInt(R.styleable.GridRecyclerView_plusScaleType, -1)
             plusCornerRadius = getDimensionPixelSize(R.styleable.GridRecyclerView_plusCornerRadius, 0)
@@ -67,7 +88,7 @@ class GridRecyclerView : RecyclerView {
             plusStrokeColor = getColor(R.styleable.GridRecyclerView_plusStrokeColor, 0)
 
             plusDrawable = getResourceId(R.styleable.GridRecyclerView_plusDrawable, 0)
-            plusEnabled = getBoolean(R.styleable.GridRecyclerView_plusEnabled, true)
+            plusEnabled = getBoolean(R.styleable.GridRecyclerView_plusEnabled, false)
 
             recycle()
         }
@@ -133,8 +154,11 @@ class GridRecyclerView : RecyclerView {
         }
 
         override fun onBindViewHolder(holder: GridViewHolder, position: Int) {
-            val gridImageView = holder.gridImageView
-
+            val gridImageView = holder.gridImageView.apply {
+                w = itemWidth
+                h = itemHeight
+                ratio = itemRatio
+            }
             val item = getItem(position)
             if (item == null) {
                 gridImageView.run {
@@ -150,11 +174,26 @@ class GridRecyclerView : RecyclerView {
                 }
             } else {
                 gridImageView.run {
-                    strokeVisible = itemStrokeWidth > 0 && item.showStroke
-                    strokeWidth = itemStrokeWidth
-                    strokeColor = itemStrokeColor
-                    cornerRadius = itemCornerRadius
+                    strokeVisible = itemStrokeWidth > 0 && item.isMarked
+                    if(strokeVisible){
+                        strokeWidth = itemStrokeWidth
+                        strokeColor = itemStrokeColor
+                    }
+
+                    checkEnabled = itemCheckEnabled
+                    if(checkEnabled){
+                        checked = item.isMarked
+                        checkDrawableGravity = itemCheckDrawableGravity
+                        checkDrawableHeight = itemCheckDrawableHeight
+                        checkDrawableWidth = itemCheckDrawableWidth
+                        checkDrawableHorizontalMargin = itemCheckDrawableHorizontalMargin
+                        checkDrawableVerticalMargin = itemCheckDrawableVerticalMargin
+                        checkedDrawableResId = itemCheckedDrawableResId
+                        notCheckedDrawableResId = itemNotCheckedDrawableResId
+                    }
+
                     scaleType = getImageScaleType(itemScaleType)
+                    cornerRadius = itemCornerRadius
                     setOnClickListener {
                         onEventListener?.onClickItem(item.url,position)
                     }

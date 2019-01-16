@@ -57,14 +57,15 @@ public class FileLogHelper {
 	}
 
 	private boolean writeMessage(String message) {
-		String fileName = getCacheFileName();
-		File file = new File(logFileConfig.fileRootPath(),fileName);
-		if(!file.exists()){
-			file.mkdirs();
+		String folderName = getFolderName();
+		File folder = new File(logFileConfig.fileRootPath(),folderName);
+		if(!folder.exists()){
+			folder.mkdirs();
 		}
 		PrintWriter writer = null;
 		try {
-			writer = new PrintWriter(new FileWriter(file,true));
+			File file = new File(folder,getFileName());
+			writer = new PrintWriter(new FileWriter(file),true);
 			writer.println(message);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -77,8 +78,14 @@ public class FileLogHelper {
 		return true;
 	}
 
-	private String getCacheFileName() {
+	private String getFileName() {
 		SimpleDateFormat format = new SimpleDateFormat(logFileConfig.fileNameDateFormat());
+		return format.format(new Date());
+	}
+
+
+	private String getFolderName() {
+		SimpleDateFormat format = new SimpleDateFormat(logFileConfig.folderNameDateFormat());
 		return format.format(new Date());
 	}
 

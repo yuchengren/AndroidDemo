@@ -110,6 +110,7 @@ class ImageEditView : View {
             override fun onScroll(e1: MotionEvent?, e2: MotionEvent?, distanceX: Float, distanceY: Float): Boolean {
                 return scroll(distanceX, distanceY)
             }
+
         })
 
         scaleGestureDetector = ScaleGestureDetector(context, object : ScaleGestureDetector.OnScaleGestureListener {

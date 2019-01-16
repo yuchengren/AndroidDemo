@@ -3,26 +3,27 @@ package com.ycr.kernel.log.config;
 import android.content.Context;
 import android.os.Environment;
 
-import com.ycr.kernel.log.constants.LogLevel;
-
 /**
  * Created by yuchengren on 2018/7/16.
  */
 public class FileLogPrinterConfig extends LogPrinterConfig implements IFileLogPrinterConfig {
 
 	public static final long DEFAULT_MAX_TOTAL_SIZE = 10 * 1024 * 1024;
-	public static final String DEFAULT_NAME_TIME_FORMAT = "yyyy-MM-dd";
+	public static final String DEFAULT_FOLDER_DATE_FORMAT = "yyyy-MM-dd";
+	public static final String DEFAULT_FILE_DATE_FORMAT = "HH:mm:ss.SSS";
 	public static final String LOG_DIR = "logs";
 	private Context context;
 	private String fileRootPath;
 	private long maxTotalCacheSize;
+	private String folderNameDateFormat;
 	private String fileNameDateFormat;
 
 	private FileLogPrinterConfig(Context context){
 		this.context = context.getApplicationContext();
 		fileRootPath = getDefaultFileRootPath(this.context);
 		maxTotalCacheSize = DEFAULT_MAX_TOTAL_SIZE;
-		fileNameDateFormat = DEFAULT_NAME_TIME_FORMAT;
+		folderNameDateFormat = DEFAULT_FOLDER_DATE_FORMAT;
+		fileNameDateFormat = DEFAULT_FILE_DATE_FORMAT;
 	}
 
 	private String getDefaultFileRootPath(Context context){
@@ -49,8 +50,8 @@ public class FileLogPrinterConfig extends LogPrinterConfig implements IFileLogPr
 		return this;
 	}
 
-	public FileLogPrinterConfig setFileNameDateFormat(String fileNameDateFormat) {
-		this.fileNameDateFormat = fileNameDateFormat;
+	public FileLogPrinterConfig setFolderNameDateFormat(String folderNameDateFormat) {
+		this.folderNameDateFormat = folderNameDateFormat;
 		return this;
 	}
 
@@ -67,6 +68,11 @@ public class FileLogPrinterConfig extends LogPrinterConfig implements IFileLogPr
 	@Override
 	public long maxTotalCacheSize() {
 		return maxTotalCacheSize;
+	}
+
+	@Override
+	public String folderNameDateFormat() {
+		return folderNameDateFormat;
 	}
 
 	@Override

@@ -19,6 +19,10 @@ public interface IFileLogPrinterConfig extends ILogPrinterConfig{
 	 */
 	long maxTotalCacheSize();
 	/**
+	 * 打印文件的上层文件夹命名的时间格式
+	 */
+	String folderNameDateFormat();
+	/**
 	 * 文件命名的时间格式
 	 */
 	String fileNameDateFormat();
