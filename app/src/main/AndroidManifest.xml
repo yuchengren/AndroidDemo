@@ -52,7 +52,7 @@
             android:screenOrientation="fullSensor"
             android:configChanges="keyboardHidden|orientation|screenSize"/>
 
-        <activity android:name=".app.other.NineGridActivity"/>
+        <activity android:name=".app.other.GridActivity"/>
     </application>
 
 </manifest>

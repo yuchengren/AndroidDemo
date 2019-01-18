@@ -10,7 +10,7 @@ public class FileLogPrinterConfig extends LogPrinterConfig implements IFileLogPr
 
 	public static final long DEFAULT_MAX_TOTAL_SIZE = 10 * 1024 * 1024;
 	public static final String DEFAULT_FOLDER_DATE_FORMAT = "yyyy-MM-dd";
-	public static final String DEFAULT_FILE_DATE_FORMAT = "HH:mm:ss.SSS";
+	public static final String DEFAULT_FILE_DATE_FORMAT = "HH:mm";
 	public static final String LOG_DIR = "logs";
 	private Context context;
 	private String fileRootPath;

@@ -22,7 +22,6 @@ class GridImageView: AppCompatImageView {
     private var windowRectF = RectF() //控件可视化区域
     private var imageRectF = RectF() //图片区域
     private var strokeRectF = RectF() //描边区域
-    private var checkDrawableRectF = RectF() // 选中状态图标的区域
     private val imageMatrixArray = FloatArray(9)
 
     var strokeWidth = 0 //描边宽度
@@ -44,15 +43,7 @@ class GridImageView: AppCompatImageView {
 
     var checkEnabled = false //选中功能是否可用
     var checked = false //选中图标状态
-    var checkedDrawableResId = -1
-    var notCheckedDrawableResId = -1
-    var checkDrawableWidth = 0f
-    var checkDrawableHeight = 0f
-    var checkDrawableHorizontalMargin = 0f
-    var checkDrawableVerticalMargin = 0f
-    var checkDrawableGravity = Gravity.RIGHT or Gravity.TOP
 
-    private lateinit var gestureDetector: GestureDetector
 
     constructor(context: Context) : this(context, null)
 
@@ -68,37 +59,9 @@ class GridImageView: AppCompatImageView {
             cornerRadius = getDimensionPixelSize(R.styleable.GridImageView_cornerRadius,0)
             ratio = typeArray.getFloat(R.styleable.GridImageView_ratio, 1.0f)
 
-            checked = getBoolean(R.styleable.GridImageView_checked, false)
-            checkEnabled = getBoolean(R.styleable.GridImageView_checkEnabled,false)
-            checkedDrawableResId = getResourceId(R.styleable.GridImageView_checkedDrawableResId, -1)
-            notCheckedDrawableResId = getResourceId(R.styleable.GridImageView_notCheckedDrawableResId, -1)
-            checkDrawableWidth = getDimensionPixelSize(R.styleable.GridImageView_checkDrawableWidth,0).toFloat()
-            checkDrawableHeight = getDimensionPixelSize(R.styleable.GridImageView_checkDrawableHeight,0).toFloat()
-            checkDrawableHorizontalMargin = getDimensionPixelSize(R.styleable.GridImageView_checkDrawableHorizontalMargin,0).toFloat()
-            checkDrawableVerticalMargin = getDimensionPixelSize(R.styleable.GridImageView_checkDrawableVerticalMargin,0).toFloat()
-            checkDrawableGravity = getInt(R.styleable.GridImageView_checkDrawableGravity,Gravity.RIGHT or Gravity.TOP)
         }
         typeArray.recycle()
         initStrokePaint()
-        gestureDetector = GestureDetector(context, object : GestureDetector.SimpleOnGestureListener() {
-            override fun onDown(e: MotionEvent?): Boolean {
-                return true
-            }
-
-            override fun onSingleTapUp(e: MotionEvent): Boolean {
-                if(checkDrawableRectF.contains(e.x,e.y)){
-                    checked = !checked
-                    invalidate()
-                }
-                return true
-            }
-
-        })
-    }
-
-    override fun onTouchEvent(event: MotionEvent?): Boolean {
-        gestureDetector.onTouchEvent(event)
-        return super.onTouchEvent(event)
     }
 
     private fun initStrokePaint() {
@@ -146,10 +109,6 @@ class GridImageView: AppCompatImageView {
         }
     }
 
-    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
-        super.onSizeChanged(w, h, oldw, oldh)
-    }
-
     /**
      * 当View窗口大小发生变化时
      */
@@ -163,53 +122,8 @@ class GridImageView: AppCompatImageView {
         imageRectF.set(paddingLeft + offset, paddingTop + offset,
         width - paddingRight -offset, height - paddingBottom - offset)
         strokeRectF.set(offset, offset, width -offset, height - offset)
-
-        updateCheckDrawableRectF(width, height)
     }
 
-    private fun updateCheckDrawableRectF(winWidth: Float, winHeight: Float) {
-        if(!checkEnabled){
-            return
-        }
-        val andX = 1.shl(Gravity.AXIS_Y_SHIFT) - 1
-        val andY = 1.shl(Gravity.AXIS_Y_SHIFT * 2) - 1 - andX
-        val gravityX = checkDrawableGravity and andX
-        val gravityY = checkDrawableGravity and andY
-
-        val left: Float
-        val right: Float
-        val top: Float
-        val bottom: Float
-        when(gravityX){
-            Gravity.LEFT ->{
-                left = checkDrawableHorizontalMargin
-                right = left + checkDrawableWidth
-            }
-            Gravity.RIGHT ->{
-                right = winWidth - checkDrawableHorizontalMargin
-                left = right - checkDrawableWidth
-            }
-            else ->{
-                left = (winWidth - checkDrawableWidth) / 2
-                right = left + checkDrawableWidth
-            }
-        }
-        when(gravityY){
-            Gravity.TOP ->{
-                top = checkDrawableHorizontalMargin
-                bottom = top + checkDrawableHeight
-            }
-            Gravity.BOTTOM ->{
-                bottom = winHeight - checkDrawableVerticalMargin
-                top = bottom - checkDrawableHeight
-            }
-            else ->{
-                top = (winHeight - checkDrawableHeight) / 2
-                bottom = top + checkDrawableHeight
-            }
-        }
-        checkDrawableRectF.set(left,top,right,bottom)
-    }
 
     override fun onDraw(canvas: Canvas) {
         if (drawable == null) {
@@ -220,7 +134,6 @@ class GridImageView: AppCompatImageView {
         }
         drawRoundImage(canvas)
         drawStroke(canvas)
-        drawCheckBitmap(canvas)
     }
 
     private fun drawRoundImage(canvas: Canvas) {
@@ -255,17 +168,6 @@ class GridImageView: AppCompatImageView {
         val isNeedDrawStroke = strokeVisible && strokeWidth > 0
         if(isNeedDrawStroke){
             canvas.drawRoundRect(strokeRectF, cornerRadius.toFloat(),cornerRadius.toFloat(),strokePaint)
-        }
-    }
-
-    private fun drawCheckBitmap(canvas: Canvas) {
-        if(checkEnabled){
-            val checkDrawableResId = if(checked) checkedDrawableResId else notCheckedDrawableResId
-            if(checkDrawableResId > 0){
-                BitmapFactory.decodeResource(resources, checkDrawableResId)?.let {
-                    canvas.drawBitmap(it,null,checkDrawableRectF,null)
-                }
-            }
         }
     }
 }

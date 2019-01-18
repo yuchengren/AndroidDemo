@@ -64,7 +64,7 @@ public class FileLogHelper {
 		}
 		PrintWriter writer = null;
 		try {
-			File file = new File(folder,getFileName());
+			File file = new File(folder,getFileName()+".txt");
 			writer = new PrintWriter(new FileWriter(file),true);
 			writer.println(message);
 		} catch (IOException e) {

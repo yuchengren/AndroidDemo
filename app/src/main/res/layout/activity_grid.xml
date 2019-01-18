@@ -9,24 +9,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#000000"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        app:maxItemCount="9"
         app:columnsNum="3"
-        app:itemHorizontalSpacing="10dp"
-        app:itemVerticalSpacing="10dp"
-        app:itemCornerRadius="4dp"
-        app:itemScaleType="CENTER_CROP"
-        app:itemCheckDrawableGravity="right|top"
-        app:itemCheckDrawableHeight="20dp"
-        app:itemCheckDrawableWidth="20dp"
-        app:itemCheckDrawableHorizontalMargin="10dp"
-        app:itemCheckDrawableVerticalMargin="10dp"
-        app:itemCheckedDrawableResId="@drawable/ic_pic_selected"
-        app:itemNotCheckedDrawableResId="@drawable/ic_pic_not_selected"
-        app:itemCheckEnabled="true" />
+        app:itemVerticalSpacing="20dp"
+        app:itemHorizontalSpacing="20dp"
+        app:hasEdge="true"/>
 
-    <!--<com.ycr.lib.ui.view.gridimage.GridRecyclerView-->
+
+    <!--<com.ycr.lib.ui.view.gridimage.GridPlusRecyclerViewView-->
         <!--android:id="@+id/gridRecyclerView"-->
         <!--android:layout_width="match_parent"-->
         <!--android:layout_height="wrap_content"-->
