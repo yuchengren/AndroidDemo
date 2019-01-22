@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.bumptech.glide.Glide;
@@ -30,6 +31,10 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_test);
+
+		ViewGroup group = findViewById(android.R.id.content);
+		ViewGroup container = (ViewGroup) group.getChildAt(0);
+		container.addView(new View(this));
 
 		btn_test = findViewById(R.id.btn_test);
 		btn_test.setOnClickListener(this);

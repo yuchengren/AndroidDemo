@@ -1,8 +1,10 @@
 package com.yuchengren.demo.view.imageedit
 
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Matrix
 import android.graphics.RectF
+import android.os.Environment
 import java.io.BufferedOutputStream
 import java.io.File
 import java.io.FileOutputStream
@@ -62,6 +64,16 @@ object ImgHelper {
         } catch (e: Exception) {
             e.printStackTrace()
         }
+    }
+
+    fun getTempSavePath(context: Context): String{
+        val appRootPath: String
+        if (Environment.MEDIA_MOUNTED == Environment.getExternalStorageState()) {
+            appRootPath = Environment.getExternalStorageDirectory().absolutePath + "/" + context.getPackageName()
+        } else {
+            appRootPath = context.getFilesDir().getPath()
+        }
+        return appRootPath + "/temp/"+ System.currentTimeMillis().toString() + ".jpg"
     }
 
 

@@ -23,5 +23,10 @@
         <attr name="checkEnabled" format="boolean" />
         <attr name="checked" format="boolean" />
     </declare-styleable>
-
+    
+    <declare-styleable name="CircularView">
+        <attr name="circleColor" format="color" />
+        <attr name="circularColor" format="color" />
+        <attr name="circularWidth" format="dimension" />
+    </declare-styleable>
 </resources>

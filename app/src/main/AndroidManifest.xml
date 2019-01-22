@@ -53,6 +53,7 @@
             android:configChanges="keyboardHidden|orientation|screenSize"/>
 
         <activity android:name=".app.other.GridActivity"/>
+        <activity android:name=".app.photo.camera.TakePhotoActivity" />
     </application>
 
 </manifest>

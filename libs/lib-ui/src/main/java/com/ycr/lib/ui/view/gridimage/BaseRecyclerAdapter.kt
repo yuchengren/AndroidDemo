@@ -1,6 +1,7 @@
 package com.ycr.lib.ui.view.gridimage
 
 import android.content.Context
+import android.support.annotation.IdRes
 import android.support.annotation.LayoutRes
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -15,7 +16,7 @@ import java.lang.reflect.ParameterizedType
 /**
  * Created by yuchengren on 2019/1/17.
  */
-abstract class BaseRecyclerAdapter<T, VH : BaseRecyclerHolder>(var data: MutableList<T>?, private val itemResId: Int) : RecyclerView.Adapter<VH>() {
+abstract class BaseRecyclerAdapter<T, VH : BaseRecyclerHolder>(var data: MutableList<T>?,  @IdRes private val itemResId: Int) : RecyclerView.Adapter<VH>() {
     private lateinit var context: Context
     private lateinit var layoutInflater: LayoutInflater
     var headerLayout: LinearLayout? = null
@@ -90,7 +91,7 @@ abstract class BaseRecyclerAdapter<T, VH : BaseRecyclerHolder>(var data: Mutable
         return createBaseViewHolder(parent, itemResId)
     }
 
-    open fun createBaseViewHolder(parent: ViewGroup, layoutResId: Int): VH {
+    open fun createBaseViewHolder(parent: ViewGroup,  @IdRes layoutResId: Int): VH {
         return createBaseViewHolder(getItemView(layoutResId, parent))
     }
 

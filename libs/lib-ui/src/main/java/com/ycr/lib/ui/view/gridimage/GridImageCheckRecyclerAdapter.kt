@@ -1,12 +1,13 @@
 package com.ycr.lib.ui.view.gridimage
 
+import android.support.annotation.IdRes
 import android.widget.CheckBox
 import com.ycr.lib.ui.R
 
 /**
  * Created by yuchengren on 2019/1/17.
  */
-class GridImageCheckRecyclerAdapter(data: MutableList<ImageCheckEntity>?, itemResId: Int, private var isMultiCheck: Boolean = false)
+class GridImageCheckRecyclerAdapter(data: MutableList<ImageCheckEntity>?, @IdRes itemResId: Int, private var isMultiCheck: Boolean = false)
     : BaseImageRecyclerAdapter<ImageCheckEntity,BaseRecyclerHolder>(data,itemResId) {
 
     private var onItemCheckChangeListener: ((item: ImageCheckEntity,position: Int,checked: Boolean) -> Unit)? = null
