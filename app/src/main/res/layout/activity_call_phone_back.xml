@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:text="拨打"/>
 
-    <com.yuchengren.demo.view.TestView
+    <com.ycr.module.base.view.TestView
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </LinearLayout>

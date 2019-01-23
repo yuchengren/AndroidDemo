@@ -14,14 +14,14 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.yuchengren.demo.R;
 import com.yuchengren.demo.app.body.main.MainActivity;
-import com.yuchengren.demo.constant.Constants;
-import com.yuchengren.demo.constant.MenuCode;
-import com.yuchengren.demo.constant.SharePrefsKey;
-import com.yuchengren.demo.entity.db.MenuEntity;
-import com.yuchengren.demo.greendao.gen.MenuEntityDao;
-import com.yuchengren.demo.util.PermissionUtil;
-import com.yuchengren.demo.util.SharePrefsUtil;
-import com.yuchengren.demo.util.business.DaoHelper;
+import com.ycr.module.base.constant.Constants;
+import com.ycr.module.base.constant.MenuCode;
+import com.ycr.module.base.constant.SharePrefsKey;
+import com.ycr.module.base.entity.db.MenuEntity;
+import com.ycr.module.base.greendao.gen.MenuEntityDao;
+import com.ycr.module.base.util.PermissionUtil;
+import com.ycr.module.base.util.SharePrefsUtil;
+import com.ycr.module.base.util.business.DaoHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -163,6 +163,12 @@ public class SplashActivity extends AppCompatActivity {
 		nineGridViewEntity.setCode(MenuCode.Second.NINE_GRID);
 		nineGridViewEntity.setParentCode(MenuCode.First.HOME);
 		menuEntityDao.insert(nineGridViewEntity);
+
+		MenuEntity chosenPhotoEntity = new MenuEntity();
+		chosenPhotoEntity.setName(getString(R.string.choose_photo));
+		chosenPhotoEntity.setCode(MenuCode.Second.CHOOSE_PHOTO);
+		chosenPhotoEntity.setParentCode(MenuCode.First.HOME);
+		menuEntityDao.insert(chosenPhotoEntity);
 
 	}
 }

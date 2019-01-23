@@ -1,0 +1,11 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.ycr.module.photo" >
+    <application>
+        <activity android:name="com.ycr.module.photo.chosen.ChosenPhotoActivity"
+            android:launchMode="singleTask"/>
+
+        <activity android:name="com.ycr.module.photo.camera.TakePhotoActivity" />
+
+
+    </application>
+</manifest>

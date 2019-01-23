@@ -2,18 +2,14 @@ package com.yuchengren.demo.app.other
 
 import android.os.Bundle
 import android.os.Environment
-import android.util.Log
 import android.view.View
-import android.widget.ImageView
 import com.bumptech.glide.Glide
-import com.chad.library.adapter.base.listener.OnItemChildClickListener
 import com.ycr.lib.ui.view.gridimage.BaseRecyclerAdapter
 import com.ycr.lib.ui.view.gridimage.GridImageCheckRecyclerAdapter
 import com.ycr.lib.ui.view.gridimage.ImageCheckEntity
-import com.ycr.lib.ui.view.gridimage.OnItemLoadImageListener
 import com.yuchengren.demo.R
-import com.yuchengren.demo.base.BaseActivity
-import com.yuchengren.demo.util.ToastHelper
+import com.ycr.module.base.BaseActivity
+import com.ycr.module.base.util.ToastHelper
 import kotlinx.android.synthetic.main.activity_grid.*
 
 /**

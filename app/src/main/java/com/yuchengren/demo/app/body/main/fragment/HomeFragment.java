@@ -11,11 +11,11 @@ import android.widget.GridView;
 
 import com.yuchengren.demo.R;
 import com.yuchengren.demo.app.body.main.MenuAdapter;
-import com.yuchengren.demo.constant.MenuCode;
-import com.yuchengren.demo.entity.db.MenuEntity;
-import com.yuchengren.demo.greendao.gen.MenuEntityDao;
-import com.yuchengren.demo.util.business.DaoHelper;
-import com.yuchengren.demo.util.business.MenuUtil;
+import com.ycr.module.base.constant.MenuCode;
+import com.ycr.module.base.entity.db.MenuEntity;
+import com.ycr.module.base.greendao.gen.MenuEntityDao;
+import com.ycr.module.base.util.business.DaoHelper;
+import com.yuchengren.demo.MenuUtil;
 
 import java.util.List;
 

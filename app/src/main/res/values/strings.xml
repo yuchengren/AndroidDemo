@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MVP</string>
+    <string name="app_name">AndroidDemo</string>
     <string name="home_page">首页</string>
     <string name="other">其他</string>
     <string name="call_phone_back">打电话返回</string>
@@ -14,4 +14,5 @@
     <string name="image_edit">图片编辑</string>
     <string name="login">登录</string>
     <string name="nine_grid">九宫格</string>
+    <string name="choose_photo">选择照片</string>
 </resources>

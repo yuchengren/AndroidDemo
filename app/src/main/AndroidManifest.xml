@@ -17,7 +17,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:name=".app.DemoApplication"
+        android:name="com.ycr.module.base.DemoApplication"
         android:resizeableActivity="true">
         <!--全面屏适配，调整屏幕宽高比-->
         <meta-data
@@ -51,9 +51,7 @@
             android:theme="@style/AppTheme.Fullscreen"
             android:screenOrientation="fullSensor"
             android:configChanges="keyboardHidden|orientation|screenSize"/>
-
         <activity android:name=".app.other.GridActivity"/>
-        <activity android:name=".app.photo.camera.TakePhotoActivity" />
     </application>
 
 </manifest>

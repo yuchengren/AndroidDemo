@@ -1,4 +1,4 @@
-include ':app'
+include ':app', ':module-photo', ':module-base', ':module-main'
 //include 'kernel-json-parse'
 //project(":kernel-json-parse").projectDir = file("kernel/kernel-json-parse")
 

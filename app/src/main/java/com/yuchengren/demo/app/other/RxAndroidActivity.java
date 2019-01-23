@@ -7,9 +7,9 @@ import android.widget.Button;
 
 import com.ycr.kernel.log.LogHelper;
 import com.yuchengren.demo.R;
-import com.yuchengren.demo.entity.People;
-import com.yuchengren.demo.util.GsonUtil;
-import com.yuchengren.demo.util.ToastHelper;
+import com.ycr.module.base.entity.People;
+import com.ycr.module.base.util.GsonUtil;
+import com.ycr.module.base.util.ToastHelper;
 
 import java.util.ArrayList;
 import java.util.List;

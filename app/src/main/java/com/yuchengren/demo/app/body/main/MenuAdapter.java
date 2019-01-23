@@ -6,8 +6,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.yuchengren.demo.R;
-import com.yuchengren.demo.base.SuperAdapter;
-import com.yuchengren.demo.entity.db.MenuEntity;
+import com.ycr.module.base.SuperAdapter;
+import com.ycr.module.base.entity.db.MenuEntity;
 
 import java.util.List;
 

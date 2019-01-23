@@ -6,8 +6,8 @@ import android.os.Environment
 import android.support.v7.app.AppCompatActivity
 import com.yuchengren.demo.R
 
-import com.yuchengren.demo.view.imageedit.ImgHelper
-import com.yuchengren.demo.util.ToastHelper
+import com.ycr.module.base.util.ToastHelper
+import com.ycr.module.base.view.imageedit.ImgHelper
 import kotlinx.android.synthetic.main.activity_image_edit.*
 import java.io.File
 

@@ -4,7 +4,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions' //如有直接Id使用空间
 apply plugin: 'kotlin-kapt' //Kotlin Annotation processing tool
 
-apply plugin: 'org.greenrobot.greendao' // apply plugin
+
 
 android {
     compileSdkVersion Integer.parseInt(compile_sdk_version)
@@ -22,11 +22,6 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
-    }
-    greendao {
-        schemaVersion 1
-        daoPackage 'com.yuchengren.demo.greendao.gen'
-        targetGenDir 'src/main/java'
     }
 
     sourceSets {
@@ -46,11 +41,13 @@ dependencies {
     api 'io.reactivex.rxjava2:rxjava:2.1.7'
     api 'io.reactivex.rxjava2:rxandroid:2.0.1'
 
-    api "$greenrobot:greendao:$greendao_version"
+
     implementation "$android_support:appcompat-v7:$android_support_version"
     implementation "com.android.support.constraint:constraint-layout:$constraint_layout_version"
 
-    api project(':module-framework')
+    api project(':module-base')
+    api project(':module-main')
+    api project(':module-photo')
 }
 
 configurations.all {

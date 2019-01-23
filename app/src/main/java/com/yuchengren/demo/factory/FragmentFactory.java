@@ -4,7 +4,7 @@ import android.app.Fragment;
 
 import com.yuchengren.demo.app.body.main.fragment.HomeFragment;
 import com.yuchengren.demo.app.body.main.fragment.OtherFragment;
-import com.yuchengren.demo.constant.MenuCode;
+import com.ycr.module.base.constant.MenuCode;
 
 import java.util.HashMap;
 

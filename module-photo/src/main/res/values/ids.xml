@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="cameraView" type="id" />
+    <item name="finishView" type="id" />
+    <item name="flashLampView" type="id" />
+    <item name="takePhotoView" type="id" />
+    <item name="switchCameraView" type="id" />
+    <item name="photoClipFrameView" type="id" />
+</resources>

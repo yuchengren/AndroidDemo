@@ -12,11 +12,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.yuchengren.demo.R;
-import com.yuchengren.demo.constant.MenuCode;
-import com.yuchengren.demo.entity.db.MenuEntity;
+import com.ycr.module.base.constant.MenuCode;
+import com.ycr.module.base.entity.db.MenuEntity;
 import com.yuchengren.demo.factory.FragmentFactory;
-import com.yuchengren.demo.greendao.gen.MenuEntityDao;
-import com.yuchengren.demo.util.business.DaoHelper;
+import com.ycr.module.base.greendao.gen.MenuEntityDao;
+import com.ycr.module.base.util.business.DaoHelper;
 
 
 import java.util.List;

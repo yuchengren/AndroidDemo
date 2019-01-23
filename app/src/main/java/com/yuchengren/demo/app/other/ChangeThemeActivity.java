@@ -16,11 +16,11 @@ import com.ycr.kernel.log.LogHelper;
 import com.ycr.lib.changeskin.SkinManager;
 import com.ycr.lib.changeskin.callback.ISkinChangingCallback;
 import com.yuchengren.demo.R;
-import com.yuchengren.demo.constant.SharePrefsKey;
-import com.yuchengren.demo.constant.SharePrefsValue;
-import com.yuchengren.demo.util.CrashHandler;
-import com.yuchengren.demo.util.SharePrefsUtil;
-import com.yuchengren.demo.util.ToastHelper;
+import com.ycr.module.base.constant.SharePrefsKey;
+import com.ycr.module.base.constant.SharePrefsValue;
+import com.ycr.module.base.util.CrashHandler;
+import com.ycr.module.base.util.SharePrefsUtil;
+import com.ycr.module.base.util.ToastHelper;
 
 import org.jetbrains.annotations.NotNull;
 

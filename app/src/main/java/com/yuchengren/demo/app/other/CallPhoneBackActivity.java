@@ -16,8 +16,8 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.yuchengren.demo.R;
-import com.yuchengren.demo.entity.People;
-import com.yuchengren.demo.util.GsonUtil;
+import com.ycr.module.base.entity.People;
+import com.ycr.module.base.util.GsonUtil;
 
 import java.util.HashMap;
 
