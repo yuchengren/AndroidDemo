@@ -1,9 +1,6 @@
 package com.ycr.kernel.task
 
-import java.util.concurrent.BlockingQueue
-import java.util.concurrent.ThreadFactory
-import java.util.concurrent.ThreadPoolExecutor
-import java.util.concurrent.TimeUnit
+import java.util.concurrent.*
 
 /**
  * Created by yuchengren on 2018/9/6.
@@ -23,6 +20,15 @@ class TaskThreadPoolExecutor(corePoolSize: Int,
     override fun afterExecute(r: Runnable?, t: Throwable?) {
         super.afterExecute(r, t)
         interceptor?.afterExecute(r,t)
+    }
+
+    override fun <T> newTaskFor(callable: Callable<T>?): RunnableFuture<T>? {
+        super.newTaskFor(callable)
+        return callable as? RunnableFuture<T>
+    }
+
+    override fun <T> newTaskFor(runnable: Runnable?, value: T): RunnableFuture<T>? {
+        return runnable as? RunnableFuture<T>
     }
 
     interface Interceptor{

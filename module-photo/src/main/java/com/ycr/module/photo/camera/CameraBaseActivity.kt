@@ -23,7 +23,7 @@ abstract class CameraBaseActivity: BaseActivity(), SurfaceHolder.Callback {
     var cameraView: SurfaceView? = null
     var finishView: View? = null
     var flashLampView: View? = null
-    var takePhotoView: View? = null
+    var takeView: View? = null
 
     var switchCameraView: View? = null
 
@@ -41,6 +41,8 @@ abstract class CameraBaseActivity: BaseActivity(), SurfaceHolder.Callback {
     var scaleGestureDetector: ScaleGestureDetector? = null
 
     var takeSoundPlayer: MediaPlayer? = null //拍摄的时候播放的声音
+
+    private val lock = Any()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN)
@@ -132,7 +134,9 @@ abstract class CameraBaseActivity: BaseActivity(), SurfaceHolder.Callback {
                         return false
                     }
                     camera?.run {
-                        CameraUtil.handleZoom(detector.scaleFactor > 0 ,parameters)
+                        parameters = parameters.apply {
+                            CameraUtil.handleZoom(detector.scaleFactor > 1 ,this)
+                        }
                         return true
                     }
                     return false
@@ -158,7 +162,7 @@ abstract class CameraBaseActivity: BaseActivity(), SurfaceHolder.Callback {
                         }
                     }
 
-                    parameters?.run {
+                    parameters = parameters.apply {
                         if(maxNumMeteringAreas <= 0){
                             return@run
                         }
@@ -184,8 +188,8 @@ abstract class CameraBaseActivity: BaseActivity(), SurfaceHolder.Callback {
     }
 
     private fun initTakePhotoView() {
-        takePhotoView = findViewById(R.id.takePhotoView)
-        takePhotoView?.setOnClickListener {
+        takeView = findViewById(R.id.takeView)
+        takeView?.setOnClickListener {
             updateCameraFlashLampStatus()
             startTake()
         }
@@ -195,7 +199,7 @@ abstract class CameraBaseActivity: BaseActivity(), SurfaceHolder.Callback {
 
     private fun updateCameraFlashLampStatus() {
         camera?.run {
-            parameters.run {
+            parameters = parameters.apply {
                 flashMode = if(flashLampView?.isActivated == true) Camera.Parameters.FLASH_MODE_ON else Camera.Parameters.FLASH_MODE_OFF
             }
         }
@@ -229,8 +233,8 @@ abstract class CameraBaseActivity: BaseActivity(), SurfaceHolder.Callback {
         if(camera == null){
             try {
                 camera = Camera.open(cameraId).apply {
-                    setDisplayOrientation(90)
-                    parameters.apply {
+                    setDisplayOrientation(90 - window.windowManager.defaultDisplay.rotation * 90)
+                    parameters = parameters.apply {
                         setRotation(CameraUtil.getRotation(this@CameraBaseActivity,cameraId))
                         val previewSize = getParameterPreviewSize(this)
                         val pictureSize = CameraUtil.getPictureSize(this,previewSize,minPreviewWidth)
@@ -239,6 +243,7 @@ abstract class CameraBaseActivity: BaseActivity(), SurfaceHolder.Callback {
                         focusMode = Camera.Parameters.FOCUS_MODE_AUTO
                     }
                 }
+
             }catch (e: Exception){
                 LogHelper.e(e)
                 return false
@@ -255,7 +260,7 @@ abstract class CameraBaseActivity: BaseActivity(), SurfaceHolder.Callback {
             }?:0f
         }
 
-        return CameraUtil.getPreviewSize(parameters, previewRatio, minPreviewWidth)
+        return CameraUtil.getPreviewSize(parameters.supportedPreviewSizes, previewRatio, minPreviewWidth)
     }
 
     override fun surfaceChanged(holder: SurfaceHolder?, format: Int, width: Int, height: Int) {
@@ -276,7 +281,7 @@ abstract class CameraBaseActivity: BaseActivity(), SurfaceHolder.Callback {
             return
         }
         isReseting = true
-        synchronized(this){
+        synchronized(lock){
             release()
             initSurfaceHolder()
             initCameraAndStartPreview(surfaceHolder)

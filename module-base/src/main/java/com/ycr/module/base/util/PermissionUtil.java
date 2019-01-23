@@ -12,8 +12,9 @@ import android.support.v4.content.ContextCompat;
 public class PermissionUtil {
 	public static final String[] mPermissionArray ={
 			Manifest.permission.WRITE_EXTERNAL_STORAGE,
+			Manifest.permission.READ_EXTERNAL_STORAGE,
 			Manifest.permission.READ_PHONE_STATE,
-			Manifest.permission.READ_EXTERNAL_STORAGE
+			Manifest.permission.CAMERA
 	};
 
 	public static boolean checkPermission(Context context, String permission){

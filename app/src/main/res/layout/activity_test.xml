@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:id="@+id/ll_test"
-    android:background="@color/blank">
+    android:background="@color/black">
     <!--<ImageView-->
         <!--android:id="@+id/iv_pic"-->
         <!--android:layout_width="wrap_content"-->

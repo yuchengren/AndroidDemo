@@ -12,10 +12,12 @@ import android.net.Uri
 import android.view.SurfaceView
 import android.view.View
 import com.ycr.kernel.http.IResult
+import com.ycr.kernel.union.task.TaskHelper
 import com.ycr.module.base.view.imageedit.ImgHelper
 import com.ycr.module.framework.task.ApiTask
 import com.ycr.module.framework.task.SimpleResult
 import com.ycr.module.photo.R
+import com.ycr.module.photo.chosen.ChosenPhotoActivity
 
 /**
  * Created by yuchengren on 2019/1/21.
@@ -33,7 +35,7 @@ class TakePhotoActivity: CameraBaseActivity() {
     var photoClipFrameView: View? = null
 
     override fun getRootLayoutResId(): Int {
-        return R.layout.activity_camera
+        return R.layout.activity_take_photo
     }
 
     override fun bindView(rootView: View?) {
@@ -56,7 +58,7 @@ class TakePhotoActivity: CameraBaseActivity() {
     }
 
     private fun savePicture(data: ByteArray) {
-        val apiTask = object: ApiTask<String>(){
+        val savePictureTask = object: ApiTask<String>(){
             override fun doInBackground(): IResult<String> {
                 var bitmap = BitmapFactory.decodeByteArray(data, 0, data.size)
                 if(cameraId == Camera.CameraInfo.CAMERA_FACING_FRONT){
@@ -73,11 +75,13 @@ class TakePhotoActivity: CameraBaseActivity() {
 
             override fun onSuccess(result: IResult<String>) {
                 super.onSuccess(result)
-
+                // TODO: 2019/1/23 test
+                ChosenPhotoActivity.start(this@TakePhotoActivity,result.data()?:return)
 
             }
-
         }
+
+        TaskHelper.submitTask(groupName(),"savePicture",savePictureTask,savePictureTask)
     }
 
     private fun getClipBitmap(bitmap: Bitmap,photoClipFrameView: View,cameraView: SurfaceView): Bitmap{

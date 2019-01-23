@@ -3,11 +3,11 @@ package com.yuchengren.demo;
 import android.content.Context;
 import android.content.Intent;
 
+import com.yuchengren.demo.app.other.ChangeThemeActivity;
 import com.yuchengren.demo.app.other.CallPhoneBackActivity;
 import com.yuchengren.demo.app.other.ImageEditActivity;
 import com.yuchengren.demo.app.other.GridActivity;
 import com.yuchengren.demo.app.other.RxAndroidActivity;
-import com.yuchengren.demo.app.other.ChangeThemeActivity;
 import com.ycr.module.photo.chosen.ChosenPhotoActivity;
 import com.ycr.module.base.constant.MapKey;
 import com.ycr.module.base.constant.MenuCode;
@@ -36,7 +36,7 @@ public class MenuUtil {
 				intent = new Intent(context, TestActivity.class);
 				break;
 			case MenuCode.Second.THEME_SWITCH:
-				intent = new Intent(context, ChangeThemeActivity.class);
+				intent = new Intent(context,ChangeThemeActivity.class);
 				break;
 			case MenuCode.Second.IMAGE_EDIT:
 				intent = new Intent(context, ImageEditActivity.class);

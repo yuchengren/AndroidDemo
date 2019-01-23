@@ -2,10 +2,10 @@
     package="com.ycr.module.photo" >
     <application>
         <activity android:name="com.ycr.module.photo.chosen.ChosenPhotoActivity"
-            android:launchMode="singleTask"/>
+            android:launchMode="singleTask"
+            android:screenOrientation="landscape"/>
 
-        <activity android:name="com.ycr.module.photo.camera.TakePhotoActivity" />
-
-
+        <activity android:name="com.ycr.module.photo.camera.TakePhotoActivity"
+            android:screenOrientation="landscape"/>
     </application>
 </manifest>

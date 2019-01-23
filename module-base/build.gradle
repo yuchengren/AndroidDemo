@@ -1,6 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions' //如有直接Id使用空间
+apply plugin: 'kotlin-kapt' //Kotlin Annotation processing tool
 apply plugin: 'org.greenrobot.greendao' // apply plugin
 
 android {
@@ -29,6 +30,12 @@ android {
             //jniLibs.srcDir "src/main/libs"
         }
     }
+    android {
+        lintOptions {
+            abortOnError false
+        }
+    }
+
 
     buildTypes {
         release {
@@ -43,6 +50,8 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "$kotlin_group:kotlin-stdlib-jdk7:$kotlin_version"
     api "$android_support:appcompat-v7:$android_support_version"
+    api "com.android.support.constraint:constraint-layout:$constraint_layout_version"
+
     api "$greenrobot:greendao:$greendao_version"
 
     api project(':module-framework')

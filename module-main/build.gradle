@@ -1,6 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions' //如有直接Id使用空间
+apply plugin: 'kotlin-kapt' //Kotlin Annotation processing tool
 
 android {
     compileSdkVersion Integer.parseInt(compile_sdk_version)

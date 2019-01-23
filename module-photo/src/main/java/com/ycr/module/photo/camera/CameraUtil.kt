@@ -23,14 +23,13 @@ object CameraUtil {
         return (cameraInfo.orientation + windowRotation) % 360
     }
 
-    fun getPreviewSize(parameters: Camera.Parameters,previewRatio: Float,minWidth: Int): Camera.Size{
+    fun getPreviewSize(previewSizeList: MutableList<Camera.Size>,previewRatio: Float,minWidth: Int): Camera.Size{
         var size: Camera.Size? = null
-        val previewSizeList = parameters.supportedPreviewSizes
         previewSizeList.sortBy { it.width }
+        var index = 0
         for (item in previewSizeList) {
-            if(item.width > minWidth && equalsRate(item,previewRatio)){
+            if(item.width >= minWidth && equalsRate(item,previewRatio)){
                 size = item
-                break
             }
         }
 
@@ -65,7 +64,7 @@ object CameraUtil {
                 return it
             }
         }
-        return getPreviewSize(parameters,previewSize.width / previewSize.height.toFloat(),minWidth)
+        return getPreviewSize(pictureSizeList,previewSize.width / previewSize.height.toFloat(),minWidth)
     }
 
     fun caculateFocusArea(width: Int,height: Int,x: Float,y: Float): Rect {
