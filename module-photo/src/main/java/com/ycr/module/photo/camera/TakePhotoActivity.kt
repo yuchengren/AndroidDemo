@@ -22,21 +22,11 @@ import com.ycr.module.photo.chosen.ChosenPhotoActivity
 /**
  * Created by yuchengren on 2019/1/21.
  */
-class TakePhotoActivity: CameraBaseActivity() {
-
-    companion object {
-        fun start(context: Context){
-            val intent = Intent(context,TakePhotoActivity::class.java)
-            context.startActivity(intent)
-        }
-    }
+abstract class TakePhotoActivity: CameraBaseActivity() {
 
 
     var photoClipFrameView: View? = null
 
-    override fun getRootLayoutResId(): Int {
-        return R.layout.activity_take_photo
-    }
 
     override fun bindView(rootView: View?) {
         super.bindView(rootView)
@@ -52,7 +42,6 @@ class TakePhotoActivity: CameraBaseActivity() {
                 }
                 savePicture(data)
             }
-
         })
 
     }
@@ -75,14 +64,15 @@ class TakePhotoActivity: CameraBaseActivity() {
 
             override fun onSuccess(result: IResult<String>) {
                 super.onSuccess(result)
-                // TODO: 2019/1/23 test
-                ChosenPhotoActivity.start(this@TakePhotoActivity,result.data()?:return)
+                onSavePictureSuccess(result.data()?:return)
 
             }
         }
 
         TaskHelper.submitTask(groupName(),"savePicture",savePictureTask,savePictureTask)
     }
+
+    abstract fun onSavePictureSuccess(picUrl: String)
 
     private fun getClipBitmap(bitmap: Bitmap,photoClipFrameView: View,cameraView: SurfaceView): Bitmap{
         val widthRate = bitmap.width / cameraView.measuredWidth.toFloat()

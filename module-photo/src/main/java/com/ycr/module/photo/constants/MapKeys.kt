@@ -6,6 +6,6 @@ package com.ycr.module.photo.constants
 class MapKeys {
     companion object {
         const val URL_PIC = "urlPic"
-
+        const val ENTRANCE = "entrance" //业务入口
     }
 }

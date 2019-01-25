@@ -7,6 +7,7 @@ import android.view.View
 import com.bumptech.glide.Glide
 import com.ycr.module.base.BaseActivity
 import com.ycr.module.photo.R
+import com.ycr.module.photo.camera.SubjectPhotoTakeActivity
 import com.ycr.module.photo.camera.TakePhotoActivity
 import com.ycr.module.photo.constants.MapKeys
 
@@ -33,7 +34,7 @@ class ChosenPhotoActivity: BaseActivity() {
     override fun afterBindView(rootView: View?, savedInstanceState: Bundle?) {
         super.afterBindView(rootView, savedInstanceState)
         cameraGet.setOnClickListener {
-            TakePhotoActivity.start(this@ChosenPhotoActivity)
+            SubjectPhotoTakeActivity.start(this@ChosenPhotoActivity)
         }
         photoChoose.setOnClickListener {
 

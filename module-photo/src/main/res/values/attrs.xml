@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="PhotoEditView">
+        <attr name="imageInitHeightMatchPercent" format="float" />
+        <attr name="imageInitWidthMatchPercent" format="float" />
+        <attr name="mode" >
+            <enum name="none" value="0" />
+            <enum name="graffiti" value="1" />
+            <enum name="clip" value="2"/>
+        </attr>
+    </declare-styleable>
+</resources>

@@ -5,7 +5,16 @@
             android:launchMode="singleTask"
             android:screenOrientation="landscape"/>
 
-        <activity android:name="com.ycr.module.photo.camera.TakePhotoActivity"
+        <activity android:name="com.ycr.module.photo.camera.SubjectPhotoTakeActivity"
+            android:screenOrientation="landscape"/>
+
+        <activity android:name=".preview.PreviewPhotoActivity"
+            android:screenOrientation="landscape"/>
+
+        <activity android:name=".clip.PhotoClipActivity"
+            android:screenOrientation="landscape"/>
+
+        <activity android:name=".grid.PhotoBookGirdActivity"
             android:screenOrientation="landscape"/>
     </application>
 </manifest>

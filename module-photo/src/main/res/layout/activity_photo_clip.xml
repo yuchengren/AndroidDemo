@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/black">
+
+    <com.ycr.module.photo.view.photoEdit.PhotoEditView
+        android:id="@+id/photoEditView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <ImageView
+        android:id="@+id/rotateView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_rotate_90"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/topAreaGuide"
+        android:layout_marginRight="18dp"/>
+
+    <android.support.constraint.Guideline
+        android:id="@+id/topAreaGuide"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        app:layout_constraintGuide_percent="0.1"
+        android:orientation="horizontal"/>
+
+    <TextView
+        android:id="@+id/cancelView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHeight_percent="0.1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/confirmView"
+        app:layout_constraintHorizontal_weight="1"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:gravity="center"
+        android:text="@string/cancel"/>
+    <TextView
+        android:id="@+id/confirmView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHeight_percent="0.1"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/cancelView"
+        app:layout_constraintHorizontal_weight="1"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:gravity="center"
+        android:text="@string/finish"/>
+
+</android.support.constraint.ConstraintLayout>

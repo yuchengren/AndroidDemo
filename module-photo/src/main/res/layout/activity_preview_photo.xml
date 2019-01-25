@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/black">
+    <com.ycr.module.photo.view.photoEdit.PhotoEditView
+        android:id="@+id/photoEditView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <TextView
+        android:id="@+id/cancelView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHeight_percent="0.1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/confirmView"
+        app:layout_constraintHorizontal_weight="1"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:gravity="center"
+        android:text="@string/cancel"/>
+    <TextView
+        android:id="@+id/confirmView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHeight_percent="0.1"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/cancelView"
+        app:layout_constraintHorizontal_weight="1"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:gravity="center"
+        android:text="@string/finish"/>
+
+</android.support.constraint.ConstraintLayout>

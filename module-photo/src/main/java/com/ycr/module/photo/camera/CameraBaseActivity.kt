@@ -157,6 +157,7 @@ abstract class CameraBaseActivity: BaseActivity(), SurfaceHolder.Callback {
                         focusView?.run {
                             val marginLayoutParams = layoutParams as? ViewGroup.MarginLayoutParams
                             marginLayoutParams?.setMargins((event.x - width /2f).toInt(),(event.y - height /2f).toInt(),0,0)
+                            layoutParams = marginLayoutParams
                             visibility = View.VISIBLE
                             startAnimation(it)
                         }
