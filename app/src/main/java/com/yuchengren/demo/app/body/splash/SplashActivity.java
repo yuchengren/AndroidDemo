@@ -145,6 +145,12 @@ public class SplashActivity extends AppCompatActivity {
 		testMenuEntity.setParentCode(MenuCode.First.HOME);
 		menuEntityDao.insert(testMenuEntity);
 
+		MenuEntity kotlinTestMenuEntity = new MenuEntity();
+		kotlinTestMenuEntity.setName(getString(R.string.kotlin_test));
+		kotlinTestMenuEntity.setCode(MenuCode.Second.KOTLIN_TEST);
+		kotlinTestMenuEntity.setParentCode(MenuCode.First.HOME);
+		menuEntityDao.insert(kotlinTestMenuEntity);
+
 		MenuEntity skinMenuEntity = new MenuEntity();
 		skinMenuEntity.setName(getString(R.string.theme_switch));
 		skinMenuEntity.setCode(MenuCode.Second.THEME_SWITCH);

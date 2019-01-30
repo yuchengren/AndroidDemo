@@ -18,6 +18,8 @@ import com.ycr.kernel.log.LogHelper;
 import com.yuchengren.demo.R;
 
 import java.io.File;
+import java.lang.reflect.Array;
+import java.util.Arrays;
 
 /**
  * Created by yuchengren on 2017/12/28.

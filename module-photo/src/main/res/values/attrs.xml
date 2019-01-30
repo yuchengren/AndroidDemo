@@ -3,6 +3,15 @@
     <declare-styleable name="PhotoEditView">
         <attr name="imageInitHeightMatchPercent" format="float" />
         <attr name="imageInitWidthMatchPercent" format="float" />
+        <attr name="shadowColor" format="color"/>
+        <attr name="clipColor" format="color"/>
+        <attr name="clipCornerWidth" format="dimension" />
+        <attr name="clipCornerLineWidth" format="dimension" />
+        <attr name="clipBorderLineWidth" format="dimension"/>
+        <attr name="clipSpanLineWidth" format="dimension" />
+        <attr name="clipRowSpans" format="integer" />
+        <attr name="clipColumnSpans" format="integer" />
+        
         <attr name="mode" >
             <enum name="none" value="0" />
             <enum name="graffiti" value="1" />

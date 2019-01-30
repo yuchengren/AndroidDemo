@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">AndroidDemo</string>
+    <string name="kotlin_test">Kotlin测试</string>
 </resources>

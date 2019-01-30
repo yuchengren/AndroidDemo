@@ -12,6 +12,7 @@ import com.ycr.module.photo.chosen.ChosenPhotoActivity;
 import com.ycr.module.base.constant.MapKey;
 import com.ycr.module.base.constant.MenuCode;
 import com.ycr.module.base.entity.db.MenuEntity;
+import com.yuchengren.demo.app.test.KotlinTestActivity;
 import com.yuchengren.demo.app.test.TestActivity;
 
 /**
@@ -34,6 +35,9 @@ public class MenuUtil {
 				break;
 			case MenuCode.Second.TEST:
 				intent = new Intent(context, TestActivity.class);
+				break;
+			case MenuCode.Second.KOTLIN_TEST:
+				intent = new Intent(context, KotlinTestActivity.class);
 				break;
 			case MenuCode.Second.THEME_SWITCH:
 				intent = new Intent(context,ChangeThemeActivity.class);

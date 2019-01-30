@@ -15,6 +15,7 @@ public interface MenuCode {
 		String RX_ANDROID = "RxAndroid";
 		String CALL_PHONE_BACK = "call_phone_back";
 		String TEST = "test";
+		String KOTLIN_TEST = "kotlin_test";
 		String THEME_SWITCH = "skin_switch";
 		String IMAGE_EDIT = "image_edit";
 		String NINE_GRID = "nine_grid";
