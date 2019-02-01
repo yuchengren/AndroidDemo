@@ -4,8 +4,7 @@ package com.ycr.module.photo.view.photoEdit
  * Created by yuchengren on 2019/1/27.
  */
 class ImageEditParams {
-    var imageInitHeightMatchPercent = 1f
-    var imageInitWidthMatchPercent = 1f
+    var imageMatchPercent = 1f
     var shadowColor: Int = 0x7F000000
     var clipColor: Int = 0xFFFFFF
     var clipCornerWidth: Int = 48

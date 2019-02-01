@@ -16,28 +16,32 @@ class KotlinTestActivity: BaseActivity() {
     private var clipColumnSpans: Int = 3
     private var clipCornerWidth: Int = 10
     private var clipCornerLineWidth: Int = 1
-    private val clipRectF = RectF(0f,0f,100f,50f)
+    private val clipRectF = RectF(0f,0f,150f,90f)
     override fun getRootLayoutResId(): Int {
         return R.layout.activity_kotlin_test
     }
 
     override fun afterBindView(rootView: View?, savedInstanceState: Bundle?) {
         super.afterBindView(rootView, savedInstanceState)
+        drawSpanLines()
+        drawCornerLines()
+//        spanLinePoints.forEachIndexed { index, fl ->
+//            Log.e("spanLinePoints","index = $index,zuobiao = $fl")
+//        }
 
-        val width = clipRectF.width()
-        val height = clipRectF.height()
-        val clipSizeArray = arrayOf(clipRectF.width(),clipRectF.height())
+    }
+
+    private fun drawSpanLines() {
         val baseSizes = Array(2){i ->
             val span = if(i == 0) clipColumnSpans  else clipRowSpans
-            val size = if(i == 0) width  else height
+            val size = if(i == 0) clipRectF.width()  else clipRectF.height()
             FloatArray(span + 1){
                 j ->  j * (1f / span) * size
             }
         }
         val rowSpanPointCount = (clipRowSpans - 1) * 2
         val columnSpanPointCount = (clipColumnSpans - 1) * 2
-
-        val spanLinePoints = Array((rowSpanPointCount + columnSpanPointCount) * 2){ index ->
+        val spanLinePoints = FloatArray((rowSpanPointCount + columnSpanPointCount) * 2){ index ->
             val orientationIndex = index and 1
             var isXCoordinate: Boolean = orientationIndex == 0
             val sizeArray = baseSizes[orientationIndex]
@@ -48,20 +52,25 @@ class KotlinTestActivity: BaseActivity() {
                 spanIndex -= rowSpanPointCount * 2
             }
             val sizeIndex = if(isXCoordinate == isRowLinePoint){
-                if(spanIndex % 4 % 2 == 0) 0 else sizeArray.size - 1
+                if(spanIndex % 4 / 2 == 0) 0 else sizeArray.size - 1
             }else{
                 spanIndex / 4 + 1
             }
             sizeArray[sizeIndex]
         }
 
-        val cornerLinePoints = Array(32){index ->
+        spanLinePoints.forEachIndexed { index, fl ->
+            Log.e("spanLinePoints","index = $index,zuobiao = $fl")
+        }
+    }
+
+    private fun drawCornerLines() {
+        val clipSizeArray = arrayOf(clipRectF.width(),clipRectF.height())
+        val cornerLinePoints = FloatArray(32){index ->
             val orientationIndex = index and 1
             var isXCoordinate: Boolean = orientationIndex == 0
-
             val rowColumnIndex = index / 8
             val isRowLine = rowColumnIndex <= 1
-
             if(isXCoordinate == isRowLine){
                 val lineIndex = index % 8 // 0 1 2 3 4 5 6 7
                 val lineIndexDivide2 = lineIndex / 2 //  0 0 1 1 2 2 3 3
@@ -76,16 +85,7 @@ class KotlinTestActivity: BaseActivity() {
                 (rowColumnIndexMod2 * 2 - 1) * clipCornerLineWidth +
                         clipSizeArray[orientationIndex] * (rowColumnIndex % 2)
             }
-
         }
-
-//        spanLinePoints.forEachIndexed { index, fl ->
-//            Log.e("spanLinePoints","index = $index,zuobiao = $fl")
-//        }
-
-        cornerLinePoints.forEachIndexed { index, fl ->
-            Log.e("cornerLinePoints", "index = $index,zuobiao = $fl")
-        }
-
+//        canvas.drawLines(cornerLinePoints,clipCornerPaint)
     }
 }

@@ -2,7 +2,9 @@ package com.ycr.lib.ui.view.gridimage
 
 import android.support.annotation.IdRes
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.util.SparseArray
+import android.view.MotionEvent
 import android.view.View
 import java.util.*
 
@@ -13,6 +15,8 @@ class BaseRecyclerHolder(var convertView: View): RecyclerView.ViewHolder(convert
     val views: SparseArray<View> = SparseArray()
     val childClickViewIds = LinkedList<Int>()
     val childLongClickViewIds = LinkedList<Int>()
+    val childHoverViewIds = LinkedList<Int>()
+
 
     lateinit var adapter: BaseRecyclerAdapter<*,*>
 
@@ -44,7 +48,22 @@ class BaseRecyclerHolder(var convertView: View): RecyclerView.ViewHolder(convert
                 isLongClickable = true
             }
             setOnLongClickListener{
-                adapter.onItemLongClickListener?.onItemChildLongClick(adapter,this,getClickPosition())?:false
+                adapter.onItemChildLongClickListener?.onItemChildLongClick(adapter,this,getClickPosition())?:false
+            }
+        }
+    }
+
+    fun addOnHoverListener(@IdRes viewResId: Int){
+        childHoverViewIds.add(viewResId)
+        getView<View>(viewResId)?.run {
+//            Log.e("viewResId","$viewResId")
+            setOnHoverListener { v, event ->
+                when (event.action){
+                    MotionEvent.ACTION_HOVER_ENTER -> adapter.onItemChildHoverActionListener?.onHoverEnter(adapter,this,getClickPosition(),event)?: false
+                    MotionEvent.ACTION_HOVER_MOVE ->  adapter.onItemChildHoverActionListener?.onHoverMove(adapter,this,getClickPosition(),event)?: false
+                    MotionEvent.ACTION_HOVER_EXIT ->  adapter.onItemChildHoverActionListener?.onHoverExit(adapter,this,getClickPosition(),event)?: false
+                    else -> false
+                }
             }
         }
     }

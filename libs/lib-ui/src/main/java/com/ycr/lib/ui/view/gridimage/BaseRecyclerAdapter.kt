@@ -5,6 +5,7 @@ import android.support.annotation.IdRes
 import android.support.annotation.LayoutRes
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
@@ -22,7 +23,8 @@ abstract class BaseRecyclerAdapter<T, VH : BaseRecyclerHolder>(var data: Mutable
     var headerLayout: LinearLayout? = null
 
     var onItemChildClickListener: OnItemChildClickListener? = null
-    var onItemLongClickListener: OnItemChildLongClickListener? = null
+    var onItemChildLongClickListener: OnItemChildLongClickListener? = null
+    var onItemChildHoverActionListener: OnHoverActionListener?= null
 
     override fun getItemCount(): Int {
         return data?.size ?: 0
@@ -100,7 +102,7 @@ abstract class BaseRecyclerAdapter<T, VH : BaseRecyclerHolder>(var data: Mutable
     }
 
     fun getHeaderLayoutCount(): Int {
-        return if (headerLayout?.childCount == 0) 0 else 1
+        return if (headerLayout == null || headerLayout?.childCount == 0) 0 else 1
     }
 
     interface OnItemChildClickListener {
@@ -109,6 +111,12 @@ abstract class BaseRecyclerAdapter<T, VH : BaseRecyclerHolder>(var data: Mutable
 
     interface OnItemChildLongClickListener {
         fun onItemChildLongClick(adapter: BaseRecyclerAdapter<*, *>, view: View, position: Int): Boolean
+    }
+
+    interface OnHoverActionListener {
+        fun onHoverEnter(adapter: BaseRecyclerAdapter<*, *>,view: View, position: Int,event: MotionEvent): Boolean
+        fun onHoverMove(adapter: BaseRecyclerAdapter<*, *>,view: View, position: Int,event: MotionEvent): Boolean{ return true }
+        fun onHoverExit(adapter: BaseRecyclerAdapter<*, *>,view: View, position: Int,event: MotionEvent): Boolean
     }
 
     /**

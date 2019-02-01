@@ -30,8 +30,7 @@ class PhotoEditView : View {
 
         typedArray?.run {
             imageController = ImageController(this@PhotoEditView,modeArray[getInt(R.styleable.PhotoEditView_mode,0)],ImageEditParams().apply {
-                imageInitHeightMatchPercent = getFloat(R.styleable.PhotoEditView_imageInitHeightMatchPercent, 1f)
-                imageInitWidthMatchPercent = getFloat(R.styleable.PhotoEditView_imageInitWidthMatchPercent, 1f)
+                imageMatchPercent = getFloat(R.styleable.PhotoEditView_imageMatchPercent, 1f)
                 shadowColor = getColor(R.styleable.PhotoEditView_shadowColor,0x7F000000)
                 clipColor = getColor(R.styleable.PhotoEditView_clipColor, ContextCompat.getColor(context, android.R.color.white))
                 clipCornerWidth = getDimensionPixelSize(R.styleable.PhotoEditView_clipCornerWidth, 48)

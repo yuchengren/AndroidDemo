@@ -8,7 +8,17 @@
     <com.ycr.module.photo.view.photoEdit.PhotoEditView
         android:id="@+id/photoEditView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        app:imageMatchPercent="0.8"
+        app:mode="clip"
+        app:shadowColor="@color/halfBlack"
+        app:clipColor="#3296FA"
+        app:clipRowSpans="3"
+        app:clipColumnSpans="4"
+        app:clipCornerWidth="12dp"
+        app:clipCornerLineWidth="3dp"
+        app:clipBorderLineWidth="0.75dp"
+        app:clipSpanLineWidth="0.75dp"/>
 
     <ImageView
         android:id="@+id/rotateView"

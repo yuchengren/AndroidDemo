@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.ycr.lib.ui.view.gridimage.GridImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:ratio="1"
+        android:scaleType="centerCrop"/>
+    <ImageView
+        android:id="@+id/ivPreview"
+        android:layout_width="21dp"
+        android:layout_height="21dp"
+        android:src="@drawable/ic_photo_preview"
+        android:scaleType="fitXY"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:padding="3dp"/>
+
+</android.support.constraint.ConstraintLayout>

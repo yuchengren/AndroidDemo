@@ -34,7 +34,7 @@ class PreviewPhotoActivity: BaseActivity() {
         super.afterBindView(rootView, savedInstanceState)
         val picUrl = intent.getStringExtra(MapKeys.URL_PIC)
         if(!picUrl.isNullOrEmpty()){
-//            photoEditView.setImageBitmap( BitmapFactory.decodeFile(picUrl))
+            photoEditView.setImageBitmap( BitmapFactory.decodeFile(picUrl))
         }
         cancelView.setOnClickListener { onBackPressed() }
 

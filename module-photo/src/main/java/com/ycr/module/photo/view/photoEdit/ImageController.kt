@@ -31,7 +31,7 @@ class ImageController(private val view: View, private var mode: ImageEditMode, v
     private var isTouching = false
 
     init {
-        if(mode == ImageEditMode.CLIP){
+        if(isClipping()){
             initClipController()
             initShadowPaintAndPath()
         }
@@ -76,6 +76,12 @@ class ImageController(private val view: View, private var mode: ImageEditMode, v
 
     private fun scroll(distanceX: Float, distanceY: Float): Boolean {
         if (distanceX != 0f || distanceY != 0f) {
+            if(isClipping()){
+                if(imageClipController.scroll(distanceX,distanceY)){
+                    view.invalidate()
+                    return true
+                }
+            }
             view.scrollBy(distanceX.toInt(), distanceY.toInt())
             return true
         }
@@ -94,9 +100,13 @@ class ImageController(private val view: View, private var mode: ImageEditMode, v
         }
     }
 
+    private fun isClipping(): Boolean{
+        return mode == ImageEditMode.CLIP
+    }
+
     private fun onModeChanged() {
         this.mode = mode
-        if(mode == ImageEditMode.CLIP){
+        if(isClipping()){
             initClipController()
             initShadowPaintAndPath()
             hasInitHoming = false
@@ -130,14 +140,18 @@ class ImageController(private val view: View, private var mode: ImageEditMode, v
         }
         imageRectF.set(0f, 0f, bitmap.width.toFloat(), bitmap.height.toFloat())
 
-        val scale = Math.min(windowRectF.width() * params.imageInitWidthMatchPercent / imageRectF.width(),
-                windowRectF.height() * params.imageInitHeightMatchPercent / imageRectF.height())
+        val scale = Math.min(windowRectF.width() * params.imageMatchPercent / imageRectF.width(),
+                windowRectF.height() * params.imageMatchPercent / imageRectF.height())
         //图片适配View窗口大小
         M.setScale(scale, scale, imageRectF.centerX(), imageRectF.centerY())
         //图片平移至View窗口居中
         M.postTranslate(windowRectF.centerX() - imageRectF.centerX(), windowRectF.centerY() - imageRectF.centerY())
         M.mapRect(imageRectF) //通过矩阵变换矩形
-        imageClipController?.clipRectF?.set(imageRectF) //裁剪初始化区域与图片初始化区域相同
+
+        if(isClipping()){
+            imageClipController.clipInitRectF.set(imageRectF) //裁剪初始化区域与图片初始化区域相同
+            imageClipController.clipRectF.set(imageRectF)
+        }
         imageScale = scale
 
         initScale = scale
@@ -169,21 +183,24 @@ class ImageController(private val view: View, private var mode: ImageEditMode, v
 
     fun onDraw(canvas: Canvas) {
         drawBitmap(canvas)
-        when(mode){
-            ImageEditMode.CLIP -> drawClip(canvas)
-        }
+        drawClipShadow(canvas)
+        drawClip(canvas)
     }
 
     private fun drawClip(canvas: Canvas) {
-        drawClipShadow(canvas)
-        imageClipController.drawClip(canvas)
+        if(isClipping()){
+            canvas.save()
+            canvas.translate(view.scrollX.toFloat(),view.scrollY.toFloat())
+            imageClipController.drawClip(canvas)
+            canvas.restore()
+        }
     }
 
     private fun drawClipShadow(canvas: Canvas) {
-        if(mode == ImageEditMode.CLIP && !isTouching){
+        if(isClipping() && !isTouching){
             shadowPath.reset()
             shadowPath.addRect(imageRectF,Path.Direction.CW)
-//            shadowPath.addRect(imageClipController.clipRectF,Path.Direction.CCW)
+            shadowPath.addRect(imageClipController.clipRectF,Path.Direction.CCW)
             canvas.drawPath(shadowPath,shadowPaint)
         }
     }
@@ -208,16 +225,15 @@ class ImageController(private val view: View, private var mode: ImageEditMode, v
         if (isHoming()) {
             return false
         }
-        var handled: Boolean = scaleGestureDetector.onTouchEvent(event)
-
-        when(mode){
-            ImageEditMode.NONE,ImageEditMode.CLIP -> onTouchNone(event)
+        var handled: Boolean = scaleGestureDetector.onTouchEvent(event) or when(mode){
+            ImageEditMode.NONE,ImageEditMode.CLIP ->
+                onTouchNone(event)
             else->{
-                handled = if(event.pointerCount > 1){
+                if(event.pointerCount > 1){
                     onPathDone(event)
-                    handled or onTouchNone(event)
+                    onTouchNone(event)
                 }else{
-                    handled or onTouchPath(event)
+                    onTouchPath(event)
                 }
             }
         }
@@ -239,9 +255,15 @@ class ImageController(private val view: View, private var mode: ImageEditMode, v
 
     private fun onTouchDown(event: MotionEvent) {
         isTouching = true
+        if(isClipping()){
+            imageClipController.onTouchDown(event)
+        }
     }
 
     private fun onTouchUp(event: MotionEvent) {
+        if(isClipping()){
+            imageClipController.onTouchUp(event)
+        }
         isTouching = false
         homing()
     }
@@ -291,9 +313,11 @@ class ImageController(private val view: View, private var mode: ImageEditMode, v
         M.reset()
         M.mapRect(imgRectF, imageRectF)
 
-        val winRectF = RectF(windowRectF)
+        val winRectF = RectF()
+        M.reset()
+        M.setScale(params.imageMatchPercent,params.imageMatchPercent,windowRectF.centerX(),windowRectF.centerY())
+        M.mapRect(winRectF,windowRectF)
         winRectF.offset(view.scrollX.toFloat(), view.scrollY.toFloat())
-
         homingValues.scrollConcat(ImgHelper.getFitHomingValues(winRectF, imgRectF))
         return homingValues
     }

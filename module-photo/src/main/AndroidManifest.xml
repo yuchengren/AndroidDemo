@@ -12,7 +12,8 @@
             android:screenOrientation="landscape"/>
 
         <activity android:name=".clip.PhotoClipActivity"
-            android:screenOrientation="landscape"/>
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme.Fullscreen"/>
 
         <activity android:name=".grid.PhotoBookGirdActivity"
             android:screenOrientation="landscape"/>

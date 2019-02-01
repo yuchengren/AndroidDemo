@@ -3,6 +3,7 @@ package com.ycr.module.photo.view.photoEdit
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.RectF
+import android.view.MotionEvent
 
 /**
  * Created by yuchengren on 2019/1/25.
@@ -10,31 +11,23 @@ import android.graphics.RectF
 class ImageClipController(private var clipColor: Int = 0xFFFFFF,private var clipCornerWidth: Int = 48,
                           private var clipCornerLineWidth: Int = 4,private var clipBorderLineWidth: Int = 1, private var clipSpanLineWidth: Int = 1,
                           private var clipRowSpans: Int = 3, private var clipColumnSpans: Int = 3) {
+    var clipInitRectF: RectF = RectF()
     var clipRectF: RectF = RectF()
     var clipCornerPaint = Paint()
     var clipBorderLinePaint = Paint()
     var clipSpanLinePaint = Paint()
+    var touchingAnchor: ClipAnchor? = null
 
-    var clipSizeRatio =  Array(2){i ->
-        val span = if(i == 0) clipColumnSpans  else clipRowSpans
-        FloatArray(span + 1)
-    }
 
     init {
         initPaint()
-        clipSizeRatio.forEachIndexed { i, floatArray ->
-            floatArray.forEachIndexed { j, ratio ->
-                val spans = if(i == 0) clipColumnSpans else clipRowSpans
-                clipSizeRatio[i][j] = j * (1f / spans)
-            }
-        }
     }
 
     private fun initPaint() {
         clipCornerPaint.run {
             style = Paint.Style.STROKE
             color = clipColor
-            strokeWidth = clipCornerWidth.toFloat()
+            strokeWidth = clipCornerLineWidth.toFloat()
         }
         clipBorderLinePaint.run {
             style = Paint.Style.STROKE
@@ -49,8 +42,10 @@ class ImageClipController(private var clipColor: Int = 0xFFFFFF,private var clip
     }
 
     fun drawClip(canvas: Canvas) {
+        canvas.translate(clipRectF.left,clipRectF.top)
         drawSpanLines(canvas)
         drawCornerLines(canvas)
+        canvas.translate(-clipRectF.left, -clipRectF.top)
         drawBorder(canvas)
     }
 
@@ -75,7 +70,7 @@ class ImageClipController(private var clipColor: Int = 0xFFFFFF,private var clip
                 spanIndex -= rowSpanPointCount * 2
             }
             val sizeIndex = if(isXCoordinate == isRowLinePoint){
-                if(spanIndex % 4 % 2 == 0) 0 else sizeArray.size - 1
+                if(spanIndex % 4 / 2 == 0) 0 else sizeArray.size - 1
             }else{
                 spanIndex / 4 + 1
             }
@@ -97,12 +92,13 @@ class ImageClipController(private var clipColor: Int = 0xFFFFFF,private var clip
                 val lineIndexDivide2Divide2 = lineIndexDivide2 / 2 // 0 0 0 0 1 1 1 1
                 val lineIndexDivide2Mod2 = lineIndexDivide2 % 2 // 0 0 1 1 0 0 1 1
                 val clipCornerWidthRatio = if (lineIndexDivide2 == 0 || lineIndexDivide2 == 3) 0 else lineIndexDivide2Mod2 * 2 - 1
-                (lineIndexDivide2Divide2 * 2 - 1) * clipCornerLineWidth +
+                val clipCornerLineWidthRatio = if(isRowLine && (lineIndexDivide2 == 0 || lineIndexDivide2 == 3)) 0 else lineIndexDivide2Divide2 * 2 - 1
+                clipCornerLineWidthRatio * clipCornerLineWidth +
                         clipCornerWidthRatio * clipCornerWidth +
                         lineIndexDivide2Divide2 * clipSizeArray[orientationIndex]
             }else{
                 val rowColumnIndexMod2 = rowColumnIndex % 2 // 0是左上，1是右下
-                (rowColumnIndexMod2 * 2 - 1) * clipCornerLineWidth +
+                (rowColumnIndexMod2 * 2 - 1) * clipCornerLineWidth / 2 +
                         clipSizeArray[orientationIndex] * (rowColumnIndex % 2)
             }
         }
@@ -114,6 +110,36 @@ class ImageClipController(private var clipColor: Int = 0xFFFFFF,private var clip
             return
         }
         canvas.drawRect(clipRectF,clipBorderLinePaint)
+    }
+
+    fun onTouchDown(event: MotionEvent) {
+        if(ClipAnchor.isOffsetRectFContainPoint(clipRectF, - clipCornerWidth.toFloat(),event.x,event.y) &&
+                !ClipAnchor.isOffsetRectFContainPoint(clipRectF, clipCornerWidth.toFloat(),event.x,event.y)){
+            val clipRectFArray = ClipAnchor.getOffsetRectFArray(clipRectF, 0f)
+            val pointArray = floatArrayOf(event.x,event.y)
+            var anchor = 0
+            clipRectFArray.forEachIndexed { index, item ->
+                if(Math.abs(item - pointArray[index shr 1]) < clipCornerWidth.toFloat()){
+                    anchor = anchor or (1 shl index)
+                }
+            }
+            touchingAnchor = ClipAnchor.valueOf(anchor)
+        }
+    }
+
+    fun onTouchUp(event: MotionEvent) {
+        touchingAnchor = null
+    }
+
+    fun scroll(distanceX: Float, distanceY: Float): Boolean {
+        if(touchingAnchor == null){
+            return false
+        }
+        val clipMinRectF = RectF(0f,0f,clipCornerWidth * 2f,clipCornerWidth * 2f).apply {
+            offset(clipRectF.left,clipRectF.top)
+        }
+        touchingAnchor?.move(clipRectF,clipInitRectF,clipMinRectF, -distanceX, -distanceY)
+        return true
     }
 
 
