@@ -54,7 +54,7 @@ class PhotoEditView : View {
     }
 
     override fun onDraw(canvas: Canvas) {
-        imageController?.onDraw(canvas)
+        imageController?.draw(canvas)
     }
     override fun onTouchEvent(event: MotionEvent): Boolean {
         return imageController?.onTouchEvent(event)?:false

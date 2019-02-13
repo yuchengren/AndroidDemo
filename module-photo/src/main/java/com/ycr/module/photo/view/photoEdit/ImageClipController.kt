@@ -135,9 +135,9 @@ class ImageClipController(private var clipColor: Int = 0xFFFFFF,private var clip
         if(touchingAnchor == null){
             return false
         }
-        val clipMinRectF = RectF(0f,0f,clipCornerWidth * 2f,clipCornerWidth * 2f).apply {
-            offset(clipRectF.left,clipRectF.top)
-        }
+        val minSize = clipCornerWidth
+        val clipMinRectF = RectF(clipRectF.left + minSize,clipRectF.top + minSize,
+                clipRectF.right - minSize,clipRectF.bottom - minSize)
         touchingAnchor?.move(clipRectF,clipInitRectF,clipMinRectF, -distanceX, -distanceY)
         return true
     }

@@ -21,7 +21,11 @@ enum class ClipAnchor(var anchor: Int) {
         }
 
         fun getOffsetRectFArray(rectF: RectF,offset: Float): FloatArray{
-            return floatArrayOf(rectF.left + offset,rectF.right - offset, rectF.top + offset,rectF.bottom)
+            return floatArrayOf(rectF.left + offset,rectF.right - offset, rectF.top + offset,rectF.bottom - offset)
+        }
+
+        fun getRectFArray(rectF: RectF): FloatArray{
+            return floatArrayOf(rectF.left,rectF.right, rectF.top,rectF.bottom)
         }
 
         fun valueOf(anchor: Int): ClipAnchor?{
@@ -33,15 +37,15 @@ enum class ClipAnchor(var anchor: Int) {
             return null
         }
 
-        fun revise(num: Float,max: Float,min: Float): Float{
+        fun revise(num: Float, min: Float, max: Float): Float{
             return Math.min(Math.max(num,min),max)
         }
     }
 
     fun move(clipRectF: RectF,maxRectF: RectF,minRectF: RectF,dx: Float,dy: Float){
-        val clipRectFloatArray = getOffsetRectFArray(clipRectF,0f)
-        val maxRectFloatArray = getOffsetRectFArray(maxRectF,0f)
-        val minRectFloatArray = getOffsetRectFArray(minRectF,0f)
+        val clipRectFloatArray = getRectFArray(clipRectF)
+        val maxRectFloatArray = getRectFArray(maxRectF)
+        val minRectFloatArray = getRectFArray(minRectF)
         val dxy = floatArrayOf(dx,dy)
         clipRectFloatArray.forEachIndexed { index, item ->
             if((1 shl index) and anchor == 0){
@@ -49,7 +53,7 @@ enum class ClipAnchor(var anchor: Int) {
             }
             val pn = 1 - 2 * (index and 1)
             clipRectFloatArray[index] = pn * revise(pn * (item + dxy[index shr 1]),
-                    pn * maxRectFloatArray[index],pn * minRectFloatArray[index])
+                    pn * maxRectFloatArray[index],pn * minRectFloatArray[index + pn])
         }
         clipRectF.set(clipRectFloatArray[0],clipRectFloatArray[2],clipRectFloatArray[1],clipRectFloatArray[3])
     }

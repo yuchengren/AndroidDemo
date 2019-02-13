@@ -31,7 +31,7 @@ class ImageController(private val view: View, private var mode: ImageEditMode, v
     private var isTouching = false
 
     init {
-        if(isClipping()){
+        if(isClipMode()){
             initClipController()
             initShadowPaintAndPath()
         }
@@ -76,7 +76,7 @@ class ImageController(private val view: View, private var mode: ImageEditMode, v
 
     private fun scroll(distanceX: Float, distanceY: Float): Boolean {
         if (distanceX != 0f || distanceY != 0f) {
-            if(isClipping()){
+            if(isClipMode()){
                 if(imageClipController.scroll(distanceX,distanceY)){
                     view.invalidate()
                     return true
@@ -100,13 +100,13 @@ class ImageController(private val view: View, private var mode: ImageEditMode, v
         }
     }
 
-    private fun isClipping(): Boolean{
+    private fun isClipMode(): Boolean{
         return mode == ImageEditMode.CLIP
     }
 
     private fun onModeChanged() {
         this.mode = mode
-        if(isClipping()){
+        if(isClipMode()){
             initClipController()
             initShadowPaintAndPath()
             hasInitHoming = false
@@ -148,7 +148,7 @@ class ImageController(private val view: View, private var mode: ImageEditMode, v
         M.postTranslate(windowRectF.centerX() - imageRectF.centerX(), windowRectF.centerY() - imageRectF.centerY())
         M.mapRect(imageRectF) //通过矩阵变换矩形
 
-        if(isClipping()){
+        if(isClipMode()){
             imageClipController.clipInitRectF.set(imageRectF) //裁剪初始化区域与图片初始化区域相同
             imageClipController.clipRectF.set(imageRectF)
         }
@@ -181,14 +181,16 @@ class ImageController(private val view: View, private var mode: ImageEditMode, v
 
     }
 
-    fun onDraw(canvas: Canvas) {
+    fun draw(canvas: Canvas, isSave: Boolean = false) {
         drawBitmap(canvas)
-        drawClipShadow(canvas)
-        drawClip(canvas)
+        if(!isSave){
+            drawClipShadow(canvas)
+            drawClip(canvas)
+        }
     }
 
     private fun drawClip(canvas: Canvas) {
-        if(isClipping()){
+        if(isClipMode()){
             canvas.save()
             canvas.translate(view.scrollX.toFloat(),view.scrollY.toFloat())
             imageClipController.drawClip(canvas)
@@ -197,7 +199,7 @@ class ImageController(private val view: View, private var mode: ImageEditMode, v
     }
 
     private fun drawClipShadow(canvas: Canvas) {
-        if(isClipping() && !isTouching){
+        if(isClipMode() && !isTouching){
             shadowPath.reset()
             shadowPath.addRect(imageRectF,Path.Direction.CW)
             shadowPath.addRect(imageClipController.clipRectF,Path.Direction.CCW)
@@ -214,6 +216,8 @@ class ImageController(private val view: View, private var mode: ImageEditMode, v
     }
 
     fun save(): Bitmap? {
+        val saveRectF = if(isClipMode()) imageClipController.clipRectF else imageRectF
+
         val bitmap = bitmap ?: return null
         val createBitmap = Bitmap.createBitmap(bitmap.width, bitmap.height, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(createBitmap)
@@ -255,16 +259,17 @@ class ImageController(private val view: View, private var mode: ImageEditMode, v
 
     private fun onTouchDown(event: MotionEvent) {
         isTouching = true
-        if(isClipping()){
+        if(isClipMode()){
             imageClipController.onTouchDown(event)
         }
     }
 
     private fun onTouchUp(event: MotionEvent) {
-        if(isClipping()){
+        if(isClipMode()){
             imageClipController.onTouchUp(event)
         }
         isTouching = false
+        view.invalidate()
         homing()
     }
 
