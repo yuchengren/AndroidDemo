@@ -56,7 +56,6 @@ class BaseRecyclerHolder(var convertView: View): RecyclerView.ViewHolder(convert
     fun addOnHoverListener(@IdRes viewResId: Int){
         childHoverViewIds.add(viewResId)
         getView<View>(viewResId)?.run {
-//            Log.e("viewResId","$viewResId")
             setOnHoverListener { v, event ->
                 when (event.action){
                     MotionEvent.ACTION_HOVER_ENTER -> adapter.onItemChildHoverActionListener?.onHoverEnter(adapter,this,getClickPosition(),event)?: false

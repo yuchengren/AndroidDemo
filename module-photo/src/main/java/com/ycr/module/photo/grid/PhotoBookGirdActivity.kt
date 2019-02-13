@@ -58,11 +58,6 @@ class PhotoBookGirdActivity: BaseActivity() {
 
             onItemChildClickListener = object : BaseRecyclerAdapter.OnItemChildClickListener{
                 override fun onItemChildClick(adapter: BaseRecyclerAdapter<*, *>, view: View, position: Int) {
-                    if(view.id == R.id.ivPreview){
-                        showPhotoPreviewPop((view.parent as? View)?:return ,getItem(position)?:return )
-                        return
-                    }
-
                     ChosenPhotoActivity.start(this@PhotoBookGirdActivity,getItem(position)?:return)
                 }
             }
@@ -144,8 +139,8 @@ class PhotoBookGirdActivity: BaseActivity() {
         val itemViewHeight = itemView.height
         val locationViewCoordinateArray = IntArray(2)
         itemView.getLocationOnScreen(locationViewCoordinateArray)
-        val itemViewRightBottomX = locationViewCoordinateArray[0] + itemViewWidth
-        val itemViewRightBottomY = locationViewCoordinateArray[1] + itemViewHeight
+//        val itemViewRightBottomX = locationViewCoordinateArray[0] + itemViewWidth
+//        val itemViewRightBottomY = locationViewCoordinateArray[1] + itemViewHeight
 
         val bitmap = BitmapFactory.decodeFile(picPath)
         val photoRatio = bitmap.width / bitmap.height.toFloat()
@@ -158,8 +153,12 @@ class PhotoBookGirdActivity: BaseActivity() {
             popHeight = 3 * itemViewWidth
             popWidth = (popHeight * photoRatio).toInt()
         }
-        val showLocationX = if(itemViewRightBottomX - popWidth < 0) 0 else itemViewRightBottomX - popWidth
-        val showLocationY = if(itemViewRightBottomY - popHeight < 0) 0 else itemViewRightBottomY - popHeight
+        val showLocationX = if(locationViewCoordinateArray[0] + itemViewWidth / 2f < windowManager.defaultDisplay.width / 2f){
+            locationViewCoordinateArray[0]+ itemViewWidth
+        }else{
+            locationViewCoordinateArray[0] - popWidth
+        }
+        val showLocationY = if(locationViewCoordinateArray[1] - popHeight < 0) 0 else locationViewCoordinateArray[1] - popHeight
 
         photoPreviewPop?.apply {
             width = popWidth
@@ -168,7 +167,6 @@ class PhotoBookGirdActivity: BaseActivity() {
                 findViewById<ImageView>(R.id.ivPhoto).setImageBitmap(bitmap)
             }
         }?.showAtLocation(gridRecyclerView, Gravity.NO_GRAVITY,showLocationX,showLocationY)
-
     }
 
     private fun dismissPhotoPreviewPop() {

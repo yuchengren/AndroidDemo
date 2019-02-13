@@ -12,8 +12,6 @@ class GirdPhotoBookPreviewAdapter(data: MutableList<String>?): GridImageRecycler
 
     override fun convert(holder: BaseRecyclerHolder, position: Int, item: String?) {
         super.convert(holder, position, item)
-        val ivPreview = holder.getView<ImageView>(R.id.ivPreview)
-        ivPreview?.visibility = if(position == itemCount - 1) View.VISIBLE else View.GONE
         holder.addOnHoverListener(R.id.ivPreview)
         holder.addOnClickListener(R.id.ivPreview)
     }
