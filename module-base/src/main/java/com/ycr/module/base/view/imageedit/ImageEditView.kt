@@ -474,15 +474,15 @@ class ImageEditView : View {
         }
         imageRectF.set(0f, 0f, bitmap.width.toFloat(), bitmap.height.toFloat())
 
-        val scale = Math.min(windowRectF.width() / imageRectF.width(), windowRectF.height() / imageRectF.height())
-        //图片适配View窗口大小
-        M.setScale(scale, scale, imageRectF.centerX(), imageRectF.centerY())
-        //图片平移至View窗口居中
-        M.postTranslate(windowRectF.centerX() - imageRectF.centerX(), windowRectF.centerY() - imageRectF.centerY())
+        M.reset()
+        M.setRectToRect(imageRectF, windowRectF, Matrix.ScaleToFit.CENTER)
         M.mapRect(imageRectF) //通过矩阵变换矩形
-        imageScale = scale
+        val imageMatrixArray = FloatArray(9)
+        M.getValues(imageMatrixArray)
+        val scaleX = imageMatrixArray[0]
+        initScale = scaleX
+        imageScale = initScale
 
-        initScale = scale
         graffitiPaint.strokeWidth = graffitiPaintWidth.toFloat() / initScale //描边宽度
         pathEndIconTextPaint.textSize = context.resources.getDimensionPixelSize(R.dimen.text_size_little).toFloat() / initScale
         pathEndIconInnerSize = context.resources.getDimensionPixelSize(R.dimen.text_size_little).toFloat() / initScale

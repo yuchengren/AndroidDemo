@@ -71,7 +71,7 @@ class PhotoEditView : View {
         imageController?.setMode(mode)
     }
 
-    fun rotate(rotate: Int){
+    fun rotate(rotate: Float = -90f){
         imageController?.rotate(rotate)
     }
 }

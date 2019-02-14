@@ -22,6 +22,7 @@ class ImageController(private val view: View, private var mode: ImageEditMode, v
     private val M = Matrix()
     private var windowRectF = RectF() //控件可视化区域
     private var imageRectF = RectF() //完整图片区域
+    private var clipShadowRectF = RectF() //裁剪的阴影区域
     private var hasInitHoming = false //是否已经初始化原始图片状态
     private var imageScale: Float = 1f //图片的当前已缩放的比例
     private var imageRotate: Float = 0f //图片当前已旋转的角度0~360
@@ -172,19 +173,24 @@ class ImageController(private val view: View, private var mode: ImageEditMode, v
         view.invalidate()
     }
 
-    fun rotate(rotate: Int) {
+    fun rotate(rotate: Float) {
         if(isHoming()){
             return
         }
         imageRotate = Math.round((imageRotate + rotate) / 90f) * 90f % 360
-        M.setRotate(imageRotate,imageRectF.centerX(),imageRectF.centerY())
-
+        if(isClipMode()){
+            imageClipController.rotate(rotate)
+        }
+        view.invalidate()
     }
 
     fun draw(canvas: Canvas, isSave: Boolean = false) {
+        val rotateCenterRectF = if(isClipMode()) imageClipController.clipRectF else imageRectF
+        canvas.save()
+        canvas.rotate(imageRotate,rotateCenterRectF.centerX(),rotateCenterRectF.centerY())
         drawBitmap(canvas)
+        canvas.restore()
         if(!isSave){
-            drawClipShadow(canvas)
             drawClip(canvas)
         }
     }
@@ -193,6 +199,7 @@ class ImageController(private val view: View, private var mode: ImageEditMode, v
         if(isClipMode()){
             canvas.save()
             canvas.translate(view.scrollX.toFloat(),view.scrollY.toFloat())
+            drawClipShadow(canvas)
             imageClipController.drawClip(canvas)
             canvas.restore()
         }
@@ -201,7 +208,10 @@ class ImageController(private val view: View, private var mode: ImageEditMode, v
     private fun drawClipShadow(canvas: Canvas) {
         if(isClipMode() && !isTouching){
             shadowPath.reset()
-            shadowPath.addRect(imageRectF,Path.Direction.CW)
+            M.setTranslate(-view.scrollX.toFloat(),-view.scrollY.toFloat())
+            M.preRotate(imageRotate,imageClipController.clipRectF.centerX(),imageClipController.clipRectF.centerY())
+            M.mapRect(clipShadowRectF,imageRectF)
+            shadowPath.addRect(clipShadowRectF,Path.Direction.CW)
             shadowPath.addRect(imageClipController.clipRectF,Path.Direction.CCW)
             canvas.drawPath(shadowPath,shadowPaint)
         }
@@ -217,11 +227,11 @@ class ImageController(private val view: View, private var mode: ImageEditMode, v
 
     fun save(): Bitmap? {
         val saveRectF = if(isClipMode()) imageClipController.clipRectF else imageRectF
-
-        val bitmap = bitmap ?: return null
-        val createBitmap = Bitmap.createBitmap(bitmap.width, bitmap.height, Bitmap.Config.ARGB_8888)
+        val scale = 1 / imageScale
+        val createBitmap = Bitmap.createBitmap(saveRectF.width().toInt(), saveRectF.height().toInt(), Bitmap.Config.ARGB_8888)
         val canvas = Canvas(createBitmap)
-        canvas.drawBitmap(bitmap, 0f, 0f, null)
+        canvas.translate(-saveRectF.left , -saveRectF.top)
+        draw(canvas,true)
         return createBitmap
     }
 
@@ -266,7 +276,7 @@ class ImageController(private val view: View, private var mode: ImageEditMode, v
 
     private fun onTouchUp(event: MotionEvent) {
         if(isClipMode()){
-            imageClipController.onTouchUp(event)
+            imageClipController.onTouchUp(event,view.scrollX,view.scrollY )
         }
         isTouching = false
         view.invalidate()

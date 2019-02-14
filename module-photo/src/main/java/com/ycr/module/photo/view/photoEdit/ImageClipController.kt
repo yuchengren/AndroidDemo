@@ -1,6 +1,7 @@
 package com.ycr.module.photo.view.photoEdit
 
 import android.graphics.Canvas
+import android.graphics.Matrix
 import android.graphics.Paint
 import android.graphics.RectF
 import android.view.MotionEvent
@@ -17,7 +18,7 @@ class ImageClipController(private var clipColor: Int = 0xFFFFFF,private var clip
     var clipBorderLinePaint = Paint()
     var clipSpanLinePaint = Paint()
     var touchingAnchor: ClipAnchor? = null
-
+    private var M = Matrix()
 
     init {
         initPaint()
@@ -127,8 +128,10 @@ class ImageClipController(private var clipColor: Int = 0xFFFFFF,private var clip
         }
     }
 
-    fun onTouchUp(event: MotionEvent) {
-        touchingAnchor = null
+    fun onTouchUp(event: MotionEvent, scrollX: Int, scrollY: Int) {
+        if(touchingAnchor != null){
+            touchingAnchor = null
+        }
     }
 
     fun scroll(distanceX: Float, distanceY: Float): Boolean {
@@ -140,6 +143,11 @@ class ImageClipController(private var clipColor: Int = 0xFFFFFF,private var clip
                 clipRectF.right - minSize,clipRectF.bottom - minSize)
         touchingAnchor?.move(clipRectF,clipInitRectF,clipMinRectF, -distanceX, -distanceY)
         return true
+    }
+
+    fun rotate(rotate: Float) {
+        M.setRotate(rotate,clipRectF.centerX(),clipRectF.centerY())
+        M.mapRect(clipRectF)
     }
 
 

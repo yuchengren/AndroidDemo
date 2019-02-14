@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.View
 import com.ycr.module.base.BaseActivity
+import com.ycr.module.base.view.imageedit.ImgHelper
 import com.ycr.module.photo.R
 import com.ycr.module.photo.constants.MapKeys
 import kotlinx.android.synthetic.main.activity_photo_clip.*
@@ -38,8 +39,13 @@ class PhotoClipActivity: BaseActivity() {
 
         cancelView.setOnClickListener { onBackPressed() }
 
-        confirmView.setOnClickListener {  }
+        confirmView.setOnClickListener {
+            val bitmap = photoEditView.save()?:return@setOnClickListener
+            val tempSavePath = ImgHelper.getTempSavePath(this@PhotoClipActivity)
+            ImgHelper.save(bitmap,tempSavePath)
+//            ChosenPhotoActivity.start(this@PhotoClipActivity,tempSavePath)
+        }
 
-        rotateView.setOnClickListener {  }
+        rotateView.setOnClickListener {  photoEditView.rotate()}
     }
 }
