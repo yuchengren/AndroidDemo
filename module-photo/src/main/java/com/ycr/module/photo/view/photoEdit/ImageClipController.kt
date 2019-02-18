@@ -5,6 +5,7 @@ import android.graphics.Matrix
 import android.graphics.Paint
 import android.graphics.RectF
 import android.view.MotionEvent
+import com.ycr.module.base.view.imageedit.ImgHelper
 
 /**
  * Created by yuchengren on 2019/1/25.
@@ -12,13 +13,18 @@ import android.view.MotionEvent
 class ImageClipController(private var clipColor: Int = 0xFFFFFF,private var clipCornerWidth: Int = 48,
                           private var clipCornerLineWidth: Int = 4,private var clipBorderLineWidth: Int = 1, private var clipSpanLineWidth: Int = 1,
                           private var clipRowSpans: Int = 3, private var clipColumnSpans: Int = 3) {
-    var clipInitRectF: RectF = RectF()
+    var clipWinRectF: RectF = RectF()
     var clipRectF: RectF = RectF()
+    var clipBaseRectF: RectF = RectF()
+    var clipTargetRectF: RectF = RectF()
+
     var clipCornerPaint = Paint()
     var clipBorderLinePaint = Paint()
     var clipSpanLinePaint = Paint()
     var touchingAnchor: ClipAnchor? = null
     private var M = Matrix()
+    var isResetting = false
+    var isNeedHoming = false
 
     init {
         initPaint()
@@ -43,6 +49,9 @@ class ImageClipController(private var clipColor: Int = 0xFFFFFF,private var clip
     }
 
     fun drawClip(canvas: Canvas) {
+        if (isResetting) {
+            return
+        }
         canvas.translate(clipRectF.left,clipRectF.top)
         drawSpanLines(canvas)
         drawCornerLines(canvas)
@@ -125,6 +134,10 @@ class ImageClipController(private var clipColor: Int = 0xFFFFFF,private var clip
                 }
             }
             touchingAnchor = ClipAnchor.valueOf(anchor)
+
+            if (touchingAnchor != null) {
+                isNeedHoming = false
+            }
         }
     }
 
@@ -141,7 +154,7 @@ class ImageClipController(private var clipColor: Int = 0xFFFFFF,private var clip
         val minSize = clipCornerWidth
         val clipMinRectF = RectF(clipRectF.left + minSize,clipRectF.top + minSize,
                 clipRectF.right - minSize,clipRectF.bottom - minSize)
-        touchingAnchor?.move(clipRectF,clipInitRectF,clipMinRectF, -distanceX, -distanceY)
+        touchingAnchor?.move(clipRectF,clipWinRectF,clipMinRectF, -distanceX, -distanceY)
         return true
     }
 
@@ -149,6 +162,51 @@ class ImageClipController(private var clipColor: Int = 0xFFFFFF,private var clip
         M.setRotate(rotate,clipRectF.centerX(),clipRectF.centerY())
         M.mapRect(clipRectF)
     }
+
+    fun getScrollClipRectF(scrollX: Int, scrollY: Int): RectF {
+        val rectF = RectF(clipRectF)
+        rectF.offset(scrollX.toFloat(),scrollY.toFloat())
+        return rectF
+    }
+
+    fun resetClipWinRectF(rectF: RectF) {
+        clipWinRectF.set(rectF)
+        if(!clipRectF.isEmpty){
+            ImgHelper.center(clipWinRectF,clipRectF)
+            clipTargetRectF.set(clipRectF)
+        }
+    }
+
+    fun reset(clipCanvasRectF: RectF, imageTargetRotate: Float) {
+        val rectF = RectF()
+        M.setRotate(imageTargetRotate,clipCanvasRectF.centerX(),clipCanvasRectF.centerY())
+        M.mapRect(rectF,clipCanvasRectF)
+        reset(rectF.width(),rectF.height())
+    }
+
+    fun reset(clipWidth: Float,clipHeight: Float){
+        isResetting = true
+        clipRectF.set(0f,0f,clipWidth,clipHeight)
+        ImgHelper.fitCenter(clipWinRectF,clipRectF)
+        clipTargetRectF.set(clipRectF)
+    }
+
+    fun homing() {
+        clipBaseRectF.set(clipRectF)
+        clipTargetRectF.set(clipRectF)
+        ImgHelper.fitCenter(clipWinRectF,clipTargetRectF)
+        isNeedHoming = clipTargetRectF != clipBaseRectF
+    }
+
+    fun homing(animatedFraction: Float) {
+        if(isNeedHoming){
+            clipRectF.set(clipBaseRectF.left + (clipTargetRectF.left - clipBaseRectF.left) * animatedFraction,
+                    clipBaseRectF.top + (clipTargetRectF.top - clipBaseRectF.top) * animatedFraction,
+                    clipBaseRectF.right + (clipTargetRectF.right - clipBaseRectF.right) * animatedFraction,
+                    clipBaseRectF.bottom + (clipTargetRectF.bottom - clipBaseRectF.bottom) * animatedFraction)
+        }
+    }
+
 
 
 }

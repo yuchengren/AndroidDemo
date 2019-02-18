@@ -5,7 +5,7 @@ package com.ycr.module.base.view.imageedit
  */
 class ImgHomingValues(var x: Float = 0f,var y: Float = 0f,var scale: Float = 1f,var rotate: Float = 0f){
 
-    fun scrollConcat(homingValues: ImgHomingValues){
+    fun concat(homingValues: ImgHomingValues){
         x -= homingValues.x
         y -= homingValues.y
         scale *= homingValues.scale

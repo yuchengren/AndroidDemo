@@ -14,13 +14,14 @@ import com.ycr.module.photo.R
  * 图片编辑View
  * Created by yuchengren on 2018/11/1.
  */
-class PhotoEditView : View {
+class PhotoEditView : View,Runnable{
+
     companion object {
         const val SCALE_MAX = 3f //缩放的最大倍数
     }
     private val modeArray = arrayOf(ImageEditMode.NONE, ImageEditMode.GRAFFITI, ImageEditMode.CLIP)
 
-    private var imageController: ImageController? = null
+    private lateinit var imageController: ImageController
 
     constructor(context: Context) : this(context, null)
     constructor(context: Context, @Nullable attrs: AttributeSet?) : this(context, attrs, 0)
@@ -57,7 +58,33 @@ class PhotoEditView : View {
         imageController?.draw(canvas)
     }
     override fun onTouchEvent(event: MotionEvent): Boolean {
+        when(event.actionMasked){
+            MotionEvent.ACTION_DOWN -> removeCallbacks(this)
+            MotionEvent.ACTION_UP,MotionEvent.ACTION_CANCEL -> postDelayed(this,1200)
+        }
         return imageController?.onTouchEvent(event)?:false
+    }
+
+    override fun run() {
+        if(!onSteady()){
+            postDelayed(this,500)
+        }
+
+    }
+
+    private fun onSteady(): Boolean {
+        if(!imageController.isHoming()){
+            imageController.onSteady(scrollX,scrollY)
+            imageController.homing()
+            return true
+        }
+        return false
+    }
+
+    override fun onDetachedFromWindow() {
+        super.onDetachedFromWindow()
+        removeCallbacks(this)
+        imageController?.recycle()
     }
 
     override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {

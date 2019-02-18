@@ -1,5 +1,6 @@
 package com.ycr.module.photo.view.photoEdit
 
+import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.content.Context
 import android.graphics.*
@@ -21,15 +22,20 @@ class ImageController(private val view: View, private var mode: ImageEditMode, v
     private var bitmap: Bitmap? = null
     private val M = Matrix()
     private var windowRectF = RectF() //控件可视化区域
+    private var imageWinRectF = RectF() //图片的适配可视化窗体区域
     private var imageRectF = RectF() //完整图片区域
-    private var clipShadowRectF = RectF() //裁剪的阴影区域
+    private var clipCanvasRectF = RectF() //裁剪的阴影区域
     private var hasInitHoming = false //是否已经初始化原始图片状态
     private var imageScale: Float = 1f //图片的当前已缩放的比例
     private var imageRotate: Float = 0f //图片当前已旋转的角度0~360
+    private var imageTargetRotate: Float = 0f //图片将要旋转到的角度
     private var initScale: Float = 1f //图片居中适配屏幕的初始化缩放比例
     private lateinit var shadowPaint: Paint
     private lateinit var shadowPath: Path
-    private var isTouching = false
+    private var isSteady = true //是否是稳定的
+
+    private var homingAnimator: ImgHomingAnimator? = null // 图片归位动画
+    private var isAnimatorCancelled = false
 
     init {
         if(isClipMode()){
@@ -70,23 +76,61 @@ class ImageController(private val view: View, private var mode: ImageEditMode, v
                     return false
                 }
                 scale(detector.scaleFactor, view.scrollX + detector.focusX, view.scrollY + detector.focusY)
+                view.invalidate()
                 return true
             }
         })
     }
 
     private fun scroll(distanceX: Float, distanceY: Float): Boolean {
-        if (distanceX != 0f || distanceY != 0f) {
-            if(isClipMode()){
-                if(imageClipController.scroll(distanceX,distanceY)){
-                    view.invalidate()
-                    return true
-                }
+        if (distanceX == 0f || distanceY == 0f) {
+            return false
+        }
+        if(isClipMode()){
+            if(imageClipController.scroll(distanceX,distanceY)){
+
+                val imageRotateRectF = RectF()
+                M.setRotate(imageRotate,clipCanvasRectF.centerX(),clipCanvasRectF.centerY())
+                M.mapRect(imageRotateRectF,imageRectF)
+
+                val scrollClipRectF = imageClipController.getScrollClipRectF(view.scrollX,view.scrollY)
+                val homingValues = ImgHomingValues(view.scrollX.toFloat(),view.scrollY.toFloat(),
+                        imageScale,imageTargetRotate)
+                homingValues.concat(ImgHelper.getFillHomingValues(scrollClipRectF,imageRotateRectF,
+                        clipCanvasRectF.centerX(),clipCanvasRectF.centerY()))
+
+                applyHoming(homingValues)
+                return true
             }
-            view.scrollBy(distanceX.toInt(), distanceY.toInt())
+        }
+        doScrollTo(view.scrollX + distanceX.toInt(),view.scrollY + distanceY.toInt())
+        return true
+    }
+
+    private fun applyHoming(imgHomingValues: ImgHomingValues){
+        imageRotate = imgHomingValues.rotate
+        scale(imgHomingValues.scale / imageScale, clipCanvasRectF.centerX(), clipCanvasRectF.centerY())
+        if(!doScrollTo(imgHomingValues.x.toInt(),imgHomingValues.y.toInt())){
+//            resetClipRectF()
+            view.invalidate()
+        }
+    }
+
+    private fun doScrollTo(x: Int,y: Int): Boolean{
+        if(x != view.scrollX || y != view.scrollY){
+//            M.setTranslate((x - view.scrollX).toFloat(),(y - view.scrollY).toFloat())
+//            M.mapRect(clipCanvasRectF)
+//            resetClipRectF()
+            view.scrollTo(x, y)
             return true
         }
         return false
+    }
+
+    private fun resetClipRectF(){
+        M.setTranslate(view.scrollX.toFloat(),view.scrollY.toFloat())
+        M.preRotate(-imageRotate,clipCanvasRectF.centerX(),clipCanvasRectF.centerY())
+        M.mapRect(clipCanvasRectF,imageClipController.clipRectF)
     }
 
     private fun initClipController(){
@@ -141,27 +185,28 @@ class ImageController(private val view: View, private var mode: ImageEditMode, v
         }
         imageRectF.set(0f, 0f, bitmap.width.toFloat(), bitmap.height.toFloat())
 
-        val scale = Math.min(windowRectF.width() * params.imageMatchPercent / imageRectF.width(),
-                windowRectF.height() * params.imageMatchPercent / imageRectF.height())
-        //图片适配View窗口大小
-        M.setScale(scale, scale, imageRectF.centerX(), imageRectF.centerY())
-        //图片平移至View窗口居中
-        M.postTranslate(windowRectF.centerX() - imageRectF.centerX(), windowRectF.centerY() - imageRectF.centerY())
+        val imageWinWidthOffset = windowRectF.width() * (1 - params.imageMatchPercent) / 2
+        val imageWinHeightOffset = windowRectF.height() * (1 - params.imageMatchPercent) / 2
+        imageWinRectF = RectF(imageWinWidthOffset,imageWinHeightOffset,
+                windowRectF.width() - imageWinWidthOffset,windowRectF.height() - imageWinHeightOffset)
+
+        M.reset()
+        M.setRectToRect(imageRectF, imageWinRectF, Matrix.ScaleToFit.CENTER)
         M.mapRect(imageRectF) //通过矩阵变换矩形
+        val imageMatrixArray = FloatArray(9)
+        M.getValues(imageMatrixArray)
+        val scaleX = imageMatrixArray[0]
+        initScale = scaleX
+        imageScale = initScale
 
         if(isClipMode()){
-            imageClipController.clipInitRectF.set(imageRectF) //裁剪初始化区域与图片初始化区域相同
+            imageClipController.resetClipWinRectF(imageWinRectF)
             imageClipController.clipRectF.set(imageRectF)
+            imageClipController.clipTargetRectF.set(imageRectF)
+//            resetClipRectF()
         }
-        imageScale = scale
-
-        initScale = scale
+        clipCanvasRectF.set(imageRectF)
         hasInitHoming = true
-    }
-
-    private fun getScale(): Float {
-        val bitmap: Bitmap = bitmap ?: return 1f
-        return imageRectF.width() / bitmap.width
     }
 
     fun scale(scaleFactor: Float, px: Float, py: Float) {
@@ -169,26 +214,31 @@ class ImageController(private val view: View, private var mode: ImageEditMode, v
             return
         }
         M.apply { setScale(scaleFactor, scaleFactor, px, py) }.mapRect(imageRectF)
+        if(!isClipMode()){
+            M.apply { setScale(scaleFactor, scaleFactor, px, py) }.mapRect(clipCanvasRectF)
+        }
         imageScale *= scaleFactor
-        view.invalidate()
     }
 
     fun rotate(rotate: Float) {
         if(isHoming()){
             return
         }
-        imageRotate = Math.round((imageRotate + rotate) / 90f) * 90f % 360
+        imageTargetRotate = Math.round((imageRotate + rotate) / 90f) * 90f
         if(isClipMode()){
-            imageClipController.rotate(rotate)
+            imageClipController.reset(clipCanvasRectF,imageTargetRotate)
         }
-        view.invalidate()
+        homing()
     }
 
     fun draw(canvas: Canvas, isSave: Boolean = false) {
-        val rotateCenterRectF = if(isClipMode()) imageClipController.clipRectF else imageRectF
+        val rotateCenterRectF = if(isClipMode()) clipCanvasRectF else imageRectF
         canvas.save()
         canvas.rotate(imageRotate,rotateCenterRectF.centerX(),rotateCenterRectF.centerY())
         drawBitmap(canvas)
+        if(!isSave){
+            drawClipShadow(canvas)
+        }
         canvas.restore()
         if(!isSave){
             drawClip(canvas)
@@ -199,29 +249,22 @@ class ImageController(private val view: View, private var mode: ImageEditMode, v
         if(isClipMode()){
             canvas.save()
             canvas.translate(view.scrollX.toFloat(),view.scrollY.toFloat())
-            drawClipShadow(canvas)
             imageClipController.drawClip(canvas)
             canvas.restore()
         }
     }
 
     private fun drawClipShadow(canvas: Canvas) {
-        if(isClipMode() && !isTouching){
+        if(isClipMode() && isSteady){
             shadowPath.reset()
-            M.setTranslate(-view.scrollX.toFloat(),-view.scrollY.toFloat())
-            M.preRotate(imageRotate,imageClipController.clipRectF.centerX(),imageClipController.clipRectF.centerY())
-            M.mapRect(clipShadowRectF,imageRectF)
-            shadowPath.addRect(clipShadowRectF,Path.Direction.CW)
-            shadowPath.addRect(imageClipController.clipRectF,Path.Direction.CCW)
+            shadowPath.addRect(imageRectF,Path.Direction.CW)
+            shadowPath.addRect(clipCanvasRectF,Path.Direction.CCW)
             canvas.drawPath(shadowPath,shadowPaint)
         }
     }
 
     private fun drawBitmap(canvas: Canvas) {
-        val bitmap: Bitmap? = bitmap
-        if (bitmap == null || bitmap.isRecycled) {
-            return
-        }
+        val bitmap: Bitmap? = bitmap?:return
         canvas.drawBitmap(bitmap, null, imageRectF, null)
     }
 
@@ -268,7 +311,7 @@ class ImageController(private val view: View, private var mode: ImageEditMode, v
     }
 
     private fun onTouchDown(event: MotionEvent) {
-        isTouching = true
+        isSteady = false
         if(isClipMode()){
             imageClipController.onTouchDown(event)
         }
@@ -278,16 +321,18 @@ class ImageController(private val view: View, private var mode: ImageEditMode, v
         if(isClipMode()){
             imageClipController.onTouchUp(event,view.scrollX,view.scrollY )
         }
-        isTouching = false
-        view.invalidate()
         homing()
     }
 
+    fun onSteady(scrollX: Int, scrollY: Int) {
+        isSteady = true
+        if(isClipMode()){
+            imageClipController.homing()
+        }
+    }
 
 
-    private var homingAnimator: ImgHomingAnimator? = null // 图片归位动画
-
-    private fun isHoming(): Boolean {
+    fun isHoming(): Boolean {
         return homingAnimator?.isRunning ?: false
     }
 
@@ -298,7 +343,8 @@ class ImageController(private val view: View, private var mode: ImageEditMode, v
     /**
      * 图片归位
      */
-    private fun homing() {
+    fun homing() {
+        view.invalidate()
         stopHoming()
         startHoming()
     }
@@ -307,33 +353,95 @@ class ImageController(private val view: View, private var mode: ImageEditMode, v
         if (homingAnimator == null) {
             homingAnimator = ImgHomingAnimator().apply {
                 addUpdateListener {
-                    val imageHomingValues = it.animatedValue as ImgHomingValues
-                    view.scrollTo(imageHomingValues.x.toInt(), imageHomingValues.y.toInt())
-                    scale(imageHomingValues.scale / imageScale, imageRectF.centerX(), imageRectF.centerY())
+                    if(isClipMode()){
+                        imageClipController.homing(it.animatedFraction)
+                    }
+                    applyHoming(it.animatedValue as ImgHomingValues)
                 }
-                addListener(object : AnimatorListenerAdapter() {})
+
+                addListener(object : AnimatorListenerAdapter() {
+                    override fun onAnimationStart(animation: Animator?) {
+                        super.onAnimationStart(animation)
+                        isAnimatorCancelled = false
+                    }
+
+                    override fun onAnimationEnd(animation: Animator?) {
+                        super.onAnimationEnd(animation)
+                        if(onHomingEnd()){
+                            if(isClipMode()){
+                                applyHoming(clip(view.scrollX,view.scrollY))
+                            }
+                        }
+                    }
+
+                    override fun onAnimationCancel(animation: Animator?) {
+                        super.onAnimationCancel(animation)
+                        isAnimatorCancelled = true
+                    }
+
+                })
             }
         }
         homingAnimator?.setHomingValues(getStartHomingValues(), getEndHomingValues())
         homingAnimator?.start()
     }
 
+    /**
+     * 裁剪区域旋转回原始角度后形成新的裁剪区域，旋转中心发生变化，
+     * 因此需要将视图窗口平移到新的旋转中心位置。
+     */
+    private fun clip(scrollX: Int,scrollY: Int): ImgHomingValues{
+        val scrollClipRectF = imageClipController.getScrollClipRectF(scrollX, scrollY)
+        M.setRotate(-imageRotate,clipCanvasRectF.centerX(),clipCanvasRectF.centerY())
+        M.mapRect(clipCanvasRectF,scrollClipRectF)
+        return ImgHomingValues(scrollX + clipCanvasRectF.centerX() - scrollClipRectF.centerX(),
+                scrollY + clipCanvasRectF.centerY() - scrollClipRectF.centerY(),imageScale,imageRotate)
+    }
+
+    private fun onHomingEnd(): Boolean{
+        if(isClipMode()){
+            imageClipController.isResetting  = false
+            imageClipController.isNeedHoming = false
+            return !isAnimatorCancelled
+        }
+        return false
+    }
+
     private fun getStartHomingValues(): ImgHomingValues {
-        return ImgHomingValues(view.scrollX.toFloat(), view.scrollY.toFloat(), imageScale)
+        return ImgHomingValues(view.scrollX.toFloat(), view.scrollY.toFloat(), imageScale,imageRotate)
     }
 
     private fun getEndHomingValues(): ImgHomingValues {
-        val homingValues = getStartHomingValues()
-        val imgRectF = RectF()
-        M.reset()
-        M.mapRect(imgRectF, imageRectF)
+        val homingValues = ImgHomingValues(view.scrollX.toFloat(), view.scrollY.toFloat(), imageScale,imageTargetRotate)
+        if(isClipMode()){
+            val clipTargetRectF = RectF(imageClipController.clipTargetRectF)
+            clipTargetRectF.offset(view.scrollX.toFloat(),view.scrollY.toFloat())
+            if(imageClipController.isResetting){
+                val clipRectF = RectF()
+                M.setRotate(imageTargetRotate,clipCanvasRectF.centerX(),clipCanvasRectF.centerY())
+                M.mapRect(clipRectF,clipCanvasRectF)
+                homingValues.concat(ImgHelper.fill(clipTargetRectF,clipRectF))
+            }else{
+                val rectF = RectF()
+                if(imageClipController.isNeedHoming){
+                    M.setRotate(imageTargetRotate - imageRotate,clipCanvasRectF.centerX(),clipCanvasRectF.centerY())
+                    M.mapRect(rectF,imageClipController.getScrollClipRectF(view.scrollX,view.scrollY))
+                    homingValues.concat(ImgHelper.getFitHomingValues(clipTargetRectF,rectF,clipCanvasRectF.centerX(),clipCanvasRectF.centerY()))
+                }else{
+                    M.setRotate(imageTargetRotate,clipCanvasRectF.centerX(),clipCanvasRectF.centerY())
+                    M.mapRect(rectF,imageRectF)
+                    homingValues.concat(ImgHelper.getFillHomingValues(clipTargetRectF,rectF,clipCanvasRectF.centerX(),clipCanvasRectF.centerY()))
+                }
+            }
+        }else{
+            val imageTargetRectF = RectF()
+            M.setRotate(imageTargetRotate,imageRectF.centerX(),imageRectF.centerY())
+            M.mapRect(imageTargetRectF,imageRectF)
 
-        val winRectF = RectF()
-        M.reset()
-        M.setScale(params.imageMatchPercent,params.imageMatchPercent,windowRectF.centerX(),windowRectF.centerY())
-        M.mapRect(winRectF,windowRectF)
-        winRectF.offset(view.scrollX.toFloat(), view.scrollY.toFloat())
-        homingValues.scrollConcat(ImgHelper.getFitHomingValues(winRectF, imgRectF))
+            val imageCanvasWinRectF = RectF(imageWinRectF)
+            imageCanvasWinRectF.offset(view.scrollX.toFloat(),view.scrollY.toFloat())
+            homingValues.concat(ImgHelper.getFitHomingValues(imageCanvasWinRectF,imageTargetRectF))
+        }
         return homingValues
     }
 
@@ -341,6 +449,13 @@ class ImageController(private val view: View, private var mode: ImageEditMode, v
     private fun onPathBegin(event: MotionEvent){}
     private fun onPathMove(event: MotionEvent){}
     private fun onPathDone(event: MotionEvent) {}
+    fun recycle() {
+        if(bitmap?.isRecycled == false){
+            bitmap?.recycle()
+        }
+    }
+
+
 
 
 }

@@ -648,7 +648,7 @@ class ImageEditView : View {
         val winRectF = RectF(windowRectF)
         winRectF.offset(scrollX.toFloat(), scrollY.toFloat())
 
-        homingValues.scrollConcat(ImgHelper.getFitHomingValues(winRectF, imgRectF))
+        homingValues.concat(ImgHelper.getFitHomingValues(winRectF, imgRectF))
         return homingValues
     }
 }
