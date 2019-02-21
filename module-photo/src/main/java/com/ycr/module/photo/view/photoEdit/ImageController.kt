@@ -83,7 +83,7 @@ class ImageController(private val view: View, private var mode: ImageEditMode, v
     }
 
     private fun scroll(distanceX: Float, distanceY: Float): Boolean {
-        if (distanceX == 0f || distanceY == 0f) {
+        if (distanceX == 0f && distanceY == 0f) {
             return false
         }
         if(isClipMode()){
@@ -118,8 +118,6 @@ class ImageController(private val view: View, private var mode: ImageEditMode, v
 
     private fun doScrollTo(x: Int,y: Int): Boolean{
         if(x != view.scrollX || y != view.scrollY){
-//            M.setTranslate((x - view.scrollX).toFloat(),(y - view.scrollY).toFloat())
-//            M.mapRect(clipCanvasRectF)
 //            resetClipRectF()
             view.scrollTo(x, y)
             return true
@@ -185,10 +183,10 @@ class ImageController(private val view: View, private var mode: ImageEditMode, v
         }
         imageRectF.set(0f, 0f, bitmap.width.toFloat(), bitmap.height.toFloat())
 
-        val imageWinWidthOffset = windowRectF.width() * (1 - params.imageMatchPercent) / 2
-        val imageWinHeightOffset = windowRectF.height() * (1 - params.imageMatchPercent) / 2
+        val imageWinWidthOffset = windowRectF.width() * (1 - params.imageInitMatchPercent) / 2
+        val imageWinHeightOffset = windowRectF.height() * (1 - params.imageInitMarginBottomPercent) * (1 - params.imageInitMatchPercent - params.imageInitMarginBottomPercent) / 2
         imageWinRectF = RectF(imageWinWidthOffset,imageWinHeightOffset,
-                windowRectF.width() - imageWinWidthOffset,windowRectF.height() - imageWinHeightOffset)
+                windowRectF.width() - imageWinWidthOffset,windowRectF.height() * (1 - params.imageInitMarginBottomPercent) - imageWinHeightOffset)
 
         M.reset()
         M.setRectToRect(imageRectF, imageWinRectF, Matrix.ScaleToFit.CENTER)
@@ -210,7 +208,7 @@ class ImageController(private val view: View, private var mode: ImageEditMode, v
     }
 
     fun scale(scaleFactor: Float, px: Float, py: Float) {
-        if (scaleFactor == 1f || scaleFactor * imageScale / initScale > PhotoEditView.SCALE_MAX) {
+        if (scaleFactor == 1f) {
             return
         }
         M.apply { setScale(scaleFactor, scaleFactor, px, py) }.mapRect(imageRectF)
@@ -269,8 +267,7 @@ class ImageController(private val view: View, private var mode: ImageEditMode, v
     }
 
     fun save(): Bitmap? {
-        val saveRectF = if(isClipMode()) imageClipController.clipRectF else imageRectF
-        val scale = 1 / imageScale
+        val saveRectF = if(isClipMode()) clipCanvasRectF else imageRectF
         val createBitmap = Bitmap.createBitmap(saveRectF.width().toInt(), saveRectF.height().toInt(), Bitmap.Config.ARGB_8888)
         val canvas = Canvas(createBitmap)
         canvas.translate(-saveRectF.left , -saveRectF.top)
@@ -319,7 +316,7 @@ class ImageController(private val view: View, private var mode: ImageEditMode, v
 
     private fun onTouchUp(event: MotionEvent) {
         if(isClipMode()){
-            imageClipController.onTouchUp(event,view.scrollX,view.scrollY )
+            imageClipController.onTouchUp(event,view.scrollX,view.scrollY)
         }
         homing()
     }
@@ -370,6 +367,10 @@ class ImageController(private val view: View, private var mode: ImageEditMode, v
                         if(onHomingEnd()){
                             if(isClipMode()){
                                 applyHoming(clip(view.scrollX,view.scrollY))
+                                val fillClipHomingValues = getFillClipHomingValues()
+                                if(fillClipHomingValues != null){
+                                    applyHoming(fillClipHomingValues)
+                                }
                             }
                         }
                     }
@@ -382,8 +383,19 @@ class ImageController(private val view: View, private var mode: ImageEditMode, v
                 })
             }
         }
-        homingAnimator?.setHomingValues(getStartHomingValues(), getEndHomingValues())
+        val startHomingValues: ImgHomingValues = getStartHomingValues()
+        val endHomingValues: ImgHomingValues = getEndHomingValues()
+        homingAnimator?.setHomingValues(startHomingValues, endHomingValues)
         homingAnimator?.start()
+    }
+
+    private fun getFillClipHomingValues(): ImgHomingValues?{
+        if(!imageRectF.contains(clipCanvasRectF)){
+            val homingValues = ImgHomingValues(view.scrollX.toFloat(), view.scrollY.toFloat(), imageScale,imageTargetRotate)
+             homingValues.concat(ImgHelper.getFillHomingValues(clipCanvasRectF,imageRectF,clipCanvasRectF.centerX(),clipCanvasRectF.centerY()))
+            return homingValues
+        }
+        return null
     }
 
     /**
@@ -394,6 +406,7 @@ class ImageController(private val view: View, private var mode: ImageEditMode, v
         val scrollClipRectF = imageClipController.getScrollClipRectF(scrollX, scrollY)
         M.setRotate(-imageRotate,clipCanvasRectF.centerX(),clipCanvasRectF.centerY())
         M.mapRect(clipCanvasRectF,scrollClipRectF)
+        isSteady = true
         return ImgHomingValues(scrollX + clipCanvasRectF.centerX() - scrollClipRectF.centerX(),
                 scrollY + clipCanvasRectF.centerY() - scrollClipRectF.centerY(),imageScale,imageRotate)
     }
@@ -455,7 +468,13 @@ class ImageController(private val view: View, private var mode: ImageEditMode, v
         }
     }
 
-
-
-
+    fun onInterceptTouch(ev: MotionEvent): Boolean{
+//        if (isHoming()) {
+//            stopHoming()
+//            return true
+//        } else if (isClipMode()) {
+//            return true
+//        }
+        return false
+    }
 }

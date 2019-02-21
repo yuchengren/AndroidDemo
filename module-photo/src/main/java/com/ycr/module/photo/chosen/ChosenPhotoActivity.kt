@@ -38,9 +38,8 @@ class ChosenPhotoActivity: BaseActivity() {
     override fun afterBindView(rootView: View?, savedInstanceState: Bundle?) {
         super.afterBindView(rootView, savedInstanceState)
         cameraGet.setOnClickListener {
-            // TODO: 2019/1/30 test
-//            SubjectPhotoTakeActivity.start(this@ChosenPhotoActivity)
-            PhotoClipActivity.start(this@ChosenPhotoActivity,Environment.getExternalStorageDirectory().path + "/test.png")
+            SubjectPhotoTakeActivity.start(this@ChosenPhotoActivity)
+//            PhotoClipActivity.start(this@ChosenPhotoActivity,Environment.getExternalStorageDirectory().path + "/test.png")
         }
         photoChoose.setOnClickListener {
             PhotoBookGirdActivity.start(this)

@@ -116,22 +116,22 @@ public class LogHelper{
 	}
 
 	public static void e(String tag, Throwable tr, String msg, Object... args) {
-		LogEngineFactory.getAppLogEngine().w(tag,tr,msg,args);
+		LogEngineFactory.getAppLogEngine().e(tag,tr,msg,args);
 	}
 
 	public static void e(String tag, Throwable tr) {
-		LogEngineFactory.getAppLogEngine().w(tag,tr);
+		LogEngineFactory.getAppLogEngine().e(tag,tr);
 	}
 
 	public static void e(String msg, Object... args) {
-		LogEngineFactory.getAppLogEngine().w(msg,args);
+		LogEngineFactory.getAppLogEngine().e(msg,args);
 	}
 
 	public static void e(Throwable tr, String msg, Object... args) {
-		LogEngineFactory.getAppLogEngine().w(tr,msg,args);
+		LogEngineFactory.getAppLogEngine().e(tr,msg,args);
 	}
 
 	public static void e(Throwable tr) {
-		LogEngineFactory.getAppLogEngine().w(tr);
+		LogEngineFactory.getAppLogEngine().e(tr);
 	}
 }

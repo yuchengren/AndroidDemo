@@ -31,7 +31,8 @@ class PhotoEditView : View,Runnable{
 
         typedArray?.run {
             imageController = ImageController(this@PhotoEditView,modeArray[getInt(R.styleable.PhotoEditView_mode,0)],ImageEditParams().apply {
-                imageMatchPercent = getFloat(R.styleable.PhotoEditView_imageMatchPercent, 1f)
+                imageInitMatchPercent = getFloat(R.styleable.PhotoEditView_imageInitMatchPercent, 1f)
+                imageInitMarginBottomPercent = getFloat(R.styleable.PhotoEditView_imageInitMarginBottomPercent, 0f)
                 shadowColor = getColor(R.styleable.PhotoEditView_shadowColor,0x7F000000)
                 clipColor = getColor(R.styleable.PhotoEditView_clipColor, ContextCompat.getColor(context, android.R.color.white))
                 clipCornerWidth = getDimensionPixelSize(R.styleable.PhotoEditView_clipCornerWidth, 48)
@@ -57,19 +58,29 @@ class PhotoEditView : View,Runnable{
     override fun onDraw(canvas: Canvas) {
         imageController?.draw(canvas)
     }
+
+//    override fun onInterceptTouchEvent(ev: MotionEvent): Boolean {
+//        if(ev.actionMasked == MotionEvent.ACTION_DOWN){
+//            return imageController.onInterceptTouch(ev) || super.onInterceptTouchEvent(ev)
+//        }
+//        return super.onInterceptTouchEvent(ev)
+//    }
+
     override fun onTouchEvent(event: MotionEvent): Boolean {
         when(event.actionMasked){
-            MotionEvent.ACTION_DOWN -> removeCallbacks(this)
-            MotionEvent.ACTION_UP,MotionEvent.ACTION_CANCEL -> postDelayed(this,1200)
+            MotionEvent.ACTION_DOWN -> {
+                removeCallbacks(this)
+            }
+            MotionEvent.ACTION_UP,MotionEvent.ACTION_CANCEL -> postDelayed(this,500)
         }
-        return imageController?.onTouchEvent(event)?:false
+        return imageController?.onTouchEvent(event)
     }
 
     override fun run() {
         if(!onSteady()){
-            postDelayed(this,500)
-        }
+            postDelayed(this,400)
 
+        }
     }
 
     private fun onSteady(): Boolean {

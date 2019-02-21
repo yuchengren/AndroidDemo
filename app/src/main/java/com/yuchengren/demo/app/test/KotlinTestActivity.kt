@@ -1,5 +1,6 @@
 package com.yuchengren.demo.app.test
 
+import android.content.res.Configuration
 import android.graphics.RectF
 import android.os.Bundle
 import android.util.Log
@@ -23,12 +24,17 @@ class KotlinTestActivity: BaseActivity() {
 
     override fun afterBindView(rootView: View?, savedInstanceState: Bundle?) {
         super.afterBindView(rootView, savedInstanceState)
-        drawSpanLines()
-        drawCornerLines()
+//        drawSpanLines()
+//        drawCornerLines()
 //        spanLinePoints.forEachIndexed { index, fl ->
 //            Log.e("spanLinePoints","index = $index,zuobiao = $fl")
 //        }
 
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration?) {
+        super.onConfigurationChanged(newConfig)
+        LogHelper.e((window.windowManager.defaultDisplay.rotation * 90).toString())
     }
 
     private fun drawSpanLines() {

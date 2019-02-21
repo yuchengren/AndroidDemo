@@ -5,6 +5,8 @@ import android.content.pm.PackageManager
 import android.hardware.Camera
 import android.media.MediaPlayer
 import android.os.Bundle
+import android.support.constraint.ConstraintLayout
+import android.support.constraint.ConstraintSet
 import android.support.v4.app.ActivityCompat
 import android.view.*
 import android.view.animation.Animation
@@ -27,7 +29,8 @@ abstract class CameraBaseActivity: BaseActivity(), SurfaceHolder.Callback {
 
     var switchCameraView: View? = null
 
-    var focusView: ImageView? = null
+    lateinit var contentView: ViewGroup
+    lateinit var focusView: ImageView
     var focusAnimation: Animation? = null
 
     var surfaceHolder: SurfaceHolder? = null
@@ -41,6 +44,7 @@ abstract class CameraBaseActivity: BaseActivity(), SurfaceHolder.Callback {
     var scaleGestureDetector: ScaleGestureDetector? = null
 
     var takeSoundPlayer: MediaPlayer? = null //拍摄的时候播放的声音
+    lateinit var orientationEventListener: OrientationEventListener
 
     private val lock = Any()
 
@@ -51,6 +55,7 @@ abstract class CameraBaseActivity: BaseActivity(), SurfaceHolder.Callback {
 
     override fun bindView(rootView: View?) {
         super.bindView(rootView)
+        initOrientationSensor()
         initCameraView()
         initFinishView()
         initTakePhotoView()
@@ -58,6 +63,31 @@ abstract class CameraBaseActivity: BaseActivity(), SurfaceHolder.Callback {
         initFlashLampView()
         initSwitchCameraView()
         initFocusView()
+
+    }
+
+    private fun initOrientationSensor() {
+        orientationEventListener = object: OrientationEventListener(this){
+            override fun onOrientationChanged(currentOrientation: Int) {
+                if (ORIENTATION_UNKNOWN == currentOrientation) {
+                    return
+                }
+                LogHelper.e("currentOrientation"+currentOrientation.toString())
+                val info = Camera.CameraInfo()
+                Camera.getCameraInfo(cameraId,info)
+                val orientation = (currentOrientation + 45) / 90 * 90
+                val rotation= if (info.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
+                    (info.orientation - orientation + 360) % 360
+                } else {
+                    (info.orientation + orientation) % 360
+                }
+                camera?.run {
+                    parameters = parameters.apply {
+                        setRotation(rotation)
+                    }
+                }
+            }
+        }
     }
 
     private fun initSwitchCameraView() {
@@ -67,7 +97,6 @@ abstract class CameraBaseActivity: BaseActivity(), SurfaceHolder.Callback {
                 if(Camera.getNumberOfCameras() >= 2){
                     it.isEnabled = false
                     cameraId = Camera.CameraInfo.CAMERA_FACING_FRONT -  cameraId
-
                     it.isEnabled = true
                 }
             }
@@ -76,12 +105,24 @@ abstract class CameraBaseActivity: BaseActivity(), SurfaceHolder.Callback {
 
     private fun initFocusView() {
         //添加对焦动画视图
-        val contentView = findViewById<ViewGroup>(android.R.id.content)?.getChildAt(0) as? ViewGroup
+        contentView = findViewById<ViewGroup>(android.R.id.content)?.getChildAt(0) as ViewGroup
         focusView = ImageView(this).apply {
             setImageResource(R.drawable.ic_camera_focus)
             visibility = View.GONE
+            id = R.id.focusView
         }
-        contentView?.addView(focusView,ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT))
+        contentView?.run {
+            addView(focusView,ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT))
+            if(this is ConstraintLayout){
+                val constraintSet = ConstraintSet()
+                constraintSet.connect(focusView.id,ConstraintSet.LEFT,ConstraintSet.PARENT_ID,ConstraintSet.LEFT,0)
+                constraintSet.connect(focusView.id,ConstraintSet.TOP,ConstraintSet.PARENT_ID,ConstraintSet.TOP,0)
+                constraintSet.constrainWidth(focusView.id,ConstraintSet.WRAP_CONTENT)
+                constraintSet.constrainWidth(focusView.id,ConstraintSet.WRAP_CONTENT)
+                constraintSet.applyTo(this)
+                focusView.visibility = View.GONE
+            }
+        }
 
         focusAnimation = AnimationUtils.loadAnimation(this,R.anim.focus_animation).apply {
             setAnimationListener(object : Animation.AnimationListener{
@@ -155,8 +196,10 @@ abstract class CameraBaseActivity: BaseActivity(), SurfaceHolder.Callback {
                     focusAnimation?.let {
                         it.cancel()
                         focusView?.run {
+                            val marginLeft = (event.rawX - width /2f).toInt()
+                            val marginTop = (event.rawY - height /2f).toInt()
                             val marginLayoutParams = layoutParams as? ViewGroup.MarginLayoutParams
-                            marginLayoutParams?.setMargins((event.x - width /2f).toInt(),(event.y - height /2f).toInt(),0,0)
+                            marginLayoutParams?.setMargins(marginLeft,marginTop,0,0)
                             layoutParams = marginLayoutParams
                             visibility = View.VISIBLE
                             startAnimation(it)
@@ -207,6 +250,7 @@ abstract class CameraBaseActivity: BaseActivity(), SurfaceHolder.Callback {
     }
 
     override fun surfaceCreated(holder: SurfaceHolder) {
+        orientationEventListener.enable()
         initCameraAndStartPreview(holder)
     }
 
@@ -234,9 +278,9 @@ abstract class CameraBaseActivity: BaseActivity(), SurfaceHolder.Callback {
         if(camera == null){
             try {
                 camera = Camera.open(cameraId).apply {
-                    setDisplayOrientation(90 - window.windowManager.defaultDisplay.rotation * 90)
+//                    setDisplayOrientation(90 - window.windowManager.defaultDisplay.rotation * 90)
                     parameters = parameters.apply {
-                        setRotation(CameraUtil.getRotation(this@CameraBaseActivity,cameraId))
+//                        setRotation(CameraUtil.getRotation(this@CameraBaseActivity,cameraId))
                         val previewSize = getParameterPreviewSize(this)
                         val pictureSize = CameraUtil.getPictureSize(this,previewSize,minPreviewWidth)
                         setPreviewSize(previewSize.width,previewSize.height)
@@ -269,6 +313,7 @@ abstract class CameraBaseActivity: BaseActivity(), SurfaceHolder.Callback {
     }
 
     override fun surfaceDestroyed(holder: SurfaceHolder?) {
+        orientationEventListener.disable()
         releaseSurfaceHolder()
     }
 

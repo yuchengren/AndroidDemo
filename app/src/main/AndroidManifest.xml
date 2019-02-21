@@ -47,7 +47,9 @@
         <activity android:name=".app.test.TestActivity"
             android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".app.test.KotlinTestActivity" />
+        <activity android:name=".app.test.KotlinTestActivity"
+            android:screenOrientation="sensor"
+            android:configChanges="keyboardHidden|orientation|screenSize"/>
         <activity android:name=".app.other.ChangeThemeActivity"/>
 
         <activity android:name=".app.other.ImageEditActivity"

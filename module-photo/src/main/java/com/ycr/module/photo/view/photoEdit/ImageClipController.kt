@@ -123,8 +123,8 @@ class ImageClipController(private var clipColor: Int = 0xFFFFFF,private var clip
     }
 
     fun onTouchDown(event: MotionEvent) {
-        if(ClipAnchor.isOffsetRectFContainPoint(clipRectF, - clipCornerWidth.toFloat(),event.x,event.y) &&
-                !ClipAnchor.isOffsetRectFContainPoint(clipRectF, clipCornerWidth.toFloat(),event.x,event.y)){
+        if(ClipAnchor.isOffsetRectFContainPoint(clipRectF, - clipCornerWidth.toFloat()* 3/2,event.x,event.y) &&
+                !ClipAnchor.isOffsetRectFContainPoint(clipRectF, clipCornerWidth.toFloat()* 3/2,event.x,event.y)){
             val clipRectFArray = ClipAnchor.getOffsetRectFArray(clipRectF, 0f)
             val pointArray = floatArrayOf(event.x,event.y)
             var anchor = 0
@@ -155,6 +155,7 @@ class ImageClipController(private var clipColor: Int = 0xFFFFFF,private var clip
         val clipMinRectF = RectF(clipRectF.left + minSize,clipRectF.top + minSize,
                 clipRectF.right - minSize,clipRectF.bottom - minSize)
         touchingAnchor?.move(clipRectF,clipWinRectF,clipMinRectF, -distanceX, -distanceY)
+        clipTargetRectF.set(clipRectF)
         return true
     }
 
@@ -206,9 +207,6 @@ class ImageClipController(private var clipColor: Int = 0xFFFFFF,private var clip
                     clipBaseRectF.bottom + (clipTargetRectF.bottom - clipBaseRectF.bottom) * animatedFraction)
         }
     }
-
-
-
 }
 
 

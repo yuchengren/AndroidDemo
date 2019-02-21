@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="PhotoEditView">
-        <attr name="imageMatchPercent" format="float" />
+        <attr name="imageInitMatchPercent" format="float" />
+        <attr name="imageInitMarginBottomPercent" format="float" />
         <attr name="shadowColor" format="color"/>
         <attr name="clipColor" format="color"/>
         <attr name="clipCornerWidth" format="dimension" />

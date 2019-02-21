@@ -1,10 +1,8 @@
 package com.ycr.module.photo.camera
 
 import android.app.Activity
-import android.graphics.Bitmap
 import android.graphics.Rect
 import android.hardware.Camera
-import android.view.SurfaceView
 
 /**
  * Created by yuchengren on 2019/1/22.
@@ -12,6 +10,7 @@ import android.view.SurfaceView
 object CameraUtil {
 
     private val FOCUS_AREA_SIZE = 500
+    private val FOCUS_AREA_SIZE_HALF = FOCUS_AREA_SIZE / 2
 
     private val FOCUS_PARAM = 1000
 
@@ -68,16 +67,17 @@ object CameraUtil {
     }
 
     fun caculateFocusArea(width: Int,height: Int,x: Float,y: Float): Rect {
-        val left = clamp( (x / width.toFloat() * FOCUS_PARAM * 2 - FOCUS_PARAM).toInt(), FOCUS_AREA_SIZE)
-        val top = clamp( (y / height.toFloat() * FOCUS_PARAM * 2 - FOCUS_PARAM).toInt(), FOCUS_AREA_SIZE)
-        return Rect(left,top,left + FOCUS_AREA_SIZE,top + FOCUS_AREA_SIZE)
+        val centerX = clamp( (x / width.toFloat() * FOCUS_PARAM * 2 - FOCUS_PARAM).toInt(), FOCUS_AREA_SIZE)
+        val centerY = clamp( (y / height.toFloat() * FOCUS_PARAM * 2 - FOCUS_PARAM).toInt(), FOCUS_AREA_SIZE)
+        return Rect(centerX - FOCUS_AREA_SIZE_HALF,centerY - FOCUS_AREA_SIZE_HALF,
+                centerX + FOCUS_AREA_SIZE_HALF,centerY + FOCUS_AREA_SIZE_HALF)
     }
 
     private fun clamp(touchCoordinateInCameraReper: Int,focusAreaSize: Int): Int{
         return if(Math.abs(touchCoordinateInCameraReper) + focusAreaSize / 2 > FOCUS_PARAM){
             if(touchCoordinateInCameraReper > 0) 1000 - focusAreaSize / 2 else -1000 + focusAreaSize / 2
         }else{
-            touchCoordinateInCameraReper - focusAreaSize / 2
+            touchCoordinateInCameraReper
         }
     }
 

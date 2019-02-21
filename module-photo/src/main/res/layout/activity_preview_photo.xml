@@ -7,7 +7,8 @@
     <com.ycr.module.photo.view.photoEdit.PhotoEditView
         android:id="@+id/photoEditView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        app:imageInitMatchPercent="0.8"/>
 
     <TextView
         android:id="@+id/cancelView"
