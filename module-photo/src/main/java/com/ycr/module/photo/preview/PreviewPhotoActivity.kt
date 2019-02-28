@@ -8,8 +8,10 @@ import android.view.View
 import com.ycr.module.base.BaseActivity
 import com.ycr.module.photo.R
 import com.ycr.module.photo.clip.PhotoClipActivity
+import com.ycr.module.photo.constants.IConstants
 import com.ycr.module.photo.constants.MapKeys
 import kotlinx.android.synthetic.main.activity_preview_photo.*
+import java.io.File
 
 /**
  * Created by yuchengren on 2019/1/24.
@@ -17,14 +19,16 @@ import kotlinx.android.synthetic.main.activity_preview_photo.*
 class PreviewPhotoActivity: BaseActivity() {
 
     companion object {
-        fun start(context: Context, picUrl: String, entrance: String){
+        fun start(context: Context, picUrl: String,picSource: String? = null){
             val intent = Intent(context, PreviewPhotoActivity::class.java).apply {
                 putExtra(MapKeys.URL_PIC,picUrl)
-                putExtra(MapKeys.ENTRANCE,entrance)
+                putExtra(MapKeys.PIC_SOURCE,picSource)
             }
             context.startActivity(intent)
         }
     }
+    private var picUrl: String? = null
+    private var picSource: String? = null
 
     override fun getRootLayoutResId(): Int {
         return R.layout.activity_preview_photo
@@ -32,12 +36,20 @@ class PreviewPhotoActivity: BaseActivity() {
 
     override fun afterBindView(rootView: View?, savedInstanceState: Bundle?) {
         super.afterBindView(rootView, savedInstanceState)
-        val picUrl = intent.getStringExtra(MapKeys.URL_PIC)
+        picUrl = intent.getStringExtra(MapKeys.URL_PIC)
+        picSource = intent.getStringExtra(MapKeys.PIC_SOURCE)
         if(!picUrl.isNullOrEmpty()){
             photoEditView.setImageBitmap( BitmapFactory.decodeFile(picUrl))
         }
         cancelView.setOnClickListener { onBackPressed() }
 
-        confirmView.setOnClickListener {  PhotoClipActivity.start(this@PreviewPhotoActivity,picUrl)}
+        confirmView.setOnClickListener {  PhotoClipActivity.start(this@PreviewPhotoActivity,picUrl?:return@setOnClickListener,picSource)}
+    }
+
+    override fun onBackPressed() {
+        if(!picUrl.isNullOrEmpty() && IConstants.PicSource.PHOTO_CAMERA == picSource){
+            File(picUrl).delete()
+        }
+        finish()
     }
 }

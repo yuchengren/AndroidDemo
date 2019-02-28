@@ -72,7 +72,6 @@ abstract class CameraBaseActivity: BaseActivity(), SurfaceHolder.Callback {
                 if (ORIENTATION_UNKNOWN == currentOrientation) {
                     return
                 }
-                LogHelper.e("currentOrientation"+currentOrientation.toString())
                 val info = Camera.CameraInfo()
                 Camera.getCameraInfo(cameraId,info)
                 val orientation = (currentOrientation + 45) / 90 * 90

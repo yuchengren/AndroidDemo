@@ -23,7 +23,7 @@ class SubjectPhotoTakeActivity: TakePhotoActivity() {
     }
 
     override fun onSavePictureSuccess(picUrl: String) {
-        PreviewPhotoActivity.start(this, picUrl, IConstants.PreviewEntrances.CAMERA)
+        PreviewPhotoActivity.start(this, picUrl,IConstants.PicSource.PHOTO_CAMERA)
     }
 
 }

@@ -14,14 +14,14 @@ import android.util.Log
 import android.view.Gravity
 import android.view.MotionEvent
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.PopupWindow
 import com.bumptech.glide.Glide
 import com.ycr.lib.ui.view.gridimage.BaseRecyclerAdapter
 import com.ycr.module.base.BaseActivity
 import com.ycr.module.photo.R
-import com.ycr.module.photo.chosen.ChosenPhotoActivity
+import com.ycr.module.photo.clip.PhotoClipActivity
+import com.ycr.module.photo.preview.PreviewPhotoActivity
 import kotlinx.android.synthetic.main.activity_photo_book_grid.*
 
 /**
@@ -58,25 +58,26 @@ class PhotoBookGirdActivity: BaseActivity() {
 
             onItemChildClickListener = object : BaseRecyclerAdapter.OnItemChildClickListener{
                 override fun onItemChildClick(adapter: BaseRecyclerAdapter<*, *>, view: View, position: Int) {
-                    ChosenPhotoActivity.start(this@PhotoBookGirdActivity,getItem(position)?:return)
+                    val picUrl = getItem(position) ?: return
+                    when(view.id){
+                        R.id.ivPreview -> PreviewPhotoActivity.start(this@PhotoBookGirdActivity,picUrl)
+                        else -> PhotoClipActivity.start(this@PhotoBookGirdActivity,picUrl)
+                    }
                 }
             }
 
             onItemChildHoverActionListener = object : BaseRecyclerAdapter.OnHoverActionListener{
                 override fun onHoverEnter(adapter: BaseRecyclerAdapter<*, *>, view: View, position: Int, event: MotionEvent): Boolean {
-                    Log.e("onHoverEnter","${view.id}")
                     showPhotoPreviewPop((view.parent as? View)?:return false,getItem(position)?:return false)
                     return true
                 }
 
                 override fun onHoverExit(adapter: BaseRecyclerAdapter<*, *>, view: View, position: Int, event: MotionEvent): Boolean {
-                    Log.e("onHoverExit","${view.id}")
                     dismissPhotoPreviewPop()
                     return true
                 }
 
                 override fun onHoverMove(adapter: BaseRecyclerAdapter<*, *>, view: View, position: Int, event: MotionEvent): Boolean {
-                    Log.e("onHoverMove","${view.id}")
                     return super.onHoverMove(adapter, view, position, event)
                 }
 

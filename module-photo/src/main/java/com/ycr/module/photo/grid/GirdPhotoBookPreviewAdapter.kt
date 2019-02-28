@@ -14,5 +14,6 @@ class GirdPhotoBookPreviewAdapter(data: MutableList<String>?): GridImageRecycler
         super.convert(holder, position, item)
         holder.addOnHoverListener(R.id.ivPreview)
         holder.addOnClickListener(R.id.ivPreview)
+        holder.addOnClickListener(R.id.imageView)
     }
 }

@@ -6,16 +6,19 @@
             android:screenOrientation="landscape"/>
 
         <activity android:name="com.ycr.module.photo.camera.SubjectPhotoTakeActivity"
-            android:screenOrientation="landscape"/>
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme.Fullscreen"/>
 
         <activity android:name=".preview.PreviewPhotoActivity"
-            android:screenOrientation="landscape"/>
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme.Fullscreen"/>
 
         <activity android:name=".clip.PhotoClipActivity"
             android:screenOrientation="landscape"
             android:theme="@style/AppTheme.Fullscreen"/>
 
         <activity android:name=".grid.PhotoBookGirdActivity"
-            android:screenOrientation="landscape"/>
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme.Fullscreen"/>
     </application>
 </manifest>
