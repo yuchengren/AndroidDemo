@@ -1,12 +1,12 @@
 package com.ycr.kernel.union.mvp;
 
 import android.os.Bundle;
-import android.view.View;
 
 import com.ycr.kernel.mvp.MvpActivity;
 import com.ycr.kernel.task.IGroup;
 import com.ycr.kernel.task.TaskScheduler;
 import com.ycr.kernel.union.UnionModuleKt;
+import com.ycr.kernel.union.http.HttpHelper;
 import com.ycr.kernel.union.mvp.view.IDefineView;
 import com.ycr.kernel.union.mvp.view.ViewCreateHelper;
 import com.ycr.kernel.util.KeyBoardUtils;
@@ -31,6 +31,7 @@ public abstract class UnionActivity extends MvpActivity implements IGroup,IDefin
 	protected void onDestroy() {
 		String groupName = groupName();
 		TaskScheduler.INSTANCE.cancelGroup(groupName);
+		HttpHelper.INSTANCE.cancelGroup(groupName);
 		UnionModuleKt.getUnionLog().d("","cancel group-%s at onDestroy",groupName);
 		KeyBoardUtils.fixInputMethodManagerLeak(this);
 		super.onDestroy();
@@ -47,4 +48,5 @@ public abstract class UnionActivity extends MvpActivity implements IGroup,IDefin
 		super.onResume();
 		TaskScheduler.INSTANCE.onResume(groupName());
 	}
+
 }

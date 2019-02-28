@@ -33,5 +33,9 @@ object HttpHelper {
         return httpScheduler.parse(api, response)
     }
 
+    fun cancelGroup(groupName: String?){
+        httpScheduler.cancelGroup(groupName)
+    }
+
 
 }

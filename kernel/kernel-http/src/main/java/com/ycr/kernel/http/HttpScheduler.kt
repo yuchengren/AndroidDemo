@@ -28,7 +28,7 @@ abstract class HttpScheduler: IHttpScheduler {
         return result
     }
 
-    fun cancelGroup(groupName: String?){
+    override fun cancelGroup(groupName: String?){
         val group = callGroup[groupName]
         group?.run {
             forEach {

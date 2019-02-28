@@ -7,4 +7,5 @@ interface IHttpScheduler{
     fun newCall(request: IRequest): ICall
     fun execute(call: ICall, groupName: String? = null, taskName: String? = null): IResponse
     fun <T> parse(api: IApi, response: IResponse): IResult<T>
+    fun cancelGroup(groupName: String?)
 }

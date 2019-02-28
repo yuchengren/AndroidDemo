@@ -3,6 +3,21 @@ package com.ycr.kernel.task
 import android.os.*
 import java.util.concurrent.PriorityBlockingQueue
 import java.util.concurrent.TimeUnit
+/**
+ * <p/>
+ * corePoolSize 核心线程数，指保留的线程池大小（不超过maximumPoolSize值时，线程池中最多有corePoolSize个线程工作）。
+ * maximumPoolSize 指的是线程池的最大大小（线程池中最大有maximumPoolSize个线程可运行）。
+ * keepAliveTime 指的是空闲线程结束的超时时间（当一个线程不工作时，过keepAliveTime 长时间将停止该线程）。
+ * unit 是一个枚举，表示 keepAliveTime 的单位（
+ * 有NANOSECONDS, MICROSECONDS, MILLISECONDS, SECONDS, MINUTES, HOURS, DAYS，7个可选值）。
+ * workQueue 表示存放任务的队列（存放需要被线程池执行的线程队列）
+ * <p/>
+ * 线程池的线程增长逻辑是：
+ * 1.当池子大小小于corePoolSize就新建线程，并处理请求
+ * 2.当池子大小等于corePoolSize，把请求放入workQueue中，池子里的空闲线程就去从workQueue中取任务并处理
+ * 3.当workQueue放不下新入的任务时(block queue是个有界队列)，新建线程入池，并处理请求，
+ * 如果池子大小撑到了maximumPoolSize就用RejectedExecutionHandler来做拒绝处理
+ */
 
 /**
  * Created by yuchengren on 2018/9/13.

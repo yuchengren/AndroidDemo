@@ -16,7 +16,7 @@ public interface ILogPrinter {
 	void print(@LogLevel int level,String tag,String msg);
 
 	/**
-	 * 可打印日志的界别
+	 * 可打印日志的级别
 	 */
 	int level();
 }

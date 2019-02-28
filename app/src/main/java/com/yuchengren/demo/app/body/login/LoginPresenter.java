@@ -17,6 +17,8 @@ import java.util.Map;
  */
 public class LoginPresenter extends BaseActivityPresenter<ILoginContract.IView> implements ILoginContract.IPresenter {
 
+	LoginManger loginManger = new LoginManger();
+
 	public LoginPresenter(ILoginContract.IView mvpView) {
 		super(mvpView);
 	}
@@ -44,10 +46,7 @@ public class LoginPresenter extends BaseActivityPresenter<ILoginContract.IView> 
 
 			@Override
 			public IResult<UserEntity> doInBackground() {
-				Map map = new HashMap<String,Object>();
-				map.put("loginName",loginName);
-				map.put("password",password);
-				return HttpHelper.INSTANCE.execute(BodyApis.Companion.getLogin(),map);
+				return loginManger.login(loginName,password);
 			}
 
 			@Override
