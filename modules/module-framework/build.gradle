@@ -46,4 +46,5 @@ dependencies {
     api project(':kernel-union')
     api project(':lib-changeskin')
     api project(':lib-ui')
+    api project(':lib-permission')
 }

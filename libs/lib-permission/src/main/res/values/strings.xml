@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">lib-permission</string>
+    <string name="no_permission_need_request">没有需要请求的权限！</string>
+</resources>

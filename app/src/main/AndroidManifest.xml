@@ -27,7 +27,6 @@
             android:value="2.1"/>
 
         <activity android:name=".app.body.splash.SplashActivity"
-            android:launchMode="singleInstance"
             android:theme="@style/AppTheme.Fullscreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -138,7 +138,12 @@ abstract class CameraBaseActivity: BaseActivity(), SurfaceHolder.Callback {
     private fun initFlashLampView() {
         flashLampView = findViewById(R.id.flashLampView)
         flashLampView?.setOnClickListener {
+            if(!packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH)){
+                ToastHelper.show("您的设备没有闪光灯！")
+                return@setOnClickListener
+            }
             it.isActivated = !it.isActivated
+            updateCameraFlashLampStatus()
         }
     }
 
@@ -233,7 +238,6 @@ abstract class CameraBaseActivity: BaseActivity(), SurfaceHolder.Callback {
     private fun initTakePhotoView() {
         takeView = findViewById(R.id.takeView)
         takeView?.setOnClickListener {
-            updateCameraFlashLampStatus()
             startTake()
         }
     }

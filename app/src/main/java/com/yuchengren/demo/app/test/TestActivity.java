@@ -20,6 +20,7 @@ import com.yuchengren.demo.R;
 import java.io.File;
 import java.lang.reflect.Array;
 import java.util.Arrays;
+import java.util.HashMap;
 
 /**
  * Created by yuchengren on 2017/12/28.
@@ -43,6 +44,11 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
 		DisplayMetrics dm = getResources().getDisplayMetrics();
 		Log.e("TestActivity",dm.density +"," +dm.densityDpi );
 		Log.e("TestActivity",getResources().getDimensionPixelSize(R.dimen.button_height) + "");
+
+		btn_test.setBackgroundColor(0xFFFF0000);
+		int a = 0xFFFF0000;
+		new HashMap<String,Object>().remove("1");
+		new HashMap<String,Object>().get("1");
 
 	}
 

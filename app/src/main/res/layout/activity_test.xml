@@ -4,8 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:id="@+id/ll_test"
-    android:background="@color/black">
+    android:id="@+id/ll_test">
     <!--<ImageView-->
         <!--android:id="@+id/iv_pic"-->
         <!--android:layout_width="wrap_content"-->
@@ -43,13 +42,13 @@
         android:layout_height="@dimen/button_height"
         android:text="@string/test"
         android:gravity="center"/>
-    
-    <com.ycr.lib.ui.view.CircularView
-        android:layout_width="67.5dp"
-        android:layout_height="67.5dp"
-        app:circleColor="@color/white"
-        app:circularColor="#7FFFFFFF"
-        app:circularWidth="15dp"/>
+    <!---->
+    <!--<com.ycr.lib.ui.view.CircularView-->
+        <!--android:layout_width="67.5dp"-->
+        <!--android:layout_height="67.5dp"-->
+        <!--app:circleColor="@color/white"-->
+        <!--app:circularColor="#7FFFFFFF"-->
+        <!--app:circularWidth="15dp"/>-->
     
     
     

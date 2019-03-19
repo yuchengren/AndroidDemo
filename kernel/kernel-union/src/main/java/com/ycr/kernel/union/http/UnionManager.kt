@@ -11,4 +11,7 @@ open class UnionManager {
     fun <T> execute(api: IApi,params: Any?): IResult<T>{
         return HttpHelper.execute(api, params)
     }
+
+
+
 }

@@ -23,6 +23,9 @@ public class MvpConnector implements IMvpConnector {
 
 	@Override
 	public void destroyPresenter() {
+		for (IMvpPresenter iMvpPresenter : mvpPresenterSet) {
+			iMvpPresenter.destroyView();
+		}
 		mvpPresenterSet.clear();
 	}
 }
