@@ -30,8 +30,9 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
-    implementation "$android_support:appcompat-v7:$android_support_version"
-    implementation "$kotlin_group:kotlin-stdlib-jdk7:$kotlin_version"
+    api "$android_support:appcompat-v7:$android_support_version"
+    api "$android_support:support-v4:$android_support_version"
+    api "$kotlin_group:kotlin-stdlib-jdk7:$kotlin_version"
 
     api "$butterknife_group:butterknife:$butterknife_version"
 

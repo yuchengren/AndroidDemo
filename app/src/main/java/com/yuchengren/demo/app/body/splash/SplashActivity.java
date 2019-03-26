@@ -176,5 +176,23 @@ public class SplashActivity extends AppCompatActivity {
 		chosenPhotoEntity.setParentCode(MenuCode.First.HOME);
 		menuEntityDao.insert(chosenPhotoEntity);
 
+		MenuEntity androidSevenAdaptationEntity = new MenuEntity();
+		androidSevenAdaptationEntity.setName(getString(R.string.seven_adaptation));
+		androidSevenAdaptationEntity.setCode(MenuCode.Second.SEVEN_ADAPTATION);
+		androidSevenAdaptationEntity.setParentCode(MenuCode.First.HOME);
+		menuEntityDao.insert(androidSevenAdaptationEntity);
+
+		MenuEntity androidEightAdaptationEntity = new MenuEntity();
+		androidEightAdaptationEntity.setName(getString(R.string.eight_adaptation));
+		androidEightAdaptationEntity.setCode(MenuCode.Second.EIGHT_ADAPTATION);
+		androidEightAdaptationEntity.setParentCode(MenuCode.First.HOME);
+		menuEntityDao.insert(androidEightAdaptationEntity);
+
+		MenuEntity androidNineAdaptationEntity = new MenuEntity();
+		androidNineAdaptationEntity.setName(getString(R.string.nine_adaptation));
+		androidNineAdaptationEntity.setCode(MenuCode.Second.NINE_ADAPTATION);
+		androidNineAdaptationEntity.setParentCode(MenuCode.First.HOME);
+		menuEntityDao.insert(androidNineAdaptationEntity);
+
 	}
 }

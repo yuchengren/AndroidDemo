@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">AndroidDemo</string>
     <string name="kotlin_test">Kotlin测试</string>
+    <string name="seven_adaptation">7.0适配</string>
+    <string name="eight_adaptation">8.0适配</string>
+    <string name="nine_adaptation">9.0适配</string>
 </resources>

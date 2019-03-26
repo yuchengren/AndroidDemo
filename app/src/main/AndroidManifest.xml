@@ -56,6 +56,21 @@
             android:screenOrientation="fullSensor"
             android:configChanges="keyboardHidden|orientation|screenSize"/>
         <activity android:name=".app.other.GridActivity"/>
+
+        <activity android:name=".app.adaptation.AndroidSevenAdaptationActivity" />
+        <activity android:name=".app.adaptation.AndroidEightAdaptationActivity" />
+        <activity android:name=".app.adaptation.AndroidNineAdaptationActivity" />
+        
+        
+        <provider
+            android:authorities="com.yuchengren.demo.fileprovider"
+            android:name="android.support.v4.content.FileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths"/>
+        </provider>
     </application>
 
 </manifest>

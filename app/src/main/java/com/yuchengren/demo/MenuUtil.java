@@ -3,6 +3,9 @@ package com.yuchengren.demo;
 import android.content.Context;
 import android.content.Intent;
 
+import com.yuchengren.demo.app.adaptation.AndroidEightAdaptationActivity;
+import com.yuchengren.demo.app.adaptation.AndroidNineAdaptationActivity;
+import com.yuchengren.demo.app.adaptation.AndroidSevenAdaptationActivity;
 import com.yuchengren.demo.app.other.ChangeThemeActivity;
 import com.yuchengren.demo.app.other.CallPhoneBackActivity;
 import com.yuchengren.demo.app.other.ImageEditActivity;
@@ -50,6 +53,15 @@ public class MenuUtil {
 				break;
 			case MenuCode.Second.CHOOSE_PHOTO:
 				intent = new Intent(context, ChosenPhotoActivity.class);
+				break;
+			case MenuCode.Second.SEVEN_ADAPTATION:
+				intent = new Intent(context, AndroidSevenAdaptationActivity.class);
+				break;
+			case MenuCode.Second.EIGHT_ADAPTATION:
+				intent = new Intent(context, AndroidEightAdaptationActivity.class);
+				break;
+			case MenuCode.Second.NINE_ADAPTATION:
+				intent = new Intent(context, AndroidNineAdaptationActivity.class);
 				break;
 			default:
 				intent = new Intent();

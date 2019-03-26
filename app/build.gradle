@@ -37,17 +37,13 @@ dependencies {
     api fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     implementation "$kotlin_group:kotlin-stdlib-jdk7:$kotlin_version"
-
     api 'io.reactivex.rxjava2:rxjava:2.1.7'
     api 'io.reactivex.rxjava2:rxandroid:2.0.1'
-
-
     api "$android_support:appcompat-v7:$android_support_version"
     api "com.android.support.constraint:constraint-layout:$constraint_layout_version"
-
     api project(':module-main')
     api project(':module-photo')
-
+    implementation "$android_support:support-v4:$android_support_version"
 }
 
 configurations.all {

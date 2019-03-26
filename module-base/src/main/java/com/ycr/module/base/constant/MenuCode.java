@@ -20,6 +20,9 @@ public interface MenuCode {
 		String IMAGE_EDIT = "image_edit";
 		String NINE_GRID = "nine_grid";
 		String CHOOSE_PHOTO = "choose_photo";
+		String SEVEN_ADAPTATION = "seven_adaptation";
+		String EIGHT_ADAPTATION = "eight_adaptation";
+		String NINE_ADAPTATION = "nine_adaptation";
 	}
 
 }
