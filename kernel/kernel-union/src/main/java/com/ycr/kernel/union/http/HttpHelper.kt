@@ -7,6 +7,8 @@ import com.ycr.kernel.http.IResult
 import com.ycr.kernel.task.TASK_INFO
 import com.ycr.kernel.task.TaskInfo
 import com.ycr.kernel.union.exception.NetworkNotConnectedException
+import com.ycr.kernel.union.helper.ContextHelper
+import com.ycr.kernel.union.helper.UnionContainer
 import com.ycr.kernel.util.ThreadLocalHelper
 import com.ycr.kernel.util.isNetworkConnected
 
@@ -15,13 +17,8 @@ import com.ycr.kernel.util.isNetworkConnected
  */
 object HttpHelper {
 
-    private lateinit var  httpScheduler: IHttpScheduler
-    private lateinit var  context: Context
-
-    fun doInit(context: Context,httpScheduler: IHttpScheduler){
-        this.context = context
-        this.httpScheduler = httpScheduler
-    }
+    private var  httpScheduler: IHttpScheduler = UnionContainer.httpScheduler
+    private var  context: Context = ContextHelper.context
 
     fun <T> execute(api: IApi, params: Any?): IResult<T>{
         if(!context.isNetworkConnected()){

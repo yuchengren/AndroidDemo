@@ -1,2 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.ycr.module.base" />
+    package="com.ycr.module.base" >
+
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+</manifest>

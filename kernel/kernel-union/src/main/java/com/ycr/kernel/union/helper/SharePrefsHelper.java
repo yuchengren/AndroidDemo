@@ -132,7 +132,7 @@ public class SharePrefsHelper {
 		}else if(value instanceof String){
 			edit.putString(key,(String)value);
 		}else {
-			edit.putString(key,(String)value);//todo 格式化为Json
+			edit.putString(key,JsonHelper.toJson(value));
 		}
 		edit.commit();
 	}

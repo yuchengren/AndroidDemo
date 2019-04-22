@@ -16,9 +16,10 @@ object OkHttpScheduler: HttpScheduler() {
     private lateinit var jsonParser: IJsonParser
     private lateinit var okHttpClient: OkHttpClient
 
-    fun doInit(jsonParser:IJsonParser ,okHttpClient: OkHttpClient =  OkHttpClient()){
+    fun doInit(jsonParser:IJsonParser ,okHttpClient: OkHttpClient =  OkHttpClient()): OkHttpScheduler{
         this.jsonParser = jsonParser
         this.okHttpClient = okHttpClient
+        return this
     }
 
     override fun newCall(request: IRequest): ICall {

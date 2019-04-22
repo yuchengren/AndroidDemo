@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -39,6 +40,7 @@ public class CallPhoneBackActivity extends AppCompatActivity implements View.OnC
 		et_mobile_phone = (EditText) findViewById(R.id.et_mobile_phone);
 		btn_call = (Button) findViewById(R.id.btn_call);
 		btn_call.setOnClickListener(this);
+		LayoutInflater.Factory2
 	}
 
 	@Override

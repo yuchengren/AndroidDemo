@@ -16,9 +16,10 @@ object GsonJsonParser : IJsonParser {
     lateinit var gson: Gson
     lateinit var gsonParser: JsonParser
 
-    fun doInit(gson: Gson = Gson(), gsonParser: JsonParser = JsonParser()) {
+    fun doInit(gson: Gson = Gson(), gsonParser: JsonParser = JsonParser()): GsonJsonParser {
         this.gson = gson
         this.gsonParser = gsonParser
+        return this
     }
 
     override fun toJson(any: Any?): String? {
