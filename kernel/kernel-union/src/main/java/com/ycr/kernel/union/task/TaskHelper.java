@@ -5,7 +5,6 @@ import com.ycr.kernel.task.ITaskBackground;
 import com.ycr.kernel.task.ITaskCallback;
 import com.ycr.kernel.task.ITaskPolicy;
 import com.ycr.kernel.task.TaskScheduler;
-import com.ycr.kernel.union.R;
 
 /**
  * created by yuchengren on 2019/4/23

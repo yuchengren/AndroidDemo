@@ -38,6 +38,9 @@ dependencies {
 
     // quickadapter
     api "com.github.CymChad:BaseRecyclerViewAdapterHelper:${base_quick_adapter_version}"
+
+    //下拉刷新
+    api "com.scwang.smartrefresh:SmartRefreshLayout:$smart_refresh_layout_version"
 }
 repositories {
     mavenCentral()

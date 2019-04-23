@@ -17,6 +17,7 @@ import com.bumptech.glide.Glide;
 import com.ycr.kernel.log.LogHelper;
 import com.ycr.kernel.union.helper.JsonHelper;
 import com.ycr.kernel.union.http.HttpHelper;
+import com.ycr.kernel.union.task.TaskHelper;
 import com.yuchengren.demo.R;
 
 import java.io.File;
