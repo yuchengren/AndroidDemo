@@ -13,10 +13,24 @@ android {
         targetSdkVersion target_sdk_version
         versionCode 1
         versionName "1.0"
-
 //        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
     }
+    buildTypes{
+        //logLevel VERBOSE=2 DEBUG=3 INFO=4 WARN=5 ERROR=6 ASSERT=7
+        debug{
+            buildConfigField("int","logConfigLevel","2")
+            buildConfigField("int","logFileLevel","6")
+        }
+
+        release {
+            buildConfigField("int","logLevel","7")
+            buildConfigField("int","logFileLevel","7")
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
     greendao {
         schemaVersion 1
         daoPackage 'com.ycr.module.base.greendao.gen'
@@ -36,13 +50,6 @@ android {
         }
     }
 
-
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-    }
 
 }
 

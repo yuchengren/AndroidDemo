@@ -15,7 +15,7 @@ public class LogPrinterConfig implements ILogPrinterConfig {
 	}
 
 	@Override
-	public LogPrinterConfig setLevel(@LogLevel int level) {
+	public LogPrinterConfig setLevel(int level) {
 		this.level = level;
 		return this;
 	}

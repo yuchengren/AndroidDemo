@@ -32,10 +32,10 @@ public class LogControl implements ILogControl {
 			printTag.append(preTag + "-");
 		}
 		if(!TextUtils.isEmpty(moduleName)){
-			printTag.append(moduleName + "-");
+			printTag.append(moduleName);
 		}
 		if(!TextUtils.isEmpty(tag)){
-			printTag.append(tag);
+			printTag.append("-" + tag);
 		}
 		if(!isConsoleLogPrinter){
 			printTag.append(": ");

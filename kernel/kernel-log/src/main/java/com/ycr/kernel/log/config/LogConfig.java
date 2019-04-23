@@ -16,7 +16,7 @@ public class LogConfig implements ILogConfig{
 
 	private Context context;
 	private String tagPre;
-	private boolean enabled;
+	private boolean enabled = true;
 	private int level;
 	private Set<ILogPrinter> logPrinters;
 
@@ -43,7 +43,7 @@ public class LogConfig implements ILogConfig{
 		return this;
 	}
 
-	public LogConfig setLevel(@LogLevel int level) {
+	public LogConfig setLevel(int level) {
 		this.level = level;
 		return this;
 	}

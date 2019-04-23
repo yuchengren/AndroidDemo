@@ -73,11 +73,10 @@ public class DemoApplication extends SuperApplication {
 		LogHelper.initAppModule("app").
                 config(LogConfig.create(this).
                         setTagPre("mvp").
-                        setEnabled(true).
-                        setLevel(LogLevel.VERBOSE)).
+                        setLevel(BuildConfig.logConfigLevel)).
                 setLogPrinters(
                         new ConsoleLogPrinter(),
-                        new FileLogPrinter(FileLogPrinterConfig.create(this).setFileRootPath(getAppRootPath()).setLevel(LogLevel.ERROR)));
+                        new FileLogPrinter(FileLogPrinterConfig.create(this).setFileRootPath(getAppRootPath()).setLevel(BuildConfig.logFileLevel)));
         //使用范例
 //        LogHelper.e("tag","msg");
 //        ILogEngine task = LogHelper.module("task");
