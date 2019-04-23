@@ -9,7 +9,7 @@ import com.ycr.kernel.log.constants.LogLevel;
 import com.ycr.kernel.log.printer.ConsoleLogPrinter;
 import com.ycr.kernel.log.printer.FileLogPrinter;
 import com.ycr.lib.changeskin.SkinManager;
-import com.ycr.module.framework.base.BaseApplication;
+import com.ycr.module.framework.base.SuperApplication;
 import com.ycr.module.base.constant.Constants;
 import com.ycr.module.base.greendao.gen.DaoMaster;
 import com.ycr.module.base.greendao.gen.DaoSession;
@@ -25,7 +25,7 @@ import okhttp3.OkHttpClient;
 /**
  * Created by yuchengren on 2016/9/2.
  */
-public class DemoApplication extends BaseApplication {
+public class DemoApplication extends SuperApplication {
 
     private static DemoApplication mDemoApplication;
     /**

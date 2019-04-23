@@ -11,7 +11,7 @@ import butterknife.ButterKnife;
 /**
  * Created by yuchengren on 2018/12/10.
  */
-public abstract class BaseFragment extends UnionFragment {
+public abstract class SuperFragment extends UnionFragment {
 
 	@Override
 	public void beforeBindView() {

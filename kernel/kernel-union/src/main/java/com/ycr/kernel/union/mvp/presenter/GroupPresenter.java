@@ -33,7 +33,7 @@ public class GroupPresenter implements IGroup {
 	}
 
 	public <T> AsyncTask<IResult<T>> submitTask(String taskName, ITaskBackground<IResult<T>> taskBackground, ResultCallback<T> resultCallback){
-		return TaskHelper.INSTANCE.submitTask(groupName(),taskName,taskBackground,resultCallback);
+		return TaskHelper.submitTask(groupName(),taskName,taskBackground,resultCallback);
 	}
 
 	public <T> AsyncTask<IResult<T>> submitTask(ITaskBackground<IResult<T>> taskBackground, ResultCallback<T> resultCallback){

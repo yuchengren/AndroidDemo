@@ -9,7 +9,11 @@ import android.support.v4.content.ContextCompat;
  * created by yuchengren on 2019/4/22
  */
 public class ContextHelper {
-    public static Context context;
+    private static Context context;
+
+    public static Context getContext(){
+        return context;
+    }
 
     public static void  doInit(Application application){
         context = application.getApplicationContext();

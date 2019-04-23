@@ -39,7 +39,7 @@ public class PropertiesUtil {
 
 	public static Properties getPropertiesObject() throws IOException {
 		Properties properties = new Properties();
-		InputStream open = ContextHelper.INSTANCE.getContext().getAssets().open(PROPERTIES_FILE_CONFIG);
+		InputStream open = ContextHelper.getContext().getAssets().open(PROPERTIES_FILE_CONFIG);
 		properties.load(open);
 		return properties;
 	}

@@ -49,7 +49,7 @@ public class ToastHelper {
 		}
 	}
 	public static void show(int resId, int duration){
-		show(ContextHelper.INSTANCE.getContext().getResources().getString(resId),duration);
+		show(ContextHelper.getString(resId),duration);
 	}
 
 	public static void show(String message){
@@ -65,8 +65,8 @@ public class ToastHelper {
 	 * @param message
 	 */
 	private static void initToast(String message) {
-		Context context = ContextHelper.INSTANCE.getContext();
-		View view = View.inflate(ContextHelper.INSTANCE.getContext(), R.layout.toast,null);
+		Context context = ContextHelper.getContext();
+		View view = View.inflate(ContextHelper.getContext(), R.layout.toast,null);
 		TextView tv_toast = (TextView) view.findViewById(R.id.tv_toast);
 		int h = context.getResources().getDisplayMetrics().heightPixels;
 		int l = context.getResources().getDisplayMetrics().widthPixels;
@@ -77,6 +77,4 @@ public class ToastHelper {
 		mToast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
 		mToast.setView(view);
 	}
-
-
 }

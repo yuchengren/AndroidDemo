@@ -15,6 +15,8 @@ import android.widget.Button;
 
 import com.bumptech.glide.Glide;
 import com.ycr.kernel.log.LogHelper;
+import com.ycr.kernel.union.helper.JsonHelper;
+import com.ycr.kernel.union.http.HttpHelper;
 import com.yuchengren.demo.R;
 
 import java.io.File;
@@ -41,14 +43,9 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
 
 		btn_test = findViewById(R.id.btn_test);
 		btn_test.setOnClickListener(this);
-		DisplayMetrics dm = getResources().getDisplayMetrics();
-		Log.e("TestActivity",dm.density +"," +dm.densityDpi );
-		Log.e("TestActivity",getResources().getDimensionPixelSize(R.dimen.button_height) + "");
 
-		btn_test.setBackgroundColor(0xFFFF0000);
-		int a = 0xFFFF0000;
-		new HashMap<String,Object>().remove("1");
-		new HashMap<String,Object>().get("1");
+		HttpHelper.cancelGroup("");
+		JsonHelper.toJson("");
 
 	}
 

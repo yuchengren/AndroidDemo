@@ -15,8 +15,8 @@ import java.lang.reflect.Type
 class Api: UnionApi() {
     private val normalHeaders = mutableMapOf<String,String>()
     init {
-        normalHeaders["User-Agent"] = SysHelper.getUserAgent(ContextHelper.context)
-        normalHeaders["Client-Agent"] = SysHelper.getClientInfo(ContextHelper.context)
+        normalHeaders["User-Agent"] = SysHelper.getUserAgent(ContextHelper.getContext())
+        normalHeaders["Client-Agent"] = SysHelper.getClientInfo(ContextHelper.getContext())
         normalHeaders["Accept-Charset"] = ICharsets.UTF_8
     }
 

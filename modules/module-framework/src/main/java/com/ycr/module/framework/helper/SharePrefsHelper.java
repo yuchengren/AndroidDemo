@@ -1,7 +1,9 @@
-package com.ycr.kernel.union.helper;
+package com.ycr.module.framework.helper;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+
+import com.ycr.kernel.union.helper.JsonHelper;
 
 import java.util.HashMap;
 import java.util.Map;
