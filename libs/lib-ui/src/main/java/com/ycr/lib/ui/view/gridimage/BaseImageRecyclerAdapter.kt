@@ -2,13 +2,14 @@ package com.ycr.lib.ui.view.gridimage
 
 import android.support.annotation.CallSuper
 import android.support.annotation.IdRes
+import android.support.annotation.LayoutRes
 import android.widget.ImageView
 import com.ycr.lib.ui.R
 
 /**
  * Created by yuchengren on 2019/1/17.
  */
-abstract class BaseImageRecyclerAdapter<T, VH : BaseRecyclerHolder>(data: MutableList<T>?, @IdRes itemResId: Int): BaseRecyclerAdapter<T,VH>(data,itemResId)  {
+abstract class BaseImageRecyclerAdapter<T, VH : BaseRecyclerHolder>(data: MutableList<T>?, @LayoutRes itemResId: Int): BaseRecyclerAdapter<T,VH>(data,itemResId)  {
 
     private var onItemLoadImageListener: ((item: T,view: ImageView,position: Int) ->Unit)? = null
 

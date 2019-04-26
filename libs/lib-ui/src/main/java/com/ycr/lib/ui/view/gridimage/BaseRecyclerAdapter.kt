@@ -17,10 +17,13 @@ import java.lang.reflect.ParameterizedType
 /**
  * Created by yuchengren on 2019/1/17.
  */
-abstract class BaseRecyclerAdapter<T, VH : BaseRecyclerHolder>(var data: MutableList<T>?,  @IdRes private val itemResId: Int) : RecyclerView.Adapter<VH>() {
+abstract class BaseRecyclerAdapter<T, VH : BaseRecyclerHolder>(var data: MutableList<T>?,  @LayoutRes private val itemResId: Int) : RecyclerView.Adapter<VH>() {
     private lateinit var context: Context
     private lateinit var layoutInflater: LayoutInflater
     var headerLayout: LinearLayout? = null
+
+    var onItemClickListener: OnItemClickListener?= null
+    var onItemLongClickListener: OnItemLongClickListener?= null
 
     var onItemChildClickListener: OnItemChildClickListener? = null
     var onItemChildLongClickListener: OnItemChildLongClickListener? = null
@@ -85,6 +88,7 @@ abstract class BaseRecyclerAdapter<T, VH : BaseRecyclerHolder>(var data: Mutable
         context = parent.context
         layoutInflater = LayoutInflater.from(context)
         val viewHolder = onCreateDefViewHolder(parent, viewType)
+        bindViewClickListener(viewHolder)
         viewHolder.adapter = this
         return viewHolder
     }
@@ -93,7 +97,7 @@ abstract class BaseRecyclerAdapter<T, VH : BaseRecyclerHolder>(var data: Mutable
         return createBaseViewHolder(parent, itemResId)
     }
 
-    open fun createBaseViewHolder(parent: ViewGroup,  @IdRes layoutResId: Int): VH {
+    open fun createBaseViewHolder(parent: ViewGroup,  @LayoutRes layoutResId: Int): VH {
         return createBaseViewHolder(getItemView(layoutResId, parent))
     }
 
@@ -103,6 +107,29 @@ abstract class BaseRecyclerAdapter<T, VH : BaseRecyclerHolder>(var data: Mutable
 
     fun getHeaderLayoutCount(): Int {
         return if (headerLayout == null || headerLayout?.childCount == 0) 0 else 1
+    }
+
+    private fun bindViewClickListener(baseViewHolder: BaseRecyclerHolder?) {
+        val view = baseViewHolder?.itemView ?: return
+        onItemClickListener?.run {
+            view.setOnClickListener{
+                onItemClick(this@BaseRecyclerAdapter, it, baseViewHolder.layoutPosition - getHeaderLayoutCount())
+            }
+        }
+
+        onItemLongClickListener?.run {
+            view.setOnClickListener{
+                onItemLongClick(this@BaseRecyclerAdapter, it, baseViewHolder.layoutPosition - getHeaderLayoutCount())
+            }
+        }
+    }
+
+    interface OnItemClickListener {
+        fun onItemClick(adapter: BaseRecyclerAdapter<*, *>, view: View, position: Int)
+    }
+
+    interface OnItemLongClickListener {
+        fun onItemLongClick(adapter: BaseRecyclerAdapter<*, *>, view: View, position: Int): Boolean
     }
 
     interface OnItemChildClickListener {
