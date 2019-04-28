@@ -24,7 +24,7 @@ object GsonJsonParser : IJsonParser {
 
     override fun toJson(any: Any?): String? {
         try {
-            gson.toJson(any)
+            return gson.toJson(any)
         } catch (e: Exception) {
             printExceptionLog(e, "Any toJson")
         }
@@ -33,7 +33,7 @@ object GsonJsonParser : IJsonParser {
 
     override fun <T> fromJson(json: String?, type: Type?): T? {
         try {
-            gson.fromJson<T>(json, type)
+            return gson.fromJson<T>(json, type)
         } catch (e: Exception) {
             printExceptionLog(e, "String fromJson")
         }

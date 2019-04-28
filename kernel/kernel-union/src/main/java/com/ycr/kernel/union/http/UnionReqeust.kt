@@ -25,7 +25,7 @@ class UnionRequest: IRequest {
     override fun params(): MutableMap<String, Any?>? {
         val paramBuilder = api.paramBuilder()
         return when {
-            paramBuilder != null ->  paramBuilder.buildParam(api, params, api.serverData())
+            paramBuilder != null ->  paramBuilder.buildParam(api, api.serverData(),params)
             params is MutableMap<*, *> ->  params as  MutableMap<String, Any?>
             else -> {
                 UnionLog.e("UnionRequest paramBuilder is null and params is not Map")

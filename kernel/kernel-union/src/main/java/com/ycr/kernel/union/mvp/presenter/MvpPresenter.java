@@ -1,5 +1,6 @@
 package com.ycr.kernel.union.mvp.presenter;
 
+import com.ycr.kernel.mvp.connector.IMvpConnector;
 import com.ycr.kernel.mvp.presenter.IMvpPresenter;
 import com.ycr.kernel.mvp.view.IMvpView;
 import com.ycr.kernel.task.IGroup;
@@ -18,7 +19,10 @@ public abstract class MvpPresenter<V extends IMvpView> extends GroupPresenter im
 	public MvpPresenter(V mvpView){
 		try {
 			injectView(mvpView);
-			mvpView.getMvpConnector().injectPresenter(this);
+			IMvpConnector connector = mvpView.getMvpConnector();
+			if(connector != null){
+				connector.injectPresenter(this);
+			}
 		}catch (Throwable tr){
 			tr.printStackTrace();
 		}

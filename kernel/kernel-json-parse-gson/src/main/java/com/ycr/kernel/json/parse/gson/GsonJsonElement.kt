@@ -13,7 +13,7 @@ open class GsonJsonElement(var jsonElement: JsonElement?) : IJsonElement {
 
     override fun getAsJsonArray(): IJsonArray? {
         try {
-            if(jsonElement != null && jsonElement is JsonArray){
+            if(jsonElement?.isJsonArray == true){
                 return GsonJsonArray(jsonElement?.asJsonArray)
             }
         }catch (e: Exception){
@@ -24,7 +24,7 @@ open class GsonJsonElement(var jsonElement: JsonElement?) : IJsonElement {
 
     override fun getAsJsonObject(): IJsonObject? {
         try {
-            if(jsonElement != null && jsonElement is JsonArray){
+            if(jsonElement?.isJsonObject == true){
                 return GsonJsonObject(jsonElement?.asJsonObject)
             }
         }catch (e: Exception){

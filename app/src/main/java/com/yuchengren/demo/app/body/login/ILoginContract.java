@@ -18,8 +18,9 @@ public interface ILoginContract {
 	}
 
 	IView emptyView = new IView(){
+
 		@Override
-		public <C extends IMvpConnector> C getMvpConnector() {
+		public IMvpConnector getMvpConnector() {
 			return null;
 		}
 

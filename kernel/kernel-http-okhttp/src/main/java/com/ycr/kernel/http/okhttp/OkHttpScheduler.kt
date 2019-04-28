@@ -24,8 +24,8 @@ object OkHttpScheduler: HttpScheduler() {
 
     override fun newCall(request: IRequest): ICall {
         val api = request.api()
-        val urlBuilder = StringBuilder(api.url())
         val params = request.params()
+        val urlBuilder = StringBuilder(api.url())
 
         val requestBuilder = Request.Builder()
         when(api.requestMethod()){

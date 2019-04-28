@@ -24,7 +24,7 @@ public class HttpHelper {
     public static Context context = ContextHelper.getContext();
 
     public static  <T> IResult<T> execute(IApi api, Object params){
-        if(NetworkUtilsKt.isNetworkConnected(context)){
+        if(!NetworkUtilsKt.isNetworkConnected(context)){
             throw new NetworkNotConnectedException();
         }
         ICall newCall = httpScheduler.newCall(api.newRequestBuilder().setParams(params).build());

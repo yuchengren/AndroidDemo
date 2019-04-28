@@ -13,7 +13,7 @@ class OkHttpResponse(var response: Response): IResponse {
     }
 
     override fun body(): String? {
-        return response.body().toString()
+        return response.body().string()
     }
 
     override fun responseCode(): Int {
