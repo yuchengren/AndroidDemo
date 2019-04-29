@@ -15,7 +15,7 @@ import com.ycr.lib.ui.R
 /**
  * Created by yuchengren on 2018/12/27.
  */
-class GridImageView: AppCompatImageView {
+class GridImageView @JvmOverloads constructor(context: Context, @Nullable attrs: AttributeSet? = null, defStyleAttr: Int = 0) : AppCompatImageView(context, attrs, defStyleAttr) {
 
     private val strokePaint = Paint()
     private val imagePaint: Paint =  Paint(Paint.ANTI_ALIAS_FLAG or Paint.DITHER_FLAG)
@@ -45,11 +45,7 @@ class GridImageView: AppCompatImageView {
     var checked = false //选中图标状态
 
 
-    constructor(context: Context) : this(context, null)
-
-    constructor(context: Context, @Nullable attrs: AttributeSet?) : this(context, attrs, 0)
-
-    constructor(context: Context, @Nullable attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
+    init {
         val typeArray = context.obtainStyledAttributes(attrs, R.styleable.GridImageView, defStyleAttr, 0)
         typeArray.run {
             strokeWidth = getDimensionPixelSize(R.styleable.GridImageView_strokeWidth,0)
