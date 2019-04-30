@@ -20,7 +20,7 @@ import static com.ycr.kernel.task.TaskModuleKt.TASK_INFO;
  * created by yuchengren on 2019/4/23
  */
 public class HttpHelper {
-    public static IHttpScheduler httpScheduler = UnionContainer.httpScheduler;
+    public static IHttpScheduler httpScheduler = UnionContainer.INSTANCE.getHttpScheduler();
     public static Context context = ContextHelper.getContext();
 
     public static  <T> IResult<T> execute(IApi api, Object params){

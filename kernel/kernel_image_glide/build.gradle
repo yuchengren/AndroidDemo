@@ -8,11 +8,9 @@ android {
     defaultConfig {
         minSdkVersion min_sdk_version
         targetSdkVersion target_sdk_version
-        versionCode 1
-        versionName "1.0"
 
-//        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
+        buildConfigField "com.ycr.kernel.log.engine.ILogEngine", "logger",
+                "com.ycr.kernel.log.engine.LogEngineFactory.getLogEngine(\"${project.getName()}\")"
     }
 
     buildTypes {
@@ -26,18 +24,11 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-
-    implementation "$android_support:appcompat-v7:$android_support_version"
     implementation "$kotlin_group:kotlin-stdlib-jdk7:$kotlin_version"
-
-    api project(':kernel-log')
-    api project(':kernel-mvp')
-    api project(':kernel-task')
-    api project(':kernel-http')
-    api project(':kernel-http-okhttp')
-    api project(':kernel-util')
-    api project(':kernel_image')
-    api project(':kernel_image_glide')
-
-    api project(':kernel-json-parse-gson')
+    api "$glide_group:glide:$glide_version"
+    implementation project(':kernel-log')
+    implementation project(':kernel_image')
+}
+repositories {
+    mavenCentral()
 }

@@ -32,6 +32,9 @@ includeModule("kernel-mvp","kernel")
 includeModule("kernel-task","kernel")
 includeModule("kernel-util","kernel")
 
+includeModule("kernel_image","kernel")
+includeModule("kernel_image_glide","kernel")
+
 includeModule("lib-changeskin","libs")
 includeModule("lib-ui","libs")
 includeModule("lib-permission","libs")

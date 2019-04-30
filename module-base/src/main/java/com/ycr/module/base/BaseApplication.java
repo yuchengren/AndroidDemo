@@ -5,7 +5,6 @@ import android.os.Environment;
 import com.ycr.kernel.log.LogHelper;
 import com.ycr.kernel.log.config.FileLogPrinterConfig;
 import com.ycr.kernel.log.config.LogConfig;
-import com.ycr.kernel.log.constants.LogLevel;
 import com.ycr.kernel.log.printer.ConsoleLogPrinter;
 import com.ycr.kernel.log.printer.FileLogPrinter;
 import com.ycr.lib.changeskin.SkinManager;
@@ -19,33 +18,38 @@ import com.ycr.module.base.util.OkHttpUtil;
 import com.ycr.module.base.util.SharePrefsUtil;
 
 import org.greenrobot.greendao.database.Database;
+import org.jetbrains.annotations.Nullable;
 
 import okhttp3.OkHttpClient;
 
 /**
  * Created by yuchengren on 2016/9/2.
  */
-public class DemoApplication extends SuperApplication {
+public class BaseApplication extends SuperApplication {
 
-    private static DemoApplication mDemoApplication;
+    private static BaseApplication mBaseApplication;
     /**
      * 默认初始化的OkHttpClient
      */
     private OkHttpClient mDefaultOkHttpClient;
     private DaoSession mDaoSession;
 
-    public synchronized static DemoApplication getInstance(){
-        if(mDemoApplication == null ){
-            mDemoApplication = new DemoApplication();
+    public synchronized static BaseApplication getInstance(){
+        if(mBaseApplication == null ){
+            mBaseApplication = new BaseApplication();
         }
-        return mDemoApplication;
+        return mBaseApplication;
     }
 
+    @Override
+    public void doInit(boolean isMainProcess, @Nullable String processName) {
+        super.doInit(isMainProcess, processName);
+    }
 
     @Override
     public void onCreate() {
         super.onCreate();
-        mDemoApplication = this;
+        mBaseApplication = this;
         SharePrefsUtil.getInstance().init(getApplicationContext());
         CrashHandler.getInstance().init(getApplicationContext());
         initGreenDao();

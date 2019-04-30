@@ -1,5 +1,6 @@
 package com.ycr.lib.ui.view.gridimage
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.*
 import android.graphics.drawable.BitmapDrawable
@@ -67,6 +68,10 @@ class GridImageView @JvmOverloads constructor(context: Context, @Nullable attrs:
         strokePaint.color = strokeColor
     }
 
+    override fun setImageBitmap(bm: Bitmap?) {
+        super.setImageBitmap(bm)
+    }
+
     override fun setImageResource(@DrawableRes resId: Int) {
         setImageDrawable(ContextCompat.getDrawable(context,resId))
     }
@@ -132,6 +137,7 @@ class GridImageView @JvmOverloads constructor(context: Context, @Nullable attrs:
         drawStroke(canvas)
     }
 
+    @SuppressLint("WrongCall")
     private fun drawRoundImage(canvas: Canvas) {
         imageMatrix.getValues(imageMatrixArray)
         val scaleX = imageMatrixArray[0]

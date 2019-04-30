@@ -14,7 +14,7 @@ import java.lang.reflect.Type;
  */
 public class JsonHelper{
 
-    private static IJsonParser jsonParser = UnionContainer.jsonParser;
+    private static IJsonParser jsonParser = UnionContainer.INSTANCE.getJsonParser();
 
     public static String toJson(@Nullable Object any) {
         return jsonParser.toJson(any);

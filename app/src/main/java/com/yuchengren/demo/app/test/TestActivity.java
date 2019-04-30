@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.bumptech.glide.Glide;
+import com.ycr.kernel.image.CornerType;
 import com.ycr.kernel.log.LogHelper;
 import com.ycr.kernel.union.helper.JsonHelper;
 import com.ycr.kernel.union.http.HttpHelper;
