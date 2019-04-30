@@ -19,11 +19,26 @@ android {
 
     buildTypes {
         debug{
+            proguardFiles getDefaultProguardFile('proguard-android.txt'),
+                    'proguard-rules.pro', 'proguard-dagger2.pro',
+                    'proguard-eventbus.pro', 'proguard-glide.pro',
+                    'proguard-okhttp3.pro', 'proguard-greendao.pro',
+                    'proguard-alipay.pro', 'proguard-push.pro',
+                    'proguard-qiyu.pro', 'proguard-arouter.pro',
+                    'proguard-asr.pro', 'proguard-baidumap.pro',
+                    'proguard-encrypt.pro'
         }
 
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'),
+                    'proguard-rules.pro', 'proguard-dagger2.pro',
+                    'proguard-eventbus.pro', 'proguard-glide.pro',
+                    'proguard-okhttp3.pro', 'proguard-greendao.pro',
+                    'proguard-alipay.pro', 'proguard-push.pro',
+                    'proguard-qiyu.pro', 'proguard-arouter.pro',
+                    'proguard-asr.pro', 'proguard-baidumap.pro',
+                    'proguard-encrypt.pro'
         }
     }
 
@@ -47,6 +62,9 @@ dependencies {
     api project(':module-main')
     api project(':module-photo')
     implementation "$android_support:support-v4:$android_support_version"
+
+    api "$glide_group:annotations:$glide_version"
+    annotationProcessor "$glide_group:compiler:$glide_version"
 }
 
 configurations.all {

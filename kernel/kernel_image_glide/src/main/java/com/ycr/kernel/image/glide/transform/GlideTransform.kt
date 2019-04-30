@@ -16,6 +16,10 @@ import java.security.MessageDigest
 class GlideTransform(private val cornerRadius: Int,private val cornerType: Int = CornerType.ALL,
                      private var displayType: ImageDisplayType? = null): BitmapTransformation() {
 
+    override fun updateDiskCacheKey(messageDigest: MessageDigest) {
+//        messageDigest.update(ByteBuffer.allocate(Integer.SIZE).array()) //此代码引发圆角失效
+    }
+
 
     override fun transform(pool: BitmapPool, toTransform: Bitmap, outWidth: Int, outHeight: Int): Bitmap? {
         val bitmap: Bitmap = when(displayType){
@@ -55,9 +59,5 @@ class GlideTransform(private val cornerRadius: Int,private val cornerType: Int =
         }
 
         return result
-    }
-
-    override fun updateDiskCacheKey(messageDigest: MessageDigest?) {
-        messageDigest?.update(ByteBuffer.allocate(Integer.SIZE).array())
     }
 }

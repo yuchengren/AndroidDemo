@@ -2,6 +2,7 @@ package com.ycr.kernel.image.glide
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
@@ -10,7 +11,10 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
+import com.ycr.kernel.image.CornerType
+import com.ycr.kernel.image.glide.transform.GlideRoundTransform
 import com.ycr.kernel.image.glide.transform.GlideTransform
+import com.ycr.kernel.image.util.ImageUtils
 import java.lang.Exception
 
 /**
@@ -33,8 +37,8 @@ class GlideImageLoader(private val context: Context,defaultOpts: ImageDisplayOpt
             errorDrawable?.let { options.error(it) }
             errorDrawableId?.let { options.error(it) }
 
-            options.skipMemoryCache(!cacheInMemory)
-            options.diskCacheStrategy(if(cacheOnDisk) DiskCacheStrategy.RESOURCE else DiskCacheStrategy.NONE)
+            cacheInMemory?.let { options.skipMemoryCache(!it) }
+            cacheOnDisk?.let { options.diskCacheStrategy(if(it) DiskCacheStrategy.RESOURCE else DiskCacheStrategy.NONE) }
 
             options.transform(GlideTransform(cornerRadius,cornerType,imageDisplayType))
 
@@ -46,14 +50,14 @@ class GlideImageLoader(private val context: Context,defaultOpts: ImageDisplayOpt
     }
 
     override fun display(imageView: ImageView?, url: String?, opts: ImageDisplayOption?, listener: OnImageLoadListener?) {
-        val requestBuilder = Glide.with(context).asBitmap().load(url).apply(getGlideOptions(opts)).listener(object : RequestListener<Bitmap> {
-            override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Bitmap>?, isFirstResource: Boolean): Boolean {
+        val requestBuilder = Glide.with(context).asDrawable().load(url).apply(getGlideOptions(opts)).listener(object : RequestListener<Drawable> {
+            override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
                 listener?.onFail(url, imageView, e)
                 return false
             }
 
-            override fun onResourceReady(resource: Bitmap?, model: Any?, target: Target<Bitmap>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
-                listener?.onSuccess(imageView, resource )
+            override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
+                listener?.onSuccess(imageView, resource?.let { ImageUtils.drawableToBitmap(it) } )
                 return imageView == null
             }
         })

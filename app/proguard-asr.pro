@@ -1,0 +1,2 @@
+-keep class cn.yunzhisheng.oralEdu{*;}
+-keep class cn.yunzhisheng.oraleval.sdk.OpusEncoder{*;}

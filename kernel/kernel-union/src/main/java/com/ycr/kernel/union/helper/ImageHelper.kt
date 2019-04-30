@@ -1,5 +1,6 @@
 package com.ycr.kernel.union.helper
 
+import android.graphics.Bitmap
 import android.widget.ImageView
 import com.ycr.kernel.image.AdjustImageSizeListener
 import com.ycr.kernel.image.glide.IImageLoader
@@ -34,8 +35,8 @@ object ImageHelper {
         display(imageView,url,null,AdjustImageSizeListener(width))
     }
 
-    @JvmStatic fun syncLoad(url: String?, opts: ImageDisplayOption? = null){
-        loader.syncLoad(url,opts)
+    @JvmStatic fun syncLoad(url: String?, opts: ImageDisplayOption? = null): Bitmap?{
+        return loader.syncLoad(url,opts)
     }
 
     @JvmStatic fun preLoad(url: String?, opts: ImageDisplayOption?, listener: OnImageLoadListener?){

@@ -7,8 +7,11 @@ import android.os.Bundle
 import android.os.Environment
 import android.view.View
 import com.bumptech.glide.Glide
+import com.ycr.kernel.image.ImageDisplayType
+import com.ycr.kernel.image.glide.GlideImageLoader
 import com.ycr.kernel.image.glide.ImageDisplayOption
 import com.ycr.kernel.union.helper.ImageHelper
+import com.ycr.kernel.union.helper.UnionContainer
 import com.ycr.module.base.BaseActivity
 import com.yuchengren.demo.R
 import kotlinx.android.synthetic.main.activity_kotlin_test.*
@@ -25,7 +28,8 @@ class KotlinTestActivity: BaseActivity() {
     override fun afterBindView(rootView: View?, savedInstanceState: Bundle?) {
         super.afterBindView(rootView, savedInstanceState)
 
-        ImageHelper.display(imageView,Environment.getExternalStorageDirectory().path + "/test.png", ImageDisplayOption.build().cornerRadius(12))
+        ImageHelper.display(imageView,Environment.getExternalStorageDirectory().path + "/test.png",
+                ImageDisplayOption.build().cornerRadius(12).imageDisplayType(ImageDisplayType.CENTER_CROP))
 
     }
 

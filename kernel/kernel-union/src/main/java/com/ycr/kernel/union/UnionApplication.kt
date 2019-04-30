@@ -34,8 +34,7 @@ open class UnionApplication : Application() {
 
         val imageDisplayOption = ImageDisplayOption.build().
                 cacheInMemory(true).
-                cacheOnDisk(true).
-                imageDisplayType(ImageDisplayType.CENTER_CROP)
+                cacheOnDisk(true)
         UnionContainer.imageLoader = GlideImageLoader(this, imageDisplayOption, null)
     }
 }

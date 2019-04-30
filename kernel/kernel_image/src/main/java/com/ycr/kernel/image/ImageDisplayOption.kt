@@ -14,12 +14,12 @@ class ImageDisplayOption private constructor(){
     var errorDrawable: Drawable? = null//加载错误显示的图片
     var errorDrawableId: Int? = null
 
-    var cacheInMemory: Boolean = true //是否启动内存缓存
-    var cacheOnDisk: Boolean = true //是否启动磁盘缓存
+    var cacheInMemory: Boolean? = null //是否启动内存缓存
+    var cacheOnDisk: Boolean? = null //是否启动磁盘缓存
 
     var cornerRadius: Int = 0 //圆角尺寸 px
     var cornerType: Int = CornerType.ALL
-    var imageDisplayType: ImageDisplayType = ImageDisplayType.CENTER_CROP
+    var imageDisplayType: ImageDisplayType? = null
 
     var maxWidth: Int = 0
     var maxHeight:Int = 0

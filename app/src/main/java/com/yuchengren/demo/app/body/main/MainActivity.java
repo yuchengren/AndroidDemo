@@ -56,6 +56,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+
         fl_container = (FrameLayout) findViewById(R.id.fl_container);
         ll_bottom_tab = (LinearLayout) findViewById(R.id.ll_bottom_tab);
         initData();
