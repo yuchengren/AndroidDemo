@@ -1,27 +1,29 @@
 package com.ycr.kernel.image.glide
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.Transformation
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.load.resource.bitmap.*
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import com.ycr.kernel.image.CornerType
-import com.ycr.kernel.image.glide.transform.GlideRoundTransform
-import com.ycr.kernel.image.glide.transform.GlideTransform
+import com.ycr.kernel.image.ImageDisplayType
+import com.ycr.kernel.image.glide.transform.GlideCornerTransform
 import com.ycr.kernel.image.util.ImageUtils
-import java.lang.Exception
 
 /**
  * Glide图片加载器
  * created by yuchengren on 2019/4/29
  */
-class GlideImageLoader(private val context: Context,defaultOpts: ImageDisplayOption?,private var glideDefaultOptions: RequestOptions? = null): IImageLoader {
+class GlideImageLoader(private val context: Context,private val defaultOpts: ImageDisplayOption?,private var glideDefaultOptions: RequestOptions? = null): IImageLoader {
 
     private val logger = BuildConfig.logger
 
@@ -29,8 +31,10 @@ class GlideImageLoader(private val context: Context,defaultOpts: ImageDisplayOpt
         defaultOpts?.let { glideDefaultOptions = getGlideOptions(it) }
     }
 
+    @SuppressLint("CheckResult")
     private fun getGlideOptions(opts: ImageDisplayOption?): RequestOptions{
         val options: RequestOptions = glideDefaultOptions?.let { RequestOptions().apply(it) }?: RequestOptions()
+
         opts?.run {
             defaultDrawable?.let { options.placeholder(it) }
             defaultDrawableId?.let { options.placeholder(it) }
@@ -40,30 +44,54 @@ class GlideImageLoader(private val context: Context,defaultOpts: ImageDisplayOpt
             cacheInMemory?.let { options.skipMemoryCache(!it) }
             cacheOnDisk?.let { options.diskCacheStrategy(if(it) DiskCacheStrategy.RESOURCE else DiskCacheStrategy.NONE) }
 
-            options.transform(GlideTransform(cornerRadius,cornerType,imageDisplayType))
-
             if(maxWidth != 0 && maxHeight != 0){
                 options.override(maxWidth,maxHeight)
+            }
+        }
+
+        val displayType = opts?.imageDisplayType?:(defaultOpts?.imageDisplayType)
+
+        val cornerRadius = opts?.cornerRadius?:(defaultOpts?.cornerRadius)
+
+        val scaleTypeTransform = getScaleTypeTransform(displayType)
+
+        if(cornerRadius == null || cornerRadius == 0){
+            scaleTypeTransform?.let { options.transform(it) }
+        }else{
+            if(scaleTypeTransform == null){
+                options.transform(GlideCornerTransform(cornerRadius, (opts?.cornerType?:(defaultOpts?.cornerType))?:CornerType.ALL))
+            }else{
+                options.transforms(scaleTypeTransform,GlideCornerTransform(cornerRadius, (opts?.cornerType?:(defaultOpts?.cornerType))?:CornerType.ALL))
             }
         }
         return options
     }
 
-    override fun display(imageView: ImageView?, url: String?, opts: ImageDisplayOption?, listener: OnImageLoadListener?) {
-        val requestBuilder = Glide.with(context).asDrawable().load(url).apply(getGlideOptions(opts)).listener(object : RequestListener<Drawable> {
+    private fun getScaleTypeTransform(imageDisplayType: ImageDisplayType?): Transformation<Bitmap>?{
+        return when(imageDisplayType){
+            ImageDisplayType.CENTER_CROP -> CenterCrop()
+            ImageDisplayType.CENTER_INSIDE -> CenterInside()
+            ImageDisplayType.FIT_CENTER -> FitCenter()
+            ImageDisplayType.CIRCLE_CROP -> CircleCrop()
+            else -> null
+        }
+    }
+
+    override fun display(view: ImageView?, url: String?, opts: ImageDisplayOption?, listener: OnImageLoadListener?) {
+        val requestBuilder = Glide.with(context).load(url).apply(getGlideOptions(opts)).listener(object : RequestListener<Drawable> {
             override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
-                listener?.onFail(url, imageView, e)
+                listener?.onFail(url, view, e)
                 return false
             }
 
             override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
-                listener?.onSuccess(imageView, resource?.let { ImageUtils.drawableToBitmap(it) } )
-                return imageView == null
+                listener?.onSuccess(view, resource?.let { ImageUtils.drawableToBitmap(it) } )
+                return view == null
             }
         })
 
-        if(imageView != null){
-            requestBuilder.into(imageView)
+        if(view != null){
+            requestBuilder.into(view)
         }else{
             requestBuilder.preload()
         }

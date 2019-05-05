@@ -17,8 +17,8 @@ class ImageDisplayOption private constructor(){
     var cacheInMemory: Boolean? = null //是否启动内存缓存
     var cacheOnDisk: Boolean? = null //是否启动磁盘缓存
 
-    var cornerRadius: Int = 0 //圆角尺寸 px
-    var cornerType: Int = CornerType.ALL
+    var cornerRadius: Int? = null //圆角尺寸 px
+    var cornerType: CornerType? = null
     var imageDisplayType: ImageDisplayType? = null
 
     var maxWidth: Int = 0
@@ -57,7 +57,7 @@ class ImageDisplayOption private constructor(){
         this.cornerRadius = cornerRadius
         return this
     }
-    fun cornerType(cornerType: Int): ImageDisplayOption{
+    fun cornerType(cornerType: CornerType): ImageDisplayOption{
         this.cornerType = cornerType
         return this
     }

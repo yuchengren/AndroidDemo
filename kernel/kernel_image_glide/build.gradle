@@ -25,8 +25,14 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "$kotlin_group:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation "$android_support:support-v4:$android_support_version"
-    api "$glide_group:glide:$glide_version"
+//    implementation "$android_support:support-v4:$android_support_version"
+    api ("$glide_group:glide:$glide_version"){
+        exclude group: "com.android.support"
+    }
+    api "$glide_group:annotations:$glide_version"
+    kapt "$glide_group:compiler:$glide_version"
+
+    api 'jp.wasabeef:glide-transformations:3.0.1'
 
     implementation project(':kernel-log')
     implementation project(':kernel_image')

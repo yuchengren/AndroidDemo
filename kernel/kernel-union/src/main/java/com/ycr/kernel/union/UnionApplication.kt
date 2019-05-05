@@ -5,6 +5,7 @@ import android.support.annotation.CallSuper
 import com.google.gson.Gson
 import com.google.gson.JsonParser
 import com.ycr.kernel.http.okhttp.OkHttpScheduler
+import com.ycr.kernel.image.CornerType
 import com.ycr.kernel.image.ImageDisplayType
 import com.ycr.kernel.image.glide.GlideImageLoader
 import com.ycr.kernel.image.glide.ImageDisplayOption
@@ -33,8 +34,10 @@ open class UnionApplication : Application() {
         UnionContainer.httpScheduler = OkHttpScheduler.doInit(UnionContainer.jsonParser, OkHttpClient())
 
         val imageDisplayOption = ImageDisplayOption.build().
-                cacheInMemory(true).
-                cacheOnDisk(true)
+                cacheInMemory(false).
+                cacheOnDisk(false).
+                imageDisplayType(ImageDisplayType.CENTER_CROP).
+                cornerType(CornerType.ALL)
         UnionContainer.imageLoader = GlideImageLoader(this, imageDisplayOption, null)
     }
 }

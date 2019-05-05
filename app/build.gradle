@@ -49,6 +49,10 @@ android {
             //jniLibs.srcDir "src/main/libs"
         }
     }
+
+    kapt {
+        generateStubs = true
+    }
 }
 
 dependencies {
@@ -58,13 +62,11 @@ dependencies {
     api 'io.reactivex.rxjava2:rxjava:2.1.7'
     api 'io.reactivex.rxjava2:rxandroid:2.0.1'
     api "$android_support:appcompat-v7:$android_support_version"
-    api "com.android.support.constraint:constraint-layout:$constraint_layout_version"
+    api "${android_support}.constraint:constraint-layout:$constraint_layout_version"
     api project(':module-main')
     api project(':module-photo')
     implementation "$android_support:support-v4:$android_support_version"
 
-    api "$glide_group:annotations:$glide_version"
-    annotationProcessor "$glide_group:compiler:$glide_version"
 }
 
 configurations.all {
