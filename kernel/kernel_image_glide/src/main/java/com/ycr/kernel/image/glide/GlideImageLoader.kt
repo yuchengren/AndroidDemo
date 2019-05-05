@@ -78,7 +78,7 @@ class GlideImageLoader(private val context: Context,private val defaultOpts: Ima
     }
 
     override fun display(view: ImageView?, url: String?, opts: ImageDisplayOption?, listener: OnImageLoadListener?) {
-        val requestBuilder = Glide.with(context).load(url).apply(getGlideOptions(opts)).listener(object : RequestListener<Drawable> {
+        val requestBuilder = Glide.with(context).load(url).apply(getGlideOptions(opts).dontAnimate()).listener(object : RequestListener<Drawable> {
             override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
                 listener?.onFail(url, view, e)
                 return false
