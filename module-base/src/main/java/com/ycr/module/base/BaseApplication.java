@@ -22,6 +22,8 @@ import org.jetbrains.annotations.Nullable;
 
 import okhttp3.OkHttpClient;
 
+import static com.ycr.module.base.BuildConfig.logger;
+
 /**
  * Created by yuchengren on 2016/9/2.
  */

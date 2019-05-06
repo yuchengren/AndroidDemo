@@ -10,7 +10,7 @@ android {
         targetSdkVersion target_sdk_version
 
         buildConfigField "com.ycr.kernel.log.engine.ILogEngine", "logger",
-                "com.ycr.kernel.log.engine.LogEngineFactory.getLogEngine(\"${project.getName()}\")"
+                "com.ycr.kernel.log.LogHelper.module(\"${project.getName()}\")"
     }
 
     buildTypes {

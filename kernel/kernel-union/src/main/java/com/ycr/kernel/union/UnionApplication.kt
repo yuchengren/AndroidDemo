@@ -34,8 +34,8 @@ open class UnionApplication : Application() {
         UnionContainer.httpScheduler = OkHttpScheduler.doInit(UnionContainer.jsonParser, OkHttpClient())
 
         val imageDisplayOption = ImageDisplayOption.build().
-                cacheInMemory(false).
-                cacheOnDisk(false).
+                cacheInMemory(true).
+                cacheOnDisk(true).
                 imageDisplayType(ImageDisplayType.CENTER_CROP).
                 cornerType(CornerType.ALL)
         UnionContainer.imageLoader = GlideImageLoader(this, imageDisplayOption, null)
