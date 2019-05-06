@@ -1,6 +1,6 @@
-include ':app', ':module-photo', ':module-base', ':module-main'
-//include 'kernel-json-parse'
-//project(":kernel-json-parse").projectDir = file("kernel/kernel-json-parse")
+include ':app', ':module_photo', ':module_main'
+//include 'lib-permission'
+//project(":lib-permission").projectDir = file("libs/lib-permission")
 
 //def includeModulesInPath(String path){
 //    file(path).eachDir { dir ->
@@ -20,24 +20,27 @@ def includeModule(String moduleName,String path){
     project(":$moduleName").projectDir = file("$path/$moduleName")
 }
 
-includeModule("module-framework","modules")
+includeModule("module_base","modules")
+includeModule("module_framework","modules")
 
-includeModule("kernel-union","kernel")
-includeModule("kernel-http","kernel")
-includeModule("kernel-http-okhttp","kernel")
-includeModule("kernel-json-parse","kernel")
-includeModule("kernel-json-parse-gson","kernel")
-includeModule("kernel-log","kernel")
-includeModule("kernel-mvp","kernel")
-includeModule("kernel-task","kernel")
-includeModule("kernel-util","kernel")
-
+includeModule("kernel_union","kernel")
+includeModule("kernel_http","kernel")
+includeModule("kernel_http_okhttp","kernel")
 includeModule("kernel_image","kernel")
 includeModule("kernel_image_glide","kernel")
+includeModule("kernel_json_parse","kernel")
+includeModule("kernel_json_parse_gson","kernel")
+includeModule("kernel_log","kernel")
+includeModule("kernel_mvp","kernel")
+includeModule("kernel_task","kernel")
+includeModule("kernel_util","kernel")
 
-includeModule("lib-changeskin","libs")
-includeModule("lib-ui","libs")
-includeModule("lib-permission","libs")
+
+
+
+includeModule("lib_changeskin","libs")
+includeModule("lib_permission","libs")
+includeModule("lib_ui","libs")
 
 
 

@@ -1,7 +1,5 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions' //如有直接Id使用空间
-apply plugin: 'kotlin-kapt' //Kotlin Annotation processing tool
 
 android {
     compileSdkVersion Integer.parseInt(compile_sdk_version)
@@ -31,7 +29,11 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+
     implementation "$kotlin_group:kotlin-stdlib-jdk7:$kotlin_version"
-    api "$android_support:appcompat-v7:$android_support_version"
-    api project(':module-base')
+    implementation project(':kernel_log')
+    implementation project(':kernel_util')
+}
+repositories {
+    mavenCentral()
 }

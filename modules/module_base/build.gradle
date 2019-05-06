@@ -64,5 +64,5 @@ dependencies {
 
     api "$greenrobot:greendao:$greendao_version"
 
-    api project(':module-framework')
+    api project(':module_framework')
 }

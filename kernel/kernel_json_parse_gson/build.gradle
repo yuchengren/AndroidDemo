@@ -29,16 +29,13 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+
     implementation "$kotlin_group:kotlin-stdlib-jdk7:$kotlin_version"
 
-    //网络处理
-    api "$okhttp_group:okhttp:$okhttp_version"
-    api "$okio_group:okio:$okio_version"
+    api "$gson_group:gson:$gson_version"
 
-    implementation project(':kernel-log')
-    implementation project(':kernel-http')
-    implementation project(':kernel-util')
-    api project(':kernel-json-parse')
+    implementation project(':kernel_log')
+    implementation project(':kernel_json_parse')
 }
 repositories {
     mavenCentral()

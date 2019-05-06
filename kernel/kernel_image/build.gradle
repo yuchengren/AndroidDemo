@@ -29,7 +29,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation "$kotlin_group:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation project(':kernel-log')
+    implementation project(':kernel_log')
 }
 repositories {
     mavenCentral()

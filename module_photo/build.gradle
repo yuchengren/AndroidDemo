@@ -1,5 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions' //如有直接Id使用空间
+apply plugin: 'kotlin-kapt' //Kotlin Annotation processing tool
 
 android {
     compileSdkVersion Integer.parseInt(compile_sdk_version)
@@ -10,6 +12,9 @@ android {
         targetSdkVersion target_sdk_version
         versionCode 1
         versionName "1.0"
+
+        buildConfigField "com.ycr.kernel.log.engine.ILogEngine", "logger",
+                "com.ycr.kernel.log.LogHelper.module(\"${project.getName()}\")"
 
 //        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
@@ -26,10 +31,7 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-
     implementation "$kotlin_group:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation project(':kernel-log')
-}
-repositories {
-    mavenCentral()
+    api "$android_support:appcompat-v7:$android_support_version"
+    api project(':module_base')
 }

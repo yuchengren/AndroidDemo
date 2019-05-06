@@ -34,7 +34,7 @@ dependencies {
 
     api 'jp.wasabeef:glide-transformations:3.0.1'
 
-    implementation project(':kernel-log')
+    implementation project(':kernel_log')
     implementation project(':kernel_image')
 }
 repositories {

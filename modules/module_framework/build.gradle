@@ -47,8 +47,8 @@ dependencies {
 //    api "javax.inject:javax.inject:1"
 
 
-    api project(':kernel-union')
-    api project(':lib-changeskin')
-    api project(':lib-ui')
-    api project(':lib-permission')
+    api project(':kernel_union')
+    api project(':lib_changeskin')
+    api project(':lib_ui')
+    api project(':lib_permission')
 }

@@ -14,7 +14,7 @@ android {
         buildConfigField "com.ycr.kernel.log.engine.ILogEngine", "logger",
                 "com.ycr.kernel.log.LogHelper.module(\"${project.getName()}\")"
 
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+//        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
     }
 
@@ -29,14 +29,18 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
-    api "$android_support:appcompat-v7:$android_support_version"
+    implementation "$android_support:appcompat-v7:$android_support_version"
     implementation "$kotlin_group:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation project(':kernel-log')
-}
-repositories {
-    mavenCentral()
+
+    api project(':kernel_log')
+    api project(':kernel_mvp')
+    api project(':kernel_task')
+    api project(':kernel_http')
+    api project(':kernel_http_okhttp')
+    api project(':kernel_util')
+    api project(':kernel_image')
+    api project(':kernel_image_glide')
+
+    api project(':kernel_json_parse_gson')
 }

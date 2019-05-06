@@ -1,5 +1,4 @@
 apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion Integer.parseInt(compile_sdk_version)
@@ -30,13 +29,6 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation "$kotlin_group:kotlin-stdlib-jdk7:$kotlin_version"
-
-    api "$gson_group:gson:$gson_version"
-
-    implementation project(':kernel-log')
-    implementation project(':kernel-json-parse')
-}
-repositories {
-    mavenCentral()
+    implementation "$android_support:appcompat-v7:$android_support_version"
+    implementation project(':kernel_log')
 }

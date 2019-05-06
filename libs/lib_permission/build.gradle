@@ -1,5 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions' //如有直接Id使用空间
 
 android {
     compileSdkVersion Integer.parseInt(compile_sdk_version)
@@ -29,21 +30,10 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-
-    api "$android_support:support-v4:$android_support_version"
-    api "$android_support:appcompat-v7:$android_support_version"
-    api "$android_support:recyclerview-v7:$android_support_version"
-    api "$glide_group:glide:$glide_version"
-
     implementation "$kotlin_group:kotlin-stdlib-jdk7:$kotlin_version"
-
-    implementation project(':kernel-log')
-
-    // quickadapter
-    api "com.github.CymChad:BaseRecyclerViewAdapterHelper:${base_quick_adapter_version}"
-
-    //下拉刷新
-    api "com.scwang.smartrefresh:SmartRefreshLayout:$smart_refresh_layout_version"
+    implementation "$android_support:appcompat-v7:$android_support_version"
+    api "$android_support:recyclerview-v7:$android_support_version"
+    implementation project(':kernel_log')
 }
 repositories {
     mavenCentral()
