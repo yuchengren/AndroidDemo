@@ -29,7 +29,7 @@ public class GroupPresenter implements IGroup {
 	}
 
 	public String getDefaultTaskName(){
-		return ThreadUtilsKt.getTaskNameFromTrace(Thread.currentThread(),4);
+		return ThreadUtilsKt.getTaskNameFromTrace(Thread.currentThread(),5);
 	}
 
 	public <T> AsyncTask<IResult<T>> submitTask(String taskName, ITaskBackground<IResult<T>> taskBackground, ResultCallback<T> resultCallback){

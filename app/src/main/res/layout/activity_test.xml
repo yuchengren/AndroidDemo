@@ -44,7 +44,7 @@
         android:text="@string/test"
         android:gravity="center"/>
     <!---->
-    <!--<com.ycr.lib.ui.view.CircularView-->
+    <!--<com.ycr.lib.ui.widget.CircularView-->
         <!--android:layout_width="67.5dp"-->
         <!--android:layout_height="67.5dp"-->
         <!--app:circleColor="@color/white"-->

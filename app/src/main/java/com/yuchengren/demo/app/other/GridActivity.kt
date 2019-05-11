@@ -4,9 +4,9 @@ import android.os.Bundle
 import android.os.Environment
 import android.view.View
 import com.bumptech.glide.Glide
-import com.ycr.lib.ui.view.gridimage.BaseRecyclerAdapter
-import com.ycr.lib.ui.view.gridimage.GridImageCheckRecyclerAdapter
-import com.ycr.lib.ui.view.gridimage.ImageCheckEntity
+import com.ycr.lib.ui.gridimage.BaseRecyclerAdapter
+import com.ycr.lib.ui.gridimage.GridImageCheckRecyclerAdapter
+import com.ycr.lib.ui.gridimage.ImageCheckEntity
 import com.yuchengren.demo.R
 import com.ycr.module.base.BaseActivity
 import com.ycr.module.base.util.ToastHelper
@@ -31,7 +31,7 @@ class GridActivity : BaseActivity() {
         val item4 = ImageCheckEntity(url, false)
         val mutableList = mutableListOf(item1, item2, item3, item4)
 
-        gridRecyclerView.adapter = GridImageCheckRecyclerAdapter(mutableList,R.layout.item_grid_check).apply {
+        gridRecyclerView.adapter = GridImageCheckRecyclerAdapter(mutableList, R.layout.item_grid_check).apply {
             setOnItemLoadImageListener { item, view, position ->
                 Glide.with(this@GridActivity).load(item.url).into(view)
             }

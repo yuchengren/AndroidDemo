@@ -1,4 +1,4 @@
-package com.ycr.lib.ui.view.gridimage
+package com.ycr.lib.ui.gridimage
 
 /**
  * Created by yuchengren on 2019/1/4.

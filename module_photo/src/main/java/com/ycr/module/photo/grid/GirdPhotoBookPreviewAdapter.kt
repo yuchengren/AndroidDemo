@@ -1,8 +1,8 @@
 package com.ycr.module.photo.grid
 import android.view.View
 import android.widget.ImageView
-import com.ycr.lib.ui.view.gridimage.BaseRecyclerHolder
-import com.ycr.lib.ui.view.gridimage.GridImageRecyclerAdapter
+import com.ycr.lib.ui.gridimage.BaseRecyclerHolder
+import com.ycr.lib.ui.gridimage.GridImageRecyclerAdapter
 import com.ycr.module.photo.R
 
 /**

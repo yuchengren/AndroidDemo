@@ -2,6 +2,7 @@ package com.yuchengren.demo.app.test
 
 import android.os.Bundle
 import android.os.Environment
+import android.util.Log
 import android.view.View
 import com.ycr.kernel.image.CornerType
 import com.ycr.kernel.image.ImageDisplayType
@@ -26,6 +27,9 @@ class KotlinTestActivity: BaseActivity() {
 
         ImageHelper.display(imageView,Environment.getExternalStorageDirectory().path + "/test.png", ImageOptions.default)
 
+
+        val list = mutableListOf<Int>()
+        Log.e("222",list.get(2)?.toString())
     }
 
 

@@ -1,4 +1,4 @@
-package com.ycr.lib.ui.view;
+package com.ycr.lib.ui.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;

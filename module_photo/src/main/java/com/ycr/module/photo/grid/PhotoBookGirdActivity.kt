@@ -17,7 +17,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.PopupWindow
 import com.bumptech.glide.Glide
-import com.ycr.lib.ui.view.gridimage.BaseRecyclerAdapter
+import com.ycr.lib.ui.gridimage.BaseRecyclerAdapter
 import com.ycr.module.base.BaseActivity
 import com.ycr.module.photo.R
 import com.ycr.module.photo.clip.PhotoClipActivity

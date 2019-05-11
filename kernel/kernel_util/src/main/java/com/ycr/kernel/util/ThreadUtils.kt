@@ -65,6 +65,9 @@ fun Runnable.removeCallbacksOnMainThread(){
     mainHandler.removeCallbacks(this)
 }
 
+/**
+ * 获取方法调用的层级堆栈信息，最底层的调用在堆栈信息的最前面
+ */
 fun Thread.getTaskNameFromTrace(place: Int): String{
     if(stackTrace.size > place){
         stackTrace[place].let {

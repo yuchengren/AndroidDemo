@@ -33,7 +33,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"/>
     
-    <com.ycr.lib.ui.view.CircularView
+    <com.ycr.lib.ui.widget.CircularView
         android:id="@+id/takeView"
         android:layout_width="67.5dp"
         android:layout_height="67.5dp"

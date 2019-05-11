@@ -1,4 +1,4 @@
-package com.ycr.lib.ui.view.gridimage
+package com.ycr.lib.ui.gridimage
 
 import android.support.annotation.IdRes
 import android.support.annotation.LayoutRes
@@ -9,9 +9,9 @@ import com.ycr.lib.ui.R
  * Created by yuchengren on 2019/1/17.
  */
 class GridImageCheckRecyclerAdapter(data: MutableList<ImageCheckEntity>?, @LayoutRes itemResId: Int, private var isMultiCheck: Boolean = false)
-    : BaseImageRecyclerAdapter<ImageCheckEntity,BaseRecyclerHolder>(data,itemResId) {
+    : BaseImageRecyclerAdapter<ImageCheckEntity, BaseRecyclerHolder>(data,itemResId) {
 
-    private var onItemCheckChangeListener: ((item: ImageCheckEntity,position: Int,checked: Boolean) -> Unit)? = null
+    private var onItemCheckChangeListener: ((item: ImageCheckEntity, position: Int, checked: Boolean) -> Unit)? = null
 
     override fun convert(holder: BaseRecyclerHolder, position: Int, item: ImageCheckEntity?) {
         super.convert(holder, position, item)
@@ -36,7 +36,7 @@ class GridImageCheckRecyclerAdapter(data: MutableList<ImageCheckEntity>?, @Layou
         }
     }
 
-    fun setOnItemCheckChangeListener(onItemCheckChangeListener: (item: ImageCheckEntity,position: Int,checked: Boolean) -> Unit){
+    fun setOnItemCheckChangeListener(onItemCheckChangeListener: (item: ImageCheckEntity, position: Int, checked: Boolean) -> Unit){
         this.onItemCheckChangeListener = onItemCheckChangeListener
     }
 }

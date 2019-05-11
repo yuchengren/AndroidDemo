@@ -1,4 +1,4 @@
-package com.ycr.lib.ui.view.gridimage
+package com.ycr.lib.ui.gridimage
 
 import android.support.annotation.IdRes
 import android.support.v7.widget.RecyclerView
@@ -18,7 +18,7 @@ class BaseRecyclerHolder(var convertView: View): RecyclerView.ViewHolder(convert
     val childHoverViewIds = LinkedList<Int>()
 
 
-    lateinit var adapter: BaseRecyclerAdapter<*,*>
+    lateinit var adapter: BaseRecyclerAdapter<*, *>
 
     fun <T: View?> getView(@IdRes viewResId: Int): T?{
         var view: View? = views.get(viewResId)

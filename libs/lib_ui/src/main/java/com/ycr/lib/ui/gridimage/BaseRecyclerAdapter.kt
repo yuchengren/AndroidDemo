@@ -1,4 +1,4 @@
-package com.ycr.lib.ui.view.gridimage
+package com.ycr.lib.ui.gridimage
 
 import android.content.Context
 import android.support.annotation.IdRes
@@ -17,7 +17,7 @@ import java.lang.reflect.ParameterizedType
 /**
  * Created by yuchengren on 2019/1/17.
  */
-abstract class BaseRecyclerAdapter<T, VH : BaseRecyclerHolder>(var data: MutableList<T>?,  @LayoutRes private val itemResId: Int) : RecyclerView.Adapter<VH>() {
+abstract class BaseRecyclerAdapter<T, VH : BaseRecyclerHolder>(var data: MutableList<T>?, @LayoutRes private val itemResId: Int) : RecyclerView.Adapter<VH>() {
     private lateinit var context: Context
     private lateinit var layoutInflater: LayoutInflater
     var headerLayout: LinearLayout? = null
@@ -141,9 +141,9 @@ abstract class BaseRecyclerAdapter<T, VH : BaseRecyclerHolder>(var data: Mutable
     }
 
     interface OnHoverActionListener {
-        fun onHoverEnter(adapter: BaseRecyclerAdapter<*, *>,view: View, position: Int,event: MotionEvent): Boolean
-        fun onHoverMove(adapter: BaseRecyclerAdapter<*, *>,view: View, position: Int,event: MotionEvent): Boolean{ return true }
-        fun onHoverExit(adapter: BaseRecyclerAdapter<*, *>,view: View, position: Int,event: MotionEvent): Boolean
+        fun onHoverEnter(adapter: BaseRecyclerAdapter<*, *>, view: View, position: Int, event: MotionEvent): Boolean
+        fun onHoverMove(adapter: BaseRecyclerAdapter<*, *>, view: View, position: Int, event: MotionEvent): Boolean{ return true }
+        fun onHoverExit(adapter: BaseRecyclerAdapter<*, *>, view: View, position: Int, event: MotionEvent): Boolean
     }
 
     /**

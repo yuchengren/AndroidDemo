@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <com.ycr.lib.ui.view.gridimage.GridRecyclerView
+    <com.ycr.lib.ui.gridimage.GridRecyclerView
         android:id="@+id/gridRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -13,7 +13,7 @@
         app:hasEdge="true"
         app:itemVerticalSpacing="6dp"
         app:itemHorizontalSpacing="6dp">
-    </com.ycr.lib.ui.view.gridimage.GridRecyclerView>
+    </com.ycr.lib.ui.gridimage.GridRecyclerView>
 
     <TextView
         android:id="@+id/tvCancel"

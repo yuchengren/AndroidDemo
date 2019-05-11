@@ -1,4 +1,4 @@
-package com.ycr.lib.ui.view.gridimage
+package com.ycr.lib.ui.gridimage
 
 import android.support.annotation.IdRes
 import com.ycr.lib.ui.R
@@ -7,7 +7,7 @@ import com.ycr.lib.ui.R
  * Created by yuchengren on 2019/1/17.
  */
 class GridImageMarkedRecyclerAdapter(data: MutableList<ImageMarkEntity>?, @IdRes itemResId: Int, var plusEnabled: Boolean = true)
-    : BaseImageRecyclerAdapter<ImageMarkEntity,BaseRecyclerHolder>(data,itemResId) {
+    : BaseImageRecyclerAdapter<ImageMarkEntity, BaseRecyclerHolder>(data,itemResId) {
 
     private var maxItemCount = -1
 
