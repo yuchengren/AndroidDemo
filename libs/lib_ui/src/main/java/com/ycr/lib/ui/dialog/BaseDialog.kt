@@ -27,7 +27,7 @@ class BaseDialog constructor(@NonNull context: Context,
                              cancelable: Boolean,
                              cancelOnTouchOutside: Boolean): AppCompatDialog(context) {
 
-    constructor(@NonNull context: Context,@NonNull builder: BaseBuilder): this(context,
+    constructor(@NonNull context: Context,@NonNull builder: BaseBuilder<Builder>): this(context,
             builder.contentView,
             builder.animationStyleId,
             builder.gravity,
@@ -71,10 +71,11 @@ class BaseDialog constructor(@NonNull context: Context,
             setCancelable(cancelable)
             setCanceledOnTouchOutside(cancelOnTouchOutside)
         }
-
     }
 
-    open class BaseBuilder: Serializable{
+    open class Builder: BaseBuilder<Builder>()
+
+    open class BaseBuilder<T: BaseBuilder<T>>: Serializable{
         @Transient var contentView: View? = null
 
         @LayoutRes var contextViewResId: Int = -1
@@ -94,51 +95,51 @@ class BaseDialog constructor(@NonNull context: Context,
         var cancelOnTouchOutside = true
 
 
-        fun contentView(contentView : View?): BaseBuilder{
+        fun contentView(contentView : View?): T{
             this.contentView = contentView
-            return this 
+            return this as T
         }
 
-        fun contextViewResId(contextViewResId: Int): BaseBuilder{
+        fun contextViewResId(contextViewResId: Int): T{
             this.contextViewResId = contextViewResId
-            return this
+            return this as T
         }
 
-        fun gravity(gravity: Int): BaseBuilder{
+        fun gravity(gravity: Int): T{
             this.gravity = gravity
-            return this
+            return this as T
         }
 
-        fun animationStyleId(animationStyleId: Int): BaseBuilder{
+        fun animationStyleId(animationStyleId: Int): T{
             this.animationStyleId = animationStyleId
-            return this
+            return this as T
         }
 
-        fun width(width: Int): BaseBuilder{
+        fun width(width: Int): T{
             this.width = width
-            return this
+            return this as T
         }
 
-        fun height(height: Int): BaseBuilder{
+        fun height(height: Int): T{
             this.height = height
-            return this
+            return this as T
         }
 
-        fun cancelable(cancelable: Boolean): BaseBuilder{
+        fun cancelable(cancelable: Boolean): T{
             this.cancelable = cancelable
-            return this
+            return this as T
         }
 
-        fun cancelOnTouchOutside(cancelOnTouchOutside: Boolean): BaseBuilder{
+        fun cancelOnTouchOutside(cancelOnTouchOutside: Boolean): T{
             this.cancelOnTouchOutside = cancelOnTouchOutside
-            return this
+            return this as T
         }
 
         fun build(@NonNull context: Context): BaseDialog{
             if(context == null){
                 throw IllegalArgumentException("BaseBuilder build(),context is null")
             }
-            return BaseDialog(context,this)
+            return BaseDialog(context,this as BaseBuilder<Builder>)
         }
 
     }

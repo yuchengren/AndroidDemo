@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="horizontal_margin">10dp</dimen>
+    <dimen name="horizontal_margin_more">15dp</dimen>
+    <dimen name="item_height">50dp</dimen>
+
+    <!--字体大小-->
+    <dimen name="text_size_large_more">20sp</dimen>
+    <dimen name="text_size_large">18sp</dimen>
+    <dimen name="text_size_medium">16sp</dimen>
+    <dimen name="text_size_medium_less">15sp</dimen>
+    <dimen name="text_size_small">14sp</dimen>
+    <dimen name="text_size_small_less">13sp</dimen>
+    <dimen name="text_size_small_least">12sp</dimen>
+</resources>

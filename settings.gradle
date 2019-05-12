@@ -41,6 +41,7 @@ includeModule("kernel_util","kernel")
 includeModule("lib_changeskin","libs")
 includeModule("lib_permission","libs")
 includeModule("lib_ui","libs")
+includeModule("lib_theme","libs")
 
 
 

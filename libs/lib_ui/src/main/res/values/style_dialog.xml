@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="message_dialog_title" type="id" />
+    <item name="message_dialog_content" type="id" />
+    <item name="message_dialog_button_left" type="id" />
+    <item name="message_dialog_button_middle" type="id" />
+    <item name="message_dialog_button_right" type="id" />
+
+
+</resources>

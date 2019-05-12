@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="dialog_bg_common">@color/white</color>
+    <color name="dialog_bg_message">@color/dialog_divider</color>
+    <color name="dialog_title">@color/text_color_medium</color>
+    <color name="dialog_content">@color/text_color_dark</color>
+    <color name="dialog_button_text">@color/text_color_medium</color>
+    <color name="dialog_button_text_strong">@color/text_color_bright</color>
+    <color name="dialog_button">@color/white</color>
+    <color name="dialog_button_pressed">@color/white</color>
+    <color name="dialog_button_strong">@color/white</color>
+    <color name="dialog_button_strong_pressed">@color/white</color>
+    <color name="dialog_divider">@color/divider</color>
+    
+    <dimen name="dialog_title_text_size">@dimen/text_size_medium</dimen>
+    <dimen name="dialog_content_text_size">@dimen/text_size_medium</dimen>
+    <dimen name="dialog_button_text_size">@dimen/text_size_medium</dimen>
+    <dimen name="dialog_divider_size">0.5dp</dimen>
+    <dimen name="dialog_corner">6dp</dimen>
+    <dimen name="dialog_button_height">36dp</dimen>
+    <dimen name="dialog_width">280dp</dimen>
+
+    <item name="message_dialog_title" type="id" />
+    <item name="message_dialog_content" type="id" />
+    <item name="message_dialog_button_left" type="id" />
+    <item name="message_dialog_button_middle" type="id" />
+    <item name="message_dialog_button_right" type="id" />
+
+    <attr name="dialogButtonLeftStyle" format="reference" />
+    <attr name="dialogButtonMiddleStyle" format="reference" />
+    <attr name="dialogButtonRightStyle" format="reference" />
+    <attr name="dialogButtonSingleStyle" format="reference" />
+    <!--default按钮样式-->
+    <style name="MessageDialogButtonThemeDefault">
+        <item name="dialogButtonLeftStyle">@style/MessageDialog.Button.Left.Default</item>
+        <item name="dialogButtonMiddleStyle">@style/MessageDialog.Button.Middle.Default</item>
+        <item name="dialogButtonRightStyle">@style/MessageDialog.Button.Right.Default</item>
+        <item name="dialogButtonSingleStyle">@style/MessageDialog.Button.Single.Default</item>
+    </style>
+    <!--strong按钮样式-->
+    <style name="MessageDialogButtonThemeStrong">
+        <item name="dialogButtonLeftStyle">@style/MessageDialog.Button.Left.Strong</item>
+        <item name="dialogButtonMiddleStyle">@style/MessageDialog.Button.Middle.Strong</item>
+        <item name="dialogButtonRightStyle">@style/MessageDialog.Button.Right.Strong</item>
+        <item name="dialogButtonSingleStyle">@style/MessageDialog.Button.Single.Strong</item>
+    </style>
+    
+    <style name="MessageDialog" />
+    <style name="MessageDialog.Container">
+        <item name="android:background">@drawable/bg_dialog_message</item>
+    </style>
+
+    <style name="MessageDialog.Title">
+        <item name="android:id">@id/message_dialog_title</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="layout_constraintLeft_toLeftOf">parent</item>
+        <item name="layout_constraintRight_toRightOf">parent</item>
+        <item name="layout_constraintTop_toTopOf">parent</item>
+        <item name="android:textSize">@dimen/dialog_title_text_size</item>
+        <item name="android:textColor">@color/dialog_title</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_marginTop">14dp</item>
+    </style>
+    
+    <style name="MessageDialog.Content">
+        <item name="android:id">@id/message_dialog_content</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="layout_constraintLeft_toLeftOf">parent</item>
+        <item name="layout_constraintRight_toRightOf">parent</item>
+        <item name="layout_constraintTop_toBottomOf">@id/message_dialog_title</item>
+        <item name="android:textSize">@dimen/dialog_content_text_size</item>
+        <item name="android:textColor">@color/dialog_content</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:paddingTop">20dp</item>
+        <item name="android:paddingBottom">20dp</item>
+        <item name="android:layout_marginLeft">@dimen/horizontal_margin_more</item>
+        <item name="android:layout_marginRight">@dimen/horizontal_margin_more</item>
+        <item name="android:lineSpacingMultiplier">1.1</item>
+    </style>
+    
+    <style name="MessageDialog.Button" >
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">@dimen/dialog_button_height</item>
+        <item name="layout_constraintTop_toBottomOf">@id/message_dialog_content</item>
+        <item name="android:textSize">@dimen/dialog_button_text_size</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:gravity">center</item>
+    </style>
+    
+    <style name="MessageDialog.Button.Left">
+        <item name="android:id">@id/message_dialog_button_left</item>
+        <item name="layout_constraintLeft_toLeftOf">parent</item>
+        <item name="layout_constraintRight_toLeftOf">@id/message_dialog_button_middle</item>
+    </style>
+    <style name="MessageDialog.Button.Left.default">
+        <item name="android:background">@drawable/bg_dialog_message_button_left</item>
+        <item name="android:textColor">@color/dialog_button_text</item>
+    </style>
+    <style name="MessageDialog.Button.Left.Strong">
+        <item name="android:background">@drawable/bg_dialog_message_button_left_strong</item>
+        <item name="android:textColor">@color/dialog_button_text_strong</item>
+    </style>
+
+    <style name="MessageDialog.Button.Middle">
+        <item name="android:id">@id/message_dialog_button_middle</item>
+        <item name="layout_constraintLeft_toRightOf">@id/message_dialog_button_left</item>
+        <item name="layout_constraintRight_toLeftOf">@id/message_dialog_button_right</item>
+    </style>
+    <style name="MessageDialog.Button.Middle.default">
+        <item name="android:background">@drawable/bg_dialog_message_button_middle</item>
+        <item name="android:textColor">@color/dialog_button_text</item>
+    </style>
+    <style name="MessageDialog.Button.Middle.Strong">
+        <item name="android:background">@drawable/bg_dialog_message_button_middle_strong</item>
+        <item name="android:textColor">@color/dialog_button_text_strong</item>
+    </style>
+
+    <style name="MessageDialog.Button.Right">
+        <item name="android:id">@id/message_dialog_button_right</item>
+        <item name="layout_constraintLeft_toRightOf">@id/message_dialog_button_middle</item>
+        <item name="layout_constraintRight_toRightOf">parent</item>
+    </style>
+    <style name="MessageDialog.Button.Right.default">
+        <item name="android:background">@drawable/bg_dialog_message_button_right</item>
+        <item name="android:textColor">@color/dialog_button_text</item>
+    </style>
+    <style name="MessageDialog.Button.Right.Strong">
+        <item name="android:background">@drawable/bg_dialog_message_button_right_strong</item>
+        <item name="android:textColor">@color/dialog_button_text_strong</item>
+    </style>
+
+    <style name="MessageDialog.Button.Single">
+        <item name="android:id">@id/message_dialog_button_right</item>
+        <item name="layout_constraintLeft_toRightOf">parent</item>
+        <item name="layout_constraintRight_toRightOf">parent</item>
+    </style>
+    <style name="MessageDialog.Button.Single.default">
+        <item name="android:background">@drawable/bg_dialog_message_button_single</item>
+        <item name="android:textColor">@color/dialog_button_text</item>
+    </style>
+    <style name="MessageDialog.Button.Single.Strong">
+        <item name="android:background">@drawable/bg_dialog_message_button_single_strong</item>
+        <item name="android:textColor">@color/dialog_button_text_strong</item>
+    </style>
+
+</resources>

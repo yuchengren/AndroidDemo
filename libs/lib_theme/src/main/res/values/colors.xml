@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
+    <color name="black_half">#7F000000</color>
+    <color name="transparent">#00000000</color>
+    <color name="primary">#FF8000</color>
+
+    <color name="bg_common">@color/primary</color>
+
+    <color name="text_color_bright">@color/primary</color>
+    <color name="text_color_dark">#333333</color>
+    <color name="text_color_medium">#666666</color>
+    <color name="text_color_light">#999999</color>
+
+    <color name="button_common">@color/primary</color>
+    <color name="button_common_disabled">#7FFF8000</color>
+
+    <color name="divider">#F0F0F0</color>
+</resources>
