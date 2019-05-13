@@ -16,5 +16,5 @@
     <color name="button_common">@color/primary</color>
     <color name="button_common_disabled">#7FFF8000</color>
 
-    <color name="divider">#F0F0F0</color>
+    <color name="divider">#DDDDDD</color>
 </resources>

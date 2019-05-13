@@ -10,6 +10,7 @@ import android.view.Gravity
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
+import com.ycr.lib.ui.R
 import java.io.Serializable
 import java.lang.IllegalArgumentException
 
@@ -28,7 +29,7 @@ class BaseDialog constructor(@NonNull context: Context,
                              cancelOnTouchOutside: Boolean): AppCompatDialog(context) {
 
     constructor(@NonNull context: Context,@NonNull builder: BaseBuilder<Builder>): this(context,
-            builder.contentView,
+            builder.dialogView,
             builder.animationStyleId,
             builder.gravity,
             builder.animationStyleId,
@@ -67,7 +68,8 @@ class BaseDialog constructor(@NonNull context: Context,
                 }
             }
             //禁用系统默认风格的Dialog背景
-            setBackgroundDrawable(ColorDrawable(0x00000000))
+            setBackgroundDrawableResource(android.R.color.transparent)
+//            setBackgroundDrawable(ColorDrawable(0x00000000))
             setCancelable(cancelable)
             setCanceledOnTouchOutside(cancelOnTouchOutside)
         }
@@ -76,32 +78,32 @@ class BaseDialog constructor(@NonNull context: Context,
     open class Builder: BaseBuilder<Builder>()
 
     open class BaseBuilder<T: BaseBuilder<T>>: Serializable{
-        @Transient var contentView: View? = null
+        @Transient internal var dialogView: View? = null
 
-        @LayoutRes var contextViewResId: Int = -1
+        @LayoutRes internal var dialogViewResId: Int = -1
 
-        var gravity = Gravity.CENTER
+        internal var gravity = Gravity.CENTER
 
-        @StyleRes var animationStyleId: Int = -1
+        @StyleRes internal var animationStyleId: Int = -1
 
-        var dimAmount: Float = 0.6f //Dialog蒙层的暗度
+        internal var dimAmount: Float = 0.6f //Dialog蒙层的暗度
 
-        var width: Int = WindowManager.LayoutParams.MATCH_PARENT
+        internal var width: Int = WindowManager.LayoutParams.MATCH_PARENT
 
-        var height: Int = WindowManager.LayoutParams.WRAP_CONTENT
+        internal var height: Int = WindowManager.LayoutParams.WRAP_CONTENT
 
-        var cancelable = true
+        internal var cancelable = true
 
-        var cancelOnTouchOutside = true
+        internal var cancelOnTouchOutside = true
 
 
-        fun contentView(contentView : View?): T{
-            this.contentView = contentView
+        fun dialogView(dialogView : View?): T{
+            this.dialogView = dialogView
             return this as T
         }
 
-        fun contextViewResId(contextViewResId: Int): T{
-            this.contextViewResId = contextViewResId
+        fun dialogViewResId(dialogViewResId: Int): T{
+            this.dialogViewResId = dialogViewResId
             return this as T
         }
 

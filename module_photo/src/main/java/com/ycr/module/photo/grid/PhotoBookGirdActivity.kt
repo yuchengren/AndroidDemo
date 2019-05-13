@@ -86,44 +86,44 @@ class PhotoBookGirdActivity: BaseActivity() {
 
         gridRecyclerView.adapter = adapter
 
-        supportLoaderManager.initLoader(LOADER_ALL,null,object : LoaderManager.LoaderCallbacks<Cursor>{
-            private val IMAGE_PROJECTION = arrayOf(MediaStore.Images.Media.DATA,
-                    MediaStore.Images.Media.DISPLAY_NAME,
-                    MediaStore.Images.Media.DATE_ADDED,
-                    MediaStore.Images.Media._ID)
-            override fun onCreateLoader(id: Int, args: Bundle?): Loader<Cursor>? {
-                return when(id){
-                    LOADER_ALL ->{
-                        CursorLoader(this@PhotoBookGirdActivity,MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                                IMAGE_PROJECTION,null,null,"${IMAGE_PROJECTION[2]} DESC")
-                    }
-                    LOADER_CATEGORY -> {
-                        CursorLoader(this@PhotoBookGirdActivity,MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                                IMAGE_PROJECTION,"${IMAGE_PROJECTION[0]} like '%${args?.getString("path")}%'",
-                                null,"${IMAGE_PROJECTION[2]} DESC")
-                    }
-                    else -> null
-                }
-            }
-
-            override fun onLoadFinished(loader: Loader<Cursor>?, data: Cursor?) {
-                if(data == null || data.count == 0){
-                    return
-                }
-                val imageList = mutableListOf<String>()
-                data.moveToFirst()
-                do {
-                    val path = data.getString(data.getColumnIndexOrThrow(IMAGE_PROJECTION[0]))
-                    val name = data.getString(data.getColumnIndexOrThrow(IMAGE_PROJECTION[1]))
-                    val time = data.getString(data.getColumnIndexOrThrow(IMAGE_PROJECTION[2]))
-                    imageList.add(path)
-                }while (data.moveToNext())
-
-                adapter.replaceAll(imageList)
-            }
-
-            override fun onLoaderReset(loader: Loader<Cursor>?) {}
-        })
+//        supportLoaderManager.initLoader(LOADER_ALL,null,object : LoaderManager.LoaderCallbacks<Cursor>{
+//            private val IMAGE_PROJECTION = arrayOf(MediaStore.Images.Media.DATA,
+//                    MediaStore.Images.Media.DISPLAY_NAME,
+//                    MediaStore.Images.Media.DATE_ADDED,
+//                    MediaStore.Images.Media._ID)
+//            override fun onCreateLoader(id: Int, args: Bundle?): Loader<Cursor>? {
+//                return when(id){
+//                    LOADER_ALL ->{
+//                        CursorLoader(this@PhotoBookGirdActivity,MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+//                                IMAGE_PROJECTION,null,null,"${IMAGE_PROJECTION[2]} DESC")
+//                    }
+//                    LOADER_CATEGORY -> {
+//                        CursorLoader(this@PhotoBookGirdActivity,MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+//                                IMAGE_PROJECTION,"${IMAGE_PROJECTION[0]} like '%${args?.getString("path")}%'",
+//                                null,"${IMAGE_PROJECTION[2]} DESC")
+//                    }
+//                    else -> null
+//                }
+//            }
+//
+//            override fun onLoadFinished(loader: Loader<Cursor>?, data: Cursor?) {
+//                if(data == null || data.count == 0){
+//                    return
+//                }
+//                val imageList = mutableListOf<String>()
+//                data.moveToFirst()
+//                do {
+//                    val path = data.getString(data.getColumnIndexOrThrow(IMAGE_PROJECTION[0]))
+//                    val name = data.getString(data.getColumnIndexOrThrow(IMAGE_PROJECTION[1]))
+//                    val time = data.getString(data.getColumnIndexOrThrow(IMAGE_PROJECTION[2]))
+//                    imageList.add(path)
+//                }while (data.moveToNext())
+//
+//                adapter.replaceAll(imageList)
+//            }
+//
+//            override fun onLoaderReset(loader: Loader<Cursor>?) {}
+//        })
 
     }
 

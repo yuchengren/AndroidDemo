@@ -28,7 +28,10 @@ dependencies {
     api "$android_support:appcompat-v7:$android_support_version"
     implementation "$kotlin_group:kotlin-stdlib-jdk7:$kotlin_version"
 
-    implementation "${android_support}.constraint:constraint-layout:$constraint_layout_version"
+    implementation "$android_support:support-annotations:$android_support_version"
+    implementation "$android_support:design:$android_support_version"
+
+    api "${android_support}.constraint:constraint-layout:$constraint_layout_version"
 }
 repositories {
     mavenCentral()

@@ -100,7 +100,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
 				Looper.loop();
 			}
 		}).start();
-		saveCrashInfoInFile(e);
+//		saveCrashInfoInFile(e);
 		return true;
 	}
 

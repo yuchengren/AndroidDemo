@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <item name="message_dialog_title" type="id" />
-    <item name="message_dialog_content" type="id" />
-    <item name="message_dialog_button_left" type="id" />
-    <item name="message_dialog_button_middle" type="id" />
-    <item name="message_dialog_button_right" type="id" />
+    <style name="DialogCommon" parent="android:Theme.Dialog">
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowFrame">@null</item> <!--边框-->
+        <item name="android:windowBackground">@android:color/transparent</item> <!-- 背景透明 -->
+        <item name="android:windowIsTranslucent">true</item> <!--半透明-->
+        <item name="android:windowIsFloating">true</item> <!--是否浮现在activity之上-->
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:background">@android:color/transparent</item>
+    </style>
 
-
+    <attr name="messageDialogWidth" format="dimension"/>
 </resources>
