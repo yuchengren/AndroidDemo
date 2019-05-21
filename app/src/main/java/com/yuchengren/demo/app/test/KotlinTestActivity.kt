@@ -16,7 +16,7 @@ import kotlinx.android.synthetic.main.activity_kotlin_test.*
 /**
  * Created by yuchengren on 2019/1/28.
  */
-class KotlinTestActivity: BaseActivity() {
+class KotlinTestActivity: BaseActivity(),MessageDialogFragment.OnButtonClickListener {
 
     override fun getRootLayoutResId(): Int {
         return R.layout.activity_kotlin_test
@@ -24,26 +24,22 @@ class KotlinTestActivity: BaseActivity() {
 
     override fun afterBindView(rootView: View?, savedInstanceState: Bundle?) {
         super.afterBindView(rootView, savedInstanceState)
-
-        ImageHelper.display(imageView,Environment.getExternalStorageDirectory().path + "/test.png", ImageOptions.default)
+//        ImageHelper.display(imageView,Environment.getExternalStorageDirectory().path + "/test.png", ImageOptions.default)
         btn_test.setOnClickListener {
-            MessageDialogFragment.builder().
-                    title("").
-                    contentText("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa").
-                    contextTextGravity(Gravity.CENTER).
-                    contentTextAlignment(View.TEXT_ALIGNMENT_CENTER)
-                    .buttonTexts("取消","确定")
+            MessageDialogFragment.builder()
+                    .title("")
+                    .contentText("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+                    .buttonTextResIds(R.string.cancel,R.string.confirm)
                     .buttonStyles(MessageDialogButtonStyle.DEFAULT,MessageDialogButtonStyle.STRONG)
-                    .build().setOnButtonClickListener(object: MessageDialogFragment.OnButtonClickListener{
-                        override fun onButtonClick(dialog: MessageDialogFragment, text: String, textResId: Int, position: Int) {
-                            ToastHelper.show(text)
-                        }
-                    }).show(supportFragmentManager,"tag")
-
+                    .build().show(supportFragmentManager,"tag")
         }
     }
 
-
-
-
+    override fun onButtonClick(dialog: MessageDialogFragment, text: String, textResId: Int, position: Int) {
+        when(textResId){
+            R.string.confirm -> ToastHelper.show(text)//确定的业务逻辑
+            R.string.cancel -> ToastHelper.show(text)//取消的业务逻辑
+        }
+        dialog.dismiss()
+    }
 }

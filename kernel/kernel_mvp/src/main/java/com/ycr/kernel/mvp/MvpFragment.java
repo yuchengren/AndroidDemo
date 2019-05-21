@@ -51,11 +51,12 @@ public abstract class MvpFragment extends Fragment implements IMvpView {
 	@Nullable
 	@Override
 	public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+		View view = inflateView(inflater, container, savedInstanceState);
 		getMvpConnector().onCreateView(savedInstanceState);
-		return inflaterView(inflater,container,savedInstanceState);
+		return view;
 	}
 
-	protected abstract View inflaterView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState);
+	protected abstract View inflateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState);
 
 	@Override
 	public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {

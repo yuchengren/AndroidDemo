@@ -45,6 +45,12 @@ dependencies {
 
     //下拉刷新
     api "com.scwang.smartrefresh:SmartRefreshLayout:$smart_refresh_layout_version"
+
+//    api "com.scwang.smartrefresh:SmartRefreshHeader:$smart_refresh_layout_version"//没有使用特殊Header，可以不加这行
+
+//    api "com.zzhoujay.richtext:richtext:$richtext_version" //富文本编辑器
+
+    api "com.github.huangyanbin:SmartTable:$smart_table_version" //表格生成
 }
 repositories {
     mavenCentral()

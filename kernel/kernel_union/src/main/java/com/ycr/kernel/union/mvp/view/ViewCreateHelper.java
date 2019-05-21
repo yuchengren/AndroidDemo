@@ -20,8 +20,12 @@ public class ViewCreateHelper {
 	public static View createView(Context context, IDefineView defineView,Bundle savedInstanceState){
 		View rootView = null;
 		int rootLayoutResId = defineView.getRootLayoutResId();
-		if(rootLayoutResId > 0){
+		try {
 			defineView.beforeBindView();
+		}catch (Exception e){
+			printException(defineView,"beforeBindView",e);
+		}
+		if(rootLayoutResId > 0){
 			if(defineView instanceof ViewGroup){
 				ViewGroup viewGroup = (ViewGroup) defineView;
 				ViewGroup.inflate(context,rootLayoutResId,viewGroup);

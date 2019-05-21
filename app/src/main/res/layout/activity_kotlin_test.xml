@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
     <Button
         android:id="@+id/btn_test"
@@ -10,10 +11,11 @@
         android:text="@string/test"
         android:gravity="center"/>
 
-    <ImageView
+    <com.ycr.lib.ui.gridimage.GridImageView
         android:id="@+id/imageView"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginTop="20dp" />
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:ratio="1"
+        android:background="@drawable/test"/>
 
 </LinearLayout>
