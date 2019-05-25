@@ -6,12 +6,11 @@
     <color name="transparent">#00000000</color>
     <color name="primary">#FF8000</color>
 
-    <color name="bg_common">@color/primary</color>
-
-    <color name="text_color_bright">@color/primary</color>
-    <color name="text_color_dark">#333333</color>
-    <color name="text_color_medium">#666666</color>
-    <color name="text_color_light">#999999</color>
+    <!--***字体颜色***-->
+    <color name= "text_color_light">#AEA5A8</color><!--轻色字体颜色 如输入框hint-->
+    <color name= "text_color_medium">#8E7880</color><!--辅助字体颜色-->
+    <color name = "text_color_dark">#493E42</color><!--主要字体颜色-->
+    <color name="text_color_bright">#33B3ED</color>
 
     <color name="button_common">@color/primary</color>
     <color name="button_common_disabled">#7FFF8000</color>

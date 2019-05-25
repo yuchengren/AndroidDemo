@@ -5,7 +5,7 @@ import com.ycr.kernel.http.IResult
 import com.ycr.kernel.union.helper.JsonHelper
 import com.ycr.module.framework.FrameworkModuleLog
 import com.ycr.module.framework.task.ResultStatus
-import com.ycr.module.framework.task.SimpleResult
+import com.ycr.kernel.union.task.SimpleResult
 import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type
 

@@ -24,7 +24,23 @@ class Api: UnionApi() {
     var isNeedToken: Boolean = true //是否需要token
 
     companion object {
-        fun POST(serviceName: String,resultType: Type?): Api{
+
+        fun GET(serviceName: String, resultType: Type?): Api {
+            return Api().apply {
+                host = Hosts.api
+                headers = normalHeaders
+                serverData = serviceName
+                paramBuilder = ApiParamBuilder
+                resultParser = ApiResultParser
+                type = resultType
+
+                requestMethod = RequestMethod.GET
+                paramType = ParamType.NORMAL
+                isNeedCheckData = resultType != null
+            }
+        }
+
+        fun POST(serviceName: String,resultType: Type?): Api {
             return Api().apply {
                 host = Hosts.api
                 headers = normalHeaders
@@ -34,7 +50,22 @@ class Api: UnionApi() {
                 type = resultType
 
                 requestMethod = RequestMethod.POST
-                paramType = ParamType.JSON
+                paramType = ParamType.NORMAL //多数为JSON格式
+                isNeedCheckData = resultType != null
+            }
+        }
+
+        fun POST_FILE(serviceName: String,resultType: Type?): Api {
+            return Api().apply {
+                host = Hosts.api
+                headers = normalHeaders
+                serverData = serviceName
+                paramBuilder = ApiParamBuilder
+                resultParser = ApiResultParser
+                type = resultType
+
+                requestMethod = RequestMethod.POST
+                paramType = ParamType.FILE
                 isNeedCheckData = resultType != null
             }
         }

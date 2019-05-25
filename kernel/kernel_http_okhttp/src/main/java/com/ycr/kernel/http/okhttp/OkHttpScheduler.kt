@@ -4,14 +4,17 @@ import com.ycr.kernel.http.*
 import com.ycr.kernel.json.parse.IJsonParser
 import okhttp3.*
 import java.io.File
+import java.io.UnsupportedEncodingException
+import java.net.URLConnection
+import java.net.URLEncoder
 
 /**
  * Created by yuchengren on 2018/12/13.
  */
 object OkHttpScheduler: HttpScheduler() {
-    const val MEDIA_TYPE_JSON = "application/json; charset=utf-8"
-    const val MEDIA_TYPE_PNG = "image/png"
-    const val MEDIA_TYPE_BYTE_ARRAY= "application/octet-stream; charset=utf-8"
+    private const val MEDIA_TYPE_JSON = "application/json; charset=utf-8"
+    private const val MEDIA_TYPE_PNG = "image/png"
+    private const val MEDIA_TYPE_BYTE_ARRAY= "application/octet-stream; charset=utf-8"
 
     private lateinit var jsonParser: IJsonParser
     private lateinit var okHttpClient: OkHttpClient
@@ -30,12 +33,10 @@ object OkHttpScheduler: HttpScheduler() {
         val requestBuilder = Request.Builder()
         when(api.requestMethod()){
             RequestMethod.GET ->{
-                if(urlBuilder.last() != HttpConstants.QMARK){
-                    urlBuilder.append(HttpConstants.QMARK)
-                }else{
-                    urlBuilder.append(HttpConstants.AND)
-                }
                 if(params != null){
+                    if(urlBuilder.last() != HttpConstants.QMARK){
+                        urlBuilder.append(HttpConstants.QMARK)
+                    }
                     val iterator = params.iterator()
                     while (iterator.hasNext()){
                         val next = iterator.next()
@@ -50,40 +51,65 @@ object OkHttpScheduler: HttpScheduler() {
 
             RequestMethod.POST ->{
                 val requestBody: RequestBody =
-                when(api.paramType()){
-                    ParamType.NORMAL ->{
-                        val formBodyBuilder = FormBody.Builder()
-                        params?.forEach { key, value ->
-                            formBodyBuilder.add(key, value?.toString() ?: HttpConstants.EMPTY)
-                        }
-                        formBodyBuilder.build()
-                    }
-                    ParamType.JSON ->{
-                        var json: String = jsonParser.toJson(params)?: HttpConstants.EMPTY
-                        RequestBody.create(MediaType.parse(MEDIA_TYPE_JSON),json)
-                    }
-                    ParamType.FILE ->{
-                        val bodyBuilder = MultipartBody.Builder()
-                        params?.forEach { key, value ->
-                            when(value){
-                                is File -> bodyBuilder.addFormDataPart(key,value.name, RequestBody.create(
-                                        MediaType.parse(MEDIA_TYPE_PNG),value))
-                                is ByteArray -> bodyBuilder.addFormDataPart(key,key, RequestBody.create(
-                                        MediaType.parse(MEDIA_TYPE_BYTE_ARRAY),value))
-                                else -> bodyBuilder.addFormDataPart(key,value?.toString()?:HttpConstants.EMPTY)
+                        when(api.paramType()){
+                            ParamType.NORMAL ->{
+                                val formBodyBuilder = FormBody.Builder()
+                                params?.forEach {
+
+                                    formBodyBuilder.add(it.key, it.value?.toString() ?: HttpConstants.EMPTY)
+                                }
+
+                                formBodyBuilder.build()
+                            }
+                            ParamType.JSON ->{
+                                val json: String = jsonParser.toJson(params)?: HttpConstants.EMPTY
+                                RequestBody.create(MediaType.parse(MEDIA_TYPE_JSON),json)
+                            }
+                            ParamType.FILE ->{
+                                val bodyBuilder = MultipartBody.Builder()
+                                        .setType(MultipartBody.FORM) // 设置type为"multipart/form-data"，不然无法上传参数
+                                params?.forEach {
+                                    val value = it.value
+                                    val key = it.key
+                                    when(value){
+                                        //文件类型
+                                        is File -> bodyBuilder.addFormDataPart(key,value.name, RequestBody.create(
+                                                MediaType.parse(guessMimeType(value.name)),value))
+                                        is ByteArray -> bodyBuilder.addFormDataPart(key,key, RequestBody.create(
+                                                MediaType.parse(MEDIA_TYPE_BYTE_ARRAY),value))
+                                        else -> bodyBuilder.addPart(Headers.of("Content-Disposition", "form-data; name=\"$key\""),
+                                                RequestBody.create(null, value.toString()))
+                                    }
+                                }
+                                bodyBuilder.build()
                             }
                         }
-                        bodyBuilder.build()
-                    }
-                }
                 requestBuilder.post(requestBody)
             }
         }
         api.headers()?.let {
             requestBuilder.headers(Headers.of(it))
         }
+
+        OkHttpModuleLog.d("HttpRequest:${api.requestMethod()}\nurl=$urlBuilder,\nparams=${params?.toString()}")
+
         val okHttpRequest = requestBuilder.url(urlBuilder.toString()).build()
         val okHttpCall = okHttpClient.newCall(okHttpRequest)
         return OkHttpCall(okHttpCall)
+    }
+
+    private fun guessMimeType(path: String): String {
+        val fileNameMap = URLConnection.getFileNameMap()
+        var contentTypeFor: String? = null
+        try {
+            contentTypeFor = fileNameMap.getContentTypeFor(URLEncoder.encode(path, "UTF-8"))
+        } catch (e: UnsupportedEncodingException) {
+            e.printStackTrace()
+        }
+
+        if (contentTypeFor == null) {
+            contentTypeFor = "application/octet-stream"
+        }
+        return contentTypeFor
     }
 }

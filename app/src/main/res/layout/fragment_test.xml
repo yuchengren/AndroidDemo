@@ -6,13 +6,13 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/text_dark"
+        android:textColor="@color/text_color_dark"
         android:text="上方"
         android:textSize="@dimen/text_size_medium"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/text_dark"
+        android:textColor="@color/text_color_dark"
         android:text="下方"
         android:textSize="@dimen/text_size_medium"
         android:layout_alignParentBottom="true"/>

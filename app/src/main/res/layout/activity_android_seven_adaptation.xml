@@ -9,7 +9,7 @@
         android:id="@+id/btnFilePermission"
         android:layout_width="match_parent"
         android:layout_height="@dimen/button_height"
-        android:textColor="@color/text_dark"
+        android:textColor="@color/text_color_dark"
         android:textSize="@dimen/text_size_medium"
         android:gravity="center"
         android:text="文件权限（调用系统拍照保存）"/>
@@ -21,7 +21,7 @@
             android:id="@+id/btnAddNotify"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/button_height"
-            android:textColor="@color/text_dark"
+            android:textColor="@color/text_color_dark"
             android:textSize="@dimen/text_size_medium"
             android:gravity="center"
             android:text="添加一个分组的通知"/>

@@ -43,7 +43,7 @@ public class SmartRefreshView extends SmartRefreshLayout implements IRefreshView
 
     @Override
     public void autoHeaderRefreshing(int wait) {
-        resetStatus();
+//        resetStatus();
         super.autoRefresh(wait);
     }
 

@@ -194,5 +194,11 @@ public class SplashActivity extends AppCompatActivity {
 		androidNineAdaptationEntity.setParentCode(MenuCode.First.HOME);
 		menuEntityDao.insert(androidNineAdaptationEntity);
 
+		MenuEntity refreshViewEntity = new MenuEntity();
+		refreshViewEntity.setName(getString(R.string.refresh_view));
+		refreshViewEntity.setCode(MenuCode.Second.REFRESH_VIEW);
+		refreshViewEntity.setParentCode(MenuCode.First.HOME);
+		menuEntityDao.insert(refreshViewEntity);
+
 	}
 }

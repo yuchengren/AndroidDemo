@@ -15,11 +15,11 @@ import com.ycr.lib.ui.pullrefresh.smart.SmartRefreshView;
  * Created by ye on 2018/5/29.
  */
 
-public class KklLayoutInflator implements LayoutInflater.Factory2 {
+public class AppLayoutInflater implements LayoutInflater.Factory2 {
     private AppCompatDelegate delegate;
     private static final String Refresh_Layout = IRefreshView.class.getName();
 
-    public KklLayoutInflator(AppCompatDelegate delegate) {
+    public AppLayoutInflater(AppCompatDelegate delegate) {
         this.delegate = delegate;
     }
 

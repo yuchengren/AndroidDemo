@@ -7,10 +7,10 @@ import android.view.LayoutInflater;
 /**
  * Created by ye on 2018/5/29.
  */
-public class KklLayoutInflatorFactoryCreator implements ILayoutInflaterFactoryCreator {
+public class AppLayoutInflaterFactoryCreator implements ILayoutInflaterFactoryCreator {
 
     @Override
     public LayoutInflater.Factory2 createLayoutInflaterFactory2(AppCompatDelegate appCompatDelegate) {
-        return new KklLayoutInflator(appCompatDelegate);
+        return new AppLayoutInflater(appCompatDelegate);
     }
 }

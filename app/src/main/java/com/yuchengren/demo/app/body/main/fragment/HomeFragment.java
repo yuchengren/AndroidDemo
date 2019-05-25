@@ -42,7 +42,7 @@ public class HomeFragment extends Fragment {
 		gv_menu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-				MenuUtil.startActivity(getActivity(),mMenuAdapter.getItem(position));
+				MenuUtil.INSTANCE.startActivity(getActivity(),mMenuAdapter.getItem(position));
 			}
 		});
 

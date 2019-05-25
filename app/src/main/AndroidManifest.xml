@@ -60,7 +60,8 @@
         <activity android:name=".app.adaptation.AndroidSevenAdaptationActivity" />
         <activity android:name=".app.adaptation.AndroidEightAdaptationActivity" />
         <activity android:name=".app.adaptation.AndroidNineAdaptationActivity" />
-        
+        <activity android:name=".app.widgettest.refreshview.RefreshViewActivity" />
+
         
         <provider
             android:authorities="com.yuchengren.demo.fileprovider"

@@ -58,7 +58,7 @@ abstract class ResultCallback<T>: ITaskCallback<IResult<T>>, IResultCallback<IRe
         }
     }
 
-    protected fun onFinishCall(result: IResult<T>) {
+    open fun onFinishCall(result: IResult<T>) {
 
     }
 

@@ -1,7 +1,6 @@
 package com.ycr.module.photo.camera
 
 import android.content.Context
-import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Matrix
@@ -15,9 +14,8 @@ import com.ycr.kernel.http.IResult
 import com.ycr.kernel.union.task.TaskHelper
 import com.ycr.module.base.view.imageedit.ImgHelper
 import com.ycr.module.framework.task.ApiTask
-import com.ycr.module.framework.task.SimpleResult
+import com.ycr.kernel.union.task.SimpleResult
 import com.ycr.module.photo.R
-import com.ycr.module.photo.chosen.ChosenPhotoActivity
 
 /**
  * Created by yuchengren on 2019/1/21.

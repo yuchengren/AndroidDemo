@@ -9,8 +9,8 @@ import okhttp3.Call
  */
 class OkHttpCall(var call:Call): ApiCall() {
 
-    override fun execute(): IResponse {
-        return OkHttpResponse(call.execute())
+    override fun execute(): IResponse? {
+        return OkHttpResponse(call.execute()?:return null)
     }
 
     override fun cancel() {

@@ -23,6 +23,7 @@ public interface MenuCode {
 		String SEVEN_ADAPTATION = "seven_adaptation";
 		String EIGHT_ADAPTATION = "eight_adaptation";
 		String NINE_ADAPTATION = "nine_adaptation";
+		String REFRESH_VIEW = "RefreshView";
 	}
 
 }

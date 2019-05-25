@@ -23,6 +23,15 @@ open class UnionApi: IApi {
     var contentType: ContentType = ContentType.APP_JSON
     var paramType: ParamType = ParamType.JSON
 
+    companion object{
+        fun get(url: String): UnionApi{
+            return UnionApi().also {
+                it.requestMethod = RequestMethod.GET
+                it.url = url
+            }
+        }
+    }
+
     override fun url(): String? {
         if(url != null){
             return url

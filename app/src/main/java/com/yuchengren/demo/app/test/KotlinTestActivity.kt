@@ -4,7 +4,9 @@ import android.os.Bundle
 import android.os.Environment
 import android.view.Gravity
 import android.view.View
+import com.ycr.kernel.log.LogHelper
 import com.ycr.kernel.union.helper.ImageHelper
+import com.ycr.kernel.util.NumberUtil
 import com.ycr.lib.theme.MessageDialogButtonStyle
 import com.ycr.lib.ui.dialog.MessageDialogFragment
 import com.ycr.module.base.BaseActivity
@@ -25,14 +27,19 @@ class KotlinTestActivity: BaseActivity(),MessageDialogFragment.OnButtonClickList
     override fun afterBindView(rootView: View?, savedInstanceState: Bundle?) {
         super.afterBindView(rootView, savedInstanceState)
 //        ImageHelper.display(imageView,Environment.getExternalStorageDirectory().path + "/test.png", ImageOptions.default)
-        btn_test.setOnClickListener {
-            MessageDialogFragment.builder()
-                    .title("")
-                    .contentText("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
-                    .buttonTextResIds(R.string.cancel,R.string.confirm)
-                    .buttonStyles(MessageDialogButtonStyle.DEFAULT,MessageDialogButtonStyle.STRONG)
-                    .build().show(supportFragmentManager,"tag")
-        }
+//        btn_test.setOnClickListener {
+//            MessageDialogFragment.builder()
+//                    .title("")
+//                    .contentText("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+//                    .buttonTextResIds(R.string.cancel,R.string.confirm)
+//                    .buttonStyles(MessageDialogButtonStyle.DEFAULT,MessageDialogButtonStyle.STRONG)
+//                    .build().show(supportFragmentManager,"tag")
+//        }
+
+        LogHelper.e(NumberUtil.formatToMoneyString(999))
+        LogHelper.e(NumberUtil.formatToMoneyString(9990))
+        LogHelper.e(NumberUtil.formatToMoneyString(9900))
+        LogHelper.e(NumberUtil.formatToCentString(99.9999))
     }
 
     override fun onButtonClick(dialog: MessageDialogFragment, text: String, textResId: Int, position: Int) {

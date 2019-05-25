@@ -18,7 +18,7 @@ class GridImageMarkedRecyclerAdapter(data: MutableList<ImageMarkEntity>?, @IdRes
         return data?.get(position)
     }
 
-    override fun getItemCount(): Int {
+    override fun getDataSourceSize(): Int {
         var itemCount = data?.size ?: 0
         if (plusEnabled && itemCount < maxItemCount) {
             itemCount += 1
@@ -27,7 +27,7 @@ class GridImageMarkedRecyclerAdapter(data: MutableList<ImageMarkEntity>?, @IdRes
     }
 
     private fun isPlusItem(position: Int): Boolean {
-        return plusEnabled && data?.size ?: 0 < maxItemCount && position == itemCount - 1
+        return plusEnabled && data?.size ?: 0 < maxItemCount && position == getDataSourceSize() - 1
     }
 
     override fun convert(holder: BaseRecyclerHolder, position: Int, item: ImageMarkEntity?) {

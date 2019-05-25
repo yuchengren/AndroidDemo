@@ -1,13 +1,21 @@
 package com.ycr.module.base;
 
+import android.content.Context;
 import android.os.Environment;
+import android.support.annotation.NonNull;
 
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreator;
+import com.scwang.smartrefresh.layout.api.RefreshHeader;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.ycr.kernel.log.LogHelper;
 import com.ycr.kernel.log.config.FileLogPrinterConfig;
 import com.ycr.kernel.log.config.LogConfig;
 import com.ycr.kernel.log.printer.ConsoleLogPrinter;
 import com.ycr.kernel.log.printer.FileLogPrinter;
 import com.ycr.lib.changeskin.SkinManager;
+import com.ycr.lib.ui.pullrefresh.smart.RefreshViewCreator;
+import com.ycr.lib.ui.pullrefresh.smart.material.MaterialHeader;
 import com.ycr.module.framework.base.SuperApplication;
 import com.ycr.module.base.constant.Constants;
 import com.ycr.module.base.greendao.gen.DaoMaster;
@@ -22,14 +30,12 @@ import org.jetbrains.annotations.Nullable;
 
 import okhttp3.OkHttpClient;
 
-import static com.ycr.module.base.BuildConfig.logger;
-
 /**
  * Created by yuchengren on 2016/9/2.
  */
 public class BaseApplication extends SuperApplication {
 
-    private static BaseApplication mBaseApplication;
+    private static BaseApplication instance;
     /**
      * 默认初始化的OkHttpClient
      */
@@ -37,10 +43,10 @@ public class BaseApplication extends SuperApplication {
     private DaoSession mDaoSession;
 
     public synchronized static BaseApplication getInstance(){
-        if(mBaseApplication == null ){
-            mBaseApplication = new BaseApplication();
+        if(instance == null ){
+            instance = new BaseApplication();
         }
-        return mBaseApplication;
+        return instance;
     }
 
     @Override
@@ -51,13 +57,25 @@ public class BaseApplication extends SuperApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-        mBaseApplication = this;
+        instance = this;
         SharePrefsUtil.getInstance().init(getApplicationContext());
         CrashHandler.getInstance().init(getApplicationContext());
         initGreenDao();
         initOkHttp();
         initLog();
         initSkin();
+        initRefreshView();
+    }
+
+    private void initRefreshView() {
+        SmartRefreshLayout.setDefaultRefreshHeaderCreator(new DefaultRefreshHeaderCreator() {
+            @NonNull
+            @Override
+            public RefreshHeader createRefreshHeader(@NonNull Context context, @NonNull RefreshLayout layout) {
+                return new MaterialHeader(instance).setColorSchemeResources(R.color.color_orange);
+            }
+        });
+        SmartRefreshLayout.setDefaultRefreshFooterCreator(new RefreshViewCreator());
     }
 
     private void initSkin() {

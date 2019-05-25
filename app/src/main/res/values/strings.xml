@@ -4,4 +4,5 @@
     <string name="seven_adaptation">7.0适配</string>
     <string name="eight_adaptation">8.0适配</string>
     <string name="nine_adaptation">9.0适配</string>
+    <string name="refresh_view">刷新组件</string>
 </resources>

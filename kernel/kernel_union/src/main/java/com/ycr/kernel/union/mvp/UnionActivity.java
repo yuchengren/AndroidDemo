@@ -31,7 +31,7 @@ public abstract class UnionActivity extends MvpActivity implements IGroup,IDefin
 	protected void onDestroy() {
 		String groupName = groupName();
 		TaskScheduler.INSTANCE.cancelGroup(groupName);
-		HttpHelper.cancelGroup(groupName);
+		HttpHelper.INSTANCE.cancelGroup(groupName);
 		UnionModuleKt.getUnionLog().d("","cancel group-%s at onDestroy",groupName);
 		KeyBoardUtils.fixInputMethodManagerLeak(this);
 		super.onDestroy();

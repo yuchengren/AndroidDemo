@@ -39,8 +39,8 @@ public class LoginPresenter extends BaseActivityPresenter<ILoginContract.IView> 
 			}
 
 			@Override
-			public void onAfterCall() {
-				super.onAfterCall();
+			public void onFinishCall(@NotNull IResult<UserEntity> result) {
+				super.onFinishCall(result);
 				//关闭进度条
 			}
 

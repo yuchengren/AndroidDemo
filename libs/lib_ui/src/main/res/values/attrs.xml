@@ -1,32 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <attr name="cornerRadius" format="dimension"/>
+    <attr name="ratio" format="float" />
+    <attr name="strokeWidth" format="dimension" />
+    <attr name="strokeVisible" format="boolean" />
+    <attr name="strokeColor" format="color" />
+    <attr name="orientation" >
+        <enum name="HORIZONTAL" value="0" />
+        <enum name="VERTICAL" value="1" />
+    </attr>
+
+    <attr name="columnsNum" format="integer" />
+    <attr name="itemHorizontalSpacing" format="dimension" />
+    <attr name="itemVerticalSpacing" format="dimension" />
+    <attr name="hasEdge" format="boolean"/>
+
+
     <declare-styleable name="CircleImageView">
         <attr name="border_width" format="dimension" />
         <attr name="border_color" format="color" />
     </declare-styleable>
 
     <declare-styleable name="GridRecyclerView">
-        <attr name="columnsNum" format="integer" />
-        <attr name="itemHorizontalSpacing" format="dimension" />
-        <attr name="itemVerticalSpacing" format="dimension" />
-        <attr name="hasEdge" format="boolean"/>
+        <attr name="columnsNum" />
+        <attr name="itemHorizontalSpacing"  />
+        <attr name="itemVerticalSpacing" />
+        <attr name="hasEdge" />
     </declare-styleable>
 
     <declare-styleable name="GridImageView">
-        <attr name="cornerRadius" format="dimension"/>
-        <attr name="ratio" format="float" />
+        <attr name="cornerRadius" />
+        <attr name="ratio"  />
         
-        <attr name="strokeWidth" format="dimension" />
-        <attr name="strokeVisible" format="boolean" />
-        <attr name="strokeColor" format="color" />
-        
-        <attr name="checkEnabled" format="boolean" />
-        <attr name="checked" format="boolean" />
+        <attr name="strokeWidth"  />
+        <attr name="strokeVisible" />
+        <attr name="strokeColor"  />
+
+        <attr name="strokeDashWidth" format="dimension" /> <!--描边虚线的宽度-->
+        <attr name="strokeDashGap" format="dimension" /><!--描边虚线之间的间隔-->
+        <attr name="strokeDashPhase" format="dimension" /><!--描边虚线间隔数组的偏移量-->
     </declare-styleable>
     
     <declare-styleable name="CircularView">
         <attr name="circleColor" format="color" />
         <attr name="circularColor" format="color" />
         <attr name="circularWidth" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="MaterialHeader">
+        <attr name="mhPrimaryColor" format="color" />
+        <attr name="mhShadowColor" format="color" />
+        <attr name="mhShadowRadius" format="dimension"/>
+        <attr name="mhShowBezierWave" format="boolean"/>
+    </declare-styleable>
+
+    <declare-styleable name="LinearRecyclerView">
+        <attr name="orientation" />
+        <attr name="reverseLayout" format="boolean" />
+        <attr name="itemHorizontalSpacing"  />
+        <attr name="itemVerticalSpacing" />
+        <attr name="hasStartSpacing" format="boolean"/>
+        <attr name="hasEndSpacing" format="boolean"/>
+
     </declare-styleable>
 </resources>

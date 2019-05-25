@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/bg_medium">
+
+    <com.ycr.lib.ui.pullrefresh.IRefreshView
+        android:id="@+id/refreshView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <com.ycr.lib.ui.recyclerview.LinearRecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:itemVerticalSpacing="@dimen/horizontal_margin"
+            app:itemHorizontalSpacing="@dimen/horizontal_margin"
+            app:hasStartSpacing="true" />
+    </com.ycr.lib.ui.pullrefresh.IRefreshView>
+
+</android.support.constraint.ConstraintLayout>

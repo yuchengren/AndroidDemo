@@ -9,6 +9,8 @@ import com.ycr.module.base.util.AndroidUtil;
 
 public interface Constants {
 
+	int PAGE_COUNT = 20; //分页的一页加载数量
+
 	String APP_FILE_NAME = "MVP";
 	// android数据目录
 	String DATA_PATH = "/data/data/com.yuchengren.mvp";

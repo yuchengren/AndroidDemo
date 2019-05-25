@@ -2,6 +2,7 @@ package com.ycr.module.framework.task
 
 import com.ycr.kernel.http.IResult
 import com.ycr.kernel.union.task.ResultCallback
+import com.ycr.kernel.union.task.SimpleResult
 
 /**
  * Created by yuchengren on 2018/12/10.

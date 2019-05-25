@@ -1,7 +1,7 @@
 package com.ycr.module.framework.presenter;
 
 import com.ycr.kernel.http.IResult;
-import com.ycr.kernel.task.AsyncTask;
+import com.ycr.kernel.task.AsyncTaskInstance;
 import com.ycr.kernel.task.IGroup;
 import com.ycr.kernel.union.mvp.presenter.GroupPresenter;
 import com.ycr.kernel.union.task.TaskHelper;
@@ -16,7 +16,7 @@ public class SimpleGroupPresenter extends GroupPresenter {
 		super(IGroup.Companion.getDefaultGroup());
 	}
 
-	public <T> AsyncTask<IResult<T>> submitTask(ApiTask<T> task){
+	public <T> AsyncTaskInstance<IResult<T>> submitTask(ApiTask<T> task){
 		return TaskHelper.submitTask(groupName(),getDefaultTaskName(),task,task);
 	}
 }
