@@ -37,12 +37,16 @@ abstract class UnionFragment : MvpFragment(), IGroup, IDefineView, IContentView 
         return javaClass.name + hashCode()
     }
 
-    override fun inflateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun inflateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         var rootView = getRootView()
         if (rootView == null || !isInitOnce) {
-            rootView = ViewCreateHelper.createView(context, this, savedInstanceState)
+            rootView = createView(inflater, container, savedInstanceState)
         }
-        return rootView!!
+        return rootView
+    }
+
+    open fun createView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?{
+        return ViewCreateHelper.createView(context, this, savedInstanceState)
     }
 
     private fun getRootView(): View? {

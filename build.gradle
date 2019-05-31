@@ -9,7 +9,7 @@ buildscript {
         maven { url 'https://jitpack.io' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.2.0'
+        classpath "com.android.tools.build:gradle:$gradle_version"
         classpath 'org.greenrobot:greendao-gradle-plugin:3.2.2'
         classpath "com.leon.channel:plugin:$channel_packer_version"//渠道打包工具
         classpath "$kotlin_group:kotlin-gradle-plugin:$kotlin_version" // add plugin

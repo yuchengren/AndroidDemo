@@ -25,6 +25,10 @@ android {
         }
     }
 
+    dataBinding {
+        enabled = true
+    }
+
 }
 
 dependencies {
@@ -45,6 +49,12 @@ dependencies {
 //    api "$dagger_group:dagger-android-support:$dagger_version"
 //    annotationProcessor "$dagger_group:dagger-compiler:$dagger_version"
 //    api "javax.inject:javax.inject:1"
+
+    api "com.jakewharton.rxbinding2:rxbinding:2.1.1"
+
+    //Google AAC
+    api "android.arch.lifecycle:extensions:1.1.1"
+    annotationProcessor "android.arch.lifecycle:compiler:1.1.1"
 
 
     api project(':kernel_union')

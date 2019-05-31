@@ -26,9 +26,9 @@ public abstract class SuperFragment extends UnionFragment {
 
 	@Override
 	public void bindView(View rootView) {
-		if(isSupportButterKnife()){
-			ButterKnife.bind(this,rootView);
-		}
+//		if(isSupportButterKnife()){
+//			ButterKnife.bind(this,rootView);
+//		}
 	}
 
 	@Override
@@ -47,7 +47,7 @@ public abstract class SuperFragment extends UnionFragment {
 	}
 
 	protected boolean isSupportButterKnife(){
-		return true;
+		return false;
 	}
 
 	public String getDefaultTaskName(){

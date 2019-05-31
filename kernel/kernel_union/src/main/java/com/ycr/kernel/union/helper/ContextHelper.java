@@ -10,12 +10,18 @@ import android.support.v4.content.ContextCompat;
  */
 public class ContextHelper {
     private static Context context;
+    private static Application application;
 
     public static Context getContext(){
         return context;
     }
 
+    public static Application getApplication(){
+        return application;
+    }
+
     public static void  doInit(Application application){
+        ContextHelper.application = application;
         context = application.getApplicationContext();
     }
 

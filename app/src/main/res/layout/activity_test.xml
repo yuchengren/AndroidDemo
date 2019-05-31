@@ -1,57 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:id="@+id/ll_test">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <!--<ImageView-->
-        <!--android:id="@+id/iv_pic"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:background="#881a0025"/>-->
+    <data>
+        <variable
+            name="testViewModel"
+            type="com.yuchengren.demo.app.test.TestViewModel" />
+    </data>
 
-    <!--<com.yuchengren.mvp.app.ui.view.RectLeftTopImageView-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:src="@drawable/test"/>-->
-    <!---->
-    <!--<com.yuchengren.mvp.app.ui.view.CircleImageView-->
-        <!--android:layout_width="250dp"-->
-        <!--android:layout_height="250dp"-->
-        <!--android:src="@drawable/test"/>-->
-
-    <!--<com.yuchengren.mvp.app.ui.view.RoundImageView-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="0dp"-->
-        <!--app:ratio="2"-->
-        <!--app:radius="4dp"-->
-        <!--android:src="@drawable/test" />-->
-
-    <!--<TextView-->
-        <!--android:id="@+id/tv_test"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="中国中国"-->
-        <!--android:textColor="#ff0000"-->
-        <!--android:textSize="@dimen/text_size_medium" />-->
-
-    <Button
-        android:id="@+id/btn_test"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/button_height"
-        android:text="@string/test"
-        android:gravity="center"/>
-    <!---->
-    <!--<com.ycr.lib.ui.widget.CircularView-->
-        <!--android:layout_width="67.5dp"-->
-        <!--android:layout_height="67.5dp"-->
-        <!--app:circleColor="@color/white"-->
-        <!--app:circularColor="#7FFFFFFF"-->
-        <!--app:circularWidth="15dp"/>-->
-    
-    
-    
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:id="@+id/ll_test">
 
-</LinearLayout>
+        <Button
+            android:id="@+id/btn_test"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/button_height"
+            android:text="@string/test"
+            android:gravity="center"/>
+
+    </LinearLayout>
+
+</layout>
+
