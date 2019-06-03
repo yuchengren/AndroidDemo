@@ -13,7 +13,7 @@ class SimpleResult<T>: Result<T>() {
             }
         }
 
-        fun <T> fail(status: String?,msg: String? = null,code: String? = null): SimpleResult<T> {
+        fun <T> fail(status: String?, code: String?,msg: String?): SimpleResult<T> {
             return SimpleResult<T>().apply {
                 setSuccess(false)
                 setStatus(status)
@@ -22,7 +22,22 @@ class SimpleResult<T>: Result<T>() {
             }
         }
 
-        fun <T> success(msg: String? = null,code: String? = null,data: T?): SimpleResult<T> {
+        fun <T> fail(status: String?,msg: String?): SimpleResult<T> {
+            return SimpleResult<T>().apply {
+                setSuccess(false)
+                setStatus(status)
+                setMsg(msg)
+            }
+        }
+
+        fun <T> fail(status: String?): SimpleResult<T> {
+            return SimpleResult<T>().apply {
+                setSuccess(false)
+                setStatus(status)
+            }
+        }
+
+        fun <T> success(data: T?, code: String? = null, msg: String? = null): SimpleResult<T> {
             return SimpleResult<T>().apply {
                 setSuccess(true)
                 setMsg(msg)

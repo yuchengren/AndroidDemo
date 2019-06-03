@@ -19,19 +19,19 @@ public abstract class BasePresenter<V extends IMvpView> extends BaseLifeCyclePre
 	}
 
 	public <T> AsyncTaskInstance<IResult<T>> submitTask(ApiTask<T> task){
-		return TaskHelper.submitTask(groupName(),getDefaultTaskName(),task,task);
+		return TaskHelper.INSTANCE.submitTask(groupName(),getDefaultTaskName(),task,task);
 	}
 
 	public <T> AsyncTaskInstance<IResult<T>> submitTask(String groupName, String taskName, ApiTask<T> task){
-		return TaskHelper.submitTask(groupName,taskName,task,task);
+		return TaskHelper.INSTANCE.submitTask(groupName,taskName,task,task);
 	}
 
 	public <T> AsyncTaskInstance<IResult<T>> submitTask(String taskName, ApiTask<T> task){
-		return TaskHelper.submitTask(groupName(),taskName,task,task);
+		return TaskHelper.INSTANCE.submitTask(groupName(),taskName,task,task);
 	}
 
 	public <T> AsyncTaskInstance<IResult<T>> submitTaskDefaultGroup(ApiTask<T> task){
-		return TaskHelper.submitTask(IGroup.GROUP_NAME_DEFAULT,getDefaultTaskName(),task,task);
+		return TaskHelper.INSTANCE.submitTask(IGroup.GROUP_NAME_DEFAULT,getDefaultTaskName(),task,task);
 	}
 
 	public String getString(int resId){

@@ -72,7 +72,7 @@ class RefreshViewActivity: BaseActivity() {
 
             override fun doInBackground(): IResult<MutableList<Int>?> {
                 val offset = if(isRefresh) 0 else offset
-                return SimpleResult.success("","",getTestDataList(offset))
+                return SimpleResult.success(getTestDataList(offset), "", "")
             }
 
             override fun onSuccess(result: IResult<MutableList<Int>?>) {

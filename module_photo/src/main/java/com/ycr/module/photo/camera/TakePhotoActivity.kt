@@ -57,7 +57,7 @@ abstract class TakePhotoActivity: CameraBaseActivity() {
                 }
                 val tempSavePath = ImgHelper.getTempSavePath(this@TakePhotoActivity)
                 ImgHelper.save(bitmap,tempSavePath)
-                return SimpleResult.success(null,null,tempSavePath)
+                return SimpleResult.success(tempSavePath, null, null)
             }
 
             override fun onSuccess(result: IResult<String>) {

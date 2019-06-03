@@ -7,11 +7,12 @@ import com.ycr.module.base.AppActivity
 import com.yuchengren.demo.BR
 import com.yuchengren.demo.R
 import com.yuchengren.demo.databinding.ActivityLoginBinding
+import kotlinx.android.synthetic.main.activity_login.*
 
 /**
  * Created by yuchengren on 2016/9/14.
  */
-class LoginActivity : AppActivity<ActivityLoginBinding>(), View.OnClickListener, ILoginContract.IView {
+class LoginActivity : AppActivity<ActivityLoginBinding>(), ILoginContract.IView {
 
     //    ILoginContract.IPresenter presenter;
 
@@ -27,14 +28,10 @@ class LoginActivity : AppActivity<ActivityLoginBinding>(), View.OnClickListener,
 
 //        viewDataBinding.loginViewModel?.userName
         getViewModel(LoginViewModel::class.java).userName
-    }
 
-    @OnClick(R.id.btn_login)
-    override fun onClick(v: View) {
-        when (v.id) {
-            R.id.btn_login -> {
-            }
-        }//                presenter.login("","");
+        btnLogin.setOnClickListener {
+
+        }
     }
 
     override fun onLoginSuccess() {

@@ -1,6 +1,7 @@
 package com.ycr.module.base
 
 import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.databinding.DataBindingUtil
@@ -14,8 +15,8 @@ import com.ycr.module.framework.mvvm.IUIChangeView
  */
 abstract class AppActivity<B: ViewDataBinding>: BaseActivity() {
 
-    val viewModelProvider = ViewModelProviders.of(this)
-    val viewModelMap = mutableMapOf<Int,BaseViewModel>()
+    protected lateinit var viewModelProvider: ViewModelProvider
+    protected val viewModelMap = mutableMapOf<Int,BaseViewModel>()
 
     protected lateinit var viewDataBinding: B
 
@@ -25,6 +26,11 @@ abstract class AppActivity<B: ViewDataBinding>: BaseActivity() {
 
     fun <VM: BaseViewModel> setViewModel(variableId: Int,cls: Class<VM>){
         val viewModel = getViewModel(cls)
+        //让ViewModel拥有View的生命周期感应
+        lifecycle.addObserver(viewModel)
+        //ViewModel与View的契约事件回调
+        registerUIChangeLiveDataObserver(viewModel)
+
         viewModelMap[variableId] = viewModel
         viewDataBinding.setVariable(variableId,viewModel)
     }
@@ -32,6 +38,7 @@ abstract class AppActivity<B: ViewDataBinding>: BaseActivity() {
     override fun createView(savedInstanceState: Bundle?) {
         beforeBindView()
         viewDataBinding = DataBindingUtil.setContentView(this,rootLayoutResId)
+        viewModelProvider = ViewModelProviders.of(this)
         bindView(viewDataBinding.root)
         afterBindView(viewDataBinding.root,savedInstanceState)
     }

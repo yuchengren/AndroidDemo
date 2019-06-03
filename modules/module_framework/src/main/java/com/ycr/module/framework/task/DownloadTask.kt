@@ -25,7 +25,7 @@ open class DownloadTask(val file: File?, val url: String): ApiTask<File?>() {
         return if(saveFile == null){
             SimpleResult.fail("文件${file?.path.toString()}不存在或没有读写权限！")
         }else{
-            SimpleResult.success("","",saveFile)
+            SimpleResult.success(saveFile, "", "")
         }
     }
 }

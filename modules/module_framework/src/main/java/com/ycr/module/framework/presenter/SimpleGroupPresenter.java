@@ -17,6 +17,6 @@ public class SimpleGroupPresenter extends GroupPresenter {
 	}
 
 	public <T> AsyncTaskInstance<IResult<T>> submitTask(ApiTask<T> task){
-		return TaskHelper.submitTask(groupName(),getDefaultTaskName(),task,task);
+		return TaskHelper.INSTANCE.submitTask(groupName(),getDefaultTaskName(),task,task);
 	}
 }

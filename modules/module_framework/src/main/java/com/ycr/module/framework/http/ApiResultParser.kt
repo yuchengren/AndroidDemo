@@ -21,7 +21,7 @@ object ApiResultParser : AbstractResultParser(){
         val code = jsonObject.getString("code", null)
         val msg = jsonObject.getString("message", null)
         if (!isSuccess){
-            return SimpleResult.fail(ResultStatus.SERVER_ERROR,msg,code)
+            return SimpleResult.fail(ResultStatus.SERVER_ERROR, code, msg)
         }
         var resultData: T? = null
         jsonObject.getAsJsonObject("data")?.let {
@@ -63,6 +63,6 @@ object ApiResultParser : AbstractResultParser(){
         if(resultData == null && api is Api && api.isNeedCheckData){
             return SimpleResult.fail(ResultStatus.DATA_MISS)
         }
-        return SimpleResult.success(msg,code,resultData)
+        return SimpleResult.success(resultData, code, msg)
     }
 }
