@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <import type="android.view.View" />
         <variable
             name="LoginViewModel"
             type="com.yuchengren.demo.app.body.login.LoginViewModel" />
@@ -13,8 +14,7 @@
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:id="@+id/ll_username"
@@ -43,13 +43,14 @@
             android:orientation="horizontal"
             app:layout_constraintTop_toBottomOf="@+id/ll_username"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent">
+            app:layout_constraintRight_toRightOf="parent"
+            android:gravity="center_vertical">
             <EditText
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="@dimen/button_height"
-                android:hint="请输入用户名"
-                android:text="@={LoginViewModel.userName}"/>
+                android:hint="请输入密码"
+                android:text="@={LoginViewModel.password}"/>
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -66,7 +67,8 @@
             android:textSize="@dimen/text_size_medium"
             app:layout_constraintTop_toBottomOf="@+id/ll_password"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"/>
+            app:layout_constraintRight_toRightOf="parent"
+            android:onClick='@{()-> LoginViewModel.onViewClick("btnLogin")}' />
     </android.support.constraint.ConstraintLayout>
 
 </layout>

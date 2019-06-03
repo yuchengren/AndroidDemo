@@ -1,5 +1,7 @@
 package com.yuchengren.demo.app.body.login
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import butterknife.OnClick
@@ -16,6 +18,12 @@ class LoginActivity : AppActivity<ActivityLoginBinding>(), ILoginContract.IView 
 
     //    ILoginContract.IPresenter presenter;
 
+    companion object{
+        fun start(context: Context){
+            context.startActivity(Intent(context,LoginActivity::class.java))
+        }
+    }
+
     override fun getRootLayoutResId(): Int {
         return R.layout.activity_login
     }
@@ -29,9 +37,6 @@ class LoginActivity : AppActivity<ActivityLoginBinding>(), ILoginContract.IView 
 //        viewDataBinding.loginViewModel?.userName
         getViewModel(LoginViewModel::class.java).userName
 
-        btnLogin.setOnClickListener {
-
-        }
     }
 
     override fun onLoginSuccess() {

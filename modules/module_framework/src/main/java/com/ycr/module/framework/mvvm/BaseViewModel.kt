@@ -5,18 +5,58 @@ import android.arch.lifecycle.AndroidViewModel
 import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleOwner
 import android.os.Bundle
+import com.ycr.kernel.http.IResult
+import com.ycr.kernel.task.AsyncTaskInstance
+import com.ycr.kernel.task.IGroup
+import com.ycr.kernel.task.TaskScheduler
 import com.ycr.kernel.union.helper.ContextHelper
+import com.ycr.kernel.union.task.CommonTask
+import com.ycr.kernel.union.task.TaskHelper
+import com.ycr.kernel.util.getTaskNameFromTrace
+import com.ycr.module.framework.task.ApiTask
 
 /**
  * created by yuchengren on 2019/5/28
  */
-abstract class BaseViewModel: AndroidViewModel,IBaseViewModel,IUIChangeView {
+abstract class BaseViewModel(application: Application): AndroidViewModel(application),IBaseViewModel,IUIChangeView,IGroup {
+
+    protected val TAG = javaClass.name
+
+    val defaultTaskName: String
+        get() = Thread.currentThread().getTaskNameFromTrace(5)
 
     private lateinit var uc: UIChangeLiveData
 
-    constructor(): super(ContextHelper.getApplication())
+    override fun groupName(): String? {
+        return javaClass.name + hashCode()
+    }
 
-    constructor(application: Application): super(application)
+    /**
+     * 释放资源
+     */
+    override fun onCleared() {
+        super.onCleared()
+        TaskScheduler.cancelGroup(groupName())
+    }
+
+
+
+    fun <T> submitTask(task: CommonTask<T>): AsyncTaskInstance<T> {
+        return TaskHelper.submitTask(groupName(), defaultTaskName, task, task)
+    }
+
+    fun <T> submitTask(groupName: String, taskName: String, task: CommonTask<T>): AsyncTaskInstance<T> {
+        return TaskHelper.submitTask(groupName, taskName, task, task)
+    }
+
+    fun <T> submitTask(taskName: String, task: CommonTask<T>): AsyncTaskInstance<T> {
+        return TaskHelper.submitTask(groupName(), taskName, task, task)
+    }
+
+    fun <T> submitTaskDefaultGroup(task: CommonTask<T>): AsyncTaskInstance<T> {
+        return TaskHelper.submitTask(IGroup.GROUP_NAME_DEFAULT, defaultTaskName, task, task)
+    }
+
 
     fun getUC(): UIChangeLiveData{
         if(!this::uc.isInitialized){
@@ -34,7 +74,7 @@ abstract class BaseViewModel: AndroidViewModel,IBaseViewModel,IUIChangeView {
     }
 
     override fun dismissLoading() {
-        getUC().getShowDialogLiveData().call()
+        getUC().getDismissDialogLiveData().call()
     }
 
     override fun startActivity(cls: Class<*>) {
@@ -60,8 +100,12 @@ abstract class BaseViewModel: AndroidViewModel,IBaseViewModel,IUIChangeView {
     override fun onDestroy() {}
     override fun onStart() {}
     override fun onStop() {}
-    override fun onResume() {}
-    override fun onPause() {}
+    override fun onResume() {
+        TaskScheduler.onResume(groupName())
+    }
+    override fun onPause() {
+        TaskScheduler.onPause(groupName())
+    }
     override fun registerRxBus() {}
     override fun unregisterRxBus() {}
 

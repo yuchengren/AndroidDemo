@@ -34,6 +34,9 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".app.body.login.LoginActivity">
+        </activity>
+
         <activity android:name=".app.body.main.MainActivity"
             android:launchMode="singleTask">
         </activity>

@@ -13,6 +13,7 @@ import com.ycr.module.base.BaseActivity
 import com.ycr.module.base.constant.ImageOptions
 import com.ycr.module.base.util.ToastHelper
 import com.yuchengren.demo.R
+import com.yuchengren.demo.app.body.login.LoginActivity
 import kotlinx.android.synthetic.main.activity_kotlin_test.*
 
 /**
@@ -36,10 +37,9 @@ class KotlinTestActivity: BaseActivity(),MessageDialogFragment.OnButtonClickList
 //                    .build().show(supportFragmentManager,"tag")
 //        }
 
-        LogHelper.e(NumberUtil.formatToMoneyString(999))
-        LogHelper.e(NumberUtil.formatToMoneyString(9990))
-        LogHelper.e(NumberUtil.formatToMoneyString(9900))
-        LogHelper.e(NumberUtil.formatToCentString(99.9999))
+        btn_test.setOnClickListener {
+            LoginActivity.start(this)
+        }
     }
 
     override fun onButtonClick(dialog: MessageDialogFragment, text: String, textResId: Int, position: Int) {
