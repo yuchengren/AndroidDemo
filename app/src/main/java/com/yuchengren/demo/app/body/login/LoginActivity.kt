@@ -1,8 +1,11 @@
 package com.yuchengren.demo.app.body.login
 
+import android.arch.lifecycle.Observer
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.text.method.HideReturnsTransformationMethod
+import android.text.method.PasswordTransformationMethod
 import android.view.View
 import butterknife.OnClick
 import com.ycr.module.base.AppActivity
@@ -36,6 +39,16 @@ class LoginActivity : AppActivity<ActivityLoginBinding>(), ILoginContract.IView 
 
 //        viewDataBinding.loginViewModel?.userName
         getViewModel(LoginViewModel::class.java).userName
+
+        viewDataBinding.loginViewModel?.pwdShowSwitchEvent?.observe(this, Observer<Boolean> {
+            if(it == true){
+                viewDataBinding.ivPwdShowSwitch.setImageResource(R.mipmap.show_psw)
+                viewDataBinding.etPwd.transformationMethod = HideReturnsTransformationMethod.getInstance()
+            }else{
+                viewDataBinding.ivPwdShowSwitch.setImageResource(R.mipmap.show_psw_press)
+                viewDataBinding.etPwd.transformationMethod = PasswordTransformationMethod.getInstance()
+            }
+        })
 
     }
 

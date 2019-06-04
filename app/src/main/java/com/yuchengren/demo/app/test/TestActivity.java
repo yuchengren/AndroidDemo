@@ -7,24 +7,13 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.bumptech.glide.Glide;
-import com.ycr.kernel.image.CornerType;
-import com.ycr.kernel.log.LogHelper;
 import com.ycr.kernel.union.helper.JsonHelper;
 import com.ycr.kernel.union.http.HttpHelper;
-import com.ycr.kernel.union.task.TaskHelper;
 import com.yuchengren.demo.R;
-
-import java.io.File;
-import java.lang.reflect.Array;
-import java.util.Arrays;
-import java.util.HashMap;
 
 /**
  * Created by yuchengren on 2017/12/28.
@@ -48,7 +37,6 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
 
 		HttpHelper.INSTANCE.cancelGroup("");
 		JsonHelper.toJson("");
-
 	}
 
 	@Override

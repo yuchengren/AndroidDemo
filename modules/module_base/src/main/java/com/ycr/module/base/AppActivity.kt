@@ -25,13 +25,14 @@ abstract class AppActivity<B: ViewDataBinding>: BaseActivity() {
     }
 
     fun <VM: BaseViewModel> setViewModel(variableId: Int,cls: Class<VM>){
-        val viewModel = getViewModel(cls)
-        //让ViewModel拥有View的生命周期感应
-        lifecycle.addObserver(viewModel)
-        //ViewModel与View的契约事件回调
-        registerUIChangeLiveDataObserver(viewModel)
-
-        viewModelMap[variableId] = viewModel
+        val viewModel = getViewModel(cls).apply {
+            //让ViewModel拥有View的生命周期感应
+            lifecycle.addObserver(this)
+            //ViewModel与View的契约事件回调
+            registerUIChangeLiveDataObserver(this)
+            registerRxBus()
+            viewModelMap[variableId] = this
+        }
         viewDataBinding.setVariable(variableId,viewModel)
     }
 
@@ -80,10 +81,11 @@ abstract class AppActivity<B: ViewDataBinding>: BaseActivity() {
         super.onDestroy()
         viewModelMap.forEach {
             it.value.run {
-                this@AppActivity.lifecycle.removeObserver(this)
+                lifecycle.removeObserver(this)
                 unregisterRxBus()
             }
         }
+        viewModelMap.clear()
         viewDataBinding.unbind()
     }
 

@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package com.ycr.module.framework.mvvm;
+package com.ycr.module.framework.mvvm.event;
 
 import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.MutableLiveData;

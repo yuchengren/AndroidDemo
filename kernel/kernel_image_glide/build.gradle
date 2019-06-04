@@ -30,7 +30,7 @@ dependencies {
         exclude group: "com.android.support"
     }
     api "$glide_group:annotations:$glide_version"
-    kapt "$glide_group:compiler:$glide_version"
+    annotationProcessor "$glide_group:compiler:$glide_version"
 
     api 'jp.wasabeef:glide-transformations:3.0.1'
 

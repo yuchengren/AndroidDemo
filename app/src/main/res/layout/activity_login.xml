@@ -29,11 +29,14 @@
                 android:layout_weight="1"
                 android:layout_height="@dimen/button_height"
                 android:hint="请输入用户名"
-                android:text="@={LoginViewModel.userName}"/>
+                android:text="@={LoginViewModel.userName}"
+                app:onFocusChangeCommand="@{LoginViewModel.onUserNameFocusChangeCommand}"/>
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/edittext_delete_selector"/>
+                android:src="@drawable/edittext_delete_selector"
+                android:visibility="@{LoginViewModel.clearUserNameViewVisibility}"
+                app:onClickCommand="@{LoginViewModel.clearUserNameOnClickCommand}"/>
         </LinearLayout>
 
         <LinearLayout
@@ -46,15 +49,20 @@
             app:layout_constraintRight_toRightOf="parent"
             android:gravity="center_vertical">
             <EditText
+                android:id="@+id/etPwd"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="@dimen/button_height"
                 android:hint="请输入密码"
-                android:text="@={LoginViewModel.password}"/>
+                android:inputType="textPassword"
+                android:text="@={LoginViewModel.password}" />
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/show_psw_press" />
+                android:id="@+id/ivPwdShowSwitch"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:padding="6dp"
+                android:src="@mipmap/show_psw_press"
+                app:onClickCommand="@{LoginViewModel.onPwdShowSwitchOnClickCommand}"/>
         </LinearLayout>
 
 

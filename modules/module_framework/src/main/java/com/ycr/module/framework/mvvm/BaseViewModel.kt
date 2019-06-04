@@ -5,24 +5,22 @@ import android.arch.lifecycle.AndroidViewModel
 import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleOwner
 import android.os.Bundle
-import com.ycr.kernel.http.IResult
 import com.ycr.kernel.task.AsyncTaskInstance
 import com.ycr.kernel.task.IGroup
 import com.ycr.kernel.task.TaskScheduler
-import com.ycr.kernel.union.helper.ContextHelper
 import com.ycr.kernel.union.task.CommonTask
 import com.ycr.kernel.union.task.TaskHelper
 import com.ycr.kernel.util.getTaskNameFromTrace
-import com.ycr.module.framework.task.ApiTask
+import com.ycr.module.framework.mvvm.event.SingleLiveData
 
 /**
  * created by yuchengren on 2019/5/28
  */
-abstract class BaseViewModel(application: Application): AndroidViewModel(application),IBaseViewModel,IUIChangeView,IGroup {
+abstract class BaseViewModel(application: Application) : AndroidViewModel(application), IBaseViewModel, IUIChangeView, IGroup {
 
     protected val TAG = javaClass.name
 
-    val defaultTaskName: String
+    protected val defaultTaskName: String
         get() = Thread.currentThread().getTaskNameFromTrace(5)
 
     private lateinit var uc: UIChangeLiveData
@@ -38,7 +36,6 @@ abstract class BaseViewModel(application: Application): AndroidViewModel(applica
         super.onCleared()
         TaskScheduler.cancelGroup(groupName())
     }
-
 
 
     fun <T> submitTask(task: CommonTask<T>): AsyncTaskInstance<T> {
@@ -58,8 +55,8 @@ abstract class BaseViewModel(application: Application): AndroidViewModel(applica
     }
 
 
-    fun getUC(): UIChangeLiveData{
-        if(!this::uc.isInitialized){
+    fun getUC(): UIChangeLiveData {
+        if (!this::uc.isInitialized) {
             uc = UIChangeLiveData()
         }
         return uc
@@ -78,12 +75,12 @@ abstract class BaseViewModel(application: Application): AndroidViewModel(applica
     }
 
     override fun startActivity(cls: Class<*>) {
-        startActivity(cls,null)
+        startActivity(cls, null)
     }
 
     override fun startActivity(cls: Class<*>, bundle: Bundle?) {
         getUC().getStartActivityLiveData().postValue(
-                mutableMapOf(Pair(IUIChangeView.CLAZZ,cls),Pair(IUIChangeView.BUNDLE,bundle)))
+                mutableMapOf(Pair(IUIChangeView.CLAZZ, cls), Pair(IUIChangeView.BUNDLE, bundle)))
     }
 
     override fun finish() {
@@ -103,13 +100,15 @@ abstract class BaseViewModel(application: Application): AndroidViewModel(applica
     override fun onResume() {
         TaskScheduler.onResume(groupName())
     }
+
     override fun onPause() {
         TaskScheduler.onPause(groupName())
     }
+
     override fun registerRxBus() {}
     override fun unregisterRxBus() {}
 
-    class UIChangeLiveData{
+    class UIChangeLiveData {
         private lateinit var showDialogLiveData: SingleLiveData<String?>
         private lateinit var dismissDialogLiveData: SingleLiveData<Void>
         private lateinit var startActivityLiveData: SingleLiveData<Map<String, Any?>>
@@ -118,42 +117,42 @@ abstract class BaseViewModel(application: Application): AndroidViewModel(applica
         private lateinit var onBackPressedLiveData: SingleLiveData<Void>
 
         fun getShowDialogLiveData(): SingleLiveData<String?> {
-            if(!this::showDialogLiveData.isInitialized){
+            if (!this::showDialogLiveData.isInitialized) {
                 showDialogLiveData = SingleLiveData()
             }
             return showDialogLiveData
         }
 
         fun getDismissDialogLiveData(): SingleLiveData<Void> {
-            if(!this::dismissDialogLiveData.isInitialized){
+            if (!this::dismissDialogLiveData.isInitialized) {
                 dismissDialogLiveData = SingleLiveData()
             }
             return dismissDialogLiveData
         }
 
         fun getStartActivityLiveData(): SingleLiveData<Map<String, Any?>> {
-            if(!this::startActivityLiveData.isInitialized){
+            if (!this::startActivityLiveData.isInitialized) {
                 startActivityLiveData = SingleLiveData()
             }
             return startActivityLiveData
         }
 
         fun getStartContainerActivityLiveData(): SingleLiveData<Map<String, Any?>> {
-            if(!this::startContainerActivityLiveData.isInitialized){
+            if (!this::startContainerActivityLiveData.isInitialized) {
                 startContainerActivityLiveData = SingleLiveData()
             }
             return startContainerActivityLiveData
         }
 
         fun getFinishLiveData(): SingleLiveData<Void> {
-            if(!this::finishLiveData.isInitialized){
+            if (!this::finishLiveData.isInitialized) {
                 finishLiveData = SingleLiveData()
             }
             return finishLiveData
         }
 
         fun getOnBackPressedLiveData(): SingleLiveData<Void> {
-            if(!this::onBackPressedLiveData.isInitialized){
+            if (!this::onBackPressedLiveData.isInitialized) {
                 onBackPressedLiveData = SingleLiveData()
             }
             return onBackPressedLiveData
