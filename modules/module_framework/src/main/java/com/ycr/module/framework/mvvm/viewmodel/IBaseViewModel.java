@@ -1,4 +1,4 @@
-package com.ycr.module.framework.mvvm;
+package com.ycr.module.framework.mvvm.viewmodel;
 
 import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.LifecycleObserver;

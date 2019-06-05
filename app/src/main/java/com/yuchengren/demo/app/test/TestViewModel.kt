@@ -1,7 +1,7 @@
 package com.yuchengren.demo.app.test
 
 import android.app.Application
-import com.ycr.module.framework.mvvm.BaseViewModel
+import com.ycr.module.framework.mvvm.viewmodel.BaseViewModel
 
 /**
  * created by yuchengren on 2019-05-31

@@ -10,8 +10,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.ycr.module.framework.mvvm.BaseViewModel
-import com.ycr.module.framework.mvvm.IUIChangeView
+import com.ycr.module.framework.mvvm.viewmodel.BaseViewModel
+import com.ycr.module.framework.mvvm.viewmodel.IUIChangeView
+import java.lang.reflect.ParameterizedType
 
 /**
  * created by yuchengren on 2019-05-31
@@ -19,7 +20,7 @@ import com.ycr.module.framework.mvvm.IUIChangeView
 abstract class MvvmFragment<B: ViewDataBinding>: BaseFragment() {
 
     protected lateinit var viewModelProvider: ViewModelProvider
-    protected val viewModelMap = mutableMapOf<Int,BaseViewModel>()
+    protected val viewModelMap = mutableMapOf<Int, BaseViewModel>()
 
     protected lateinit var viewDataBinding: B
 
@@ -27,7 +28,11 @@ abstract class MvvmFragment<B: ViewDataBinding>: BaseFragment() {
         return viewModelProvider.get(cls)
     }
 
-    fun <VM: BaseViewModel> setViewModel(variableId: Int,cls: Class<VM>){
+    fun <VM: BaseViewModel> setViewModel(variableId: Int, cls: Class<VM>){
+        if(!this::viewModelProvider.isInitialized){
+            return
+        }
+
         val viewModel = getViewModel(cls).apply {
             //让ViewModel拥有View的生命周期感应
             lifecycle.addObserver(this)
@@ -40,6 +45,10 @@ abstract class MvvmFragment<B: ViewDataBinding>: BaseFragment() {
     }
 
     override fun createView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val tClass =(javaClass.genericSuperclass as ParameterizedType).actualTypeArguments[0] as? Class<B>
+        if(tClass == ViewDataBinding::class.java){
+            return super.createView(inflater,container,savedInstanceState)
+        }
         beforeBindView()
         viewDataBinding = DataBindingUtil.inflate(inflater,rootLayoutResId,container,false)
         viewModelProvider = ViewModelProviders.of(this)
@@ -86,6 +95,8 @@ abstract class MvvmFragment<B: ViewDataBinding>: BaseFragment() {
             }
         }
         viewModelMap.clear()
-        viewDataBinding.unbind()
+        if(this::viewModelProvider.isInitialized){
+            viewDataBinding.unbind()
+        }
     }
 }

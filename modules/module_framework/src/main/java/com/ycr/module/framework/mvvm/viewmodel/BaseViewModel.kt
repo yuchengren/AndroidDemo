@@ -1,4 +1,4 @@
-package com.ycr.module.framework.mvvm
+package com.ycr.module.framework.mvvm.viewmodel
 
 import android.app.Application
 import android.arch.lifecycle.AndroidViewModel

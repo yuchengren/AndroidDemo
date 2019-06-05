@@ -10,7 +10,7 @@ import android.view.View
 import com.ycr.kernel.task.AbstractTask
 import com.ycr.kernel.union.task.CommonTask
 import com.ycr.module.base.util.ToastHelper
-import com.ycr.module.framework.mvvm.BaseViewModel
+import com.ycr.module.framework.mvvm.viewmodel.BaseViewModel
 import com.ycr.module.framework.mvvm.binding.command.BindingCommand
 import com.ycr.module.framework.mvvm.binding.command.BindingInCommand
 import com.ycr.module.framework.mvvm.binding.command.InAction

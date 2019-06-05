@@ -7,8 +7,9 @@ import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.databinding.ViewDataBinding
 import android.os.Bundle
-import com.ycr.module.framework.mvvm.BaseViewModel
-import com.ycr.module.framework.mvvm.IUIChangeView
+import com.ycr.module.framework.mvvm.viewmodel.BaseViewModel
+import com.ycr.module.framework.mvvm.viewmodel.IUIChangeView
+import java.lang.reflect.ParameterizedType
 
 /**
  * created by yuchengren on 2019-05-31
@@ -16,7 +17,7 @@ import com.ycr.module.framework.mvvm.IUIChangeView
 abstract class MvvmActivity<B: ViewDataBinding>: BaseActivity() {
 
     protected lateinit var viewModelProvider: ViewModelProvider
-    protected val viewModelMap = mutableMapOf<Int,BaseViewModel>()
+    protected val viewModelMap = mutableMapOf<Int, BaseViewModel>()
 
     protected lateinit var viewDataBinding: B
 
@@ -24,7 +25,11 @@ abstract class MvvmActivity<B: ViewDataBinding>: BaseActivity() {
         return viewModelProvider.get(cls)
     }
 
-    fun <VM: BaseViewModel> setViewModel(variableId: Int,cls: Class<VM>){
+    fun <VM: BaseViewModel> setViewModel(variableId: Int, cls: Class<VM>){
+        if(!this::viewModelProvider.isInitialized){
+            return
+        }
+
         val viewModel = getViewModel(cls).apply {
             //让ViewModel拥有View的生命周期感应
             lifecycle.addObserver(this)
@@ -37,6 +42,11 @@ abstract class MvvmActivity<B: ViewDataBinding>: BaseActivity() {
     }
 
     override fun createView(savedInstanceState: Bundle?) {
+        val tClass =(javaClass.genericSuperclass as ParameterizedType).actualTypeArguments[0] as? Class<B>
+        if(tClass == ViewDataBinding::class.java){
+            super.createView(savedInstanceState)
+            return
+        }
         beforeBindView()
         viewDataBinding = DataBindingUtil.setContentView(this,rootLayoutResId)
         viewModelProvider = ViewModelProviders.of(this)
@@ -81,7 +91,9 @@ abstract class MvvmActivity<B: ViewDataBinding>: BaseActivity() {
             }
         }
         viewModelMap.clear()
-        viewDataBinding.unbind()
+        if(this::viewModelProvider.isInitialized){
+            viewDataBinding.unbind()
+        }
     }
 
 }

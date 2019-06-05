@@ -1,11 +1,10 @@
 package com.yuchengren.demo.app.body.login
 
 import android.app.Application
-import android.view.View
 import com.ycr.kernel.task.AbstractTask
 import com.ycr.kernel.union.task.CommonTask
 import com.ycr.module.base.util.ToastHelper
-import com.ycr.module.framework.mvvm.BaseViewModel
+import com.ycr.module.framework.mvvm.viewmodel.BaseViewModel
 
 /**
  * created by yuchengren on 2019-05-31
