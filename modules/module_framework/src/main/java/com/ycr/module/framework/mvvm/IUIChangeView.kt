@@ -24,6 +24,4 @@ interface IUIChangeView {
     fun startActivity(cls: Class<*>,bundle: Bundle?)
 
     fun finish()
-
-    fun onBackPressed()
 }

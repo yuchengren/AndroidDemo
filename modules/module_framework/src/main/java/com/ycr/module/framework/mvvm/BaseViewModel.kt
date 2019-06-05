@@ -5,6 +5,7 @@ import android.arch.lifecycle.AndroidViewModel
 import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleOwner
 import android.os.Bundle
+import android.util.Log
 import com.ycr.kernel.task.AsyncTaskInstance
 import com.ycr.kernel.task.IGroup
 import com.ycr.kernel.task.TaskScheduler
@@ -87,12 +88,10 @@ abstract class BaseViewModel(application: Application) : AndroidViewModel(applic
         getUC().getFinishLiveData().call()
     }
 
-    override fun onBackPressed() {
-        getUC().getOnBackPressedLiveData().call()
+
+    override fun onAny(owner: LifecycleOwner?, event: Lifecycle.Event?) {
+        Log.e(TAG,"${event?.name},${event?.ordinal},${event?.toString()}")
     }
-
-
-    override fun onAny(owner: LifecycleOwner?, event: Lifecycle.Event?) {}
     override fun onCreate() {}
     override fun onDestroy() {}
     override fun onStart() {}
@@ -112,9 +111,7 @@ abstract class BaseViewModel(application: Application) : AndroidViewModel(applic
         private lateinit var showDialogLiveData: SingleLiveData<String?>
         private lateinit var dismissDialogLiveData: SingleLiveData<Void>
         private lateinit var startActivityLiveData: SingleLiveData<Map<String, Any?>>
-        private lateinit var startContainerActivityLiveData: SingleLiveData<Map<String, Any?>>
         private lateinit var finishLiveData: SingleLiveData<Void>
-        private lateinit var onBackPressedLiveData: SingleLiveData<Void>
 
         fun getShowDialogLiveData(): SingleLiveData<String?> {
             if (!this::showDialogLiveData.isInitialized) {
@@ -137,25 +134,11 @@ abstract class BaseViewModel(application: Application) : AndroidViewModel(applic
             return startActivityLiveData
         }
 
-        fun getStartContainerActivityLiveData(): SingleLiveData<Map<String, Any?>> {
-            if (!this::startContainerActivityLiveData.isInitialized) {
-                startContainerActivityLiveData = SingleLiveData()
-            }
-            return startContainerActivityLiveData
-        }
-
         fun getFinishLiveData(): SingleLiveData<Void> {
             if (!this::finishLiveData.isInitialized) {
                 finishLiveData = SingleLiveData()
             }
             return finishLiveData
-        }
-
-        fun getOnBackPressedLiveData(): SingleLiveData<Void> {
-            if (!this::onBackPressedLiveData.isInitialized) {
-                onBackPressedLiveData = SingleLiveData()
-            }
-            return onBackPressedLiveData
         }
     }
 }

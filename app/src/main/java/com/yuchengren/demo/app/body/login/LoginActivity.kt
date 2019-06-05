@@ -7,17 +7,15 @@ import android.os.Bundle
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
 import android.view.View
-import butterknife.OnClick
-import com.ycr.module.base.AppActivity
+import com.ycr.module.base.MvvmActivity
 import com.yuchengren.demo.BR
 import com.yuchengren.demo.R
 import com.yuchengren.demo.databinding.ActivityLoginBinding
-import kotlinx.android.synthetic.main.activity_login.*
 
 /**
  * Created by yuchengren on 2016/9/14.
  */
-class LoginActivity : AppActivity<ActivityLoginBinding>(), ILoginContract.IView {
+class LoginActivity : MvvmActivity<ActivityLoginBinding>(), ILoginContract.IView {
 
     //    ILoginContract.IPresenter presenter;
 
@@ -40,7 +38,7 @@ class LoginActivity : AppActivity<ActivityLoginBinding>(), ILoginContract.IView 
 //        viewDataBinding.loginViewModel?.userName
         getViewModel(LoginViewModel::class.java).userName
 
-        viewDataBinding.loginViewModel?.pwdShowSwitchEvent?.observe(this, Observer<Boolean> {
+        viewDataBinding.loginViewModel?.pwdShowSwitchEvent?.observe(this, Observer{
             if(it == true){
                 viewDataBinding.ivPwdShowSwitch.setImageResource(R.mipmap.show_psw)
                 viewDataBinding.etPwd.transformationMethod = HideReturnsTransformationMethod.getInstance()
@@ -48,6 +46,10 @@ class LoginActivity : AppActivity<ActivityLoginBinding>(), ILoginContract.IView 
                 viewDataBinding.ivPwdShowSwitch.setImageResource(R.mipmap.show_psw_press)
                 viewDataBinding.etPwd.transformationMethod = PasswordTransformationMethod.getInstance()
             }
+        })
+
+        viewDataBinding.loginViewModel?.userEntityLiveData?.observe(this, Observer {
+            viewDataBinding.userViewModel?.getUserDetail(it?.userId)
         })
 
     }

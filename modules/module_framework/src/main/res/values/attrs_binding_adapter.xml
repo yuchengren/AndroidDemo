@@ -1,0 +1,23 @@
+<resources>
+
+    <attr name="onClickCommand" format="reference" />
+    <attr name="onLongClickCommand" format="reference" />
+    <attr name="onFocusChangeCommand" format="reference" />
+    <attr name="isVisible" format="boolean" />
+    <attr name="isGone" format="boolean" />
+
+    <declare-styleable name="View">
+        <attr name="onClickCommand" />
+        <attr name="onLongClickCommand" />
+        <attr name="onFocusChangeCommand" />
+        <attr name="isVisible" />
+        <attr name="isGone" />
+    </declare-styleable>
+
+    <declare-styleable name="TextView">
+        <attr name="beforeTextChangedCommand" format="reference" />
+        <attr name="onTextChangedCommand" format="reference" />
+        <attr name="afterTextChangedCommand" format="reference" />
+    </declare-styleable>
+
+</resources>

@@ -1,4 +1,4 @@
-package com.ycr.module.framework.mvvm.binding.viewadapter;
+package com.ycr.module.framework.mvvm.binding.bindingadapter;
 
 import android.databinding.BindingAdapter;
 import android.view.View;
@@ -23,6 +23,18 @@ public class ViewBindingAdapter {
         });
     }
 
+    @BindingAdapter(value = {"onLongClickCommand"},requireAll = false)
+    public static void onLongClickCommand(View view, final BindingCommand command){
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(command != null){
+                    command.execute();
+                }
+            }
+        });
+    }
+
     @BindingAdapter(value = {"onFocusChangeCommand"},requireAll = false)
     public static void onFocusChangeCommand(View view, final BindingInCommand<Boolean> command){
         view.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -34,4 +46,24 @@ public class ViewBindingAdapter {
             }
         });
     }
+
+    @BindingAdapter(value = {"isVisible"}, requireAll = false)
+    public static void isVisible(View view, final Boolean visibility) {
+        if (visibility) {
+            view.setVisibility(View.VISIBLE);
+        } else {
+            view.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    @BindingAdapter(value = {"isGone"}, requireAll = false)
+    public static void isGone(View view, final Boolean visibility) {
+        if (visibility) {
+            view.setVisibility(View.VISIBLE);
+        } else {
+            view.setVisibility(View.GONE);
+        }
+    }
+
+
 }

@@ -1,6 +1,7 @@
 package com.yuchengren.demo.app.body.login
 
 import android.app.Application
+import android.arch.lifecycle.MutableLiveData
 import android.databinding.Observable
 import android.databinding.ObservableField
 import android.databinding.ObservableInt
@@ -52,10 +53,9 @@ class LoginViewModel(application: Application): BaseViewModel(application){
     //密码显示开关观察者
     val pwdShowSwitchEvent = SingleLiveData<Boolean>()
 
-    fun login(view: View){
+    val userEntityLiveData = MutableLiveData<UserEntity?>()
 
-
-    }
+    fun login(view: View){}
 
     fun onViewClick(tag: String){
         submitTask(object : CommonTask<UserEntity>(){
@@ -76,12 +76,14 @@ class LoginViewModel(application: Application): BaseViewModel(application){
                 return UserEntity().apply {
                     account = userName.get()
                     password = this@LoginViewModel.password.get()
+                    userId = "10001"
                 }
             }
 
             override fun onCompleted(data: UserEntity) {
                 super.onCompleted(data)
                 ToastHelper.show("登录成功，account=${userName.get()},password=${password.get()}")
+                userEntityLiveData.postValue(data)
             }
 
         })

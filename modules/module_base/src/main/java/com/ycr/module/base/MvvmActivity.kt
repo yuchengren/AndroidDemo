@@ -7,16 +7,13 @@ import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.databinding.ViewDataBinding
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import com.ycr.module.framework.mvvm.BaseViewModel
 import com.ycr.module.framework.mvvm.IUIChangeView
 
 /**
  * created by yuchengren on 2019-05-31
  */
-abstract class AppFragment<B: ViewDataBinding>: BaseFragment() {
+abstract class MvvmActivity<B: ViewDataBinding>: BaseActivity() {
 
     protected lateinit var viewModelProvider: ViewModelProvider
     protected val viewModelMap = mutableMapOf<Int,BaseViewModel>()
@@ -39,43 +36,36 @@ abstract class AppFragment<B: ViewDataBinding>: BaseFragment() {
         viewDataBinding.setVariable(variableId,viewModel)
     }
 
-    override fun createView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun createView(savedInstanceState: Bundle?) {
         beforeBindView()
-        viewDataBinding = DataBindingUtil.inflate(inflater,rootLayoutResId,container,false)
+        viewDataBinding = DataBindingUtil.setContentView(this,rootLayoutResId)
         viewModelProvider = ViewModelProviders.of(this)
         bindView(viewDataBinding.root)
         afterBindView(viewDataBinding.root,savedInstanceState)
-        return viewDataBinding.root
     }
-
 
     private fun registerUIChangeLiveDataObserver(viewModel: BaseViewModel){
         viewModel.getUC().getShowDialogLiveData().observe(this, Observer{
-            (activity as? AppActivity<ViewDataBinding>)?.showLoading(it,true)
+            showLoading(it,true)
         })
 
         viewModel.getUC().getDismissDialogLiveData().observe(this, Observer{
-            (activity as? AppActivity<ViewDataBinding>)?.dismissLoading(true)
+            dismissLoading(true)
         })
 
         viewModel.getUC().getStartActivityLiveData().observe(this, Observer{
             val cls = (it?.get(IUIChangeView.CLAZZ) as? Class<*>)?:return@Observer
-            val bundle = it?.get(IUIChangeView.BUNDLE) as? Bundle
+            val bundle = it[IUIChangeView.BUNDLE] as? Bundle
             startActivity(cls,bundle)
         })
 
         viewModel.getUC().getFinishLiveData().observe(this, Observer{
-            (activity as? AppActivity<ViewDataBinding>)?.finish()
+            this@MvvmActivity.finish()
         })
-
-        viewModel.getUC().getOnBackPressedLiveData().observe(this, Observer{
-            (activity as? AppActivity<ViewDataBinding>)?.onBackPressed()
-        })
-
     }
 
     fun startActivity(cls: Class<*>,bundle: Bundle?){
-        startActivity(Intent(context,cls).apply {
+        startActivity(Intent(this,cls).apply {
             if(bundle != null){
                 putExtras(bundle)
             }
@@ -93,4 +83,5 @@ abstract class AppFragment<B: ViewDataBinding>: BaseFragment() {
         viewModelMap.clear()
         viewDataBinding.unbind()
     }
+
 }
