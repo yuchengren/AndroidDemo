@@ -1,25 +1,27 @@
 package com.ycr.lib.permission
 
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
 import android.widget.Toast
-import kotlinx.android.synthetic.main.permission_activity_permission_proxy.*
 
 /**
  * Created by yuchengren on 2019/3/1.
  */
 abstract class PermissionProxyActivity: AppCompatActivity() {
     companion object {
-        const val CODE_REQUEST_PERMISSIONS = 1
+        const val REQUEST_CODE_PERMISSIONS = 1001
+        const val REQUEST_CODE_SYSTEM_SETTING = 1002
     }
 
     lateinit var permissionModule: PermissionModule
 
+    abstract fun getRootLayoutResId(): Int
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.permission_activity_permission_proxy)
+        setContentView(getRootLayoutResId())
 
         val permissionModule = intent?.getSerializableExtra(IPermissionConstants.EXTRA_PERMISSION_MODULE) as? PermissionModule
         if(permissionModule?.actionArray?.isEmpty() != false){
@@ -34,17 +36,17 @@ abstract class PermissionProxyActivity: AppCompatActivity() {
 
     abstract fun showPermissionModule(permissionModule: PermissionModule)
 
-    fun checkPermissionActions(permissionActions: Array<PermissionAction>) {
+    private fun checkPermissionActions(permissionActions: Array<out PermissionAction>) {
         permissionActions.forEach {
-            it.isGranted = PermissionHelper.checkPermissions(this,it.permissions)
+            it.isGranted = PermissionHelper.checkPermissions(this, * it.permissions)
         }
         checkAllPermissionActionsGranted()
     }
 
     private fun checkAllPermissionActionsGranted(){
-        if(isAllPermissionActionsGranted()){
-            setResult(PermissionHelper.CODE_RESULT_GRANTED,intent)
-        }
+        setResult(if(isAllPermissionActionsGranted())PermissionHelper.CODE_RESULT_GRANTED else
+            PermissionHelper.CODE_RESULT_DEFINED,intent)
+
     }
 
     private fun isAllPermissionActionsGranted(): Boolean{
@@ -56,34 +58,25 @@ abstract class PermissionProxyActivity: AppCompatActivity() {
         return true
     }
 
-
-
     fun checkPermissions(permissionAction: PermissionAction) {
-        if(PermissionHelper.checkPermissions(this,permissionAction.permissions)){
+        if(PermissionHelper.checkPermissions(this,* permissionAction.permissions)){
             permissionAction.isGranted = true
             notifyAdapter()
         }else{
-            PermissionHelper.requestPermissions(this,CODE_REQUEST_PERMISSIONS,permissionAction.permissions)
+            PermissionHelper.requestPermissions(this,REQUEST_CODE_PERMISSIONS,* permissionAction.permissions)
         }
     }
 
-    private fun notifyAdapter(){
-        recyclerView.adapter?.notifyDataSetChanged()
-    }
+    abstract fun notifyAdapter()
 
-    override fun onBackPressed() {
-        setResult(PermissionHelper.CODE_RESULT_DEFINED,intent)
-        finish()
-    }
-
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         val allPermissionGranted = isAllPermissionGranted(grantResults)
         for (permissionAction in permissionModule.actionArray) {
-            if(permissionAction.permissions == permissions){
+            if(permissionAction.permissions.contentEquals(permissions)){
                 permissionAction.isGranted = allPermissionGranted
                 if(!allPermissionGranted){
-                    if(!PermissionHelper.shouldShowRequestPermissionRationale(this,permissions)){
+                    if(!PermissionHelper.shouldShowRequestPermissionRationale(this,*permissions)){
                         showGotoSetting(permissionAction)
                     }
                 }
@@ -95,6 +88,13 @@ abstract class PermissionProxyActivity: AppCompatActivity() {
         }
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when(requestCode){
+            REQUEST_CODE_SYSTEM_SETTING -> checkPermissionActions(permissionModule.actionArray)
+        }
+    }
+
     private fun isAllPermissionGranted(grantResults: IntArray): Boolean{
         for (grantResult in grantResults) {
             if(grantResult != PackageManager.PERMISSION_GRANTED){
@@ -102,6 +102,10 @@ abstract class PermissionProxyActivity: AppCompatActivity() {
             }
         }
         return true
+    }
+
+    fun gotoSetting(){
+        PermissionSettingUtils.startPermissionSettingsPage(this, REQUEST_CODE_SYSTEM_SETTING)
     }
 
     abstract fun showGotoSetting(permissionAction: PermissionAction)

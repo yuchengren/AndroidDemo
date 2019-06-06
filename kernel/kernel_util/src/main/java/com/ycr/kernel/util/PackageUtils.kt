@@ -1,6 +1,7 @@
 package com.ycr.kernel.util
 
 import android.content.Context
+import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 
 /**
@@ -17,4 +18,12 @@ fun Context.getAppVersionCode(): Int {
 
 fun Context.getAppVersionName(): String {
     return getPackageInfo()?.versionName ?: Strings.EMPTY
+}
+
+fun Context.getAppInfo(): ApplicationInfo?{
+    return packageManager?.getApplicationInfo(packageName,0)
+}
+
+fun Context.getAppName(): String {
+    return packageManager?.getApplicationLabel(getAppInfo())?.toString()?:""
 }

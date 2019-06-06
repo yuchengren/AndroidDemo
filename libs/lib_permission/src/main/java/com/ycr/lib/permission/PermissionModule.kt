@@ -5,4 +5,4 @@ import java.io.Serializable
 /**
  * Created by yuchengren on 2019/3/14.
  */
-data class PermissionModule(var title: String?, var content: String?, var actionArray: Array<PermissionAction>): Serializable
+class PermissionModule(var title: String?, var content: String?, vararg val actionArray: PermissionAction): Serializable

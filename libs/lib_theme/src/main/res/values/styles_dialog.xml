@@ -35,12 +35,12 @@
     <attr name="dialogButtonRightStyle" format="reference" />
     <attr name="dialogButtonSingleStyle" format="reference" />
 
-    <!--default按钮样式-->
-    <style name="MessageDialogButtonThemeDefault">
-        <item name="dialogButtonLeftStyle">@style/MessageDialog.Button.Left.Default</item>
-        <item name="dialogButtonMiddleStyle">@style/MessageDialog.Button.Middle.Default</item>
-        <item name="dialogButtonRightStyle">@style/MessageDialog.Button.Right.Default</item>
-        <item name="dialogButtonSingleStyle">@style/MessageDialog.Button.Single.Default</item>
+    <!--weak按钮样式-->
+    <style name="MessageDialogButtonThemeWeak">
+        <item name="dialogButtonLeftStyle">@style/MessageDialog.Button.Left.Weak</item>
+        <item name="dialogButtonMiddleStyle">@style/MessageDialog.Button.Middle.Weak</item>
+        <item name="dialogButtonRightStyle">@style/MessageDialog.Button.Right.Weak</item>
+        <item name="dialogButtonSingleStyle">@style/MessageDialog.Button.Single.Weak</item>
     </style>
     <!--strong按钮样式-->
     <style name="MessageDialogButtonThemeStrong">
@@ -104,7 +104,7 @@
         <item name="layout_constraintLeft_toLeftOf">parent</item>
         <item name="layout_constraintRight_toLeftOf">@id/message_dialog_button_middle</item>
     </style>
-    <style name="MessageDialog.Button.Left.Default">
+    <style name="MessageDialog.Button.Left.Weak">
         <item name="android:background">@drawable/bg_dialog_message_button_left</item>
         <item name="android:textColor">@color/dialog_button_text</item>
     </style>
@@ -119,7 +119,7 @@
         <item name="layout_constraintRight_toLeftOf">@id/message_dialog_button_right</item>
         <item name="android:layout_marginLeft">@dimen/dialog_divider_size</item>
     </style>
-    <style name="MessageDialog.Button.Middle.Default">
+    <style name="MessageDialog.Button.Middle.Weak">
         <item name="android:background">@drawable/bg_dialog_message_button_middle</item>
         <item name="android:textColor">@color/dialog_button_text</item>
     </style>
@@ -134,7 +134,7 @@
         <item name="layout_constraintRight_toRightOf">parent</item>
         <item name="android:layout_marginLeft">@dimen/dialog_divider_size</item>
     </style>
-    <style name="MessageDialog.Button.Right.Default">
+    <style name="MessageDialog.Button.Right.Weak">
         <item name="android:background">@drawable/bg_dialog_message_button_right</item>
         <item name="android:textColor">@color/dialog_button_text</item>
     </style>
@@ -148,7 +148,7 @@
         <item name="layout_constraintLeft_toRightOf">parent</item>
         <item name="layout_constraintRight_toRightOf">parent</item>
     </style>
-    <style name="MessageDialog.Button.Single.Default">
+    <style name="MessageDialog.Button.Single.Weak">
         <item name="android:background">@drawable/bg_dialog_message_button_single</item>
         <item name="android:textColor">@color/dialog_button_text</item>
     </style>

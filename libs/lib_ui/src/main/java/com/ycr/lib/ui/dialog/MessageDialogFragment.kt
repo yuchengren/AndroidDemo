@@ -47,6 +47,7 @@ class MessageDialogFragment: DialogFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        isCancelable = builder?.cancelable?:true
         if(builder?.isSave != true && savedInstanceState != null){
             showsDialog = false
             dismissAllowingStateLoss()
@@ -96,11 +97,13 @@ class MessageDialogFragment: DialogFragment() {
         val buttonTextAndStyles = mutableListOf<Triple<String?,Int,String?>?>().apply {
             if(builder.buttonTexts != null){
                 builder.buttonTexts?.forEachIndexed { index, text ->
+                    if(text.isEmpty()) return@forEachIndexed
                     add(Triple(text,getButtonTextResId(index,builder.buttonTextResIds),getButtonStyle(index,builder.buttonStyles)))
                 }
             }else{
                 builder.buttonTextResIds?.forEachIndexed { index, textResId ->
                     val text = if(textResId > 0) context.getString(textResId) else null
+                    if(text == null || text.isEmpty()) return@forEachIndexed
                     add(Triple(text,textResId,getButtonStyle(index,builder.buttonStyles)))
                 }
             }
@@ -108,8 +111,9 @@ class MessageDialogFragment: DialogFragment() {
                 add(1,null)
             }
         }
-
         val buttonSize = buttonTextAndStyles.size
+
+        val isLeftRightButtonType = buttonSize == 3 && buttonTextAndStyles[1] == null
 
         for(i in 0..2){
             val buttonType = when(i){
@@ -122,16 +126,17 @@ class MessageDialogFragment: DialogFragment() {
             val buttonText = if(buttonSize > i) buttonTextAndStyles[i]?.first else null
             val buttonTextResId = if(buttonSize > i) buttonTextAndStyles[i]?.second?:-1 else -1
             val buttonStyle = if(buttonSize > i) buttonTextAndStyles[i]?.third else null
-            val button = getButton(context,dialogView,i,buttonType,buttonText,buttonTextResId,buttonStyle)
+            val index = if(isLeftRightButtonType && i == 2) i - 1 else i
+            val button = getButton(context,dialogView,index,buttonType,buttonText,buttonTextResId,buttonStyle)
             dialogView.addView(button)
         }
 
         return dialogView
     }
 
-    private fun getButton(context: Context,parent: ViewGroup,position: Int,type: String,text: String?,textResId: Int,style: String?): View{
+    private fun getButton(context: Context,parent: ViewGroup,index: Int,type: String,text: String?,textResId: Int,style: String?): View{
         val layoutResId = getButtonLayoutResId(context,type)
-        val styleResId = getButtonStyleResId(context,style?: MessageDialogButtonStyle.DEFAULT)
+        val styleResId = getButtonStyleResId(context,style?: MessageDialogButtonStyle.WEAK)
         val button = LayoutInflater.from(context.apply { theme.applyStyle(styleResId,true) }).
                 inflate(layoutResId,parent,false) as TextView
         return if(text == null || text.isEmpty()){
@@ -141,7 +146,11 @@ class MessageDialogFragment: DialogFragment() {
                 setText(text)
                 setOnClickListener {
                     val onButtonClickListener = onButtonClickListener?:findParentOnButtonClickListener()
-                    onButtonClickListener?.onButtonClick(this@MessageDialogFragment,text,textResId,position)
+                    val isDismiss = onButtonClickListener?.onButtonClick(this@MessageDialogFragment,text,textResId,index)
+                    //如果业务层返回true或者未设置listener,则底层进行Dismiss操作
+                    if(isDismiss != false){
+                        dismiss()
+                    }
                 }
             }
         }
@@ -166,7 +175,7 @@ class MessageDialogFragment: DialogFragment() {
 
     private fun getButtonStyle(buttonTextIndex: Int,buttonStyles: Array<out String>?): String{
         if(buttonTextIndex < 0 || buttonStyles == null || buttonStyles.isEmpty() || buttonStyles.size <= buttonTextIndex){
-            return MessageDialogButtonStyle.DEFAULT
+            return MessageDialogButtonStyle.WEAK
         }
         return buttonStyles[buttonTextIndex]
     }
@@ -186,7 +195,10 @@ class MessageDialogFragment: DialogFragment() {
     }
 
     interface OnButtonClickListener{
-        fun onButtonClick(dialog: MessageDialogFragment, text: String, textResId: Int, position: Int)
+        /**
+         * 返回true 代表需要底层处理dismissDialog
+         */
+        fun onButtonClick(dialog: MessageDialogFragment, text: String, textResId: Int, position: Int): Boolean
     }
 
 
@@ -198,9 +210,9 @@ class MessageDialogFragment: DialogFragment() {
         internal var contentTextResId: Int = -1
         internal var contextTextGravity: Int = Gravity.CENTER
         internal var contentTextAlignment: Int = View.TEXT_ALIGNMENT_GRAVITY
-        internal var buttonTextResIds: IntArray? = intArrayOf(R.string.cancel,R.string.confirm)
-        internal var buttonTexts: Array<out String>? = arrayOf("取消","确定")
-        internal var buttonStyles: Array<out String>? = arrayOf(MessageDialogButtonStyle.DEFAULT,MessageDialogButtonStyle.STRONG)
+        internal var buttonTextResIds: IntArray? = null
+        internal var buttonTexts: Array<out String>? = null
+        internal var buttonStyles: Array<out String>? = null
 
         fun isSave(isSave: Boolean) = apply{
             this.isSave = isSave
@@ -243,11 +255,25 @@ class MessageDialogFragment: DialogFragment() {
         }
 
         fun build(): MessageDialogFragment{
-            check()
+            val buttonSize = checkButtonSize()
+            if(buttonStyles == null){
+                setDefaultButtonStyle(buttonSize)
+            }else{
+                checkButtonStyle(buttonSize)
+            }
             return MessageDialogFragment().apply { builder = this@Builder }
         }
 
-        private fun check(){
+        private fun setDefaultButtonStyle(buttonSize: Int) {
+            this.buttonStyles = when(buttonSize){
+                1 -> arrayOf(MessageDialogButtonStyle.STRONG)
+                2 -> arrayOf(MessageDialogButtonStyle.WEAK,MessageDialogButtonStyle.STRONG)
+                3 -> arrayOf(MessageDialogButtonStyle.WEAK,MessageDialogButtonStyle.WEAK,MessageDialogButtonStyle.STRONG)
+                else -> arrayOf(MessageDialogButtonStyle.STRONG)
+            }
+        }
+
+        private fun checkButtonSize(): Int{
             var buttonTextSize  = 0
             val buttonTextValid =  if(buttonTexts != null){
                 buttonTexts?.run {
@@ -260,11 +286,13 @@ class MessageDialogFragment: DialogFragment() {
                     size in 1..3
                 }?:false
             }
-
             check(buttonTextValid){
                 "button text size is not in 1..3"
             }
+            return buttonTextSize
+        }
 
+        private fun checkButtonStyle(buttonTextSize: Int){
             buttonStyles?.run {
                 check(size == 1 || buttonTextSize == size){
                     "button style size is not 1 or button text size"

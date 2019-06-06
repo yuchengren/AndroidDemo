@@ -14,7 +14,6 @@ public class PermissionUtil {
 			Manifest.permission.WRITE_EXTERNAL_STORAGE,
 			Manifest.permission.READ_EXTERNAL_STORAGE,
 			Manifest.permission.READ_PHONE_STATE,
-			Manifest.permission.CAMERA
 	};
 
 	public static boolean checkPermission(Context context, String permission){

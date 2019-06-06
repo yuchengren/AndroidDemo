@@ -347,7 +347,7 @@ public class MaterialHeader extends InternalAbstract implements RefreshHeader {
 
     /**
      * 设置大小尺寸
-     * @param size One of DEFAULT, or LARGE.
+     * @param size One of WEAK, or LARGE.
      * @return MaterialHeader
      */
     public MaterialHeader setSize(int size) {

@@ -46,7 +46,7 @@ abstract class MvvmFragment<B: ViewDataBinding>: BaseFragment() {
 
     override fun createView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val tClass =(javaClass.genericSuperclass as ParameterizedType).actualTypeArguments[0] as? Class<B>
-        if(tClass == ViewDataBinding::class.java){
+        if(tClass == null || tClass == ViewDataBinding::class.java){
             return super.createView(inflater,container,savedInstanceState)
         }
         beforeBindView()

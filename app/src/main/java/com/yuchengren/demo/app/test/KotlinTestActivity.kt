@@ -33,7 +33,7 @@ class KotlinTestActivity: BaseActivity(),MessageDialogFragment.OnButtonClickList
 //                    .title("")
 //                    .contentText("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
 //                    .buttonTextResIds(R.string.cancel,R.string.confirm)
-//                    .buttonStyles(MessageDialogButtonStyle.DEFAULT,MessageDialogButtonStyle.STRONG)
+//                    .buttonStyles(MessageDialogButtonStyle.WEAK,MessageDialogButtonStyle.STRONG)
 //                    .build().show(supportFragmentManager,"tag")
 //        }
 
@@ -42,11 +42,11 @@ class KotlinTestActivity: BaseActivity(),MessageDialogFragment.OnButtonClickList
         }
     }
 
-    override fun onButtonClick(dialog: MessageDialogFragment, text: String, textResId: Int, position: Int) {
+    override fun onButtonClick(dialog: MessageDialogFragment, text: String, textResId: Int, position: Int): Boolean {
         when(textResId){
             R.string.confirm -> ToastHelper.show(text)//确定的业务逻辑
             R.string.cancel -> ToastHelper.show(text)//取消的业务逻辑
         }
-        dialog.dismiss()
+        return true
     }
 }

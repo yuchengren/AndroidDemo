@@ -6,4 +6,7 @@ import java.util.*
 /**
  * Created by yuchengren on 2019/3/14.
  */
-data class PermissionAction(val permissions: Array<String>,var permissionDesc: String? = "启用权限",var isGranted: Boolean = false): Serializable
+class PermissionAction(vararg val permissions: String,
+                            var permissionDesc: String? = "",
+                            var gotoSettingDesc: String? = "",
+                            var isGranted: Boolean = false): Serializable

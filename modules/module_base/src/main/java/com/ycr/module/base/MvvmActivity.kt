@@ -43,7 +43,7 @@ abstract class MvvmActivity<B: ViewDataBinding>: BaseActivity() {
 
     override fun createView(savedInstanceState: Bundle?) {
         val tClass =(javaClass.genericSuperclass as ParameterizedType).actualTypeArguments[0] as? Class<B>
-        if(tClass == ViewDataBinding::class.java){
+        if(tClass == null || tClass == ViewDataBinding::class.java){
             super.createView(savedInstanceState)
             return
         }

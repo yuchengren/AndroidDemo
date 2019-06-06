@@ -2,4 +2,8 @@
     package="com.ycr.module.base" >
 
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
+    <application >
+        <activity android:name=".permission.PermissionModuleActivity"/>
+    </application>
 </manifest>
