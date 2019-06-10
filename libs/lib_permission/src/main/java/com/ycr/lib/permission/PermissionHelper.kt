@@ -64,8 +64,8 @@ object PermissionHelper {
         fragment.startActivityForResult(intent,requestCode)
     }
 
-    @JvmStatic fun handleRequestResult(requestCode: Int,result: IPermissionResult){
-        when(requestCode){
+    @JvmStatic fun handleRequestResult(resultCode: Int,result: IPermissionResult){
+        when(resultCode){
             CODE_RESULT_GRANTED -> result.onGranted()
             else -> result.onDefined()
         }

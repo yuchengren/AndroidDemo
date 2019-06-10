@@ -26,6 +26,7 @@ abstract class PermissionProxyActivity: AppCompatActivity() {
         val permissionModule = intent?.getSerializableExtra(IPermissionConstants.EXTRA_PERMISSION_MODULE) as? PermissionModule
         if(permissionModule?.actionArray?.isEmpty() != false){
             Toast.makeText(this,getString(R.string.no_permission_need_request), Toast.LENGTH_SHORT).show()
+            setResult(PermissionHelper.CODE_RESULT_GRANTED,intent)
             finish()
             return
         }
@@ -37,16 +38,27 @@ abstract class PermissionProxyActivity: AppCompatActivity() {
     abstract fun showPermissionModule(permissionModule: PermissionModule)
 
     private fun checkPermissionActions(permissionActions: Array<out PermissionAction>) {
+        var isHasPermissionChanged = false
         permissionActions.forEach {
-            it.isGranted = PermissionHelper.checkPermissions(this, * it.permissions)
+            val checkPermissions = PermissionHelper.checkPermissions(this, * it.permissions)
+            if(it.isGranted != checkPermissions){
+                it.isGranted = checkPermissions
+                isHasPermissionChanged = true
+            }
+        }
+        if(isHasPermissionChanged){
+            notifyAdapter()
         }
         checkAllPermissionActionsGranted()
     }
 
     private fun checkAllPermissionActionsGranted(){
-        setResult(if(isAllPermissionActionsGranted())PermissionHelper.CODE_RESULT_GRANTED else
-            PermissionHelper.CODE_RESULT_DEFINED,intent)
-
+        if(isAllPermissionActionsGranted()){
+            setResult(PermissionHelper.CODE_RESULT_GRANTED,intent)
+            finish()
+        }else{
+            setResult(PermissionHelper.CODE_RESULT_DEFINED,intent)
+        }
     }
 
     private fun isAllPermissionActionsGranted(): Boolean{
@@ -71,11 +83,14 @@ abstract class PermissionProxyActivity: AppCompatActivity() {
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        val allPermissionGranted = isAllPermissionGranted(grantResults)
+        val isAllPermissionGranted = isAllPermissionGranted(grantResults)
         for (permissionAction in permissionModule.actionArray) {
             if(permissionAction.permissions.contentEquals(permissions)){
-                permissionAction.isGranted = allPermissionGranted
-                if(!allPermissionGranted){
+                if(permissionAction.isGranted != isAllPermissionGranted){
+                    permissionAction.isGranted = isAllPermissionGranted
+                    notifyAdapter()
+                }
+                if(!isAllPermissionGranted){
                     if(!PermissionHelper.shouldShowRequestPermissionRationale(this,*permissions)){
                         showGotoSetting(permissionAction)
                     }
@@ -83,7 +98,7 @@ abstract class PermissionProxyActivity: AppCompatActivity() {
                 break
             }
         }
-        if(allPermissionGranted){
+        if(isAllPermissionGranted){
             checkAllPermissionActionsGranted()
         }
     }

@@ -44,9 +44,9 @@ class ChosenPhotoActivity: BaseActivity() {
         super.afterBindView(rootView, savedInstanceState)
         cameraGet.setOnClickListener {
             if(!PermissionHelper.checkPermissions(this,Manifest.permission.CAMERA,
-                            Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE)){
+                            Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE)){
                 val permissionModule = PermissionModule("拍摄照片","允许访问即可进入拍摄",
-                        PermissionAction(Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE),
+                        PermissionAction(Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE),
                         PermissionAction(Manifest.permission.CAMERA))
                 PermissionHelper.startForResult(this@ChosenPhotoActivity,
                         PermissionModuleActivity::class.java,REQUEST_CODE_PERMISSION,permissionModule)
@@ -73,7 +73,7 @@ class ChosenPhotoActivity: BaseActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        PermissionHelper.handleRequestResult(requestCode,object: IPermissionResult {
+        PermissionHelper.handleRequestResult(resultCode,object: IPermissionResult {
             override fun onGranted() {
                 SubjectPhotoTakeActivity.start(this@ChosenPhotoActivity)
             }
