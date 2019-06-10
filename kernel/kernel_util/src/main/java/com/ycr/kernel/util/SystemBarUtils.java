@@ -1,5 +1,7 @@
 package com.ycr.kernel.util;
 
+import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
@@ -24,12 +26,62 @@ import java.lang.reflect.Method;
  *
  */
 
-public class WindowBarUtils {
+public class SystemBarUtils {
     public static final String HOME_CURRENT_TAB_POSITION = "HOME_CURRENT_TAB_POSITION";
     public static int screenWidth;
     public static int screenHeight;
     public static int navigationHeight = 0;
     private static DisplayMetrics mMetrics;
+
+
+    /**
+     * 设置状态栏
+     *
+     * @param activity
+     * @param on
+     */
+    public static void setTranslucentStatus(Activity activity, boolean on) {
+        if (activity == null) {
+            return;
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            setTranslucentStatus_(activity, on);
+        }
+    }
+
+    @TargetApi(19)
+    private static void setTranslucentStatus_(Activity activity, boolean on) {
+        Window win = activity.getWindow();
+        WindowManager.LayoutParams winParams = win.getAttributes();
+        final int bits = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
+        if (on) {
+            winParams.flags |= bits;
+        } else {
+            winParams.flags &= ~bits;
+        }
+        win.setAttributes(winParams);
+    }
+
+    /**
+     * 关闭下拉菜单
+     *
+     * @return
+     */
+    public static void collapseStatusBar(Context context) {
+        try {
+            @SuppressLint("WrongConstant") Object statusBarManager = context.getSystemService("statusbar");
+            Method collapse;
+            if (Build.VERSION.SDK_INT <= 16) {
+                collapse = statusBarManager.getClass().getMethod("collapse");
+            } else {
+                collapse = statusBarManager.getClass().getMethod(
+                        "collapsePanels");
+            }
+            collapse.invoke(statusBarManager);
+        } catch (Exception localException) {
+            localException.printStackTrace();
+        }
+    }
 
     /**
      * 通过反射的方式获取状态栏高度

@@ -26,7 +26,7 @@ class ChosenPhotoActivity: BaseActivity() {
 
     companion object {
 
-        const val REQUEST_CODE_PERMISSION = 1
+        const val REQUEST_CODE_PERMISSION_TAKE_PIC = 1
 
         fun start(context: Context, url: String = ""){
             val intent = Intent(context, ChosenPhotoActivity::class.java).apply {
@@ -42,6 +42,10 @@ class ChosenPhotoActivity: BaseActivity() {
 
     override fun afterBindView(rootView: View?, savedInstanceState: Bundle?) {
         super.afterBindView(rootView, savedInstanceState)
+        photoChoose.setOnClickListener {
+            PhotoBookGirdActivity.start(this)
+        }
+
         cameraGet.setOnClickListener {
             if(!PermissionHelper.checkPermissions(this,Manifest.permission.CAMERA,
                             Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE)){
@@ -49,16 +53,20 @@ class ChosenPhotoActivity: BaseActivity() {
                         PermissionAction(Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE),
                         PermissionAction(Manifest.permission.CAMERA))
                 PermissionHelper.startForResult(this@ChosenPhotoActivity,
-                        PermissionModuleActivity::class.java,REQUEST_CODE_PERMISSION,permissionModule)
+                        PermissionModuleActivity::class.java,REQUEST_CODE_PERMISSION_TAKE_PIC,permissionModule)
                 return@setOnClickListener
             }
-
-
             SubjectPhotoTakeActivity.start(this@ChosenPhotoActivity)
-//            PhotoClipActivity.start(this@ChosenPhotoActivity,Environment.getExternalStorageDirectory().path + "/test.png")
         }
-        photoChoose.setOnClickListener {
-            PhotoBookGirdActivity.start(this)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when(requestCode){
+            REQUEST_CODE_PERMISSION_TAKE_PIC -> PermissionHelper.handlePermissionResult(resultCode,object: IPermissionResult {
+                override fun onGranted() { SubjectPhotoTakeActivity.start(this@ChosenPhotoActivity) }
+                override fun onDefined() { ToastHelper.show("缺少拍照所需权限") }
+            })
         }
     }
 
@@ -69,19 +77,5 @@ class ChosenPhotoActivity: BaseActivity() {
 //            photo.setImageBitmap(BitmapFactory.decodeFile("/storage/emulated/0/DCIM/Camera/IMG_20190128_150500.jpg"))
         }
 
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        PermissionHelper.handleRequestResult(resultCode,object: IPermissionResult {
-            override fun onGranted() {
-                SubjectPhotoTakeActivity.start(this@ChosenPhotoActivity)
-            }
-
-            override fun onDefined() {
-                ToastHelper.show("缺少拍照所需权限")
-            }
-
-        })
     }
 }

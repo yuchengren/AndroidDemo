@@ -1,9 +1,11 @@
 package com.ycr.module.base.permission
 
+import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
+import com.ycr.kernel.util.SystemBarTintManager
+import com.ycr.kernel.util.SystemBarUtils
 import com.ycr.lib.permission.PermissionAction
-import com.ycr.lib.permission.PermissionActionAdapter
 import com.ycr.lib.permission.PermissionModule
 import com.ycr.lib.permission.PermissionProxyActivity
 import com.ycr.lib.theme.MessageDialogButtonStyle
@@ -16,8 +18,24 @@ import kotlinx.android.synthetic.main.permission_activity_permission_proxy.*
  */
 class PermissionModuleActivity : PermissionProxyActivity(),MessageDialogFragment.OnButtonClickListener {
 
+    // 沉浸栏
+    private lateinit var tintManager: SystemBarTintManager
+
     override fun getRootLayoutResId(): Int {
         return R.layout.permission_activity_permission_proxy
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        initTint()
+    }
+
+    private fun initTint() {
+        tintManager = SystemBarTintManager(this)
+        SystemBarUtils.setTranslucentStatus(this, true)
+        //沉浸栏设置
+        tintManager.isStatusBarTintEnabled = true
+        tintManager.setStatusBarTintColor(0xE6000000.toInt())
     }
 
     override fun showPermissionModule(permissionModule: PermissionModule) {

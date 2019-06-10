@@ -51,7 +51,10 @@ class LoginActivity : MvvmActivity<ActivityLoginBinding>(), ILoginContract.IView
         viewDataBinding.loginViewModel?.userEntityLiveData?.observe(this, Observer {
             viewDataBinding.userViewModel?.getUserDetail(it?.userId)
         })
+    }
 
+    override fun isSupportTint(): Boolean {
+        return true
     }
 
     override fun onLoginSuccess() {

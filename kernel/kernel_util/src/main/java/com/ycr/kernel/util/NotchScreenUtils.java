@@ -192,7 +192,7 @@ public class NotchScreenUtils {
 
     private static void getXiaomiSafeInset(Context context, int [] safeInset){
         safeInset[0] = 0;
-        safeInset[1] = WindowBarUtils.getStatusBarHeight(context);
+        safeInset[1] = SystemBarUtils.getStatusBarHeight(context);
         safeInset[2] = 0;
         safeInset[3] = 0;
     }

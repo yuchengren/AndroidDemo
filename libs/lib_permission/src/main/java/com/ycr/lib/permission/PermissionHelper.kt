@@ -13,8 +13,8 @@ import android.support.v4.content.ContextCompat
  */
 object PermissionHelper {
 
-    const val CODE_RESULT_GRANTED = 101
-    const val CODE_RESULT_DEFINED = 102
+    const val CODE_RESULT_GRANTED = 13
+    const val CODE_RESULT_DEFINED = 14
 
     @JvmStatic fun checkPermissions(context: Context, vararg permissions: String): Boolean{
         for (permission in permissions) {
@@ -64,7 +64,7 @@ object PermissionHelper {
         fragment.startActivityForResult(intent,requestCode)
     }
 
-    @JvmStatic fun handleRequestResult(resultCode: Int,result: IPermissionResult){
+    @JvmStatic fun handlePermissionResult(resultCode: Int, result: IPermissionResult){
         when(resultCode){
             CODE_RESULT_GRANTED -> result.onGranted()
             else -> result.onDefined()

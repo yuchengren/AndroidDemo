@@ -12,7 +12,6 @@
 
     <color name="bg_light">#FFFFFF</color><!--背景色 浅色 有显示内容的背景-->
     <color name="bg_medium">#F8F6F7</color><!--背景色 中等色 整体的背景-->
-    <color name="bg_bright">#2C99CC</color>
 
     <color name="divider">#E6E4E5</color> <!--分割线的颜色-->
     <color name="toast">#313131</color>
