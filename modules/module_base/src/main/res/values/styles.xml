@@ -1,22 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Base application theme. -->
-    <style name="AppThemeBase" parent="Theme.AppCompat.Light.NoActionBar" >
-        <item name="switch_text_color">#000000</item>
-        <item name="switch_text_size">@dimen/test_size</item>
-        <item name="switch_text">@string/black_color</item>
-        <item name="switch_drawable">@drawable/test_drawable</item>
-    </style>
-
-    <style name="AppTheme" parent="AppThemeBase">
-    </style>
-    <!--首屏透明-->
-    <style name="AppTheme.Fullscreen" parent="AppTheme">
-        <!--<item name="windowNoTitle">true</item>-->
-        <item name="android:windowFullscreen">true</item>
-        <item name="android:windowAnimationStyle">@null</item>
-    </style>
-    <style name="AppTheme.FullscreenTranslucent" parent="AppTheme.Fullscreen">
-        <item name="android:windowIsTranslucent">true</item>
+    <style name="animation_activity" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/activity_open_enter</item>
+        <item name="android:activityOpenExitAnimation">@anim/activity_open_exit</item>
+        <item name="android:activityCloseEnterAnimation">@anim/activity_close_enter</item>
+        <item name="android:activityCloseExitAnimation">@anim/activity_close_exit</item>
     </style>
 </resources>
