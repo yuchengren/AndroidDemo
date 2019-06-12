@@ -1,7 +1,6 @@
-package com.ycr.lib.ui.gridimage
+package com.ycr.lib.ui.recyclerview
 
 import android.support.annotation.CallSuper
-import android.support.annotation.IdRes
 import android.support.annotation.LayoutRes
 import android.widget.ImageView
 import com.ycr.lib.ui.R

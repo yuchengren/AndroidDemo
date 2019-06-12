@@ -2,22 +2,16 @@ package com.ycr.module.photo.grid
 
 import android.content.Context
 import android.content.Intent
-import android.database.Cursor
 import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
-import android.provider.MediaStore
-import android.support.v4.app.LoaderManager
-import android.support.v4.content.CursorLoader
-import android.support.v4.content.Loader
-import android.util.Log
 import android.view.Gravity
 import android.view.MotionEvent
 import android.view.View
 import android.widget.ImageView
 import android.widget.PopupWindow
 import com.bumptech.glide.Glide
-import com.ycr.lib.ui.gridimage.BaseRecyclerAdapter
+import com.ycr.lib.ui.recyclerview.BaseRecyclerAdapter
 import com.ycr.module.base.BaseActivity
 import com.ycr.module.photo.R
 import com.ycr.module.photo.clip.PhotoClipActivity

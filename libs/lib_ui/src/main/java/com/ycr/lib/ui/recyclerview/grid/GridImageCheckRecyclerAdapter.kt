@@ -1,9 +1,12 @@
-package com.ycr.lib.ui.gridimage
+package com.ycr.lib.ui.recyclerview.grid
 
-import android.support.annotation.IdRes
 import android.support.annotation.LayoutRes
+import android.view.View
 import android.widget.CheckBox
 import com.ycr.lib.ui.R
+import com.ycr.lib.ui.entity.ImageCheckEntity
+import com.ycr.lib.ui.recyclerview.BaseImageRecyclerAdapter
+import com.ycr.lib.ui.recyclerview.BaseRecyclerHolder
 
 /**
  * Created by yuchengren on 2019/1/17.
@@ -15,7 +18,7 @@ class GridImageCheckRecyclerAdapter(data: MutableList<ImageCheckEntity>?, @Layou
 
     override fun convert(holder: BaseRecyclerHolder, position: Int, item: ImageCheckEntity?) {
         super.convert(holder, position, item)
-        holder.getView<CheckBox>(R.id.check)?.run {
+        (holder.getView<View>(R.id.check) as? CheckBox)?.run {
             isChecked = item?.checked?:false
             setOnCheckedChangeListener { buttonView, isChecked ->
                 if(!isMultiCheck && isChecked){

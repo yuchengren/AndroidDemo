@@ -1,10 +1,11 @@
-package com.ycr.lib.ui.gridimage
+package com.ycr.lib.ui.recyclerview.grid
 
 import android.content.Context
 import android.support.annotation.Nullable
 import android.support.v7.widget.GridLayoutManager
 import android.util.AttributeSet
 import com.ycr.lib.ui.R
+import com.ycr.lib.ui.recyclerview.BaseRecyclerView
 
 
 /**

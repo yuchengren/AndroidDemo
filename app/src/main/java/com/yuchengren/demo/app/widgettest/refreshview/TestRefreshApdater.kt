@@ -1,8 +1,8 @@
 package com.yuchengren.demo.app.widgettest.refreshview
 
 import android.widget.TextView
-import com.ycr.lib.ui.gridimage.BaseRecyclerAdapter
-import com.ycr.lib.ui.gridimage.BaseRecyclerHolder
+import com.ycr.lib.ui.recyclerview.BaseRecyclerAdapter
+import com.ycr.lib.ui.recyclerview.BaseRecyclerHolder
 import com.yuchengren.demo.R
 
 /**

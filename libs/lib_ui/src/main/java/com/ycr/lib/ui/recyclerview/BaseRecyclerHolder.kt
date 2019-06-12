@@ -1,8 +1,7 @@
-package com.ycr.lib.ui.gridimage
+package com.ycr.lib.ui.recyclerview
 
 import android.support.annotation.IdRes
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.util.SparseArray
 import android.view.MotionEvent
 import android.view.View

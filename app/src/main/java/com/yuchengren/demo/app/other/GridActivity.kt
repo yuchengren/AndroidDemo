@@ -4,9 +4,9 @@ import android.os.Bundle
 import android.os.Environment
 import android.view.View
 import com.bumptech.glide.Glide
-import com.ycr.lib.ui.gridimage.BaseRecyclerAdapter
-import com.ycr.lib.ui.gridimage.GridImageCheckRecyclerAdapter
-import com.ycr.lib.ui.gridimage.ImageCheckEntity
+import com.ycr.lib.ui.recyclerview.BaseRecyclerAdapter
+import com.ycr.lib.ui.recyclerview.grid.GridImageCheckRecyclerAdapter
+import com.ycr.lib.ui.entity.ImageCheckEntity
 import com.yuchengren.demo.R
 import com.ycr.module.base.BaseActivity
 import com.ycr.module.base.util.ToastHelper

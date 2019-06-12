@@ -6,7 +6,6 @@ import android.support.v7.widget.LinearLayoutManager
 import android.util.AttributeSet
 import android.widget.LinearLayout
 import com.ycr.lib.ui.R
-import com.ycr.lib.ui.gridimage.BaseRecyclerView
 import com.ycr.lib.ui.view.gridimage.LinearItemDecoration
 
 /**

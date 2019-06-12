@@ -1,4 +1,4 @@
-package com.ycr.lib.ui.gridimage
+package com.ycr.lib.ui.widget
 
 import android.annotation.SuppressLint
 import android.content.Context
