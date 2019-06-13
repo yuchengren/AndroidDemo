@@ -52,9 +52,6 @@ public class SplashActivity extends AppCompatActivity {
 	private void checkPermissions() {
 		//如果系统版本大于或等于6.0
 		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-			LogHelper.e("shouldShowRequestPermissionRationale before =" +
-					PermissionHelper.shouldShowRequestPermissionRationale(this,
-							PermissionUtil.mPermissionArray));
 			for (String permission : PermissionUtil.mPermissionArray) {
 				if(PackageManager.PERMISSION_GRANTED != checkPermission(permission, Process.myPid(),Process.myUid())){
 					mRequestPermissionList.add(permission);
@@ -62,9 +59,6 @@ public class SplashActivity extends AppCompatActivity {
 			}
 			if(!mRequestPermissionList.isEmpty()){
 				requestPermissions(mRequestPermissionList.toArray(new String[mRequestPermissionList.size()]),REQUEST_PERMISSION_CODE);
-				LogHelper.e("shouldShowRequestPermissionRationale after=" +
-						PermissionHelper.shouldShowRequestPermissionRationale(this,
-								PermissionUtil.mPermissionArray));
 			}else{
 				startMainActivity();
 			}
