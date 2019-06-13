@@ -5,6 +5,7 @@
     <color name="black_half">#7F000000</color>
     <color name="transparent">#00000000</color>
     <color name="primary">#FF8000</color>
+    <color name="test">#804000</color>
 
     <color name="bg_bright">@color/primary</color>
     <color name="bg_common">#F0F0F0</color>

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-
     <item android:drawable="@drawable/login_register_icon_delete_s" android:state_focused="true" android:state_pressed="true"></item>
     <item android:drawable="@drawable/login_register_icon_delete_s" android:state_focused="false" android:state_pressed="true"></item>
-   <item android:drawable="@drawable/login_register_icon_delete_n"></item>
+    <item android:drawable="@drawable/login_register_icon_delete_n"></item>
 </selector>

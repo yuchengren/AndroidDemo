@@ -51,8 +51,12 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
 		btn_test = findViewById(R.id.btn_test);
 		btn_test.setOnClickListener(this);
 
-		HttpHelper.INSTANCE.cancelGroup("");
-		JsonHelper.toJson("");
+		int a = 0xfffffff;
+
+		LogHelper.e("maxColor",String.valueOf(a));
+		LogHelper.e("max",String.valueOf(Integer.MAX_VALUE));
+		LogHelper.e("min",String.valueOf(Integer.MIN_VALUE));
+
 	}
 
 	@Override

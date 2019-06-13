@@ -19,7 +19,7 @@ import kotlinx.android.synthetic.main.activity_kotlin_test.*
 /**
  * Created by yuchengren on 2019/1/28.
  */
-class KotlinTestActivity: BaseActivity(),MessageDialogFragment.OnButtonClickListener {
+class KotlinTestActivity: BaseActivity() {
 
     override fun getRootLayoutResId(): Int {
         return R.layout.activity_kotlin_test
@@ -27,26 +27,16 @@ class KotlinTestActivity: BaseActivity(),MessageDialogFragment.OnButtonClickList
 
     override fun afterBindView(rootView: View?, savedInstanceState: Bundle?) {
         super.afterBindView(rootView, savedInstanceState)
-//        ImageHelper.display(imageView,Environment.getExternalStorageDirectory().path + "/test.png", ImageOptions.default)
-//        btn_test.setOnClickListener {
-//            MessageDialogFragment.builder()
-//                    .title("")
-//                    .contentText("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
-//                    .buttonTextResIds(R.string.cancel,R.string.confirm)
-//                    .buttonStyles(MessageDialogButtonStyle.WEAK,MessageDialogButtonStyle.STRONG)
-//                    .build().show(supportFragmentManager,"tag")
-//        }
 
         btn_test.setOnClickListener {
-            LoginActivity.start(this)
+//            LoginActivity.start(this)
+            tv1.isEnabled = !tv1.isEnabled
         }
-    }
 
-    override fun onButtonClick(dialog: MessageDialogFragment, text: String, textResId: Int, position: Int): Boolean {
-        when(textResId){
-            R.string.confirm -> ToastHelper.show(text)//确定的业务逻辑
-            R.string.cancel -> ToastHelper.show(text)//取消的业务逻辑
+
+        btn_test2.setOnClickListener {
+            tv2.isSelected = !tv2.isSelected
         }
-        return true
+
     }
 }

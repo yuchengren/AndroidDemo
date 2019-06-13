@@ -1,10 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <attr name="shape" format="enum">
+        <enum name="rectangle" value="0" />
+        <enum name="oval" value="1" />
+        <enum name="line" value="2" />
+        <enum name="ring" value="3" />
+    </attr>
+    <!-- 圆角弧度 -->
     <attr name="cornerRadius" format="dimension"/>
-    <attr name="ratio" format="float" />
+    <!-- 左上圆角弧度 -->
+    <attr name="topLeftRadius" format="dimension" />
+    <!-- 右上圆角弧度 -->
+    <attr name="topRightRadius" format="dimension" />
+    <!-- 右下圆角弧度 -->
+    <attr name="bottomRightRadius" format="dimension" />
+    <!-- 左下圆角弧度 -->
+    <attr name="bottomLeftRadius" format="dimension" />
+
     <attr name="strokeWidth" format="dimension" />
     <attr name="strokeVisible" format="boolean" />
     <attr name="strokeColor" format="color" />
+    <attr name="strokeDashWidth" format="dimension" /> <!--描边虚线的宽度-->
+    <attr name="strokeDashGap" format="dimension" /><!--描边虚线之间的间隔-->
+
+    <attr name="gradientType" format="enum" >
+        <enum name="linear" value="0" />
+        <enum name="radial" value="1" />
+        <enum name="sweep" value="2" />
+    </attr>
+    <attr name="gradientUseLevel" format="boolean" />
+    <attr name="gradientAngle" format="integer" />
+    <attr name="gradientCenterX" format="dimension" />
+    <attr name="gradientCenterY" format="dimension" />
+    <attr name="gradientGradientRadius" format="dimension" />
+    <attr name="gradientStartColor" format="color" />
+    <attr name="gradientCenterColor" format="color" />
+    <attr name="gradientEndColor" format="color" />
+
+    
+    <attr name="ratio" format="float" />
     <attr name="orientation" >
         <enum name="HORIZONTAL" value="0" />
         <enum name="VERTICAL" value="1" />
@@ -36,8 +70,8 @@
         <attr name="strokeVisible" />
         <attr name="strokeColor"  />
 
-        <attr name="strokeDashWidth" format="dimension" /> <!--描边虚线的宽度-->
-        <attr name="strokeDashGap" format="dimension" /><!--描边虚线之间的间隔-->
+        <attr name="strokeDashWidth" /> <!--描边虚线的宽度-->
+        <attr name="strokeDashGap" /><!--描边虚线之间的间隔-->
         <attr name="strokeDashPhase" format="dimension" /><!--描边虚线间隔数组的偏移量-->
     </declare-styleable>
     
@@ -62,5 +96,49 @@
         <attr name="hasStartSpacing" format="boolean"/>
         <attr name="hasEndSpacing" format="boolean"/>
 
+    </declare-styleable>
+
+    <declare-styleable name="ShapeTextView">
+        <attr name="android:gravity" />
+        <attr name="android:clickable" />
+
+        <attr name="cornerRadius" />
+        <attr name="topLeftRadius"  />
+        <attr name="topRightRadius" />
+        <attr name="bottomRightRadius"  />
+        <attr name="bottomLeftRadius" />
+
+        <attr name="strokeWidth"  />
+        <attr name="strokeColor" />
+        <attr name="strokeDashWidth" /> <!--描边虚线的宽度-->
+        <attr name="strokeDashGap" /><!--描边虚线之间的间隔-->
+
+        <attr name="pressedStrokeVisible" format="boolean" />
+        <attr name="disabledStrokeVisible" format="boolean" />
+        <attr name="selectedStrokeVisible" format="boolean" />
+
+        <attr name="pressedStrokeColor" format="color"/>
+        <attr name="disabledStrokeColor" format="color"/>
+        <attr name="selectedStrokeColor" format="color"/>
+
+        <attr name="bgColor" format="color" />
+        <attr name="pressedBgColor" format="color" />
+        <attr name="disabledBgColor" format="color" />
+        <attr name="selectedBgColor" format="color" />
+
+        <attr name="pressedTextColor" format="color"/>
+        <attr name="disabledTextColor" format="color"/>
+        <attr name="selectedTextColor" format="color"/>
+
+        <attr name="shape" />
+        <attr name="gradientType" />
+        <attr name="gradientUseLevel" />
+        <attr name="gradientAngle" />
+        <attr name="gradientCenterX" />
+        <attr name="gradientCenterY" />
+        <attr name="gradientGradientRadius"  />
+        <attr name="gradientStartColor" />
+        <attr name="gradientCenterColor" />
+        <attr name="gradientEndColor" />
     </declare-styleable>
 </resources>
