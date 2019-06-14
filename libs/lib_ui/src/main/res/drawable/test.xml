@@ -3,6 +3,7 @@
     <corners android:radius="@android:dimen/app_icon_size"
         android:topLeftRadius="@dimen/text_size_small_least"/>
     <solid android:color="@color/black" />
+    <stroke android:dashWidth="@dimen/dialog_corner" />
     <gradient android:useLevel="true"
         android:centerX="0.6"/>
 </shape>

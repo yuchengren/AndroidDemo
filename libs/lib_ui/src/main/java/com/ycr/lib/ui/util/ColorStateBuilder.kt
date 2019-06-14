@@ -10,16 +10,12 @@ class ColorStateBuilder {
     val state_disabled = intArrayOf(-android.R.attr.state_enabled)
     val state_pressed = intArrayOf(android.R.attr.state_pressed,android.R.attr.state_enabled)
     val state_selected = intArrayOf(android.R.attr.state_selected)
-
     val state_none = intArrayOf()
-
 //    val states  = arrayOf(state_disabled,state_pressed,state_selected,state_none)
-
     var defaultTextColor: Int = 0
     var pressedTextColor: Int = 0
     var disabledTextColor: Int = 0
     var selectedTextColor: Int = 0
-
 
     private fun getTextColorStateList(): ColorStateList {
         val defaultTextColor = defaultTextColor
@@ -39,7 +35,6 @@ class ColorStateBuilder {
         }
         states.add(state_none)
         colors.add(defaultTextColor)
-
         return ColorStateList(states.toTypedArray(), colors.toTypedArray().toIntArray())
     }
 

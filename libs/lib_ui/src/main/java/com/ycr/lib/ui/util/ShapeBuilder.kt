@@ -68,21 +68,21 @@ class ShapeBuilder {
             if(disabledBgColor != 0 || (disabledStrokeColor != 0 && disabledStrokeVisible)){
                 val disabledBgColor = if(disabledBgColor != 0) disabledBgColor else bgColor
                 val disabledStrokeColor = if(disabledStrokeColor != 0) disabledStrokeColor else strokeColor
-                addState(state_disabled,getGradientBgDrawable(disabledBgColor,strokeWidth,disabledStrokeColor))
+                val disabledStrokeWidth = if(disabledStrokeVisible) strokeWidth else 0
+                addState(state_disabled,getGradientBgDrawable(disabledBgColor,disabledStrokeWidth,disabledStrokeColor))
             }
-
             if(pressedBgColor != 0 || (pressedStrokeColor != 0 && pressedStrokeVisible)){
                 val pressedBgColor = if(pressedBgColor != 0) pressedBgColor else bgColor
                 val pressedStrokeColor = if(pressedStrokeColor != 0) pressedStrokeColor else strokeColor
-                addState(state_pressed,getGradientBgDrawable(pressedBgColor,strokeWidth,pressedStrokeColor))
+                val pressedStrokeWidth = if(pressedStrokeVisible) strokeWidth else 0
+                addState(state_pressed,getGradientBgDrawable(pressedBgColor,pressedStrokeWidth,pressedStrokeColor))
             }
-
             if(selectedBgColor != 0 || (selectedStrokeColor != 0 && selectedStrokeVisible)){
                 val selectedBgColor = if(selectedBgColor != 0) selectedBgColor else bgColor
                 val selectedStrokeColor = if(selectedStrokeColor != 0) selectedStrokeColor else strokeColor
-                addState(state_selected,getGradientBgDrawable(selectedBgColor,strokeWidth,selectedStrokeColor))
+                val selectedStrokeWidth = if(selectedStrokeVisible) strokeWidth else 0
+                addState(state_selected,getGradientBgDrawable(selectedBgColor,selectedStrokeWidth,selectedStrokeColor))
             }
-
             addState(state_none,getGradientBgDrawable(bgColor,strokeWidth,strokeColor))
         }
     }
@@ -111,7 +111,7 @@ class ShapeBuilder {
     }
     
     private fun setStroke(gradientDrawable: GradientDrawable,strokeWidth: Int,strokeColor: Int){
-        if((strokeWidth > 0 || strokeDashWidth > 0) && strokeColor != 0){
+        if((strokeWidth > 0) && strokeColor != 0){
             gradientDrawable.setStroke(strokeWidth,strokeColor,strokeDashWidth.toFloat(),strokeDashGap.toFloat())
         }
     }
@@ -171,7 +171,6 @@ class ShapeBuilder {
         }
     }
 
-
     /**
      * 设置颜色渐变类型
      *
@@ -191,8 +190,6 @@ class ShapeBuilder {
             else -> null
         }
     }
-    
-    
 
     fun into(view: View){
         getBgDrawable()?.let {
@@ -202,6 +199,5 @@ class ShapeBuilder {
                 view.setBackgroundDrawable(it)
             }
         }
-
     }
 }
