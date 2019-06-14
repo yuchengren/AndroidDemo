@@ -120,8 +120,8 @@ object TaskScheduler {
     private fun doSubmitTask(task: AbstractTask<*>) {
         task.onSubmit()
         if(task.groupName() == IGroup.GROUP_NAME_DEFAULT){
-            submitReadyTask(task)
             task.onBeforeCall()
+            submitReadyTask(task)
             return
         }
         val oldTask = taskPriorityManager.getOldTask(task)
@@ -143,6 +143,7 @@ object TaskScheduler {
                 }
             }
         }
+        task.onBeforeCall()
         //检测任务是否可以提交，不可提交的设置任务为等待状态
         if(isCanSubmit(task)){
             //添加任务到分组
@@ -152,7 +153,6 @@ object TaskScheduler {
             task.setStatus(ITaskStatus.WAIT)
             taskPriorityManager.addWaitTask(task)
         }
-        task.onBeforeCall()
     }
 
     internal fun isCanSubmit(task: AbstractTask<*>): Boolean {

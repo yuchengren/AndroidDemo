@@ -18,7 +18,28 @@
         android:text="测试2"
         android:gravity="center"/>
 
+    <ImageView
+        android:id="@+id/ivTest"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center_horizontal"/>
 
+    <com.ycr.lib.ui.widget.ShapeTextView
+        android:id="@+id/tv3"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_height="@dimen/button_height"
+        android:textColor="@color/text_color_dark"
+        app:strokeColor="@color/text_color_dark"
+        app:strokeWidth="3dp"
+        app:bgColor="#ffffff"
+        app:pressedBgColor="@android:color/holo_red_dark"
+        app:pressedStrokeColor="@android:color/holo_green_dark"
+        app:pressedTextColor="@android:color/holo_green_dark"
+        app:bottomLeftRadius="6dp"
+        android:text="press"
+        android:gravity="left" />
     <com.ycr.lib.ui.widget.ShapeTextView
         android:id="@+id/tv1"
         android:layout_width="match_parent"
@@ -33,7 +54,7 @@
         app:disabledStrokeColor="@android:color/holo_green_dark"
         app:disabledTextColor="@android:color/holo_green_dark"
         app:cornerRadius="6dp"
-        android:text="press"
+        android:text="press1"
         android:enabled="false"/>
 
     <com.ycr.lib.ui.widget.ShapeTextView
@@ -50,27 +71,7 @@
         app:selectedStrokeColor="@android:color/holo_green_dark"
         app:selectedTextColor="@android:color/holo_green_dark"
         app:topLeftRadius="6dp"
-        android:text="press" />
-
-    <com.ycr.lib.ui.widget.ShapeTextView
-        android:layout_width="match_parent"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_height="@dimen/button_height"
-        android:textColor="@color/text_color_dark"
-        app:strokeColor="@color/text_color_dark"
-        app:strokeWidth="3dp"
-        app:bgColor="#ffffff"
-        app:pressedBgColor="@android:color/holo_blue_bright"
-        app:pressedStrokeColor="@android:color/holo_green_dark"
-        app:pressedTextColor="@android:color/holo_green_dark"
-        app:cornerRadius="6dp"
-        android:text="press"
-        android:gravity="center"
+        android:text="press2"
         android:enabled="false"/>
-
-
-
-
 
 </LinearLayout>

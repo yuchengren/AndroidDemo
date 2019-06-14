@@ -4,7 +4,10 @@ import android.os.Bundle
 import android.os.Environment
 import android.view.Gravity
 import android.view.View
+import com.ycr.kernel.image.CornerType
+import com.ycr.kernel.image.glide.ImageDisplayOption
 import com.ycr.kernel.log.LogHelper
+import com.ycr.kernel.union.helper.ContextHelper
 import com.ycr.kernel.union.helper.ImageHelper
 import com.ycr.kernel.util.NumberUtil
 import com.ycr.lib.theme.MessageDialogButtonStyle
@@ -38,5 +41,10 @@ class KotlinTestActivity: BaseActivity() {
             tv2.isSelected = !tv2.isSelected
         }
 
+       val imageOption = ImageDisplayOption.build().
+                cornerType(CornerType.TOP).
+                cornerRadius(ContextHelper.getDimenPixel(R.dimen.corner_radius_more))
+
+        ImageHelper.display(ivTest,Environment.getExternalStorageDirectory().absolutePath + "/test.png",imageOption)
     }
 }

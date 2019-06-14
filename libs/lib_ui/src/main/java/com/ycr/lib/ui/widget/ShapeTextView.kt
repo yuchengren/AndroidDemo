@@ -1,18 +1,11 @@
 package com.ycr.lib.ui.widget
 
 import android.content.Context
-import android.content.res.ColorStateList
-import android.graphics.drawable.Drawable
-import android.graphics.drawable.GradientDrawable
-import android.graphics.drawable.StateListDrawable
-import android.os.Build
 import android.support.annotation.Nullable
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.AppCompatTextView
 import android.util.AttributeSet
-import android.util.Log
 import android.view.Gravity
-import android.view.KeyEvent
 import com.ycr.lib.ui.R
 import com.ycr.lib.ui.util.ColorStateBuilder
 import com.ycr.lib.ui.util.ShapeBuilder

@@ -23,7 +23,7 @@ class ShapeBuilder {
     }
 
     val state_disabled = intArrayOf(-android.R.attr.state_enabled)
-    val state_pressed = intArrayOf(android.R.attr.state_pressed)
+    val state_pressed = intArrayOf(android.R.attr.state_pressed,android.R.attr.state_enabled)
     val state_selected = intArrayOf(android.R.attr.state_selected)
     val state_none = intArrayOf()
 
@@ -64,25 +64,24 @@ class ShapeBuilder {
     var gradientEndColor: Int = 0
 
     private fun getBgDrawable(): StateListDrawable?{
-        val bgColor = bgColor
-        val pressedBgColor = if(pressedBgColor != 0) pressedBgColor else bgColor
-        val disabledBgColor = if(disabledBgColor != 0) disabledBgColor else bgColor
-        val selectedBgColor = if(selectedBgColor != 0) selectedBgColor else bgColor
-
-        val strokeWidth = strokeWidth
-        val pressedStrokeWidth = if(pressedStrokeVisible) strokeWidth else 0
-        val disabledStrokeWidth = if(disabledStrokeVisible) strokeWidth else 0
-        val selectedStrokeWidth = if(selectedStrokeVisible) strokeWidth else 0
-
-        val strokeColor = strokeColor
-        val pressedStrokeColor = if(pressedStrokeColor != 0) pressedStrokeColor else strokeColor
-        val disabledStrokeColor = if(disabledStrokeColor != 0) disabledStrokeColor else strokeColor
-        val selectedStrokeColor = if(selectedStrokeColor != 0) selectedStrokeColor else strokeColor
-
         return StateListDrawable().apply {
-            addState(state_disabled,getGradientBgDrawable(disabledBgColor,disabledStrokeWidth,disabledStrokeColor))
-            addState(state_pressed,getGradientBgDrawable(pressedBgColor,pressedStrokeWidth,pressedStrokeColor))
-            addState(state_selected,getGradientBgDrawable(selectedBgColor,selectedStrokeWidth,selectedStrokeColor))
+            if(disabledBgColor != 0 || (disabledStrokeColor != 0 && disabledStrokeVisible)){
+                val disabledBgColor = if(disabledBgColor != 0) disabledBgColor else bgColor
+                val disabledStrokeColor = if(disabledStrokeColor != 0) disabledStrokeColor else strokeColor
+                addState(state_disabled,getGradientBgDrawable(disabledBgColor,strokeWidth,disabledStrokeColor))
+            }
+
+            if(pressedBgColor != 0 || (pressedStrokeColor != 0 && pressedStrokeVisible)){
+                val pressedBgColor = if(pressedBgColor != 0) pressedBgColor else bgColor
+                val pressedStrokeColor = if(pressedStrokeColor != 0) pressedStrokeColor else strokeColor
+                addState(state_pressed,getGradientBgDrawable(pressedBgColor,strokeWidth,pressedStrokeColor))
+            }
+
+            if(selectedBgColor != 0 || (selectedStrokeColor != 0 && selectedStrokeVisible)){
+                val selectedBgColor = if(selectedBgColor != 0) selectedBgColor else bgColor
+                val selectedStrokeColor = if(selectedStrokeColor != 0) selectedStrokeColor else strokeColor
+                addState(state_selected,getGradientBgDrawable(selectedBgColor,strokeWidth,selectedStrokeColor))
+            }
 
             addState(state_none,getGradientBgDrawable(bgColor,strokeWidth,strokeColor))
         }
