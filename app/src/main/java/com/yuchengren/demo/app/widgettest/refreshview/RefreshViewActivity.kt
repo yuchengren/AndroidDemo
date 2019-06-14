@@ -4,12 +4,12 @@ import android.os.Bundle
 import android.view.View
 import com.ycr.kernel.http.IResult
 import com.ycr.kernel.task.AbstractTask
-import com.ycr.lib.ui.pullrefresh.IRefreshListener
-import com.ycr.lib.ui.pullrefresh.IRefreshView
 import com.ycr.module.base.BaseActivity
 import com.ycr.module.base.constant.Constants
 import com.ycr.module.framework.task.ApiTask
 import com.ycr.kernel.union.task.SimpleResult
+import com.ycr.lib.ui.pullrefresh.OnPullDownRefreshListener
+import com.ycr.lib.ui.pullrefresh.OnPullUpLoadMoreListener
 import com.yuchengren.demo.R
 import kotlinx.android.synthetic.main.activity_refresh_view.*
 
@@ -29,25 +29,19 @@ class RefreshViewActivity: BaseActivity() {
     override fun bindView(rootView: View?) {
         super.bindView(rootView)
         refreshView.run {
-            isPullRefreshEnabled = true
-            isPullLoadEnabled = true
-            setRefreshListener(object: IRefreshListener {
-                override fun onPullrefresh(pullToRefresh: IRefreshView?) {
-                    getDataList(true)
-                }
-
-                override fun onLoadMore(pullToRefresh: IRefreshView?) {
-                    getDataList(false)
-                }
+            isPullDownRefreshEnabled = true
+            isPullUpLoadMoreEnabled = true
+            setOnPullDownRefreshListener(OnPullDownRefreshListener {
+                getDataList(true)
+            })
+            setOnPullUpLoadMoreListener(OnPullUpLoadMoreListener {
+                getDataList(false)
             })
         }
 
         recyclerView.adapter = TestRefreshApdater(null).apply {
-
-
         }
     }
-
 
     override fun afterBindView(rootView: View?, savedInstanceState: Bundle?) {
         super.afterBindView(rootView, savedInstanceState)
@@ -95,12 +89,10 @@ class RefreshViewActivity: BaseActivity() {
 
     private fun notifyRefreshView(isRefresh: Boolean,isSuccess: Boolean) {
         if(isRefresh){
-            refreshView.onPullDownRefreshComplete(isSuccess)
+            refreshView.finishPullDownRefresh(isSuccess,!hasNext)
         }else{
-            refreshView.onPullUpRefreshComplete(isSuccess)
+            refreshView.finishPullUpLoadMore(isSuccess,!hasNext)
         }
-
-        refreshView.setHasMoreData(hasNext,false)
     }
 
     private fun notifyAdapter(isRefresh: Boolean, dataList: MutableList<Int>?){
