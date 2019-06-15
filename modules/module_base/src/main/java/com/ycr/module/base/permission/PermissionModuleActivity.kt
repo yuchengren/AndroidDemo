@@ -8,7 +8,6 @@ import com.ycr.kernel.util.SystemBarUtils
 import com.ycr.lib.permission.PermissionAction
 import com.ycr.lib.permission.PermissionModule
 import com.ycr.lib.permission.PermissionProxyActivity
-import com.ycr.lib.theme.MessageDialogButtonStyle
 import com.ycr.lib.ui.dialog.MessageDialogFragment
 import com.ycr.module.base.R
 import kotlinx.android.synthetic.main.permission_activity_permission_proxy.*
@@ -61,7 +60,6 @@ class PermissionModuleActivity : PermissionProxyActivity(),MessageDialogFragment
         MessageDialogFragment.builder()
                 .contentText(contentText)
                 .buttonTexts("取消","去设置")
-                .buttonStyles(MessageDialogButtonStyle.WEAK,MessageDialogButtonStyle.STRONG)
                 .build().show(supportFragmentManager,"gotoSetting")
     }
 

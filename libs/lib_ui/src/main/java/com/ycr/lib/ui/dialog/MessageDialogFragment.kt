@@ -94,7 +94,7 @@ class MessageDialogFragment: DialogFragment() {
 //            tvContent.visibility = View.GONE
         }
 
-        val buttonTextAndStyles = mutableListOf<Triple<String?,Int,String?>?>().apply {
+        val buttonTextAndStyles = mutableListOf<Triple<String?,Int,MessageDialogButtonStyle?>?>().apply {
             if(builder.buttonTexts != null){
                 builder.buttonTexts?.forEachIndexed { index, text ->
                     if(text.isEmpty()) return@forEachIndexed
@@ -134,7 +134,7 @@ class MessageDialogFragment: DialogFragment() {
         return dialogView
     }
 
-    private fun getButton(context: Context,parent: ViewGroup,index: Int,type: String,text: String?,textResId: Int,style: String?): View{
+    private fun getButton(context: Context,parent: ViewGroup,index: Int,type: String,text: String?,textResId: Int,style: MessageDialogButtonStyle?): View{
         val layoutResId = getButtonLayoutResId(context,type)
         val styleResId = getButtonStyleResId(context,style?: MessageDialogButtonStyle.WEAK)
         val button = LayoutInflater.from(context.apply { theme.applyStyle(styleResId,true) }).
@@ -160,10 +160,9 @@ class MessageDialogFragment: DialogFragment() {
         return context.resources.getIdentifier("dialog_message_button_${type.toLowerCase()}","layout",context.packageName)
     }
 
-    private fun getButtonStyleResId(context: Context,style: String): Int{
-        return context.resources.getIdentifier("MessageDialogButtonTheme${style.capitalize()}","style",context.packageName)
+    private fun getButtonStyleResId(context: Context,style: MessageDialogButtonStyle): Int{
+        return context.resources.getIdentifier("MessageDialogButtonTheme${style.name.toLowerCase().capitalize()}","style",context.packageName)
     }
-
 
     private fun getButtonTextResId(buttonTextIndex: Int,buttonTextResIds: IntArray?): Int{
         if(buttonTextIndex < 0 || buttonTextResIds == null || buttonTextResIds.isEmpty() || buttonTextResIds.size <= buttonTextIndex){
@@ -173,7 +172,7 @@ class MessageDialogFragment: DialogFragment() {
     }
 
 
-    private fun getButtonStyle(buttonTextIndex: Int,buttonStyles: Array<out String>?): String{
+    private fun getButtonStyle(buttonTextIndex: Int,buttonStyles: Array<out MessageDialogButtonStyle>?): MessageDialogButtonStyle{
         if(buttonTextIndex < 0 || buttonStyles == null || buttonStyles.isEmpty() || buttonStyles.size <= buttonTextIndex){
             return MessageDialogButtonStyle.WEAK
         }
@@ -194,6 +193,25 @@ class MessageDialogFragment: DialogFragment() {
         return this
     }
 
+    override fun show(manager: FragmentManager?, tag: String?) {
+        if(builder?.isSave == true){
+            super.show(manager, tag)
+        }else{
+            showAllowStateLoss(manager,tag)
+        }
+    }
+
+    /**
+     * 若在show之前，activity进入onStop状态，会回调onSaveInstanceState方法，默认的show流程->commit->checkStateLoss(),
+     * 导致if (mStateSaved) {throw new IllegalStateException("Can not perform this action after onSaveInstanceState");}
+     * 如有延迟show的情况，在show之前，activity可能会进入后台，调用此方法show，避免异常
+     */
+    fun showAllowStateLoss(manager: FragmentManager?, tag: String?) {
+        val ft = manager?.beginTransaction()
+        ft?.add(this, tag)
+        ft?.commitAllowingStateLoss()
+    }
+
     interface OnButtonClickListener{
         /**
          * 返回true 代表需要底层处理dismissDialog
@@ -212,7 +230,7 @@ class MessageDialogFragment: DialogFragment() {
         internal var contentTextAlignment: Int = View.TEXT_ALIGNMENT_GRAVITY
         internal var buttonTextResIds: IntArray? = null
         internal var buttonTexts: Array<out String>? = null
-        internal var buttonStyles: Array<out String>? = null
+        internal var buttonStyles: Array<out MessageDialogButtonStyle>? = null
 
         fun isSave(isSave: Boolean) = apply{
             this.isSave = isSave
@@ -250,7 +268,7 @@ class MessageDialogFragment: DialogFragment() {
             this.buttonTexts = buttonTexts
         }
 
-        fun buttonStyles(vararg buttonStyles: String) = apply{
+        fun buttonStyles(vararg buttonStyles: MessageDialogButtonStyle) = apply{
             this.buttonStyles = buttonStyles
         }
 

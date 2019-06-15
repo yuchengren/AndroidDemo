@@ -2,21 +2,13 @@ package com.yuchengren.demo.app.test
 
 import android.os.Bundle
 import android.os.Environment
-import android.view.Gravity
 import android.view.View
 import com.ycr.kernel.image.CornerType
 import com.ycr.kernel.image.glide.ImageDisplayOption
-import com.ycr.kernel.log.LogHelper
 import com.ycr.kernel.union.helper.ContextHelper
 import com.ycr.kernel.union.helper.ImageHelper
-import com.ycr.kernel.util.NumberUtil
-import com.ycr.lib.theme.MessageDialogButtonStyle
-import com.ycr.lib.ui.dialog.MessageDialogFragment
 import com.ycr.module.base.BaseActivity
-import com.ycr.module.base.constant.ImageOptions
-import com.ycr.module.base.util.ToastHelper
 import com.yuchengren.demo.R
-import com.yuchengren.demo.app.body.login.LoginActivity
 import kotlinx.android.synthetic.main.activity_kotlin_test.*
 
 /**
