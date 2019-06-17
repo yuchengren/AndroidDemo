@@ -255,3 +255,10 @@ public static final int *;
 #bugly
 -dontwarn com.tencent.bugly.**
 -keep public class com.tencent.bugly.**{*;}
+
+#hotfix
+-keepclassmembers class com.yuchengren.demo.app.DemoApplication {
+    public <init>();
+}
+# 如果不使用android.support.annotation.Keep则需加上此行
+-keep class com.yuchengren.demo.hotfix.DemoSophixApplication$DemoApplication

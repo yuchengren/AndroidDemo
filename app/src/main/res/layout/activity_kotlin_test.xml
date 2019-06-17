@@ -74,4 +74,15 @@
         android:text="press2"
         android:enabled="false"/>
 
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/psy_analyze_lav"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/transparent"
+        android:scaleType="centerInside"
+        app:lottie_imageAssetsFolder="animate"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/animate"/>
+
 </LinearLayout>

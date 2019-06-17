@@ -21,10 +21,15 @@ import okhttp3.OkHttpClient
  */
 open class UnionApplication : Application() {
 
+    @JvmField protected val appInitSet = mutableSetOf<AbstractAppInit>()
+
     @CallSuper
     override fun onCreate() {
         super.onCreate()
         doInit(isMainProcess(), getProcessName())
+        if(appInitSet.isNotEmpty()){
+            appInitSet.forEach { it.doInit(this) }
+        }
     }
 
     @CallSuper

@@ -63,6 +63,7 @@ dependencies {
     api "com.android.support.constraint:constraint-layout:$constraint_layout_version"
 
     api "$greenrobot:greendao:$greendao_version"
+    api "$lottie_group:lottie:$lottie_version"
 
     api project(':module_framework')
 }
