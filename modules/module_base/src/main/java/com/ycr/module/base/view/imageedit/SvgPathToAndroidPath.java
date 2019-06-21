@@ -1,4 +1,4 @@
-package com.ycr.module.base.view;
+package com.ycr.module.base.view.imageedit;
 
 import android.graphics.Path;
 import android.graphics.PointF;

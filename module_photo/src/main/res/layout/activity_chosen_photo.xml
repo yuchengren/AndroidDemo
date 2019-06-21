@@ -58,7 +58,7 @@
         </RelativeLayout>
     </LinearLayout>
 
-    <com.ycr.module.base.view.RoundImageView
+    <com.ycr.module.base.view.widget.RoundImageView
         android:id="@+id/photo"
         android:layout_width="0dp"
         android:layout_height="match_parent"

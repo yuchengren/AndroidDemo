@@ -12,6 +12,7 @@ import com.ycr.lib.ui.pullrefresh.OnPullDownRefreshListener
 import com.ycr.lib.ui.pullrefresh.OnPullUpLoadMoreListener
 import com.yuchengren.demo.R
 import kotlinx.android.synthetic.main.activity_refresh_view.*
+import java.lang.Exception
 
 /**
  * created by yuchengren on 2019/5/23
@@ -65,6 +66,11 @@ class RefreshViewActivity: BaseActivity() {
             }
 
             override fun doInBackground(): IResult<MutableList<Int>?> {
+                try {
+                    Thread.sleep(3000)
+                }catch (e: Exception){
+
+                }
                 val offset = if(isRefresh) 0 else offset
                 return SimpleResult.success(getTestDataList(offset), "", "")
             }

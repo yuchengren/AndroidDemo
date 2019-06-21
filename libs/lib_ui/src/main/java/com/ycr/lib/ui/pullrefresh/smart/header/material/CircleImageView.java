@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.ycr.lib.ui.pullrefresh.smart.material;
+package com.ycr.lib.ui.pullrefresh.smart.header.material;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -28,7 +28,6 @@ import android.graphics.drawable.shapes.OvalShape;
 import android.os.Build;
 import android.support.v7.widget.AppCompatImageView;
 import android.view.View;
-import android.widget.ImageView;
 
 
 /**

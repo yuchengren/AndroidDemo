@@ -80,9 +80,18 @@
         android:layout_height="wrap_content"
         android:background="@color/transparent"
         android:scaleType="centerInside"
-        app:lottie_imageAssetsFolder="animate"
+        app:lottie_imageAssetsFolder="pulldown"
         app:lottie_autoPlay="true"
         app:lottie_loop="true"
-        app:lottie_rawRes="@raw/animate"/>
+        app:lottie_rawRes="@raw/pulldown"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"/>
+    </RelativeLayout>
 
 </LinearLayout>

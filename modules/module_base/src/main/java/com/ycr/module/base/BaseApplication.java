@@ -3,9 +3,6 @@ package com.ycr.module.base;
 import android.content.Context;
 import android.os.Environment;
 import android.support.annotation.NonNull;
-import android.text.SpannableString;
-import android.text.SpannableStringBuilder;
-import android.text.Spanned;
 
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshFooterCreator;
@@ -20,9 +17,8 @@ import com.ycr.kernel.log.config.LogConfig;
 import com.ycr.kernel.log.printer.ConsoleLogPrinter;
 import com.ycr.kernel.log.printer.FileLogPrinter;
 import com.ycr.lib.changeskin.SkinManager;
-import com.ycr.lib.ui.pullrefresh.smart.RefreshViewCreator;
 import com.ycr.lib.ui.pullrefresh.smart.footer.ClassicsFooter;
-import com.ycr.lib.ui.pullrefresh.smart.material.MaterialHeader;
+import com.ycr.module.base.view.pullrefresh.MKRefreshHeader;
 import com.ycr.module.framework.base.SuperApplication;
 import com.ycr.module.base.constant.Constants;
 import com.ycr.module.base.greendao.gen.DaoMaster;
@@ -79,7 +75,7 @@ public class BaseApplication extends SuperApplication {
             @NonNull
             @Override
             public RefreshHeader createRefreshHeader(@NonNull Context context, @NonNull RefreshLayout layout) {
-                return new ClassicsHeader(instance);
+                return new MKRefreshHeader(context);
             }
         });
         SmartRefreshLayout.setDefaultRefreshFooterCreator(new DefaultRefreshFooterCreator() {

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.ycr.lib.ui.pullrefresh.smart.material;
+package com.ycr.lib.ui.pullrefresh.smart.header.material;
 
 import android.content.res.Resources;
 import android.graphics.Canvas;
