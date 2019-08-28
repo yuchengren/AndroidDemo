@@ -15,9 +15,36 @@ public class Student implements Parcelable {
 
     }
 
+    public Student(String code,String name){
+        this.code = code;
+        this.name = name;
+    }
+
     private Student(Parcel in){
         code = in.readString();
         name = in.readString();
+    }
+
+    @Override
+    public int hashCode() {
+        return code.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == this){
+            return true;
+        }
+        if(!(obj instanceof Student)){
+            return false;
+        }
+        Student s = (Student) obj;
+        return s.code.equals(this.code);
+    }
+
+    @Override
+    public String toString() {
+        return "code = "+code+",name="+name;
     }
 
     @Override

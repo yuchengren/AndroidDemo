@@ -5,8 +5,10 @@ import android.arch.lifecycle.MutableLiveData
 import android.databinding.Observable
 import android.databinding.ObservableField
 import android.databinding.ObservableInt
+import android.databinding.adapters.TextViewBindingAdapter
 import android.text.TextUtils
 import android.view.View
+import com.ycr.kernel.log.LogHelper
 import com.ycr.kernel.task.AbstractTask
 import com.ycr.kernel.union.task.CommonTask
 import com.ycr.module.base.util.ToastHelper
@@ -21,6 +23,18 @@ import com.ycr.module.framework.mvvm.event.SingleLiveData
  * created by yuchengren on 2019/5/28
  */
 class LoginViewModel(application: Application): BaseViewModel(application){
+
+    val onFocusChange = View.OnFocusChangeListener { v, hasFocus ->
+        LogHelper.e("onFocusChange")
+    }
+
+    val beforeTextChanged = TextViewBindingAdapter.BeforeTextChanged { s, start, count, after ->
+        LogHelper.e("beforeTextChanged")
+    }
+
+    val onClickListener = View.OnClickListener{
+        LogHelper.e("onClickListener")
+    }
 
     val userName = ObservableField<String?>("").apply {
         addOnPropertyChangedCallback(object: Observable.OnPropertyChangedCallback() {

@@ -7,10 +7,12 @@ import android.os.Bundle
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
 import android.view.View
+import com.ycr.kernel.union.helper.ContextHelper
 import com.ycr.module.base.MvvmActivity
 import com.yuchengren.demo.BR
 import com.yuchengren.demo.R
 import com.yuchengren.demo.databinding.ActivityLoginBinding
+import kotlinx.android.synthetic.main.activity_login.*
 
 /**
  * Created by yuchengren on 2016/9/14.

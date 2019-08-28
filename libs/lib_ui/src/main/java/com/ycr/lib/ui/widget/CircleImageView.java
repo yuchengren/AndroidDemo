@@ -15,14 +15,19 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
 
 import com.ycr.lib.ui.R;
 
+import static com.ycr.lib.ui.BuildConfig.logger;
 
-public class CircleImageView extends android.support.v7.widget.AppCompatImageView {
+
+public class CircleImageView extends AppCompatImageView {
 
     private static final ScaleType SCALE_TYPE = ScaleType.CENTER_CROP;
+
+    private int scaleTypeValue = ScaleType.CENTER_CROP.ordinal();
 
     private static final Bitmap.Config BITMAP_CONFIG = Bitmap.Config.ARGB_8888;
     private static final int COLORDRAWABLE_DIMENSION = 2;
@@ -68,8 +73,9 @@ public class CircleImageView extends android.support.v7.widget.AppCompatImageVie
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CircleImageView, defStyle, 0);
 
-        mBorderWidth = a.getDimensionPixelSize(R.styleable.CircleImageView_border_width, DEFAULT_BORDER_WIDTH);
-        mBorderColor = a.getColor(R.styleable.CircleImageView_border_color, DEFAULT_BORDER_COLOR);
+        scaleTypeValue = a.getInt(R.styleable.CircleImageView_android_scaleType, -1);
+        mBorderWidth = a.getDimensionPixelSize(R.styleable.CircleImageView_borderWidth, DEFAULT_BORDER_WIDTH);
+        mBorderColor = a.getColor(R.styleable.CircleImageView_borderColor, DEFAULT_BORDER_COLOR);
 
         a.recycle();
 
@@ -77,7 +83,10 @@ public class CircleImageView extends android.support.v7.widget.AppCompatImageVie
     }
 
     private void init() {
-        super.setScaleType(SCALE_TYPE);
+        if(scaleTypeValue == -1){
+            scaleTypeValue = ScaleType.CENTER_CROP.ordinal();
+            super.setScaleType(ScaleType.CENTER_CROP);
+        }
         mReady = true;
 
         if (mSetupPending) {
@@ -87,15 +96,12 @@ public class CircleImageView extends android.support.v7.widget.AppCompatImageVie
     }
 
     @Override
-    public ScaleType getScaleType() {
-        return SCALE_TYPE;
-    }
-
-    @Override
     public void setScaleType(ScaleType scaleType) {
         if (scaleType != SCALE_TYPE) {
-            throw new IllegalArgumentException(String.format("ScaleType %s not supported.", scaleType));
+//            throw new IllegalArgumentException(String.format("ScaleType %s not supported.", scaleType));
+            logger.w(String.format("ScaleType %s not supported.", scaleType));
         }
+        super.setScaleType(scaleType);
     }
 
     @Override
@@ -110,6 +116,7 @@ public class CircleImageView extends android.support.v7.widget.AppCompatImageVie
         if (getDrawable() == null) {
             return;
         }
+
         canvas.drawCircle(getWidth() / 2, getHeight() / 2, mDrawableRadius, mBitmapPaint);
         if (mBorderWidth != 0) {
             canvas.drawCircle(getWidth() / 2, getHeight() / 2, mBorderRadius, mBorderPaint);

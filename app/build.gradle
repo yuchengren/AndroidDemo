@@ -75,17 +75,3 @@ dependencies {
     implementation "com.aliyun.ams:alicloud-android-hotfix:$aliyun_hotfix_version"
 
 }
-
-configurations.all {
-    //强制统一support库版本
-    resolutionStrategy.eachDependency { dependency ->
-        def group = dependency.requested.group
-        def name = dependency.requested.name
-        if (group == "$android_support" && !name.contains('multidex')) {
-            //强制统一support库版本
-            dependency.useVersion("$android_support_version")
-        } else if (name == 'constraint-layout') {
-            dependency.useVersion("$constraint_layout_version")
-        }
-    }
-}

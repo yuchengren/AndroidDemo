@@ -28,6 +28,20 @@ allprojects {
         maven { url 'https://jitpack.io' }
         maven { url "http://maven.aliyun.com/nexus/content/repositories/releases"}
     }
+
+    configurations.all {
+        //强制统一support库版本
+        resolutionStrategy.eachDependency { dependency ->
+            def group = dependency.requested.group
+            def name = dependency.requested.name
+            if (group == "$android_support" && !name.contains('multidex')) {
+                //强制统一support库版本
+                dependency.useVersion("$android_support_version")
+            } else if (name == 'constraint-layout') {
+                dependency.useVersion("$constraint_layout_version")
+            }
+        }
+    }
 }
 
 task clean(type: Delete) {

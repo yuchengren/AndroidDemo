@@ -36,7 +36,7 @@ import android.view.View;
  * platforms.
  */
 @SuppressLint("ViewConstructor")
-public class CircleImageView extends AppCompatImageView {
+public class MaterialCircleImageView extends AppCompatImageView {
 
     protected static final int KEY_SHADOW_COLOR = 0x1E000000;
     protected static final int FILL_SHADOW_COLOR = 0x3D000000;
@@ -49,7 +49,7 @@ public class CircleImageView extends AppCompatImageView {
 //    private Animation.AnimationListener mListener;
     int mShadowRadius;
 
-    public CircleImageView(Context context, int color) {
+    public MaterialCircleImageView(Context context, int color) {
         super(context);
         final View thisView = this;
         final float density = thisView.getResources().getDisplayMetrics().density;
@@ -153,7 +153,7 @@ public class CircleImageView extends AppCompatImageView {
 
         @Override
         public void draw(Canvas canvas, Paint paint) {
-            final View thisView = CircleImageView.this;
+            final View thisView = MaterialCircleImageView.this;
             final int viewWidth = thisView.getWidth();
             final int viewHeight = thisView.getHeight();
             canvas.drawCircle(viewWidth / 2f, viewHeight / 2f, viewWidth / 2f, mShadowPaint);

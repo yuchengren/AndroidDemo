@@ -90,7 +90,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
 		if(e == null){
 			return true;
 		}
-		LogHelper.e(TAG,e.toString());
+//		LogHelper.e(TAG,e.toString());
 		final String message = e.getMessage();
 		new Thread(new Runnable() {
 			@Override
@@ -100,7 +100,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
 				Looper.loop();
 			}
 		}).start();
-//		saveCrashInfoInFile(e);
+		saveCrashInfoInFile(e);
 		return true;
 	}
 
@@ -125,8 +125,8 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
 			PackageManager packageManager = mContext.getPackageManager();
 			try {
 				PackageInfo packageInfo = packageManager.getPackageInfo(mContext.getPackageName(), PackageManager.GET_ACTIVITIES);
-				printWriter.println("versionCode=" + String.valueOf(packageInfo.versionCode));
-				printWriter.println("versionName=" + String.valueOf(packageInfo.versionName));
+				printWriter.println("versionCode=" + packageInfo.versionCode);
+				printWriter.println("versionName=" + packageInfo.versionName);
 			} catch (PackageManager.NameNotFoundException e2) {
 				e2.printStackTrace();
 			}

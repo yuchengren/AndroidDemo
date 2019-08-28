@@ -2,6 +2,7 @@ package com.yuchengren.demo.app.test;
 
 import android.content.Context;
 import android.content.Intent;
+import android.databinding.ViewDataBinding;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -19,9 +20,13 @@ import com.ycr.kernel.log.LogHelper;
 import com.ycr.kernel.union.helper.JsonHelper;
 import com.ycr.kernel.union.http.HttpHelper;
 import com.ycr.kernel.union.task.TaskHelper;
+import com.ycr.module.base.BaseActivity;
+import com.ycr.module.base.MvvmActivity;
 import com.ycr.module.framework.mvvm.binding.command.BindingCommand;
 import com.ycr.module.framework.mvvm.binding.command.VoidAction;
+import com.yuchengren.demo.BR;
 import com.yuchengren.demo.R;
+import com.yuchengren.demo.databinding.ActivityTestBinding;
 
 import java.io.File;
 import java.lang.reflect.Array;
@@ -35,27 +40,23 @@ import kotlin.jvm.functions.Function1;
  * Created by yuchengren on 2017/12/28.
  */
 
-public class TestActivity extends AppCompatActivity implements View.OnClickListener {
+public class TestActivity extends MvvmActivity<ActivityTestBinding> implements View.OnClickListener {
 
 	private Button btn_test;
 
+
+	@Override
+	public int getRootLayoutResId() {
+		return R.layout.activity_test;
+	}
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_test);
-
-		ViewGroup group = findViewById(android.R.id.content);
-		ViewGroup container = (ViewGroup) group.getChildAt(0);
-		container.addView(new View(this));
+//		setContentView(R.layout.activity_test);
+		setViewModel(BR.testViewModel,TestViewModel.class);
 
 		btn_test = findViewById(R.id.btn_test);
 		btn_test.setOnClickListener(this);
-
-		int a = 0xfffffff;
-
-		LogHelper.e("maxColor",String.valueOf(a));
-		LogHelper.e("max",String.valueOf(Integer.MAX_VALUE));
-		LogHelper.e("min",String.valueOf(Integer.MIN_VALUE));
 
 	}
 
@@ -107,5 +108,4 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
 		new Thread(new Producer(source)).start();
 		new Thread(new Consumer(source)).start();
 	}
-
 }

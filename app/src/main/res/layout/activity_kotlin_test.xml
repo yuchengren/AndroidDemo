@@ -75,7 +75,6 @@
         android:enabled="false"/>
 
     <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/psy_analyze_lav"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/transparent"
@@ -85,13 +84,22 @@
         app:lottie_loop="true"
         app:lottie_rawRes="@raw/pulldown"/>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"/>
-    </RelativeLayout>
+
+
+    <com.ycr.lib.ui.widget.CircleImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/test"
+        app:borderWidth="2dp"
+        app:borderColor="@color/white"/>
+
+    <com.ycr.lib.ui.widget.CircleImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/test"
+        android:scaleType="centerInside"
+        app:borderWidth="2dp"
+        app:borderColor="@color/white"/>
+
 
 </LinearLayout>

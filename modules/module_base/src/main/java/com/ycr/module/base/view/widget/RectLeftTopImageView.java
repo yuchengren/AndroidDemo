@@ -1,7 +1,6 @@
 package com.ycr.module.base.view.widget;
 
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapShader;
 import android.graphics.Canvas;
@@ -15,8 +14,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.util.AttributeSet;
-
-import com.ycr.module.base.R;
 
 
 public class RectLeftTopImageView extends android.support.v7.widget.AppCompatImageView {
@@ -54,10 +51,6 @@ public class RectLeftTopImageView extends android.support.v7.widget.AppCompatIma
 
     public RectLeftTopImageView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CircleImageView, defStyle, 0);
-
-        a.recycle();
 
         init();
     }

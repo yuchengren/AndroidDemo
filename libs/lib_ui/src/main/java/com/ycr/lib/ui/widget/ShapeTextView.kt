@@ -6,6 +6,7 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.widget.AppCompatTextView
 import android.util.AttributeSet
 import android.view.Gravity
+import com.ycr.kernel.log.LogHelper
 import com.ycr.lib.ui.R
 import com.ycr.lib.ui.util.ColorStateBuilder
 import com.ycr.lib.ui.util.ShapeBuilder

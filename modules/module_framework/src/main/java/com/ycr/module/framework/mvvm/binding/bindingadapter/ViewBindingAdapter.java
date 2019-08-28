@@ -47,6 +47,13 @@ public class ViewBindingAdapter {
         });
     }
 
+    @BindingAdapter(value = {"android:onFocusChange"},requireAll = false)
+    public static void onFocusChange(View view, final View.OnFocusChangeListener listener){
+        if(view.getOnFocusChangeListener() != listener){
+            view.setOnFocusChangeListener(listener);
+        }
+    }
+
     @BindingAdapter(value = {"isVisible"}, requireAll = false)
     public static void isVisible(View view, final Boolean visibility) {
         if (visibility) {

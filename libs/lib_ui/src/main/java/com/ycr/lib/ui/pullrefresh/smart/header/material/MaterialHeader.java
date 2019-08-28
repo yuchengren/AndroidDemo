@@ -82,7 +82,7 @@ public class MaterialHeader extends InternalAbstract implements RefreshHeader {
         mProgress.setBackgroundColor(CIRCLE_BG_LIGHT);
         mProgress.setAlpha(255);
         mProgress.setColorSchemeColors(0xff0099cc,0xffff4444,0xff669900,0xffaa66cc,0xffff8800);
-        mCircleView = new CircleImageView(context,CIRCLE_BG_LIGHT);
+        mCircleView = new MaterialCircleImageView(context,CIRCLE_BG_LIGHT);
         mCircleView.setImageDrawable(mProgress);
         mCircleView.setAlpha(0f);
         thisGroup.addView(mCircleView);
