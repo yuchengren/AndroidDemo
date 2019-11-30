@@ -9,12 +9,11 @@ import com.ycr.kernel.log.LogHelper
 import com.ycr.kernel.union.helper.ContextHelper
 import com.ycr.kernel.union.helper.ImageHelper
 import com.ycr.module.base.BaseActivity
-import com.ycr.module.base.entity.Student
 import com.yuchengren.demo.R
 import com.yuchengren.demo.app.body.login.LoginActivity
 import kotlinx.android.synthetic.main.activity_kotlin_test.*
 import java.util.*
-import kotlin.collections.HashSet
+
 
 /**
  * Created by yuchengren on 2019/1/28.
@@ -44,19 +43,13 @@ class KotlinTestActivity: BaseActivity() {
 
         ImageHelper.display(ivTest,Environment.getExternalStorageDirectory().absolutePath + "/test.png",imageOption)
 
+        LogHelper.e(getGmtTimeZone())
 
-        val set = LinkedHashSet<Student>()
-        set.add(Student("123","xiaoming"))
-        set.add(Student("123","tiantian"))
-        val array = intArrayOf(1,2,3)
-        printArray(*array)
 
     }
 
-    private fun printArray(vararg array: Int){
-        array.forEach {
-            LogHelper.d(it.toString())
-        }
-
+    fun getGmtTimeZone(): String {
+        val _t = TimeZone.getDefault().getOffset(System.currentTimeMillis()) / (3600 * 1000)
+        return _t.toString()
     }
 }

@@ -2,39 +2,17 @@ package com.yuchengren.demo.app.test;
 
 import android.content.Context;
 import android.content.Intent;
-import android.databinding.ViewDataBinding;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.bumptech.glide.Glide;
-import com.ycr.kernel.image.CornerType;
-import com.ycr.kernel.log.LogHelper;
-import com.ycr.kernel.union.helper.JsonHelper;
-import com.ycr.kernel.union.http.HttpHelper;
-import com.ycr.kernel.union.task.TaskHelper;
-import com.ycr.module.base.BaseActivity;
 import com.ycr.module.base.MvvmActivity;
-import com.ycr.module.framework.mvvm.binding.command.BindingCommand;
-import com.ycr.module.framework.mvvm.binding.command.VoidAction;
 import com.yuchengren.demo.BR;
 import com.yuchengren.demo.R;
 import com.yuchengren.demo.databinding.ActivityTestBinding;
-
-import java.io.File;
-import java.lang.reflect.Array;
-import java.util.Arrays;
-import java.util.HashMap;
-
-import kotlin.Unit;
-import kotlin.jvm.functions.Function1;
 
 /**
  * Created by yuchengren on 2017/12/28.

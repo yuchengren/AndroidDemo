@@ -134,7 +134,7 @@ public class SharePrefsHelper {
 		}else if(value instanceof String){
 			edit.putString(key,(String)value);
 		}else {
-			edit.putString(key,JsonHelper.toJson(value));
+			edit.putString(key, JsonHelper.INSTANCE.toJson(value));
 		}
 		edit.commit();
 	}
